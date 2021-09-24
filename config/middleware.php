@@ -1,5 +1,6 @@
 <?php
 
+use Middlewares\Whoops;
 use Odan\Session\SessionMiddleware;
 use Selective\BasePath\BasePathMiddleware;
 use Slim\App;
@@ -12,6 +13,8 @@ return function (App $app) {
 
     $app->add(TwigMiddleware::class);
     $app->add(SessionMiddleware::class);
+    $app->add(Whoops::class);
+    $app->add(ErrorMiddleware::class);
 
     // Add the Slim built-in routing middleware
     $app->addRoutingMiddleware();
