@@ -15,12 +15,22 @@ class CoreController
         $this->twig = $twig;
     }
 
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response
-    ): ResponseInterface {
+    public function homepage(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
         $viewData = [
             'name' => 'World',
+            'notifications' => [
+                'message' => 'You are good!'
+            ],
+        ];
+
+        return $this->twig->render($response, 'index.twig', $viewData);
+    }
+
+    public function contact(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $viewData = [
+            'name' => 'Contact',
             'notifications' => [
                 'message' => 'You are good!'
             ],
