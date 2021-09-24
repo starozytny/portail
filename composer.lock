@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d07b7dd2e543d6acac631dd28d44022",
+    "content-hash": "d168f7424397535d69a4f4d82083e094",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -694,6 +694,61 @@
                 "source": "https://github.com/nikic/FastRoute/tree/master"
             },
             "time": "2018-02-13T20:26:39+00:00"
+        },
+        {
+            "name": "odan/session",
+            "version": "4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/odan/session.git",
+                "reference": "c35000f65b058c1f7c9660c6f33ba26f7a8c3000"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/odan/session/zipball/c35000f65b058c1f7c9660c6f33ba26f7a8c3000",
+                "reference": "c35000f65b058c1f7c9660c6f33ba26f7a8c3000",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0",
+                "psr/http-message": "^1.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "require-dev": {
+                "overtrue/phplint": "^1.1",
+                "phpstan/phpstan-shim": "^0.11",
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "slim/slim": "^3.12",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Odan\\Session\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "odan",
+                    "homepage": "https://github.com/odan"
+                }
+            ],
+            "description": "A Slim session handler",
+            "homepage": "https://github.com/odan/session",
+            "keywords": [
+                "session",
+                "slim"
+            ],
+            "support": {
+                "issues": "https://github.com/odan/session/issues",
+                "source": "https://github.com/odan/session/tree/4.1.0"
+            },
+            "time": "2020-12-23T17:49:00+00:00"
         },
         {
             "name": "opis/closure",

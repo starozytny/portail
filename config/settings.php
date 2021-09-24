@@ -65,4 +65,9 @@ $settings['db'] = [
     ],
 ];
 
+$settings['session'] = [
+    'name' => 'webapp',
+    'cache_expire' => 0,
+];
+
 return $settings;

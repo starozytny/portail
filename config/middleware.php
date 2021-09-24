@@ -1,5 +1,6 @@
 <?php
 
+use Odan\Session\SessionMiddleware;
 use Selective\BasePath\BasePathMiddleware;
 use Slim\App;
 use Slim\Middleware\ErrorMiddleware;
@@ -10,6 +11,7 @@ return function (App $app) {
     $app->addBodyParsingMiddleware();
 
     $app->add(TwigMiddleware::class);
+    $app->add(SessionMiddleware::class);
 
     // Add the Slim built-in routing middleware
     $app->addRoutingMiddleware();

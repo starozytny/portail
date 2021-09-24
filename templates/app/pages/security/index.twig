@@ -1,0 +1,15 @@
+{% extends 'app/layout/layout.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block main_content %}
+    <div>
+        <h1>Connexion</h1>
+        <div>{{ dump(errors) }}</div>
+        <form action="/login" method="POST">
+            Username: <input type="text" name="username"><br>
+            Password: <input type="password" name="password"><br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+{% endblock %}

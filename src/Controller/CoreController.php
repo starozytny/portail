@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Repository\UserRepository;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class CoreController
 {
@@ -19,6 +23,12 @@ class CoreController
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws GuzzleException
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function homepage(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $client = new Client();
@@ -49,6 +59,6 @@ class CoreController
             ],
         ];
 
-        return $this->twig->render($response, 'index.twig', $viewData);
+        return $this->twig->render($response, 'app/pages/index.twig', $viewData);
     }
 }
