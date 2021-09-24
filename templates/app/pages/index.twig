@@ -1,0 +1,13 @@
+{% extends 'app/layout/layout.twig' %}
+
+{% block title %}Hello !{% endblock %}
+
+{% block main_content %}
+    <div>
+        <div id="test" data-donnees="{{ test }}"></div>
+        <script>
+            let test = document.querySelector("#test");
+            console.log(JSON.parse(test.dataset.donnees))
+        </script>
+    </div>
+{% endblock %}

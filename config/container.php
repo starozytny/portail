@@ -11,6 +11,7 @@ use Slim\Views\TwigMiddleware;
 use Doctrine\DBAL\Configuration as DoctrineConfiguration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Twig\Extension\DebugExtension;
 
 return [
     'settings' => function () {
@@ -51,10 +52,12 @@ return [
 
         $options = $twigSettings['options'];
         $options['cache'] = $options['cache_enabled'] ? $options['cache_path'] : false;
+        $options['debug'] = true;
 
         $twig = Twig::create($twigSettings['paths'], $options);
 
         // Add extension here
+        $twig->addExtension(new DebugExtension());
 
         return $twig;
     },

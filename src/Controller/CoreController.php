@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -20,16 +21,23 @@ class CoreController
 
     public function homepage(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $viewData = [
-            'name' => 'World',
-            'notifications' => [
-                'message' => 'You are good!'
-            ],
-        ];
+        $client = new Client();
+        $res = $client->get( 'http://v2.focus.immo/api/login_data', [
+            'auth' =>  ['999A8080', 'pierre']
+        ]);
 
-        var_dump($this->userRepository->getUser('002A8080'));
+        if($res->getStatusCode() == 200){
+            $body = $res->getBody();
+            $viewData = [
+                'test' => json_encode(json_decode($body)),
+                'name' => 'World',
+                'notifications' => [
+                    'message' => 'You are good!'
+                ],
+            ];
+        }
 
-        return $this->twig->render($response, 'index.twig', $viewData);
+        return $this->twig->render($response, 'app/pages/index.twig', $viewData);
     }
 
     public function contact(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
