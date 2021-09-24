@@ -5,7 +5,9 @@
         "ext-json": "*",
         "slim/twig-view": "^3.2",
         "php-di/php-di": "^6.3",
-        "selective/basepath": "^2.1"
+        "selective/basepath": "^2.1",
+        "doctrine/dbal": "^2.13",
+        "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {

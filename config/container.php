@@ -8,6 +8,9 @@ use Slim\Middleware\ErrorMiddleware;
 use Selective\BasePath\BasePathMiddleware;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+use Doctrine\DBAL\Configuration as DoctrineConfiguration;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
 
 return [
     'settings' => function () {
@@ -61,5 +64,16 @@ return [
             $container->get(App::class),
             Twig::class
         );
+    },
+
+    Connection::class => function (ContainerInterface $container) {
+        $config = new DoctrineConfiguration();
+        $connectionParams = $container->get('settings')['db'];
+
+        return DriverManager::getConnection($connectionParams, $config);
+    },
+
+    PDO::class => function (ContainerInterface $container) {
+        return $container->get(Connection::class)->getWrappedConnection();
     },
 ];
