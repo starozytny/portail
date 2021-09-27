@@ -14,10 +14,16 @@
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.3.0",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
+    "sass": "^1.42.1",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.3.0",
     "terser-webpack-plugin": "latest",
     "webpack": "^5.54.0",
     "webpack-assets-manifest": "^5.0.6",
     "webpack-cli": "^4.8.0",
     "webpack-manifest-plugin": "^4.0.2"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
   }
 }

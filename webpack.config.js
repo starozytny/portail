@@ -9,7 +9,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 module.exports = {
     mode: "development",
     entry: {
-        'app/app': './assets/js/app.js'
+        'app': ['./assets/js/app.js', './assets/css/app.scss'],
     },
     output: {
         path: path.resolve(__dirname, 'public/assets'),
@@ -24,24 +24,21 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader']
+                test: /\.(s[ac]ss|css)$/i,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: true,
+                            sassOptions: {
+                                includePaths: [path.resolve(__dirname, 'node_modules')],
+                            },
+                        },
+                    },
+                ],
             },
-            // {
-            //     test: /\.s[ac]ss$/i,
-            //     use: [
-            //         process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader,
-            //         'css-loader',
-            //         {
-            //             loader: 'sass-loader',
-            //             options: {
-            //                 sourceMap: true,
-            //                 sassOptions: {
-            //                     includePaths: [path.resolve(__dirname, 'node_modules')],
-            //                 },
-            //         },
-            //     },],
-            // },
             {
                 test: /\.(png|jpe?g|gif)$/i,
                 loader: 'file-loader',
@@ -67,7 +64,8 @@ module.exports = {
             publicPath: 'assets/',
         }),
         new MiniCssExtractPlugin({
-            ignoreOrder: false
+            ignoreOrder: false,
+            filename: '[name].css'
         }),
     ]
 };

@@ -1,6 +1,6 @@
+@import "~normalize.css";
 @import "vars/vars";
 
-@import "components/normalize";
 @import "components/colors";
 @import "components/form";
 @import "components/button";
@@ -10,6 +10,6 @@ body {
 
     h1{
         @include fontSemibold();
-        color: red;
+        color: blue;
     }
 }
