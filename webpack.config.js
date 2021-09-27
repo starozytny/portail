@@ -5,6 +5,7 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: "development",
@@ -13,7 +14,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'public/assets'),
-        publicPath: 'assets/',
+        publicPath: '',
     },
     optimization: {
         splitChunks: {
@@ -38,22 +39,6 @@ module.exports = {
                         },
                     },
                 ],
-            },
-            {
-                test: /\.(png|jpe?g|gif)$/i,
-                loader: 'file-loader',
-                options: {
-                    name: '[path][name].[ext]',
-                },
-            },
-            {
-                test: /\.(ttf|eot|svg|woff|woff2)(\?[\s\S]+)?$/,
-                use: {
-                    loader: 'file-loader',
-                    options: {
-                        name: '[path][name].[ext]',
-                    },
-                }
             },
         ],
     },

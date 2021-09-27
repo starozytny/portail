@@ -44,8 +44,9 @@ final class SecurityController
         // Pseudo example
         // Check user credentials. You may use an application/domain service and the database here.
         $user = null;
-        if($this->apiService->connect($username, $password)) {
-            $user = [$username, $this->apiService->encryption($password)];
+        $userData = $this->apiService->connect($username, $password);
+        if(($userData != false)) {
+            $user = [$username, $this->apiService->encryption($password), $userData->first_name];
         }
 
         // Get RouteParser from request to generate the urls

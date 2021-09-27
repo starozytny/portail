@@ -40,13 +40,14 @@ class ApiService
         return openssl_decrypt($data, $ciphering, $this->settings['passphrase'], 0,  $this->settings['iv']);
     }
 
-    public function connect($username, $password): bool
+    public function connect($username, $password)
     {
         $client = new Client();
 
         try {
-             $client->get( $this->apiUrl , ['auth' =>  [$username, $password]]);
-            return true;
+            $response = $client->get( $this->apiUrl , ['auth' =>  [$username, $password]]);
+            $data = json_decode($response->getBody());
+            return $data->user;
         } catch (GuzzleException $e){
             return false;
         }

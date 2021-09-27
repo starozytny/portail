@@ -45,9 +45,6 @@ class CoreController
 
         $decryption = $this->apiService->decryption();
 
-
-        var_dump($decryption);
-
         return $this->twig->render($response, 'app/pages/index.twig', $viewData);
     }
 }

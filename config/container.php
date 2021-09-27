@@ -87,6 +87,9 @@ return [
             $publicPath
         ));
 
+        $environment = $twig->getEnvironment();
+        $environment->addGlobal('session', $_SESSION);
+
         return $twig;
     },
 

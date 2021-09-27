@@ -6,6 +6,43 @@
 
 {% block body %}
     <div class="body">
+        <nav class="fixed">
+            <div class="nav-header">
+                <div class="nav-header-logo">
+                    <span>{{ session.user[2] }}</span>
+                </div>
+            </div>
+            <div class="nav-mobile">
+                <span class="icon-menu"></span>
+            </div>
+
+            {% set menu = [
+                {
+                    'path': pathHomepage,
+                    'icon': 'home',
+                    'label': 'Accueil',
+                    'name': 'espace-client'
+                },
+                {
+                    'path': pathLogout,
+                    'icon': 'logout',
+                    'label': 'Se déconnecter',
+                    'name': 'logout'
+                },
+            ] %}
+            <div class="nav-body">
+                <div class="items">
+                    {% for item in menu %}
+                        <div class="item">
+                            <a href="{{ item.path }}" data-name="{{ item.name }}">
+                                <span class="icon-{{ item.icon }}"></span>
+                                <span>{{ item.label }}</span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </nav>
         <main>
             {% block main_content %}{% endblock %}
         </main>
