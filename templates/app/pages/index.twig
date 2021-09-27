@@ -3,8 +3,14 @@
 {% block title %}Espace client{% endblock %}
 
 {% block main_content %}
+    <div class="page-title">
+        <div class="page-title-container">
+            <h1>Welcome</h1>
+        </div>
+    </div>
+
     <div class="main-content">
-        <h1>{{ name }}</h1>
+        <div>hello world</div>
         <div id="test" data-donnees="{{ test }}"></div>
         <script>
             let test = document.querySelector("#test");

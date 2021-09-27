@@ -1,0 +1,113 @@
+@import "../vars/vars";
+
+.page-title{
+
+  h1{
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+}
+
+.page-title, .page-error{
+  padding: 12px 12px 24px 12px;
+}
+
+.page-actions{
+  .common-actions{
+    .dropdown{
+      .dropdown-btn{
+        background: transparent;
+        border: none;
+        padding: 8px;
+        justify-content: flex-start;
+      }
+    }
+  }
+}
+
+.sub-seen{
+  [class^="icon-"]{
+    display: inline-block;
+    margin-right: 4px;
+    margin-top: 4px;
+  }
+}
+
+.item-data-read{
+  background-color: var(--alpha);
+  border-radius: 8px;
+  padding: 12px;
+  max-width: 768px;
+  margin-bottom: 24px;
+
+  .name{
+    @include fontSemibold();
+    font-size: 18px;
+  }
+
+  .sub{
+    opacity: 0.7;
+  }
+
+  .sub-time{
+    font-size: 14px;
+    max-width: 768px;
+    text-align: right;
+  }
+
+  .sub-message{
+    margin-top: 12px;
+    max-width: 768px;
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .page-actions{
+    @include flex(row, flex-start, space-between);
+
+    .common-actions{
+      .dropdown{
+        .dropdown-btn{
+          justify-content: centre;
+        }
+      }
+    }
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .item-data-read {
+    padding: 24px;
+  }
+
+  .page-title, .page-error{
+    padding: 12px 24px 24px 24px;
+  }
+}
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .page-title, .page-error{
+    padding: 24px 32px 32px 32px;
+  }
+
+  .page-title-container, .page-error-container{
+    @include maxscreen();
+  }
+}
