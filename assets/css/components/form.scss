@@ -1,0 +1,486 @@
+@import '../vars/vars.scss';
+
+.form{
+  background-color: var(--alpha);
+  border-radius: 4px;
+  padding: 12px;
+
+  form{
+    & > .alert{
+      margin-bottom: 24px;
+    }
+  }
+
+  h2{
+    margin-bottom: 8px;
+  }
+
+  .form-infos{
+    opacity: 0.7;
+    max-width: 414px;
+    margin-bottom: 24px;
+  }
+}
+
+.line.line-critere{
+  position: absolute;
+  width: 0;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: -100;
+}
+
+.form-group{
+  @include flex(column, flex-start, flex-start);
+
+  .alert{
+    width: calc(100% - 24px);
+  }
+
+  .react-selectize.default.root-node{
+    width: 100%;
+
+    &:not(.open){
+      .react-selectize-control{
+        background: var(--alpha);
+        border: 1px solid var(--grey);
+
+        .react-selectize-placeholder{
+
+        }
+      }
+    }
+  }
+}
+
+.line{
+  @include flex(column, stretch, flex-start);
+  width: 100%;
+  margin-bottom: 16px;
+
+  & > .form-group:not(:last-child){
+    margin-bottom: 8px;
+  }
+
+  & > .line:last-child{
+    margin-bottom: 0;
+  }
+}
+
+.line{
+  label{
+    display: inline-block;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--grey2);
+    margin-bottom: 4px;
+  }
+}
+
+// **************************************
+// GENERAL INPUT
+// **************************************
+
+input, textarea, select{
+  border: 1px solid var(--grey);
+  padding: 8px 10px;
+  border-radius: 3px;
+  font-size: 14px;
+  width: calc(100% - 20px);
+  outline: none;
+
+  &:focus{
+    border: 1px solid var(--grey2);
+  }
+}
+
+select{
+  padding: 6.5px 10px;
+  width: 100%;
+}
+
+// **************************************
+// SWITCHER
+// **************************************
+
+.switcher-items{
+
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  .switcher-item{
+    position: relative;
+
+    label{
+      position: relative;
+      z-index: 0;
+      width: 68px;
+      height: 32px;
+      border-radius: 100px;
+      background-color: var(--grey);
+      transition: all 0.2s ease-in-out;
+
+      span{
+        opacity: 0;
+      }
+
+      &:before, &:after{
+        position: absolute;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+      }
+
+      &:before{
+        content: "";
+        background-color: var(--alpha);
+        border-radius: 100px;
+        display: block;
+        width: 24px; height: 24px;
+        box-shadow: 0 0 8px var(--greyShadow);
+        top: 4px; left: 4px;
+        z-index: 5;
+      }
+
+      &:after{
+        font-family: "icomoon" !important;
+        content: "\e90a";
+        top: 10px; left: 10px;
+        font-size: 12px;
+        z-index: 6;
+        color: var(--danger);
+      }
+    }
+
+    &.checked{
+      label{
+        background-color: var(--primaryShadow);
+
+        &:before, &:after{
+          transform: translateX(36px);
+        }
+
+        &:after{
+          content: "\e90f";
+          color: var(--primary);
+        }
+      }
+    }
+  }
+}
+// **************************************
+// RADIOBOX and CHECKBOX
+// **************************************
+.checkbox-items, .radiobox-items{
+  @include flex(row, stretch, flex-start);
+  flex-wrap: wrap;
+
+  & > .checkbox-item:not(:last-child),
+  & > .radiobox-item:not(:last-child),{
+    margin-right: 10px;
+  }
+}
+.checkbox-item, .radiobox-item{
+  margin-top: 4px;
+
+  &.checked > label{
+    border: 1px solid var(--primary);
+    background-color: var(--apha);
+    color: var(--primary);
+    opacity: 1;
+
+    &:hover{
+      background-color: var(--fond);
+      border-style: dashed;
+    }
+  }
+
+  label{
+    padding: 5px 10px;
+    border: 1px dashed var(--grey);
+    background: var(--alpha);
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover{
+      opacity: 1;
+      border-color: var(--txt);
+    }
+  }
+
+  input{
+    display: none;
+  }
+}
+
+.radiobox-item{
+  &.checked > label{
+    &:hover{
+      background-color: var(--alpha);
+      border-color: var(--primary);
+      border-style: solid;
+    }
+  }
+}
+
+.radiobox-item{
+  label{
+    border-radius: 20px;
+  }
+}
+// **************************************
+// DATE
+// **************************************
+.react-datepicker-wrapper{
+  width: 100%;
+}
+
+.form-group-date{
+  select{
+    margin-top: 4px;
+  }
+}
+// **************************************
+// FORM-BUTTON
+// **************************************
+.form-button{
+  & > *{
+    width: 100%;
+  }
+  & > *:not(:last-child){
+    margin-bottom: 12px;
+  }
+}
+// **************************************
+// FILES
+// **************************************
+.form-files{
+  @include flex(column, flex-start, flex-start);
+  width: 100%;
+
+  .preview-form-oldFile{
+    margin-bottom: 4px;
+
+    img{
+      border-radius: 4px;
+    }
+
+    a{
+      display: inline-block;
+    }
+
+    & > *{
+      max-width: 64px;
+      overflow: auto;
+      @include scrollbar();
+      padding-bottom: 8px;
+
+      &::-webkit-scrollbar {
+        height: 4px;
+      }
+    }
+  }
+
+  .form-image, .form-logo, .form-avatar{
+    margin-right: 24px;
+  }
+
+  .form-image, .form-logo{
+    img{
+      width: 124px;
+    }
+
+    & + .form-group{
+      width: calc(100% - 148px);
+    }
+  }
+
+  .form-avatar{
+    img{
+      border-radius: 100px;
+      width: 64px; height: 64px;
+    }
+  }
+
+  .dzu-dropzone{
+    overflow: hidden;
+    border: 1px dashed var(--grey);
+    width: 100% !important;
+    height: auto !important;
+    background-color: var(--alpha);
+    transition: all 0.2s ease-in-out;
+
+    .dzu-inputLabel{
+      @include flex(column, center, center);
+      color: var(--grey2);
+      text-align: center;
+      font-weight: inherit;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .dzu-inputLabelWithFiles{
+      min-height: auto;
+      padding: 12px;
+      margin: 12px 8px;
+      display: inline-block;
+      border-radius: 4px;
+      opacity: 0.8;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 4px 10px var(--greyShadow);
+      font-weight: 400;
+
+      &:hover{
+        transform: translateY(-2px);
+        opacity: 1;
+      }
+    }
+
+    &:hover{
+      border-color: var(--txt);
+
+      .dzu-inputLabel{
+        transform: scale(0.95);
+        color: var(--txt);
+      }
+    }
+  }
+}
+
+// **************************************
+// ERROR
+// STYLE
+// **************************************
+
+.form-group-error{
+  label{
+    color: var(--error);
+  }
+  input, textarea, select,
+  .react-selectize.default.root-node .react-selectize-control .react-selectize-placeholder,
+  .react-selectize.default.root-node:not(.open) .react-selectize-control,
+  .simple-select.react-selectize.default.root-node.open .react-selectize-control,
+  .trumbowyg-box, .trumbowyg-editor,
+  {
+    border-color: var(--error);
+    color: var(--error);
+    background-color: var(--dangerFondError);
+
+    &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: var(--error);
+      opacity: 1; /* Firefox */
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: var(--error);
+    }
+
+    &::-ms-input-placeholder { /* Microsoft Edge */
+      color: var(--error);
+    }
+  }
+  .error{
+    color: var(--error);
+    padding: 6px 4px 4px 4px;
+    font-size: 14px;
+
+    [class^="icon-"]{
+      margin-right: 5px;
+    }
+  }
+  .form-files{
+    .dzu-dropzone{
+      border: 1px dashed var(--error);
+      background-color: var(--dangerFondError);
+
+      .dzu-inputLabel{
+        color: var(--error);
+      }
+    }
+  }
+
+  .checkbox-items, .radiobox-items{
+    label{
+      border-color: var(--error);
+      background-color: var(--dangerFondError);
+    }
+    .checked > label {
+      border-color: var(--grey2);
+    }
+  }
+}
+
+.form{
+  .password-rules{
+    font-size: 14px;
+    opacity: 0.7;
+  }
+}
+
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .line.line-2{
+    flex-direction: row;
+
+    & > .form-group:first-child{
+      margin-right: 10px;
+      width: 50%;
+    }
+    & > .form-group:last-child{
+      margin-left: 10px;
+      width: 50%;
+    }
+  }
+
+  .line.line-3{
+    flex-direction: row;
+
+    & > .form-group{
+      width: 33%;
+    }
+    & > .form-group:not(:last-child){
+      margin-right: 12px;
+    }
+  }
+
+  .form-button{
+    @include flex(row, stretch, flex-start);
+
+    & > .btn, & > a.btn{
+      width: auto;
+      margin-bottom: 0;
+    }
+    & > *:not(:last-child){
+      margin-right: 12px;
+      margin-bottom: 0;
+    }
+  }
+
+  .form-files{
+    flex-direction: row;
+
+    .preview-form-oldFile{
+      margin-bottom: 0;
+      margin-right: 12px;
+    }
+  }
+
+}
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .form {
+    padding: 24px;
+  }
+}

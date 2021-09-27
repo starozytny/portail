@@ -1,5 +1,6 @@
 <?php
 
+use Fullpipe\TwigWebpackExtension\WebpackExtension;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\App;
@@ -79,8 +80,8 @@ return [
         $publicPath = (string)$settings['public'];
 
         // Add extensions
-        $twig->addExtension(new \Fullpipe\TwigWebpackExtension\WebpackExtension(
-        // The manifest file.
+        $twig->addExtension(new WebpackExtension(
+            // The manifest file.
             $publicPath . '/assets/manifest.json',
             // The public path
             $publicPath

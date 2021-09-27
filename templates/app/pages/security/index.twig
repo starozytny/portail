@@ -6,9 +6,21 @@
     <div>
         <h1>Connexion</h1>
         <form action="/login" method="POST">
-            Username: <input type="text" name="username"><br>
-            Password: <input type="password" name="password"><br>
-            <input type="submit" value="Login">
+            <div class="line">
+                <div class="form-group">
+                    <label for="username">Identifiant</label>
+                    <input type="text" name="username" id="username"><br>
+                </div>
+            </div>
+            <div class="line">
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="password" id="password"><br>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <span>Se connecter</span>
+            </button>
         </form>
     </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+@import "vars/vars";
+
+@import "components/normalize";
+@import "components/colors";
+@import "components/form";
+@import "components/button";
+
+body {
+    background-color: var(--fondContent);
+
+    h1{
+        @include fontSemibold();
+        color: red;
+    }
+}
