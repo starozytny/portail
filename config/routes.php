@@ -1,6 +1,6 @@
 <?php
 
-use App\Controller\CoreController;
+use App\Controller\AppController;
 use App\Controller\SecurityController;
 use App\Middleware\UserAuthMiddleware;
 use Slim\App;
@@ -13,8 +13,8 @@ return function (App $app) {
 
     // for auth
     $app->group('/espace-client', function (RouteCollectorProxy $group) {
-        $group->get('', [CoreController::class, 'homepage'])->setName('homepage');
-        $group->get('/edls', [CoreController::class, 'edl'])->setName('edl');
+        $group->get('', [AppController::class, 'homepage'])->setName('homepage');
+        $group->get('/edls', [AppController::class, 'edl'])->setName('edl');
     })->add(UserAuthMiddleware::class);
 
 };

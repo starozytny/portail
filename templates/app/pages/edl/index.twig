@@ -2,6 +2,11 @@
 
 {% block title %}Etat des lieux {{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% webpack_entry_css 'edl' %}
+{% endblock %}
+
 {% block main_content %}
     <div class="page-title">
         <div class="page-title-container">
@@ -15,11 +20,33 @@
     </div>
 
     <div class="main-content">
-        <div>hello world</div>
-        <div id="test" data-donnees="{{ test }}"></div>
-        <script>
-            let test = document.querySelector("#test");
-            console.log(JSON.parse(test.dataset.donnees))
-        </script>
+        <div class="edl-list">
+            <div class="list">
+                {% for key, months in data %}
+                    <div class="list-year">
+                        <div>{{ key }}</div>
+
+                        {% for key, item in months %}
+                            <div class="list-months">
+                                <div>{{ key }}</div>
+
+                                {% for elem in item %}
+                                    <div class="list-data">
+                                        <div>{{ elem.inventory.id }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="view" data-donnees="{{ donnees }}"></div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% webpack_entry_js 'edl' %}
 {% endblock %}

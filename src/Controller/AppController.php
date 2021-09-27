@@ -10,7 +10,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class CoreController
+class AppController
 {
     private $twig;
     private $apiService;
@@ -35,8 +35,6 @@ class CoreController
             ],
         ];
 
-        $decryption = $this->apiService->decryption();
-
         return $this->twig->render($response, 'app/pages/index.twig', $viewData);
     }
 
@@ -47,6 +45,33 @@ class CoreController
      */
     public function edl(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return $this->twig->render($response, 'app/pages/edl/index.twig');
+        $elements = $this->apiService->callApi('inventories/full/list');
+
+        $data = ['unknown' => [ 'unknown' => [] ]];
+
+        foreach ($elements as $elem) {
+            $inventoryDate = $elem->inventory->date;
+            if($inventoryDate == "0"){
+                array_push($data['unknown']['unknown'], $elem);
+            }else{
+                $year = date('Y', $inventoryDate);
+                $month = date('m', $inventoryDate);
+
+                if(!isset($data[$year])){
+                    $data[$year] = [ $month => [$elem] ];
+                }else{
+                    if(!isset($data[$year][$month])){
+                        $data[$year][$month] = [$elem];
+                    }else{
+                        array_push($data[$year][$month], $elem);
+                    }
+                }
+            }
+        }
+
+        return $this->twig->render($response, 'app/pages/edl/index.twig', [
+            'data' => $data,
+            'donnees' => json_encode($data)
+        ]);
     }
 }

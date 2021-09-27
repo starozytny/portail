@@ -10,6 +10,7 @@ module.exports = {
     mode: "development",
     entry: {
         'app': ['./assets/js/app.js', './assets/css/app.scss'],
+        'edl': ['./assets/js/pages/edl.js', './assets/css/pages/edl.scss'],
     },
     output: {
         path: path.resolve(__dirname, 'public/assets'),

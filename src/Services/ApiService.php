@@ -45,9 +45,24 @@ class ApiService
         $client = new Client();
 
         try {
-            $response = $client->get( $this->apiUrl , ['auth' =>  [$username, $password]]);
+            $response = $client->get($this->apiUrl . 'login_data' , ['auth' =>  [$username, $password]]);
             $data = json_decode($response->getBody());
             return $data->user;
+        } catch (GuzzleException $e){
+            return false;
+        }
+    }
+
+    public function callApi($path)
+    {
+        $client = new Client();
+
+        $username = $this->session->get('user')[0];
+        $password = $this->decryption();
+
+        try {
+            $response = $client->get($this->apiUrl . $path , ['auth' =>  [$username, $password]]);
+            return json_decode($response->getBody());
         } catch (GuzzleException $e){
             return false;
         }
