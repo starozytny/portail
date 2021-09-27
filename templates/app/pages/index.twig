@@ -3,9 +3,8 @@
 {% block title %}Espace client{% endblock %}
 
 {% block main_content %}
-    <div>
+    <div class="main-content">
         <h1>{{ name }}</h1>
-        <a href="/logout">Se déconnecter</a>
         <div id="test" data-donnees="{{ test }}"></div>
         <script>
             let test = document.querySelector("#test");

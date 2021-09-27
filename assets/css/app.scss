@@ -4,6 +4,7 @@
 
 @import "components/colors";
 @import "components/menu";
+@import "components/header";
 @import "components/form";
 @import "components/button";
 
@@ -50,6 +51,10 @@ main{
 
 .matomo-iframe-display.remove{
     display: none;
+}
+
+.txt-color1{
+    color: var(--color1);
 }
 
 //                      __   _ ____  ___   ___    __

@@ -1,5 +1,17 @@
 @import '../vars/vars.scss';
 
+.tooltip{
+  position: absolute;
+  top: -20px; right: 4px;
+  font-size: 12px;
+  background: var(--grey);
+  padding: 4px 8px;
+  border-radius: 4px;
+  opacity: 0;
+  z-index: -1;
+  transition: all 0.4s ease-in-out;
+}
+
 .btn, .btn-icon,
 button.swal2-confirm.swal2-styled,
 button.swal2-cancel.swal2-styled{

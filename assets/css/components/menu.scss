@@ -73,6 +73,11 @@
     width: 20%;
     height: 100vh;
     background: var(--fondMenu);
+
+    & + main{
+      margin-left: 20%;
+      width: 80%;
+    }
   }
 
   .nav-mobile{ display: none; }
@@ -94,6 +99,11 @@
 @media (min-width:1280px) {
   nav{
     width: 16%;
+
+    & + main{
+      margin-left: 16%;
+      width: calc(100% - 16%);
+    }
   }
   .nav-header-logo{
     padding: 24px 32px;
@@ -118,5 +128,11 @@
 @media (min-width: 1600px){
   nav{
     width: 14%;
+
+
+    & + main{
+      margin-left: 14%;
+      width: calc(100% - 14%);
+    }
   }
 }

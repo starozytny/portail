@@ -60,7 +60,32 @@
                 </div>
             </div>
         </nav>
+
         <main>
+            <header>
+                <div class="header-container">
+                    <div class="header-name">
+                        <div class="fokus">
+                            <span class="txt-color1">Fokus</span>
+                            <span>Logiciel d'état des lieux</span>
+                        </div>
+                        <div class="profil">
+                            <span>265 crédits restants</span>
+                            <div>
+                                <a class="btn-icon" href="{{ pathLogout }}">
+                                    <span class="icon-help"></span>
+                                    <span class="tooltip">Besoin d'aide ?</span>
+                                </a>
+                                <a class="btn-icon" href="{{ pathLogout }}">
+                                    <span class="icon-logout"></span>
+                                    <span class="tooltip">Se déconnecter</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
             {% block main_content %}{% endblock %}
         </main>
     </div>
