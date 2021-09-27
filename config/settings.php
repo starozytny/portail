@@ -12,6 +12,8 @@ date_default_timezone_set('Europe/Paris');
 // Settings
 $settings = [];
 
+require __DIR__ . '/config.php';
+
 $settings['public'] = $_SERVER['DOCUMENT_ROOT'];
 
 // Path settings

@@ -13,7 +13,7 @@ return function (App $app) {
 
     $app->add(TwigMiddleware::class);
     $app->add(SessionMiddleware::class);
-    $app->add(Whoops::class);
+//    $app->add(Whoops::class);
     $app->add(ErrorMiddleware::class);
 
     // Add the Slim built-in routing middleware

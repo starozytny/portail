@@ -12,7 +12,8 @@
         "odan/session": "^4.1",
         "filp/whoops": "^2.14",
         "middlewares/whoops": "^2.0",
-        "fullpipe/twig-webpack-extension": "^4.0"
+        "fullpipe/twig-webpack-extension": "^4.0",
+        "ext-openssl": "*"
     },
     "autoload": {
         "psr-4": {

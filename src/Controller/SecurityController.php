@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Services\ApiService;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,11 +16,13 @@ final class SecurityController
 {
     private $session;
     private $twig;
+    private $apiService;
 
-    public function __construct(SessionInterface $session, Twig $twig)
+    public function __construct(SessionInterface $session, Twig $twig, ApiService $apiService)
     {
         $this->session = $session;
         $this->twig = $twig;
+        $this->apiService = $apiService;
     }
 
     /**
@@ -32,7 +35,7 @@ final class SecurityController
         return $this->twig->render($response, 'app/pages/security/index.twig');
     }
 
-    public function login( ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function login(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
         $username = (string)($data['username'] ?? '');
@@ -41,8 +44,8 @@ final class SecurityController
         // Pseudo example
         // Check user credentials. You may use an application/domain service and the database here.
         $user = null;
-        if($username === 'admin' && $password === 'secret') {
-            $user = 'admin';
+        if($this->apiService->connect($username, $password)) {
+            $user = [$username, $this->apiService->encryption($password)];
         }
 
         // Get RouteParser from request to generate the urls
