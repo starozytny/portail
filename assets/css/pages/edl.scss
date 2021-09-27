@@ -7,12 +7,79 @@
   border: 1px solid var(--fond);
 
   & > .title{
+    @include fontSemibold();
     background-color: var(--fond);
+    color: var(--grey2);
     padding: 12px;
     border-radius: 8px 8px 0 0;
+    font-size: 18px;
   }
 
   .item{
-    padding: 12px;
+    @include flex(row, flex-start, flex-start);
+    flex-wrap: wrap;
+    padding: 12px 12px 24px 12px;
+
+    &:not(:last-child){
+      border-bottom: 1px solid var(--grey);
+      margin-bottom: 12px;
+    }
+
+    .col-1{
+      @include fontSemibold();
+      width: 60%;
+    }
+    .col-2{
+      width: 40%;
+      text-align: right;
+    }
+
+    .col-3, .col-4, .col-5, .col-6{
+      width: 100%;
+    }
+
+    .col-3{
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+
+    .col-4, .col-5{
+      font-size: 15px;
+      opacity: 0.9;
+    }
+
+    .col-5{
+      margin-top: 12px;
+    }
+
+    .tenant-title{
+      text-decoration: underline;
+      margin-bottom: 4px;
+    }
+
+    .col-6{
+      text-align: right;
+
+      .btn-icon{
+        [class^="icon-"]{
+          font-size: 18px;
+        }
+      }
+    }
   }
 }
+
+.type{
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 14px;
+  border-radius: 50px;
+
+  &.type-0{
+    background-color: var(--sortant);
+  }
+  &.type-1{
+    background-color: var(--entrant);
+  }
+}
+

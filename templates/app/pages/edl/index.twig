@@ -25,17 +25,50 @@
                 {% for year, months in data %}
                     {% for month, item in months %}
                         <div class="list-month">
-                            <div class="title">{{ month }} - {{ year }}</div>
+                            {% if year == "unknown" %}
+                                <div class="title">Date indéfinie</div>
+                            {% else %}
+                                <div class="title">{{ month }} - {{ year }}</div>
+                            {% endif %}
+
 
                             {% for elem in item %}
                                 <div class="item">
-                                    <div>{{ elem.inventory.id }}</div>
                                     <div class="col-1">
                                         <div>{{ elem.inventory.date | date('D\\. d M\\. Y') | capitalize }}</div>
                                         <div>{{ elem.inventory.date | date('H\\hi') }}</div>
                                     </div>
                                     <div class="col-2">
-                                        <div></div>
+                                        <div>{{ session.user[0] }}</div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="type type-{{ elem.inventory.type }}">
+                                            {{ elem.inventory.type == 0 ? "Sortant" : "Entrant"}}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div>Adresse : {{ elem.property.addr1 }}</div>
+                                        <div>Type : {{ elem.property.type }}</div>
+                                        <div>{{ elem.property.owner ? "Propriétaire : " ~ elem.property.owner : "Pas de propriétaire" }}</div>
+                                    </div>
+                                    <div class="col-5">
+                                        {% if elem.tenants | length > 0 %}
+                                            <div class="tenant-title">Locataires : </div>
+                                            {% for tenant in elem.tenants %}
+                                                <div>{{ tenant.first_name | capitalize }}</div>
+                                                <div>{{ tenant.flast_name | upper }}</div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="" class="btn-icon">
+                                            <span class="icon-compose"></span>
+                                            <span class="tooltip">Modifier</span>
+                                        </a>
+                                        <a href="" class="btn-icon">
+                                            <span class="icon-delete"></span>
+                                            <span class="tooltip">Supprimer</span>
+                                        </a>
                                     </div>
                                 </div>
                             {% endfor %}
