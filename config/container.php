@@ -74,6 +74,18 @@ return [
         // Add extension here
         $twig->addExtension(new DebugExtension());
 
+        // The path must be absolute.
+        // e.g. /var/www/example.com/public
+        $publicPath = (string)$settings['public'];
+
+        // Add extensions
+        $twig->addExtension(new \Fullpipe\TwigWebpackExtension\WebpackExtension(
+        // The manifest file.
+            $publicPath . '/assets/manifest.json',
+            // The public path
+            $publicPath
+        ));
+
         return $twig;
     },
 

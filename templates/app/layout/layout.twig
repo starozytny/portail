@@ -1,9 +1,17 @@
 {% extends 'base.twig' %}
 
+{% block stylesheets %}
+    {% webpack_entry_css 'app/app' %}
+{% endblock %}
+
 {% block body %}
     <div class="body">
         <main>
             {% block main_content %}{% endblock %}
         </main>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {% webpack_entry_js 'app/app' %}
 {% endblock %}

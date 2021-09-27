@@ -30,7 +30,7 @@ final class SecurityController
     public function index(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         var_dump($request->getQueryParams());
-        throw new \RuntimeException('This is a test');
+//        throw new \RuntimeException('This is a test');
         $viewData = [
             'name' => 'World',
             'notifications' => [
