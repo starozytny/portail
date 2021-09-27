@@ -8,15 +8,16 @@
     {% block noindex %}{% endblock %}
     {% block openGraph %}{% endblock %}
     <link rel="shortcut icon" href="favicon.png" type="image/png">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}| Fokus, logiciel d'états des lieux{% endblock %}</title>
 
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
 
 <div>
-    {% set pathHomepage = '/espace-client' %}
     {% set pathLogout   = '/logout' %}
+    {% set pathHomepage = '/espace-client' %}
+    {% set pathEdls   = '/espace-client/edls' %}
     {# --------------- BODY ---------------- #}
     {% block body %}{% endblock %}
 </div>

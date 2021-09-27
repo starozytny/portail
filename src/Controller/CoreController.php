@@ -3,9 +3,6 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
-use GuzzleHttp\Exception\GuzzleException;
-use http\Exception\RuntimeException;
-use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -16,16 +13,11 @@ use Twig\Error\SyntaxError;
 class CoreController
 {
     private $twig;
-    /**
-     * @var SessionInterface
-     */
-    private $session;
     private $apiService;
 
-    public function __construct(SessionInterface $session, Twig $twig, ApiService $apiService)
+    public function __construct(Twig $twig, ApiService $apiService)
     {
         $this->twig = $twig;
-        $this->session = $session;
         $this->apiService = $apiService;
     }
 
@@ -46,5 +38,15 @@ class CoreController
         $decryption = $this->apiService->decryption();
 
         return $this->twig->render($response, 'app/pages/index.twig', $viewData);
+    }
+
+    /**
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
+    public function edl(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        return $this->twig->render($response, 'app/pages/edl/index.twig');
     }
 }

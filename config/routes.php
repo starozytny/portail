@@ -14,6 +14,7 @@ return function (App $app) {
     // for auth
     $app->group('/espace-client', function (RouteCollectorProxy $group) {
         $group->get('', [CoreController::class, 'homepage'])->setName('homepage');
+        $group->get('/edls', [CoreController::class, 'edl'])->setName('edl');
     })->add(UserAuthMiddleware::class);
 
 };

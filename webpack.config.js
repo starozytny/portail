@@ -5,7 +5,6 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: "development",
@@ -17,9 +16,6 @@ module.exports = {
         publicPath: '',
     },
     optimization: {
-        splitChunks: {
-            chunks: 'all',
-        },
         minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
     },
     module: {
@@ -46,7 +42,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new WebpackManifestPlugin({
             fileName: './manifest.json',
-            publicPath: 'assets/',
+            publicPath: '/assets/',
         }),
         new MiniCssExtractPlugin({
             ignoreOrder: false,
