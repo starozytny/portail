@@ -12,8 +12,8 @@ return function (App $app) {
     $app->get('/logout', [SecurityController::class, 'logout'])->setName('logout');
 
     // for auth
-    $app->group('/contact', function (RouteCollectorProxy $group) {
-        $group->get('', [CoreController::class, 'contact'])->setName('contact');
+    $app->group('/espace-client', function (RouteCollectorProxy $group) {
+        $group->get('', [CoreController::class, 'homepage'])->setName('homepage');
     })->add(UserAuthMiddleware::class);
 
 };

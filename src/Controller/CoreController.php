@@ -15,12 +15,10 @@ use Twig\Error\SyntaxError;
 class CoreController
 {
     private $twig;
-    private $userRepository;
 
-    public function __construct(Twig $twig, UserRepository $userRepository)
+    public function __construct(Twig $twig)
     {
         $this->twig = $twig;
-        $this->userRepository = $userRepository;
     }
 
     /**
@@ -35,29 +33,22 @@ class CoreController
         $res = $client->get( 'http://v2.focus.immo/api/login_data', [
             'auth' =>  ['999A8080', 'pierre']
         ]);
-
+        $viewData = [
+            'name' => 'World',
+            'notifications' => [
+                'message' => 'You are good!'
+            ],
+        ];
         if($res->getStatusCode() == 200){
             $body = $res->getBody();
             $viewData = [
                 'test' => json_encode(json_decode($body)),
-                'name' => 'World',
+                'name' => 'Connected',
                 'notifications' => [
                     'message' => 'You are good!'
                 ],
             ];
         }
-
-        return $this->twig->render($response, 'app/pages/index.twig', $viewData);
-    }
-
-    public function contact(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $viewData = [
-            'name' => 'Contact',
-            'notifications' => [
-                'message' => 'You are good!'
-            ],
-        ];
 
         return $this->twig->render($response, 'app/pages/index.twig', $viewData);
     }

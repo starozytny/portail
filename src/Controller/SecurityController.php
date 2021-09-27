@@ -29,15 +29,7 @@ final class SecurityController
      */
     public function index(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        var_dump($request->getQueryParams());
-//        throw new \RuntimeException('This is a test');
-        $viewData = [
-            'name' => 'World',
-            'notifications' => [
-                'message' => 'You are good!'
-            ],
-        ];
-        return $this->twig->render($response, 'app/pages/security/index.twig', $viewData);
+        return $this->twig->render($response, 'app/pages/security/index.twig');
     }
 
     public function login( ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -66,7 +58,7 @@ final class SecurityController
             $this->session->set('user', $user);
 
             // Redirect to protected page
-            $url = $routeParser->urlFor('contact');
+            $url = $routeParser->urlFor('homepage');
         } else {
             // Redirect back to the login page
             $url = $routeParser->urlFor('login', [], ['errors' => "fail"]);
@@ -80,7 +72,7 @@ final class SecurityController
         $this->session->destroy();
 
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-        $url = $routeParser->urlFor('logout');
+        $url = $routeParser->urlFor('login');
 
         return $response->withStatus(302)->withHeader('Location', $url);
     }

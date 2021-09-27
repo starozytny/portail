@@ -5,11 +5,71 @@
 @import "components/form";
 @import "components/button";
 
-body {
-    background-color: var(--fondContent);
+html, body{
+    scroll-behavior: smooth;
+}
 
-    h1{
-        @include fontSemibold();
-        color: blue;
+body {
+    color: var(--txt);
+    @include fontRegular();
+}
+
+img{
+    width: 100%;
+}
+
+a{
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+h1, h2, h3, h4, p{
+    margin: 0;
+}
+
+h1{
+    @include fontBold();
+    margin-bottom: 24px;
+}
+
+h2{
+    @include fontSemibold();
+    text-transform: uppercase;
+}
+
+main{
+    background: var(--fondContent);
+}
+
+.main-content{
+    min-height: 100vh;
+    padding: 14px 12px 12px 12px;
+    background-color: var(--fondContent);
+}
+
+.matomo-iframe-display.remove{
+    display: none;
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+    .main-content{
+        padding: 24px 32px;
+    }
+}
+
+//                      __   _  __    ___   ___    __
+//                     | _| / |/ /_  / _ \ / _ \  |_ |
+//    _____ _____ _____| |  | | '_ \| | | | | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
+//                     | |  |_|\___/ \___/ \___/   | |
+//                     |__|                       |__|
+@media (min-width: 1600px){
+    .main-content{
+        @include maxscreen();
     }
 }
