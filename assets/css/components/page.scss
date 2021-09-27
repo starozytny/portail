@@ -12,6 +12,13 @@
   padding: 12px 12px 24px 12px;
 }
 
+.page-title{
+  .actions{
+    @include flex(column, flex-end, flex-end);
+    margin-top: 12px;
+  }
+}
+
 .page-actions{
   .common-actions{
     .dropdown{
@@ -68,6 +75,16 @@
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
+  .page-title-container{
+    @include flex(row, flex-start, space-between);
+  }
+
+  .page-title{
+    .actions{
+      margin-top: 0;
+    }
+  }
+
   .page-actions{
     @include flex(row, flex-start, space-between);
 
