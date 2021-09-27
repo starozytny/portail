@@ -1,1 +1,18 @@
 @import "../vars/vars";
+
+.list-month{
+  margin-bottom: 24px;
+  background-color: var(--alpha);
+  border-radius: 8px;
+  border: 1px solid var(--fond);
+
+  & > .title{
+    background-color: var(--fond);
+    padding: 12px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .item{
+    padding: 12px;
+  }
+}

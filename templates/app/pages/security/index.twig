@@ -1,8 +1,12 @@
-{% extends 'app/layout/layout.twig' %}
+{% extends 'base.twig' %}
 
 {% block title %}Connexion{% endblock %}
 
-{% block main_content %}
+{% block stylesheets %}
+    {% webpack_entry_css 'app' %}
+{% endblock %}
+
+{% block body %}
     <div class="main-content">
         <h1>Connexion</h1>
         <form action="/login" method="POST">
@@ -23,4 +27,8 @@
             </button>
         </form>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {% webpack_entry_js 'app' %}
 {% endblock %}

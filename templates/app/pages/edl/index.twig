@@ -19,25 +19,35 @@
         </div>
     </div>
 
+    29104
+    user 134
+
+    worker 113
+    20-25-32-34
+    order 593
+
     <div class="main-content">
         <div class="edl-list">
             <div class="list">
-                {% for key, months in data %}
-                    <div class="list-year">
-                        <div>{{ key }}</div>
+                {% for year, months in data %}
+                    {% for month, item in months %}
+                        <div class="list-month">
+                            <div class="title">{{ month }} - {{ year }}</div>
 
-                        {% for key, item in months %}
-                            <div class="list-months">
-                                <div>{{ key }}</div>
-
-                                {% for elem in item %}
-                                    <div class="list-data">
-                                        <div>{{ elem.inventory.id }}</div>
+                            {% for elem in item %}
+                                <div class="item">
+                                    <div>{{ elem.inventory.id }}</div>
+                                    <div class="col-1">
+                                        <div>{{ elem.inventory.date | date('D\\. d M\\. Y') | capitalize }}</div>
+                                        <div>{{ elem.inventory.date | date('H\\hi') }}</div>
                                     </div>
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
-                    </div>
+                                    <div class="col-2">
+                                        <div></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
                 {% endfor %}
             </div>
         </div>

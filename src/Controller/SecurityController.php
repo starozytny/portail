@@ -32,6 +32,15 @@ final class SecurityController
      */
     public function index(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+        if($this->session->get('user')){
+            $username = $this->session->get('user')[0];
+            $password = $this->apiService->decryption();
+
+            $url = $this->loginCheck($request, $username, $password);
+
+            return $response->withStatus(302)->withHeader('Location', $url);
+        }
+
         return $this->twig->render($response, 'app/pages/security/index.twig');
     }
 
@@ -41,8 +50,14 @@ final class SecurityController
         $username = (string)($data['username'] ?? '');
         $password = (string)($data['password'] ?? '');
 
-        // Pseudo example
-        // Check user credentials. You may use an application/domain service and the database here.
+        // Get RouteParser from request to generate the urls
+        $url = $this->loginCheck($request, $username, $password);
+
+        return $response->withStatus(302)->withHeader('Location', $url);
+    }
+
+    private function loginCheck($request, $username, $password): string
+    {
         $user = null;
         $userData = $this->apiService->connect($username, $password);
         if(($userData != false)) {
@@ -68,7 +83,7 @@ final class SecurityController
             $url = $routeParser->urlFor('login', [], ['errors' => "fail"]);
         }
 
-        return $response->withStatus(302)->withHeader('Location', $url);
+        return $url;
     }
 
     public function logout(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
