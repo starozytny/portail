@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {% webpack_entry_css 'app' %}
+    {% webpack_entry_css 'security' %}
 {% endblock %}
 
 {% block body %}
@@ -76,4 +77,5 @@
 
 {% block javascripts %}
     {% webpack_entry_js 'app' %}
+    {% webpack_entry_js 'security' %}
 {% endblock %}
