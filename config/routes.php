@@ -11,6 +11,7 @@ return function (App $app) {
     $app->get('/', [SecurityController::class, 'index'])->setName('login');
     $app->post('/login', [SecurityController::class, 'loginForm'])->setName('loginForm');
     $app->get('/logout', [SecurityController::class, 'logout'])->setName('logout');
+    $app->post('/lost-password', [SecurityController::class, 'lostForm'])->setName('lostForm');
 
     $app->group('/legales', function (RouteCollectorProxy $group) {
         $group->get('/mentions-legales', [AppController::class, 'mentions'])->setName('mentions');

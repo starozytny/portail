@@ -67,6 +67,13 @@ final class SecurityController
         return $response->withStatus(302)->withHeader('Location', $url);
     }
 
+    public function lostForm(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(200);
+    }
+
     /*
      * Method pour vérifier l'acces au site
      */

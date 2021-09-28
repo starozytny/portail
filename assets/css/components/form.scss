@@ -34,6 +34,10 @@
 .form-group{
   @include flex(column, flex-start, flex-start);
 
+  .error{
+    display: none;
+  }
+
   .alert{
     width: calc(100% - 24px);
   }
@@ -381,6 +385,7 @@ select{
     }
   }
   .error{
+    display: flex;
     color: var(--error);
     padding: 6px 4px 4px 4px;
     font-size: 14px;

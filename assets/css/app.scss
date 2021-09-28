@@ -1,4 +1,6 @@
 @import "~normalize.css";
+@import "~toastr";
+
 @import "fonts";
 @import "vars/vars";
 
@@ -12,6 +14,7 @@
 @import "components/button";
 @import "components/alert";
 @import "components/aside";
+@import "components/toastr";
 
 @import "pages/security";
 

@@ -24,6 +24,8 @@
     "webpack-manifest-plugin": "^4.0.2"
   },
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "axios": "^0.21.4",
+    "normalize.css": "^8.0.1",
+    "toastr": "^2.1.4"
   }
 }

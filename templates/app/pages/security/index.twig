@@ -85,11 +85,15 @@
                     Ce mail contient un lien vous permettant de réinitialiser votre mot de passe. <br/> <br/>
                     Pensez à vérifier vos spams/courriers indésirables.
                 </p>
-                <form>
+                <form class="lost-form" data-url="{{ url_for('lostForm') }}" method="POST">
                     <div class="line">
-                        <div class="form-group">
+                        <div class="form-group input-fusername">
                             <label for="fusername">Nom utilisateur</label>
-                            <input type="text" name="fusername" id="fusername" required>
+                            <input type="text" name="fusername" id="fusername" >
+                            <div class="error">
+                                <span class='icon-warning'></span>
+                                <p></p>
+                            </div>
                         </div>
                     </div>
                     <div class="line">
