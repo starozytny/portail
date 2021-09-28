@@ -16,6 +16,7 @@ use Twig\Extension\DebugExtension;
 use Odan\Session\PhpSession;
 use Odan\Session\SessionInterface;
 use Odan\Session\SessionMiddleware;
+use Twig\TwigFilter;
 
 return [
     'settings' => function () {
@@ -87,8 +88,40 @@ return [
             $publicPath
         ));
 
+        // Customs filter
+        $filterMonthLong = new TwigFilter('monthLongStringFr', function($number) {
+            $months = ['', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+            return $months[(int) $number];
+        });
+        $filterMonthShort = new TwigFilter('monthShortStringFr', function($number) {
+            $months = ['', 'Jan', 'Fév', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'];
+            return $months[(int) $number];
+        });
+        $filterDayShort = new TwigFilter('dayShortStringFr', function($string) {
+            switch ($string) {
+                case 'Mon':
+                    return 'Lun';
+                case 'Tue':
+                    return 'Mar';
+                case 'Wed':
+                    return 'Mer';
+                case 'Thu':
+                    return 'Jeu';
+                case 'Fri':
+                    return 'Ven';
+                case 'Sat':
+                    return 'Sam';
+                default:
+                    return 'Dim';
+            }
+        });
+
+        // Variable env
         $environment = $twig->getEnvironment();
         $environment->addGlobal('session', $_SESSION);
+        $environment->addFilter($filterMonthLong);
+        $environment->addFilter($filterMonthShort);
+        $environment->addFilter($filterDayShort);
 
         return $twig;
     },
