@@ -50,7 +50,10 @@
                             </div>
                         </div>
                         {% if errors | length > 0 %}
-                            <div class="alert alert-danger">Vos identifiants sont incorrects</div>
+                            <div class="alert alert-danger">
+                                <span class="icon-warning"></span>
+                                <p>Vos identifiants sont incorrects</p>
+                            </div>
                         {% endif %}
 
                         <button type="submit" class="btn btn-primary">
