@@ -42,9 +42,15 @@ class AppController
     }
 
     /**
+     * Route liste des états des lieux
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
-     * @throws LoaderError
      */
     public function edl(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
@@ -79,12 +85,22 @@ class AppController
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * Route pour mon compte
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function user(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return $this->twig->render($response, 'app/pages/user/index.twig');
+        $data = $this->apiService->callApi('users');
+
+        return $this->twig->render($response, 'app/pages/user/index.twig', [
+            'data' => $data
+        ]);
     }
 }

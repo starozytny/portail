@@ -67,7 +67,15 @@ h2{
     }
 
     .col-3{
-      margin: 12px 0;
+      margin-top: 12px;
+    }
+
+    .role-blocked{
+      background-color: var(--dangerShadow);
+      border-radius: 50px;
+      padding: 4px 12px;
+      font-size: 14px;
+      display: inline-block;
     }
   }
 
@@ -158,21 +166,21 @@ h2{
       }
 
       .col-1{
-        width: calc(25% - 12px);
+        width: calc(30% - 12px);
       }
 
       .col-2{
-        width: calc(30% - 12px);
+        width: calc(45% - 12px);
       }
 
       .col-3{
         margin: 0;
-        width: calc(45% - 12px);
+        width: 25%;
       }
 
       .col-4{
         width: 100%;
-        margin-top: 12px;
+        margin-top: 4px;
       }
     }
   }
@@ -211,12 +219,21 @@ h2{
 
     .item{
       padding: 24px;
+
+      .col-1 {
+        width: calc(26% - 12px);
+      }
+
+      .col-2{
+        width: calc(40% - 12px);
+      }
+
       .col-3{
-        width: calc(25% - 12px);
+        width: calc(18% - 12px);
         margin-right: 12px;
       }
       .col-4{
-        width: 20%;
+        width: 16%;
         margin-top: 0;
       }
     }
