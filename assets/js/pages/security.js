@@ -65,6 +65,7 @@ if(lost){
             toastr.warning("Veuillez vérifier les informations transmises.");
             Validateur.displayErrors(validate.errors);
         }else{
+            Validateur.loader(true);
             axios.post(lost.dataset.url, {username: username})
                 .then(function (response) {
                     if(response.data !== ""){
@@ -75,9 +76,10 @@ if(lost){
                     }
                 })
                 .catch(function (error) {
-                    console.log(error)
-                    console.log(error.response)
                     Validateur.handleErrors(error)
+                })
+                .then(function () {
+                    Validateur.loader(false);
                 })
             ;
         }

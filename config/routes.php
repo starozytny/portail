@@ -12,7 +12,7 @@ return function (App $app) {
     $app->post('/login', [SecurityController::class, 'loginForm'])->setName('loginForm');
     $app->get('/logout', [SecurityController::class, 'logout'])->setName('logout');
     $app->post('/lost-password', [SecurityController::class, 'lostForm'])->setName('lostForm');
-    $app->post('/reinitialiser-mot-de-passe', [SecurityController::class, 'reinitPassword'])->setName('reinitPassword');
+    $app->get('/reinitialiser-mot-de-passe', [SecurityController::class, 'reinitPassword'])->setName('reinitPassword');
 
     $app->group('/legales', function (RouteCollectorProxy $group) {
         $group->get('/mentions-legales', [AppController::class, 'mentions'])->setName('mentions');
