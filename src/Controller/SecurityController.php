@@ -40,11 +40,12 @@ final class SecurityController
 
             return $response->withStatus(302)->withHeader('Location', $url);
         }
-
-        return $this->twig->render($response, 'app/pages/security/index.twig');
+        return $this->twig->render($response, 'app/pages/security/index.twig', [
+            'errors' => $request->getQueryParams()
+        ]);
     }
 
-    public function login(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function loginForm(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
         $username = (string)($data['username'] ?? '');
@@ -56,6 +57,19 @@ final class SecurityController
         return $response->withStatus(302)->withHeader('Location', $url);
     }
 
+    public function logout(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        $this->session->destroy();
+
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+        $url = $routeParser->urlFor('login');
+
+        return $response->withStatus(302)->withHeader('Location', $url);
+    }
+
+    /*
+     * Method pour vérifier l'acces au site
+     */
     private function loginCheck($request, $username, $password): string
     {
         $user = null;
@@ -80,19 +94,9 @@ final class SecurityController
             $url = $routeParser->urlFor('homepage');
         } else {
             // Redirect back to the login page
-            $url = $routeParser->urlFor('login', [], ['errors' => "fail"]);
+            $url = $routeParser->urlFor('login', [], ['errors' => "1"]);
         }
 
         return $url;
-    }
-
-    public function logout(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
-        $this->session->destroy();
-
-        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-        $url = $routeParser->urlFor('login');
-
-        return $response->withStatus(302)->withHeader('Location', $url);
     }
 }

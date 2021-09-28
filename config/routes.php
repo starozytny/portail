@@ -9,7 +9,7 @@ use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app) {
     $app->get('/', [SecurityController::class, 'index'])->setName('login');
-    $app->post('/login', [SecurityController::class, 'login'])->setName('loginForm');
+    $app->post('/login', [SecurityController::class, 'loginForm'])->setName('loginForm');
     $app->get('/logout', [SecurityController::class, 'logout'])->setName('logout');
 
     $app->group('/legales', function (RouteCollectorProxy $group) {

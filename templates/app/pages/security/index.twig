@@ -49,6 +49,10 @@
                                 <input type="password" name="password" id="password">
                             </div>
                         </div>
+                        {% if errors | length > 0 %}
+                            <div class="alert alert-danger">Vos identifiants sont incorrects</div>
+                        {% endif %}
+
                         <button type="submit" class="btn btn-primary">
                             <span>Se connecter</span>
                         </button>
