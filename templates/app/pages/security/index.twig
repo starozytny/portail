@@ -1,6 +1,6 @@
 {% extends 'base.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Connexion espace client {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
     {% webpack_entry_css 'app' %}
@@ -35,7 +35,7 @@
                 </header>
 
                 <div class="content">
-                    <h1>Espace client</h1>
+                    <h1>Espace client Fokus</h1>
                     <form action="{{ url_for('loginForm') }}" method="POST">
                         <div class="line">
                             <div class="form-group">

@@ -12,6 +12,12 @@ return function (App $app) {
     $app->post('/login', [SecurityController::class, 'login'])->setName('loginForm');
     $app->get('/logout', [SecurityController::class, 'logout'])->setName('logout');
 
+    $app->group('/legales', function (RouteCollectorProxy $group) {
+        $group->get('/mentions-legales', [AppController::class, 'mentions'])->setName('mentions');
+        $group->get('/politique-de-confidentialité', [AppController::class, 'politique'])->setName('politique');
+        $group->get('/gestion-cookies', [AppController::class, 'cookies'])->setName('cookies');
+    });
+
     // for auth
     $app->group('/espace-client', function (RouteCollectorProxy $group) {
         $group->get('', [AppController::class, 'homepage'])->setName('homepage');

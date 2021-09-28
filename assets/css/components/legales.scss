@@ -1,0 +1,19 @@
+@import '../vars/vars.scss';
+
+.legales{
+  & > div{
+    margin-bottom: 48px;
+
+    h2, h3{
+      margin-bottom: 8px;
+    }
+
+    h2 + div{
+      margin-bottom: 24px;
+    }
+
+    h3 + p{
+      margin-bottom: 12px;
+    }
+  }
+}

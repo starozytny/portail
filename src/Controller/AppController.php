@@ -21,14 +21,24 @@ class AppController
         $this->apiService = $apiService;
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
     public function homepage(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         return $this->twig->render($response, 'app/pages/index.twig');
+    }
+
+    public function mentions(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        return $this->twig->render($response, 'app/pages/legales/mentions.twig');
+    }
+
+    public function politique(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        return $this->twig->render($response, 'app/pages/legales/politique.twig');
+    }
+
+    public function cookies(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        return $this->twig->render($response, 'app/pages/legales/cookies.twig');
     }
 
     /**

@@ -1,0 +1,51 @@
+{% extends 'base.twig' %}
+
+{% block noindex %}
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
+{% endblock %}
+
+{% block stylesheets %}
+    {% webpack_entry_css 'app' %}
+{% endblock %}
+
+{% block body %}
+    <main>
+        <header>
+            <div class="header-container">
+                <div class="header-name">
+                    <div class="fokus">
+                        <span class="txt-color1">Fokus</span>
+                        <span>Logiciel d'état des lieux</span>
+                    </div>
+                    <div class="profil">
+                        <div>
+                            <a class="btn-icon" href="{{ url_for('login') }}">
+                                <span class="icon-home"></span>
+                                <span>Espace client</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            {% set societyName = "Logilink" %}
+            {% set websiteName = "Fokus logiciel état des lieux" %}
+            {% set websiteUrl = "https://portail.fokus.immo" %}
+            {% set addressPostale = "17 rue de la République" %}
+            {% set websitePhone = "04 91 99 44 43" %}
+            {% set websiteEmail = "web@logilink.fr" %}
+            {% set websiteSiret = "485 208 854 00011" %}
+
+            {% block main_content %}{% endblock %}
+        </div>
+    </main>
+
+    {% include 'app/layout/components/footer.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {% webpack_entry_js 'app' %}
+{% endblock %}
