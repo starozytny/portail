@@ -86,10 +86,18 @@
                     Pensez à vérifier vos spams/courriers indésirables.
                 </p>
                 <form class="lost-form" data-url="{{ url_for('lostForm') }}" method="POST">
+
+                    <div class="form-success">
+                        <div class="alert alert-primary">
+                            <span class="icon-info"></span>
+                            <p></p>
+                        </div>
+                    </div>
+
                     <div class="line">
                         <div class="form-group input-fusername">
                             <label for="fusername">Nom utilisateur</label>
-                            <input type="text" name="fusername" id="fusername" >
+                            <input type="text" name="fusername" id="fusername" required>
                             <div class="error">
                                 <span class='icon-warning'></span>
                                 <p></p>

@@ -40,6 +40,10 @@ final class SecurityController
 
             return $response->withStatus(302)->withHeader('Location', $url);
         }
+//        $res = $this->apiService->callApiWithoutAuth('usermail/999A8080');
+
+
+
         return $this->twig->render($response, 'app/pages/security/index.twig', [
             'errors' => $request->getQueryParams()
         ]);
@@ -67,11 +71,30 @@ final class SecurityController
         return $response->withStatus(302)->withHeader('Location', $url);
     }
 
-    public function lostForm(ServerRequestInterface $request, ResponseInterface $response)
+    public function lostForm(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus(200);
+        $response->withHeader('Content-Type', 'application/json');
+        $error = [['name' => 'fusername', 'message' => 'Cet champ doit être renseigné.']];
+
+        $data = json_decode($request->getBody());
+        $username = $data->username;
+        if($username){
+
+            $res = $this->apiService->callApiWithoutAuth('usermail/' . $username);
+            $email = $res->getContents();
+
+            if($email == ""){
+                $response->getBody()->write(json_encode($error));
+                return $response->withStatus(400);
+            }
+
+            $response->getBody()->write(sprintf("Le lien de réinitialisation de votre mot de passe a été envoyé à : %s", $this->getHiddenEmail($email)));
+            return $response->withStatus(200);
+        }
+
+
+        $response->getBody()->write(json_encode($error));
+        return $response->withStatus(400);
     }
 
     /*
@@ -105,5 +128,20 @@ final class SecurityController
         }
 
         return $url;
+    }
+
+    /*
+     * Hide email for RGPD
+     */
+    private function getHiddenEmail($email): string
+    {
+        $at = strpos($email, "@");
+        $domain = substr($email, $at, strlen($email));
+        $firstLetter = substr($email, 0, 1);
+        $etoiles = "";
+        for($i=1 ; $i < $at ; $i++){
+            $etoiles .= "*";
+        }
+        return $firstLetter . $etoiles . $domain;
     }
 }

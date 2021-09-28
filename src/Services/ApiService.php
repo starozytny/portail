@@ -67,4 +67,16 @@ class ApiService
             return false;
         }
     }
+
+    public function callApiWithoutAuth($path)
+    {
+        $client = new Client();
+
+        try {
+            $response = $client->get($this->apiUrl . $path);
+            return $response->getBody();
+        } catch (GuzzleException $e){
+            return false;
+        }
+    }
 }

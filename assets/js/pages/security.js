@@ -47,16 +47,19 @@ if(btnsLost){
 //*****
 let lost = document.querySelector('.lost-form');
 if(lost){
+    let success = document.querySelector('.lost-form > .form-success')
+    let successMsg = document.querySelector('.lost-form > .form-success > .alert p')
     lost.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        let username = document.getElementById('fusername').value;
+        success.classList.remove('true');
+        successMsg.innerHTML = "";
+        Validateur.hideErrors();
 
+        let username = document.getElementById('fusername').value;
         let validate = Validateur.validateur([
             {type: "text", id: 'fusername', value: username},
         ])
-
-        Validateur.hideErrors();
 
         if(!validate.code){
             toastr.warning("Veuillez vérifier les informations transmises.");
@@ -64,10 +67,15 @@ if(lost){
         }else{
             axios.post(lost.dataset.url, {username: username})
                 .then(function (response) {
-                    console.log(response)
+                    if(response.data !== ""){
+                        success.classList.add('true');
+                        successMsg.innerHTML = response.data;
+                    }else{
+                        Validateur.displayErrors([{name: 'fusername', message: 'Ce nom d\'utilisateur est incorrect'}]);
+                    }
                 })
                 .catch(function (error) {
-                    console.log(error)
+                    Validateur.handleErrors(error)
                 })
             ;
         }
