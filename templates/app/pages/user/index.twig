@@ -15,7 +15,61 @@
     </div>
 
     <div class="main-content">
+        <div class="user-container">
+            <div class="col-1">
+                <div class="user-form">
+                    <div class="card">
+                        <div class="card-header">
+                            {{ session.user[2] | capitalize }} {{ session.user[3] | upper }}
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                                <div class="line">
+                                    {% include 'app/layout/components/form/input.twig' with {
+                                        input_name: 'firstname',
+                                        input_label: 'Prénom',
+                                        input_value: session.user[2],
+                                        input_required: true
+                                    } %}
+                                </div>
+                                <div class="line">
+                                    {% include 'app/layout/components/form/input.twig' with {
+                                        input_name: 'lastname',
+                                        input_label: 'Nom',
+                                        input_value: session.user[3],
+                                        input_required: true
+                                    } %}
+                                </div>
+                                <div class="line">
+                                    {% include 'app/layout/components/form/input.twig' with {
+                                        input_name: 'email',
+                                        input_label: 'Adresse e-mail',
+                                        input_value: session.user[5],
+                                        input_required: true
+                                    } %}
+                                </div>
+                                <div class="form-button">
+                                    <button type="submit" class="btn btn-warning">Modifier</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-2">
+                <div class="user-downloads">
+                    <a href="" class="btn btn-outline-default">
+                        <span class="icon-download"></span>
+                        <span>Télécharger l'application mobile</span>
+                    </a>
+                    <a href="" class="btn btn-outline-default">
+                        <span class="icon-download"></span>
+                        <span>Télécharger la documentation</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

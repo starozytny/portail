@@ -163,7 +163,14 @@ final class SecurityController
         $user = null;
         $userData = $this->apiService->connect($username, $password);
         if(($userData != false)) {
-            $user = [$username, $this->apiService->encryption($password), $userData->first_name, $userData->society_data->credits];
+            $user = [
+                $username,
+                $this->apiService->encryption($password),
+                $userData->first_name,
+                $userData->last_name,
+                $userData->society_data->credits,
+                $userData->email
+            ];
         }
 
         // Get RouteParser from request to generate the urls
