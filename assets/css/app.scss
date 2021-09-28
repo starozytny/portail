@@ -5,6 +5,7 @@
 @import "components/colors";
 @import "components/menu";
 @import "components/header";
+@import "components/footer";
 @import "components/page";
 @import "components/form";
 @import "components/button";
@@ -59,6 +60,19 @@ main{
 .txt-color1{
     color: var(--color1);
 }
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+    .main-content{
+        padding: 12px 24px;
+    }
+}
+
 
 //                      __   _ ____  ___   ___    __
 //                     | _| / |___ \( _ ) / _ \  |_ |

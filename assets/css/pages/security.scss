@@ -1,8 +1,15 @@
 @import "../vars/vars";
 
-.signIn{
+.login{
   background-color: var(--alpha);
+}
 
+.login + footer{
+  background-color: var(--fondContent);
+}
+
+
+.signIn{
   .illustration{
     display: none;
   }

@@ -1,0 +1,125 @@
+@import '../vars/vars.scss';
+
+footer{
+  background-color: var(--fond);
+
+  .copyright{
+    @include flex(row, center, flex-end);
+  }
+}
+
+.footer{
+  padding: 32px 12px;
+  margin: 0 12px;
+
+  .footer-logo{
+    @include flex(column, flex-start, flex-start);
+    margin-bottom: 25px;
+    @include fontSemibold();
+    color: var(--txt);
+
+    a{
+      color: var(--txt);
+
+      .txt-color1{
+        font-size: 24px;
+
+        & + span{
+          display: inline-block;
+          margin-left: 8px;
+        }
+      }
+    }
+
+    img{
+      width: 100px;
+      margin-right: 15px;
+      margin-bottom: 12px;
+    }
+  }
+
+  .footer-items{
+    @include flex(column, flex-start, flex-start);
+    margin-bottom: 25px;
+
+    a{
+      color: var(--txt);
+      opacity: 0.7;
+
+      &:hover{
+        opacity: 1;
+      }
+    }
+
+    a:not(:last-child){
+      margin-bottom: 5px;
+    }
+  }
+  .copyright{
+    color: var(--txt);
+    opacity: 0.7;
+
+    a{
+      display: inline-block;
+      margin-left: 4px;
+    }
+  }
+}
+@media all and (-ms-high-contrast:none)
+{
+  *::-ms-backdrop, .footer-contact .content { max-width: 630px; } /* IE11 */
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .footer{
+    .footer-items{
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      a:not(:last-child){
+        margin-right: 15px;
+      }
+    }
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .footer{
+    margin: 0;
+    padding: 32px 24px;
+
+    .footer-logo{
+      flex-direction: row;
+      align-items: center;
+
+      img{
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .footer{
+    @include maxscreen();
+    padding: 32px;
+  }
+}

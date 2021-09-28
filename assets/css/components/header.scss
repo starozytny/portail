@@ -2,7 +2,6 @@
 
 header{
   padding: 12px;
-  //background-color: var(--fond);
   border-bottom: 1px solid var(--greyShadow);
 
   .header-container{
@@ -11,7 +10,7 @@ header{
     margin: 12px 0;
 
     .header-name{
-      @include flex(row, center, space-between);
+      @include flex(row, flex-start, space-between);
       width: 100%;
 
       .fokus{
@@ -68,6 +67,10 @@ header{
 @media (min-width:768px) {
   header{
     .header-container{
+
+      .header-name{
+        align-items: center;
+      }
 
       .profil{
         flex-direction: row;

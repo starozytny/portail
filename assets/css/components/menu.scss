@@ -90,7 +90,7 @@
     height: 100vh;
     background: var(--fondMenu);
 
-    & + main{
+    & + main, & + main + footer{
       margin-left: 20%;
       width: 80%;
     }
@@ -116,7 +116,7 @@
   nav{
     width: 16%;
 
-    & + main{
+    & + main, & + main + footer{
       margin-left: 16%;
       width: calc(100% - 16%);
     }
@@ -145,8 +145,7 @@
   nav{
     width: 14%;
 
-
-    & + main{
+    & + main, & + main + footer{
       margin-left: 14%;
       width: calc(100% - 14%);
     }
