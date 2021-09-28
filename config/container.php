@@ -12,6 +12,11 @@ use Slim\Views\TwigMiddleware;
 use Doctrine\DBAL\Configuration as DoctrineConfiguration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\BodyRendererInterface;
 use Twig\Extension\DebugExtension;
 use Odan\Session\PhpSession;
 use Odan\Session\SessionInterface;
@@ -142,5 +147,24 @@ return [
 
     PDO::class => function (ContainerInterface $container) {
         return $container->get(Connection::class)->getWrappedConnection();
+    },
+
+    MailerInterface::class => function (ContainerInterface $container) {
+        $settings = $container->get('settings')['smtp'];
+        $dsn = sprintf(
+            '%s://%s:%s@%s:%s',
+            $settings['type'],
+            $settings['username'],
+            $settings['password'],
+            $settings['host'],
+            $settings['port']
+        );
+
+        return new Mailer(Transport::fromDsn($dsn));
+    },
+
+    BodyRendererInterface::class => function(ContainerInterface $container)
+    {
+        return new BodyRenderer($container->get(Twig::class)->getEnvironment());
     },
 ];

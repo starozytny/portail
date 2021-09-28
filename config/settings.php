@@ -70,7 +70,7 @@ $settings['db'] = [
 ];
 
 $settings['session'] = [
-    'name' => 'webapp',
+    'name' => 'portailfokus',
     'cache_expire' => 0,
 ];
 

@@ -183,13 +183,12 @@ function hideErrors() {
 }
 
 function handleErrors(error, message="Veuillez vérifier les informations transmises."){
-    console.log(error.response.data)
     if(Array.isArray(error.response.data)){
         toastr.error(message);
         displayErrors(error.response.data);
     }else{
-        if(error.response.data.message){
-            toastr.error(error.response.data.message)
+        if(error.response.data){
+            toastr.error(error.response.data)
         }else{
             toastr.error(message);
         }

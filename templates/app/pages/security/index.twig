@@ -1,11 +1,6 @@
-{% extends 'base.twig' %}
+{% extends 'app/pages/security/template.twig' %}
 
 {% block title %}Connexion espace client {{ parent() }}{% endblock %}
-
-{% block stylesheets %}
-    {% webpack_entry_css 'app' %}
-    {% webpack_entry_css 'security' %}
-{% endblock %}
 
 {% block body %}
     <main class="login">
@@ -117,9 +112,4 @@
     </div>
 
     {% include 'app/layout/components/footer.twig' %}
-{% endblock %}
-
-{% block javascripts %}
-    {% webpack_entry_js 'app' %}
-    {% webpack_entry_js 'security' %}
 {% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.twig' %}
+
+{% block stylesheets %}
+    {% webpack_entry_css 'app' %}
+    {% webpack_entry_css 'security' %}
+{% endblock %}
+
+{% block javascripts %}
+    {% webpack_entry_js 'app' %}
+    {% webpack_entry_js 'security' %}
+{% endblock %}

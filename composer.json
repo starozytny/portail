@@ -1,19 +1,21 @@
 {
     "require": {
-        "slim/slim": "4.*",
-        "slim/psr7": "^1.4",
         "ext-json": "*",
-        "slim/twig-view": "^3.2",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "doctrine/dbal": "^2.13",
+        "filp/whoops": "^2.14",
+        "fullpipe/twig-webpack-extension": "^4.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "middlewares/whoops": "^2.0",
+        "odan/session": "^4.1",
         "php-di/php-di": "^6.3",
         "selective/basepath": "^2.1",
-        "doctrine/dbal": "^2.13",
-        "ext-pdo": "*",
-        "guzzlehttp/guzzle": "^7.0",
-        "odan/session": "^4.1",
-        "filp/whoops": "^2.14",
-        "middlewares/whoops": "^2.0",
-        "fullpipe/twig-webpack-extension": "^4.0",
-        "ext-openssl": "*"
+        "slim/psr7": "^1.4",
+        "slim/slim": "4.*",
+        "slim/twig-view": "^3.2",
+        "symfony/mailer": "^5.3",
+        "symfony/twig-bridge": "^5.3"
     },
     "autoload": {
         "psr-4": {

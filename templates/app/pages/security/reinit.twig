@@ -1,0 +1,16 @@
+{% extends 'app/pages/security/template.twig' %}
+
+{% block title %}Réinitialisation de mot de passe{% endblock %}
+
+{% block body %}
+    <div class="main-content">
+        <h1>Lien expiré</h1>
+        <p>
+            Ce lien de réinitialisation de mot de passe a expiré. Veuillez recommencer la procédure. <br><br>
+        </p>
+        <div class="exceptions-actions">
+            <a href="{{ url_for('login') }}" class="btn btn-primary">Recommencer</a>
+            <a href="{{ url_for('homepage') }}" class="btn btn-color0">Revenir à la page d'accueil</a>
+        </div>
+    </div>
+{% endblock %}

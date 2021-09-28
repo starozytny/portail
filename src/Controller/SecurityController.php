@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
+use App\Services\MailerService;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,18 +18,25 @@ final class SecurityController
     private $session;
     private $twig;
     private $apiService;
+    private $mailerService;
 
-    public function __construct(SessionInterface $session, Twig $twig, ApiService $apiService)
+    public function __construct(SessionInterface $session, Twig $twig, ApiService $apiService, MailerService $mailerService)
     {
         $this->session = $session;
         $this->twig = $twig;
         $this->apiService = $apiService;
+        $this->mailerService = $mailerService;
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * Route pour la view : connexion à l'espace client
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function index(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -40,27 +48,37 @@ final class SecurityController
 
             return $response->withStatus(302)->withHeader('Location', $url);
         }
-//        $res = $this->apiService->callApiWithoutAuth('usermail/999A8080');
-
-
 
         return $this->twig->render($response, 'app/pages/security/index.twig', [
             'errors' => $request->getQueryParams()
         ]);
     }
 
+    /**
+     * POST Route pour la soumission du formulaire de connexion
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
     public function loginForm(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
         $username = (string)($data['username'] ?? '');
         $password = (string)($data['password'] ?? '');
 
-        // Get RouteParser from request to generate the urls
         $url = $this->loginCheck($request, $username, $password);
 
         return $response->withStatus(302)->withHeader('Location', $url);
     }
 
+    /**
+     * Route pour se déconnecter
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
     public function logout(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $this->session->destroy();
@@ -71,6 +89,13 @@ final class SecurityController
         return $response->withStatus(302)->withHeader('Location', $url);
     }
 
+    /**
+     * Route pour envoyer un lien de réinitialisation de mot de passe
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
     public function lostForm(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $response->withHeader('Content-Type', 'application/json');
@@ -88,17 +113,50 @@ final class SecurityController
                 return $response->withStatus(400);
             }
 
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            $url = $routeParser->fullUrlFor($request->getUri(), 'reinitPassword');
+
+            if($this->mailerService->sendMail(
+                    'chanbora.chhun@outlook.fr',
+                    "Mot de passe oublié pour Fokus.",
+                    "Lien de réinitialisation de mot de passe.",
+                    'app/email/security/forget.twig',
+                    ['username' => $username, 'url' => $url]) != true)
+            {
+                $response->getBody()->write("Nous sommes désolé, le service d'envoi de mail est hors service pour le moment.");
+                return $response->withStatus(400);
+            }
+
             $response->getBody()->write(sprintf("Le lien de réinitialisation de votre mot de passe a été envoyé à : %s", $this->getHiddenEmail($email)));
             return $response->withStatus(200);
         }
-
 
         $response->getBody()->write(json_encode($error));
         return $response->withStatus(400);
     }
 
-    /*
+    /**
+     * Route pour réinitialisation de mot de passe
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function reinitPassword(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        return $this->twig->render($response, 'app/pages/security/reinit.twig');
+    }
+
+    /**
      * Method pour vérifier l'acces au site
+     *
+     * @param $request
+     * @param $username
+     * @param $password
+     * @return string
      */
     private function loginCheck($request, $username, $password): string
     {
@@ -130,8 +188,11 @@ final class SecurityController
         return $url;
     }
 
-    /*
+    /**
      * Hide email for RGPD
+     *
+     * @param $email
+     * @return string
      */
     private function getHiddenEmail($email): string
     {
