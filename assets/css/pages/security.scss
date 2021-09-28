@@ -60,6 +60,14 @@
   .signIn{
     @include flex(row, stretch, flex-start);
 
+    .header-name{
+      .btn-icon{
+        span:last-child{
+          display: inline-block;
+        }
+      }
+    }
+
     .illustration{
       display: block;
       width: 50%;
