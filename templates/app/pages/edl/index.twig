@@ -1,18 +1,13 @@
-{% extends 'app/layout/layout.twig' %}
+{% extends 'app/pages/edl/template.twig' %}
 
-{% block title %}Etat des lieux {{ parent() }}{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {% webpack_entry_css 'edl' %}
-{% endblock %}
+{% block title %}Liste des états des lieux {{ parent() }}{% endblock %}
 
 {% block main_content %}
     <div class="page-title">
         <div class="page-title-container">
-            <h1>Etat des lieux</h1>
+            <h1>Etats des lieux</h1>
             <div class="actions">
-                <a href="" class="btn btn-primary">
+                <a href="{{ url_for('edl_create') }}" class="btn btn-primary">
                     <span>Ajouter un état des lieux</span>
                 </a>
             </div>
@@ -100,9 +95,4 @@
 
         <div id="view" data-donnees="{{ donnees }}"></div>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {% webpack_entry_js 'edl' %}
 {% endblock %}
