@@ -7,26 +7,59 @@
 {% endblock %}
 
 {% block body %}
-    <div class="main-content">
-        <h1>Connexion</h1>
-        <form action="{{ url_for('loginForm') }}" method="POST">
-            <div class="line">
-                <div class="form-group">
-                    <label for="username">Nom utilisateur</label>
-                    <input type="text" name="username" id="username"><br>
+    <main>
+        <div class="signIn">
+            <div class="illustration">
+                <div class="image">
+                    <img src="images/login-page.jpg" alt="Login page fokus logiciel etat des lieux marseille">
                 </div>
             </div>
-            <div class="line">
-                <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="password" id="password"><br>
+            <div class="main-sign-in">
+                <header>
+                    <div class="header-container">
+                        <div class="header-name">
+                            <div class="fokus">
+                                <span class="txt-color1">Fokus</span>
+                                <span>Logiciel d'état des lieux</span>
+                            </div>
+                            <div class="profil">
+                                <div>
+                                    <a class="btn-icon" href="{{ url_for('login') }}">
+                                        <span class="icon-home"></span>
+                                        <span>Espace client</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="content">
+                    <h1>Espace client</h1>
+                    <form action="{{ url_for('loginForm') }}" method="POST">
+                        <div class="line">
+                            <div class="form-group">
+                                <label for="username">Nom utilisateur</label>
+                                <input type="text" name="username" id="username">
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="form-group">
+                                <label for="password">Mot de passe</label>
+                                <input type="password" name="password" id="password">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Se connecter</span>
+                        </button>
+                        <div class="btn-lost">
+                            <span>Mot de passe oublié ?</span>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">
-                <span>Se connecter</span>
-            </button>
-        </form>
-    </div>
+        </div>
+    </main>
 {% endblock %}
 
 {% block javascripts %}
