@@ -40,13 +40,16 @@
                         <div class="line">
                             <div class="form-group">
                                 <label for="username">Nom utilisateur</label>
-                                <input type="text" name="username" id="username">
+                                <input type="text" name="username" id="username" required autofocus>
                             </div>
                         </div>
                         <div class="line">
                             <div class="form-group">
                                 <label for="password">Mot de passe</label>
-                                <input type="password" name="password" id="password">
+                                <div class="see-password">
+                                    <input type="password" name="password" id="password" required>
+                                    <span class="icon-hide btn-see-password"></span>
+                                </div>
                             </div>
                         </div>
                         {% if errors | length > 0 %}
