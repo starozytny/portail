@@ -28,14 +28,7 @@ class AppController
      */
     public function homepage(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $viewData = [
-            'name' => 'World',
-            'notifications' => [
-                'message' => 'You are good!'
-            ],
-        ];
-
-        return $this->twig->render($response, 'app/pages/index.twig', $viewData);
+        return $this->twig->render($response, 'app/pages/index.twig');
     }
 
     /**
@@ -73,5 +66,15 @@ class AppController
             'data' => $data,
             'donnees' => json_encode($data)
         ]);
+    }
+
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function user(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        return $this->twig->render($response, 'app/pages/user/index.twig');
     }
 }
