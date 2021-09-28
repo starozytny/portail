@@ -19,29 +19,34 @@
             {% set menu = [
                 {
                     'path': url_for('homepage'),
+                    'route': 'homepage',
                     'icon': 'home',
                     'label': 'Accueil',
                     'name': 'espace-client'
                 },
                 {
                     'path': url_for('edl'),
+                    'route': 'edl',
                     'icon': 'paste',
                     'label': 'Etats des lieux',
                     'name': 'etats-des-lieux'
                 },
                 {
                     'path': url_for('homepage'),
+                    'route': 'homepage',
                     'icon': 'plus',
                     'label': 'Ajouter état des lieux',
                     'name': 'ajouter-edl'
                 },{
                     'path': url_for('homepage'),
+                    'route': 'homepage',
                     'icon': 'account',
                     'label': 'Mon compte',
                     'name': 'mon-compte'
                 },
                 {
                     'path': url_for('logout'),
+                    'route': 'logout',
                     'icon': 'logout',
                     'label': 'Se déconnecter',
                     'name': 'logout'
@@ -51,7 +56,7 @@
                 <div class="items">
                     {% for item in menu %}
                         <div class="item">
-                            <a href="{{ item.path }}" data-name="{{ item.name }}">
+                            <a href="{{ item.path }}" class="{{ is_current_url(item.route) ? "active" : "" }}" data-name="{{ item.name }}">
                                 <span class="icon-{{ item.icon }}"></span>
                                 <span>{{ item.label }}</span>
                             </a>
