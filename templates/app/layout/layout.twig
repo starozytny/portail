@@ -18,30 +18,30 @@
 
             {% set menu = [
                 {
-                    'path': pathHomepage,
+                    'path': url_for('homepage'),
                     'icon': 'home',
                     'label': 'Accueil',
                     'name': 'espace-client'
                 },
                 {
-                    'path': pathEdls,
+                    'path': url_for('edl'),
                     'icon': 'paste',
                     'label': 'Etats des lieux',
                     'name': 'etats-des-lieux'
                 },
                 {
-                    'path': pathHomepage,
+                    'path': url_for('homepage'),
                     'icon': 'plus',
                     'label': 'Ajouter état des lieux',
                     'name': 'ajouter-edl'
                 },{
-                    'path': pathHomepage,
+                    'path': url_for('homepage'),
                     'icon': 'account',
                     'label': 'Mon compte',
                     'name': 'mon-compte'
                 },
                 {
-                    'path': pathLogout,
+                    'path': url_for('logout'),
                     'icon': 'logout',
                     'label': 'Se déconnecter',
                     'name': 'logout'
@@ -72,11 +72,11 @@
                         <div class="profil">
                             <span>265 crédits restants</span>
                             <div>
-                                <a class="btn-icon" href="{{ pathLogout }}">
+                                <a class="btn-icon" href="{{ url_for('logout') }}">
                                     <span class="icon-help"></span>
                                     <span class="tooltip">Besoin d'aide ?</span>
                                 </a>
-                                <a class="btn-icon" href="{{ pathLogout }}">
+                                <a class="btn-icon" href="{{ url_for('logout') }}">
                                     <span class="icon-logout"></span>
                                     <span class="tooltip">Se déconnecter</span>
                                 </a>
