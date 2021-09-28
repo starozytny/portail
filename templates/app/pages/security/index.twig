@@ -72,6 +72,38 @@
         </div>
     </main>
 
+    <div class='aside aside-lost'>
+        <div class="aside-overlay"></div>
+        <div class="aside-content">
+            <div class="aside-title">
+                <span class="title">Mot de passe oublié ?</span>
+                <span class="icon-cancel"></span>
+            </div>
+            <div class="form form-lost">
+                <p class="form-infos">
+                    Un mail est envoyé à l'adresse email associé au compte. <br>
+                    Ce mail contient un lien vous permettant de réinitialiser votre mot de passe. <br/> <br/>
+                    Pensez à vérifier vos spams/courriers indésirables.
+                </p>
+                <form>
+                    <div class="line">
+                        <div class="form-group">
+                            <label for="fusername">Nom utilisateur</label>
+                            <input type="text" name="fusername" id="fusername" required>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="form-button">
+                            <button type="submit" class="btn btn-color0">
+                                <span>Envoyer le lien</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     {% include 'app/layout/components/footer.twig' %}
 {% endblock %}
 
