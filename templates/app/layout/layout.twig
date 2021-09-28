@@ -75,7 +75,7 @@
                             <span>Logiciel d'état des lieux</span>
                         </div>
                         <div class="profil">
-                            <span>265 crédits restants</span>
+                            <span>{{ session.user[3] }} {{ session.user[3] > 1 ? 'crédits restants' : 'crédit restant' }}</span>
                             <div>
                                 <a class="btn-icon" href="{{ url_for('logout') }}">
                                     <span class="icon-help"></span>
