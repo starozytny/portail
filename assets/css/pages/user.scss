@@ -195,6 +195,10 @@ h2{
     }
   }
 
+  .user-users{
+    margin-top: 48px;
+  }
+
   .users-list{
     .list-header {
       display: block;
@@ -206,6 +210,7 @@ h2{
     }
 
     .item{
+      padding: 24px;
       .col-3{
         width: calc(25% - 12px);
         margin-right: 12px;
