@@ -46,13 +46,17 @@
                             {% for elem in item %}
                                 <div class="item">
                                     <div class="col-1">
-                                        <div>
-                                            {{ elem.inventory.date | date('D') | dayShortStringFr }}.
-                                            {{ elem.inventory.date | date('d') }}
-                                            {{ elem.inventory.date | date('n') | monthShortStringFr | lower }}.
-                                            {{ elem.inventory.date | date('Y') }}
-                                        </div>
-                                        <div>{{ elem.inventory.date | date('H\\hi') }}</div>
+                                        {% if elem.inventory.date != 0 %}
+                                            <div>
+                                                {{ elem.inventory.date | date('D') | dayShortStringFr }}.
+                                                {{ elem.inventory.date | date('d') }}
+                                                {{ elem.inventory.date | date('n') | monthShortStringFr | lower }}.
+                                                {{ elem.inventory.date | date('Y') }}
+                                            </div>
+                                            <div>{{ elem.inventory.date | date('H\\hi') }}</div>
+                                        {% else %}
+                                            <div>Date indéfinie</div>
+                                        {% endif %}
                                     </div>
                                     <div class="col-2">
                                         <div>{{ session.user[0] }}</div>
