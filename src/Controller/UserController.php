@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
+use App\Services\SanitizeData;
 use App\Services\Validateur;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,22 +14,24 @@ class UserController
     private $apiService;
     private $session;
     private $validateur;
+    private $sanitizeData;
 
-    public function __construct(SessionInterface $session, ApiService $apiService, Validateur $validateur)
+    public function __construct(SessionInterface $session, ApiService $apiService, Validateur $validateur, SanitizeData $sanitizeData)
     {
         $this->apiService = $apiService;
         $this->session = $session;
         $this->validateur = $validateur;
+        $this->sanitizeData = $sanitizeData;
     }
 
     private function submitForm($data, $url)
     {
         $formFrom = $data->formFrom;
         $username = $this->session->get('user')[0];
-        $firstname = $data->firstname;
-        $lastname = $data->lastname;
+        $firstname = $this->sanitizeData->clean($data->firstname);
+        $lastname = $this->sanitizeData->clean($data->lastname);
         $password = $data->password ?? "";
-        $email = $data->email;
+        $email = $this->sanitizeData->clean($data->email);
         $userTag = $data->userTag;
 
         $paramsToValidate = [
