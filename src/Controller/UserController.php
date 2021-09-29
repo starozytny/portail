@@ -37,8 +37,7 @@ class UserController
         $paramsToValidate = [
             ['type' => 'text', 'name' => $formFrom . '-firstname',    'value' => $firstname],
             ['type' => 'text', 'name' => $formFrom . '-lastname',     'value' => $lastname],
-            ['type' => 'text', 'name' => $formFrom . '-email',        'value' => $email],
-            ['type' => 'text', 'name' => $formFrom . '-userTag',      'value' => $userTag],
+            ['type' => 'text', 'name' => $formFrom . '-email',        'value' => $email]
         ];
 
         if($formFrom == "create"){
