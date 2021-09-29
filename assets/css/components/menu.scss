@@ -101,7 +101,7 @@
     @include flex(column, flex-start, space-between);
     min-height: 88vh;
     max-height: 88vh;
-    overflow: auto;
+    //overflow: auto;
     @include scrollbar();
   }
 }
