@@ -105,18 +105,20 @@
                                             {{ isBLocked ? "<div class='role-blocked'>Bloqué</div>" : "" }}
                                         </div>
                                         <div class="col-4">
-                                            <a href="" class="btn-icon">
-                                                <span class="icon-{{ isBlocked ? "minus" : "block" }}"></span>
-                                                <span class="tooltip">{{ isBLocked ? "Débloquer" : "Bloquer"}}</span>
-                                            </a>
-                                            <a href="" class="btn-icon">
-                                                <span class="icon-compose"></span>
-                                                <span class="tooltip">Modifier</span>
-                                            </a>
-                                            <a href="" class="btn-icon">
-                                                <span class="icon-delete"></span>
-                                                <span class="tooltip">Supprimer</span>
-                                            </a>
+                                            {% if elem.id != session.user[7] %}
+                                                <a href="" class="btn-icon">
+                                                    <span class="icon-{{ isBlocked ? "minus" : "block" }}"></span>
+                                                    <span class="tooltip">{{ isBLocked ? "Débloquer" : "Bloquer"}}</span>
+                                                </a>
+                                                <a href="" class="btn-icon">
+                                                    <span class="icon-compose"></span>
+                                                    <span class="tooltip">Modifier</span>
+                                                </a>
+                                                <a href="" class="btn-icon">
+                                                    <span class="icon-delete"></span>
+                                                    <span class="tooltip">Supprimer</span>
+                                                </a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% endfor %}
