@@ -100,6 +100,7 @@ if(forms){
             let formId = form.dataset.id;
             let formClass = "." + form.dataset.id;
 
+            // get data input
             let username = document.querySelector(formClass + '-username').value;
             let firstname = document.querySelector(formClass + '-firstname').value;
             let lastname = document.querySelector(formClass + '-lastname').value;
@@ -107,12 +108,12 @@ if(forms){
             let userTag = document.querySelector(formClass + '-userTag').value;
             let password = "";
 
+            // validate data
             let paramsToValidate = [
                 {type: "text", id: formId + '-firstname', value: firstname},
                 {type: "text", id: formId + '-lastname', value: lastname},
                 {type: "email", id: formId + '-email', value: email}
             ];
-
             if(formId === "create"){
                 method = "POST";
                 password = document.querySelector(formClass + '-password').value;
@@ -122,13 +123,13 @@ if(forms){
                     ...[{type: "password", id: formId + '-password', value: password, idCheck: formId + '-passwordConfirm', valueCheck: passwordConfirm}]
                 ];
             }
-
             let validate = Validateur.validateur(paramsToValidate)
 
             if(!validate.code){
                 toastr.warning("Veuillez vérifier les informations transmises.");
                 Validateur.displayErrors(validate.errors);
             }else{
+                //send data ajax
                 Validateur.loader(true);
                 let formData = {
                     username: username,
@@ -139,7 +140,6 @@ if(forms){
                     userTag: userTag,
                     formFrom: formId
                 };
-
                 axios({method: method, url: form.dataset.url, data: formData})
                     .then(function (response) {
                         if(formId === "create"){
@@ -169,6 +169,9 @@ if(forms){
     })
 }
 
+//*****
+// Fonction pour mettre a jour l'actuel utilisateur sans rafraichir la page
+//*****
 function updateMainUser(firstname, lastname) {
     let headerLogo = document.querySelector('.nav-header-logo-span');
     headerLogo.innerHTML = firstname;
@@ -179,6 +182,9 @@ function updateMainUser(firstname, lastname) {
     cardLastname.innerHTML = lastname.toUpperCase();
 }
 
+//*****
+// Fonction pour mettre a jour l'item utilisateur (view) sans rafraichir la page
+//*****
 function updateEditUser(data) {
     let itemClass = '.item-' + data.id;
     let item = document.querySelector(itemClass);
@@ -187,6 +193,7 @@ function updateEditUser(data) {
         document.querySelector(itemClass + " .col-2 > div:first-child").innerHTML = data.first_name + " " + data.last_name.toUpperCase();
         document.querySelector(itemClass + " .col-2 > div:last-child").innerHTML = data.user_tag;
 
+        // reset data of btn
         document.querySelector(itemClass + " .btn-edit-user").setAttribute('data-user', JSON.stringify(data));
     }
 
