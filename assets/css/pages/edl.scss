@@ -87,6 +87,32 @@
   }
 }
 
+.edl-form{
+  background-color: var(--alpha);
+  box-shadow: 0 0 8px var(--greyShadow);
+  border: 1px solid var(--fond);
+  border-radius: 4px;
+  padding: 24px 12px;
+
+  .line-select-or-add{
+    margin-top: 48px;
+  }
+
+  .select-or-add{
+    button{
+      width: 100%;
+
+      &:not(:last-child){
+        margin-bottom: 12px;
+      }
+    }
+  }
+
+  .form-button{
+    margin-top: 48px;
+  }
+}
+
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
 //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
@@ -118,6 +144,25 @@
         width: calc(21% - 24px);
         margin-top: 0;
       }
+    }
+  }
+
+  .edl-form{
+    padding: 24px;
+
+    .select-or-add{
+      button{
+        width: auto;
+
+        &:not(:last-child){
+          margin-bottom: 0;
+          margin-right: 12px;
+        }
+      }
+    }
+
+    .form-button{
+      justify-content: flex-end;
     }
   }
 }

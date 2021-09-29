@@ -50,7 +50,7 @@ h2{
 
 .users-list{
   margin-top: 24px;
-  border: 1px solid var(--greyShadow);
+  border: 1px solid var(--fond);
 
   .list-header{
     display: none;
@@ -83,7 +83,7 @@ h2{
     padding: 12px;
 
     &:not(:last-child){
-      border-bottom: 1px solid var(--greyShadow);
+      border-bottom: 1px solid var(--fond);
       margin-bottom: 12px;
     }
 
@@ -214,7 +214,7 @@ h2{
       @include fontRegular();
       font-size: 14px;
       color: var(--grey2);
-      border-bottom: 1px solid var(--grey);
+      border-bottom: 1px solid var(--fond);
     }
 
     .item{
