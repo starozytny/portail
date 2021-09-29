@@ -76,7 +76,7 @@
                             {% if data | length > 0 %}
                                 {% for elem in data %}
                                     {% set isBLocked = elem.is_blocked == 0 %}
-                                    <div class="item">
+                                    <div class="item item-{{ elem.id }}">
                                         <div class="col-1">{{ elem.username }}</div>
                                         <div class="col-2">
                                             <div>{{ elem.first_name | capitalize }} {{ elem.last_name | upper }}</div>
@@ -95,7 +95,7 @@
                                                     <span class="icon-compose"></span>
                                                     <span class="tooltip">Modifier</span>
                                                 </button>
-                                                <button class="btn-icon">
+                                                <button class="btn-icon btn-delete" data-id="{{ elem.id }}" data-url="{{ url_for('user_delete', {'id': elem.id}) }}">
                                                     <span class="icon-delete"></span>
                                                     <span class="tooltip">Supprimer</span>
                                                 </button>

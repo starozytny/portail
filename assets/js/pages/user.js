@@ -1,8 +1,12 @@
 import '../../css/pages/user.scss';
-import Validateur from "../components/validateur";
-import toastr from "toastr";
-import axios from "axios";
-import Aside from "../components/aside";
+
+import axios    from "axios";
+import toastr   from "toastr";
+import Swal     from "sweetalert2";
+
+import Aside        from "../components/aside";
+import Validateur   from "../components/validateur";
+import SwalOptions  from "../components/swalOptions";
 
 //*****
 // Ouvrir l'aside pour la page mon compte
@@ -10,7 +14,38 @@ import Aside from "../components/aside";
 Aside.manageAside('.btn-add-user', '.aside-add-user');
 
 //*****
-// Formulaire pour modifier un utilisateur
+// Formulaire pour supprimer un utilisateur
+//*****
+let btnsDelete = document.querySelectorAll('.btn-delete');
+if(btnsDelete){
+    btnsDelete.forEach(btnDelete => {
+        btnDelete.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            Swal.fire(SwalOptions.options("Supprimer cet utilisateur ?", "Cette action est irréversible."))
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        axios.delete(btnDelete.dataset.url, {})
+                            .then(function (response) {
+                                let item = document.querySelector('.item-' + btnDelete.dataset.id);
+                                if(item){
+                                    item.remove();
+                                    toastr.info(response.data);
+                                }
+                            })
+                            .catch(function (error) {
+                                Validateur.handleErrors(error)
+                            })
+                        ;
+                    }
+                })
+            ;
+        })
+    })
+}
+
+//*****
+// Formulaire pour ajouter/modifier un utilisateur
 //*****
 let forms = document.querySelectorAll('.user-form');
 if(forms){
@@ -81,7 +116,6 @@ if(forms){
                         }
                     })
                     .catch(function (error) {
-                        console.log(error.response)
                         Validateur.handleErrors(error)
                     })
                     .then(function () {

@@ -157,4 +157,26 @@ class UserController
         $response->getBody()->write("Données mises à jour.");
         return $response->withStatus(200);
     }
+
+    /**
+     * Route pour supprimer un utilisateur
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
+    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->withHeader('Content-Type', 'application/json');
+
+        $res = $this->apiService->callApi('delete_user/' . $args['id'], 'GET', false);
+        if($res == false){
+            $response->getBody()->write("[UD001] Une erreur est survenu. Veuillez contacter le support.");
+            return $response->withStatus(400);
+        }
+
+        $response->getBody()->write("Utilisateur supprimé.");
+        return $response->withStatus(200);
+    }
 }

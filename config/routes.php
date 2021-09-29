@@ -31,6 +31,7 @@ return function (App $app) {
 
         $group->get('/mon-compte', [AppController::class, 'user'])->setName('user');
         $group->put('/utilisateur/{id}', [UserController::class, 'update'])->setName('user_update');
+        $group->delete('/utilisateur/{id}', [UserController::class, 'delete'])->setName('user_delete');
         $group->post('/utilisateur', [UserController::class, 'create'])->setName('user_create');
 
     })->add(UserAuthMiddleware::class);
