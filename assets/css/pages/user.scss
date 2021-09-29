@@ -4,13 +4,13 @@ h2{
   @include fontBold();
 }
 
-.user-form .card, .user-downloads, .users-list{
+.form-user .card, .user-downloads, .users-list{
   background-color: var(--alpha);
   border-radius: 4px;
   box-shadow: 0 0 8px var(--greyShadow);
 }
 
-.user-form{
+.form-user{
   max-width: 320px;
 
   .card-header{
@@ -113,7 +113,7 @@ h2{
     }
   }
 
-  .user-form{
+  .form-user{
     min-width: 320px;
 
     .card-header{

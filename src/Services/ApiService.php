@@ -53,7 +53,7 @@ class ApiService
         }
     }
 
-    public function callApi($path)
+    public function callApi($path, $method="GET", $decodeResponseToJson=true, $json=[])
     {
         $client = new Client();
 
@@ -61,8 +61,11 @@ class ApiService
         $password = $this->decryption();
 
         try {
-            $response = $client->get($this->apiUrl . $path , ['auth' =>  [$username, $password]]);
-            return json_decode($response->getBody());
+            $response = $client->request($method, $this->apiUrl . $path , [
+                'auth' =>  [$username, $password],
+                'json' => $json
+            ]);
+            return $decodeResponseToJson ? json_decode($response->getBody()) : $response->getBody();
         } catch (GuzzleException $e){
             return false;
         }

@@ -17,13 +17,14 @@
     <div class="main-content">
         <div class="user-container">
             <div class="col-1">
-                <div class="user-form">
+                <div class="form-user">
                     <div class="card">
                         <div class="card-header">
-                            {{ session.user[2] | capitalize }} {{ session.user[3] | upper }}
+                            <span class="card-header-firstname">{{ session.user[2] | capitalize }}</span>
+                            <span class="card-header-lastname">{{ session.user[3] | upper }}</span>
                         </div>
                         <div class="card-body">
-                            <form method="POST">
+                            <form class="user-form user-form-main" data-id="main" data-url="{{ url_for('user_update', {'id': session.user[7]}) }}" method="POST">
                                 <div class="line">
                                     {% include 'app/layout/components/form/input.twig' with {
                                         input_name: 'firstname',
@@ -45,9 +46,11 @@
                                         input_name: 'email',
                                         input_label: 'Adresse e-mail',
                                         input_value: session.user[5],
-                                        input_required: true
+                                        input_required: true,
+                                        input_type: 'email'
                                     } %}
                                 </div>
+                                <input type="hidden" name="userTag" class="userTag" value="{{ session.user[6] }}">
                                 <div class="form-button">
                                     <button type="submit" class="btn btn-warning">Modifier</button>
                                 </div>

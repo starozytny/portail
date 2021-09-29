@@ -56,12 +56,16 @@ class AppController
     {
         $elements = $this->apiService->callApi('inventories/full/list');
 
-        $data = ['unknown' => [ 'unknown' => [] ]];
+        $data = [];
 
         foreach ($elements as $elem) {
             $inventoryDate = $elem->inventory->date;
             if($inventoryDate == "0"){
-                array_push($data['unknown']['unknown'], $elem);
+                if(!isset($data['unknown'])){
+                    $data['unknown'] = [ 'unknown' => [$elem] ];
+                }else{
+                    array_push($data['unknown']['unknown'], $elem);
+                }
             }else{
                 $year = date('Y', $inventoryDate);
                 $month = date('m', $inventoryDate);

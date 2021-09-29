@@ -2,7 +2,7 @@
     <label for="{{ input_name }}">{{ input_label }}</label>
 
     <input type="{{ input_type is defined ? input_type : "text" }}"
-           name="{{ input_name }}" id="{{ input_name }}"
+           name="{{ input_name }}" id="{{ input_name }}" class="{{ input_name }}"
            value="{{ input_value }}"
             {{ input_required is defined ? "required" : "" }}
     >
