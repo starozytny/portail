@@ -168,6 +168,28 @@
         width: 100%;
       }
     }
+
+    .radiobox-item{
+      input:checked{
+        & + label{
+          border: 1px solid var(--grey);
+          color: var(--txt);
+          opacity: 1;
+
+          &:hover{
+            background-color: var(--fond);
+            border-style: dashed;
+          }
+        }
+
+        & + label[for="entrant"]{
+          background-color: var(--entrant);
+        }
+        &+ label[for="sortant"]{
+          background-color: var(--sortant);
+        }
+      }
+    }
   }
 }
 

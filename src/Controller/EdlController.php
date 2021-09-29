@@ -26,7 +26,7 @@ class EdlController
         $data = $this->apiService->callApi('users');
         $users = [];
         foreach($data as $elem){
-            array_push($users, ['value' => $elem->id, 'label' => $elem->first_name . ' ' . $elem->last_name]);
+            array_push($users, ['value' => $elem->id, 'label' =>  $elem->first_name . ' ' . $elem->last_name . ' - ' . '#' . $elem->username]);
         }
 
         return $users;
