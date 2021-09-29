@@ -3,6 +3,7 @@
         input_name: input_id ~ 'firstname',
         input_label: 'Prénom',
         input_value: firstname,
+        inpit_required: true
     } %}
 </div>
 <div class="line">
@@ -10,6 +11,7 @@
         input_name: input_id ~ 'lastname',
         input_label: 'Nom',
         input_value: lastname,
+        inpit_required: true
     } %}
 </div>
 <div class="line">
@@ -17,7 +19,8 @@
         input_name: input_id ~ 'email',
         input_label: 'Adresse e-mail',
         input_value: email,
-        input_type: 'email'
+        inpit_required: true,
+        input_type: 'email',
     } %}
 </div>
 {% if password is defined %}
@@ -38,12 +41,14 @@
             input_name: input_id ~ 'password',
             input_label: 'Mot de passe',
             input_value: password,
+            inpit_required: true,
             input_type: 'password'
         } %}
         {% include 'app/layout/components/form/input.twig' with {
             input_name: input_id ~ 'passwordConfirm',
             input_label: 'Confirmer le mot de passe',
             input_value: "",
+            inpit_required: true,
             input_type: 'password'
         } %}
     </div>

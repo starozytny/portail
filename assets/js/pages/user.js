@@ -53,13 +53,15 @@ if(forms){
                 Validateur.displayErrors(validate.errors);
             }else{
                 Validateur.loader(true);
-                axios(method, form.dataset.url, {
-                    firstname: firstname,
-                    lastname: lastname,
-                    email: email,
-                    password: password,
-                    userTag: userTag,
-                    formFrom: formId
+                axios({
+                    method: method, url: form.dataset.url, data: {
+                        firstname: firstname,
+                        lastname: lastname,
+                        email: email,
+                        password: password,
+                        userTag: userTag,
+                        formFrom: formId
+                    }
                 })
                     .then(function (response) {
                         toastr.info(response.data);
@@ -79,6 +81,7 @@ if(forms){
                         }
                     })
                     .catch(function (error) {
+                        console.log(error.response)
                         Validateur.handleErrors(error)
                     })
                     .then(function () {

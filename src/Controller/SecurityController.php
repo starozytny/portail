@@ -171,7 +171,9 @@ final class SecurityController
                 $userData->society_data->credits,
                 $userData->email,
                 $userData->user_tag,
-                $userData->id
+                $userData->id,
+                $userData->society_data->num_society,
+                $userData->rights
             ];
         }
 

@@ -20,12 +20,15 @@ class UserController
 
     private function submitForm($data, $url)
     {
-        $error0 = ['name' => 'firstname', 'message' => 'Cet champ doit être renseigné.'];
-        $error1 = ['name' => 'lastname', 'message' => 'Cet champ doit être renseigné.'];
-        $error2 = ['name' => 'email', 'message' => 'Cet champ doit être renseigné.'];
-        $error3 = ['name' => 'userTag', 'message' => 'Cet champ doit être renseigné.'];
+        $formFrom = $data->formFrom;
+
+        $error0 = ['name' => $formFrom . '-firstname', 'message' => 'Cet champ doit être renseigné.'];
+        $error1 = ['name' => $formFrom . '-lastname', 'message' => 'Cet champ doit être renseigné.'];
+        $error2 = ['name' => $formFrom . '-email', 'message' => 'Cet champ doit être renseigné.'];
+        $error3 = ['name' => $formFrom . '-userTag', 'message' => 'Cet champ doit être renseigné.'];
         $errors = [];
 
+        $username = $this->session->get('user')[0];
         $firstname = $data->firstname;
         $lastname = $data->lastname;
         $password = isset($data->password) ?: "";
@@ -33,7 +36,30 @@ class UserController
         $userTag = $data->userTag;
         if($firstname != "" && $lastname != "" && $email != ""){
 
+            if($data->formFrom == "create"){
+                //create userTag, username
+                $i = 0;
+                $uid = round(microtime(true));
+                $loginId = substr($uid, 3, -2);
+
+                $username = $this->session->get('user')[8] . $loginId;
+                $userTag = mb_strtoupper(substr($firstname, 0, 3));
+
+                $users = $this->apiService->callApi('users');
+                foreach($users as $user){
+                    if($user->username == $username){
+                        $loginId++;
+                        $username = $this->session->get('user')[8] . $loginId;
+                    }
+                    if($user->user_tag == $userTag){
+                        $i++;
+                        $userTag = $userTag . $i;
+                    }
+                }
+            }
+
             $res = $this->apiService->callApi($url, 'POST', false, [
+                'username' => $username,
                 'first_name' => $firstname,
                 'last_name' => $lastname,
                 'password' => $password,
@@ -44,7 +70,7 @@ class UserController
                 return "[UU001] Une erreur est survenu. Veuillez contacter le support.";
             }
 
-            if($data->formFrom == "main"){
+            if($formFrom == "main"){
                 $user = [
                     $this->session->get('user')[0],
                     $this->session->get('user')[1],
@@ -53,7 +79,9 @@ class UserController
                     $this->session->get('user')[4],
                     $email,
                     $userTag,
-                    $this->session->get('user')[7]
+                    $this->session->get('user')[7],
+                    $this->session->get('user')[8],
+                    $this->session->get('user')[9],
                 ];
 
                 $this->session->destroy();
