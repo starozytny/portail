@@ -34,6 +34,14 @@ class EdlController
 
         }
 
-        return $this->twig->render($response, 'app/pages/edl/create.twig');
+        $data = $this->apiService->callApi('users');
+        $users = [];
+        foreach($data as $elem){
+            array_push($users, ['value' => $elem->id, 'label' => $elem->first_name . ' ' . $elem->last_name]);
+        }
+
+        return $this->twig->render($response, 'app/pages/edl/create.twig', [
+            'users' => $users
+        ]);
     }
 }

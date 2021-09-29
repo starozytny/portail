@@ -108,8 +108,7 @@ input, textarea, select{
 }
 
 select{
-  padding: 6.5px 10px;
-  width: 100%;
+  padding: 10.4px 10px;
 }
 
 // **************************************
@@ -118,7 +117,7 @@ select{
 
 .switcher-items{
 
-  input[type='checkbox'] {
+  input[type='checkbox'], input[type='radio'] {
     display: none;
   }
 
@@ -198,7 +197,7 @@ select{
 
   &.checked > label{
     border: 1px solid var(--primary);
-    background-color: var(--apha);
+    background-color: var(--alpha);
     color: var(--primary);
     opacity: 1;
 
@@ -225,6 +224,20 @@ select{
   input{
     display: none;
   }
+
+  input:checked{
+    & + label{
+      border: 1px solid var(--primary);
+      background-color: var(--alpha);
+      color: var(--primary);
+      opacity: 1;
+
+      &:hover{
+        background-color: var(--fond);
+        border-style: dashed;
+      }
+    }
+  }
 }
 
 .radiobox-item{
@@ -235,11 +248,19 @@ select{
       border-style: solid;
     }
   }
-}
 
-.radiobox-item{
   label{
     border-radius: 20px;
+  }
+
+  input:checked{
+    & + label{
+      &:hover{
+        background-color: var(--alpha);
+        border-color: var(--primary);
+        border-style: solid;
+      }
+    }
   }
 }
 // **************************************

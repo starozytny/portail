@@ -1,0 +1,47 @@
+<form method="POST">
+    <div class="line line-3">
+        {% include 'app/layout/components/form/select.twig' with {
+            input_name: 'structure',
+            input_label: 'Structure',
+            input_value: 0,
+            input_required: true,
+            input_choices: [
+                {value: 0, label: 'EDL vierge'},
+                {value: 1, label: 'Etablir structure'},
+                {value: 2, label: 'EDL précédent'}
+            ]
+        } %}
+        {% include 'app/layout/components/form/select.twig' with {
+            input_name: 'user',
+            input_label: 'Attribution',
+            input_value: session.user[7],
+            input_required: true,
+            input_choices: users
+        } %} {# var users come from controller #}
+
+        {% include 'app/layout/components/form/input.twig' with {
+            input_name: 'startDate',
+            input_label: 'Prévu le',
+            input_value: '',
+            input_required: true,
+            input_type: 'date'
+        } %}
+    </div>
+    <div class="line">
+        {% include 'app/layout/components/form/box.twig' with {
+            input_name: 'type',
+            input_label: 'Type d\'état des lieux',
+            input_value: 0,
+            input_choices: [
+                {value: 0, label: 'Entrant', name: 'entrant'},
+                {value: 1, label: 'Sortant', name: 'sortant'},
+            ],
+            input_class: 'radiobox-item',
+            input_type: 'radio'
+        } %}
+    </div>
+
+    <div class="form-button">
+        <button type="submit" class="btn btn-primary">Ajouter l'état des lieux</button>
+    </div>
+</form>

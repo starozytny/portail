@@ -1,0 +1,14 @@
+<div class="form-group input-{{ input_name }}">
+    <label for="{{ input_name }}">{{ input_label }}</label>
+
+    <select id="{{ input_name }}" name="{{ input_name }}" {{ input_required is defined ? "required" : "" }}>
+        {% for choice in input_choices %}
+            <option value="{{ choice.value }}" {{ choice.value == input_value ? "selected='selected'" : "" }}>{{ choice.label }}</option>
+        {% endfor %}
+    </select>
+
+    <div class="error">
+        <span class='icon-warning'></span>
+        <p></p>
+    </div>
+</div>

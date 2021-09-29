@@ -1,6 +1,12 @@
 <div class="form-group input-{{ input_name }}">
     <label for="{{ input_name }}">{{ input_label }}</label>
-    <input type="text" name="{{ input_name }}" id="{{ input_name }}" value="{{ input_value }}" {{ input_required is defined ? "required" : "" }}>
+
+    <input type="{{ input_type is defined ? input_type : "text" }}"
+           name="{{ input_name }}" id="{{ input_name }}"
+           value="{{ input_value }}"
+            {{ input_required is defined ? "required" : "" }}
+    >
+
     <div class="error">
         <span class='icon-warning'></span>
         <p></p>
