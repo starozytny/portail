@@ -21,6 +21,17 @@ class EdlController
         $this->apiService = $apiService;
     }
 
+    private function getUsers(): array
+    {
+        $data = $this->apiService->callApi('users');
+        $users = [];
+        foreach($data as $elem){
+            array_push($users, ['value' => $elem->id, 'label' => $elem->first_name . ' ' . $elem->last_name]);
+        }
+
+        return $users;
+    }
+
     /**
      * @throws RuntimeError
      * @throws SyntaxError
@@ -34,14 +45,30 @@ class EdlController
 
         }
 
-        $data = $this->apiService->callApi('users');
-        $users = [];
-        foreach($data as $elem){
-            array_push($users, ['value' => $elem->id, 'label' => $elem->first_name . ' ' . $elem->last_name]);
+        return $this->twig->render($response, 'app/pages/edl/create.twig', [
+            'users' => $this->getUsers()
+        ]);
+    }
+
+    /**
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
+    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $method = $request->getMethod();
+
+        if($method == "POST"){
+
         }
 
-        return $this->twig->render($response, 'app/pages/edl/create.twig', [
-            'users' => $users
+        $edl = $this->apiService->callApi('inventories/' . $args['id']);
+
+        return $this->twig->render($response, 'app/pages/edl/update.twig', [
+            'edl' => $edl,
+            'test' => json_encode($edl),
+            'users' => $this->getUsers()
         ]);
     }
 }

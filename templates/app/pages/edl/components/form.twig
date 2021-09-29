@@ -3,7 +3,7 @@
         {% include 'app/layout/components/form/select.twig' with {
             input_name: 'structure',
             input_label: 'Structure',
-            input_value: 0,
+            input_value: edl is defined and edl.input != 0 ? 1 : 0,
             input_required: true,
             input_choices: [
                 {value: 0, label: 'EDL vierge'},
@@ -14,24 +14,24 @@
         {% include 'app/layout/components/form/select.twig' with {
             input_name: 'user',
             input_label: 'Attribution',
-            input_value: session.user[7],
+            input_value: edl is defined ? edl.user_id : session.user[7],
             input_required: true,
             input_choices: users
         } %} {# var users come from controller #}
 
         {% include 'app/layout/components/form/input.twig' with {
             input_name: 'startDate',
-            input_label: 'Prévu le',
-            input_value: '',
+            input_label: 'Prévu le (facultatif)',
+            input_value: edl is defined and edl.date != "0" ? edl.date | date('Y-m-d\\TH:i') : '',
             input_required: true,
-            input_type: 'date'
+            input_type: 'datetime-local'
         } %}
     </div>
     <div class="line">
         {% include 'app/layout/components/form/box.twig' with {
             input_name: 'type',
             input_label: 'Type d\'état des lieux',
-            input_value: 0,
+            input_value: edl is defined ? edl.type : 0,
             input_choices: [
                 {value: 0, label: 'Entrant', name: 'entrant'},
                 {value: 1, label: 'Sortant', name: 'sortant'},

@@ -25,6 +25,7 @@ return function (App $app) {
         $group->get('', [AppController::class, 'homepage'])->setName('homepage');
         $group->get('/edls', [AppController::class, 'edl'])->setName('edl');
         $group->get('/mon-compte', [AppController::class, 'user'])->setName('user');
+        $group->map(['GET', 'PUT'], '/edl/{id}', [EdlController::class, 'update'])->setName('edl_update');
         $group->map(['GET', 'POST'], '/edl', [EdlController::class, 'create'])->setName('edl_create');
     })->add(UserAuthMiddleware::class);
 

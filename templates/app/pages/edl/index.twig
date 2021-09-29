@@ -77,7 +77,7 @@
                                             {% endif %}
                                         </div>
                                         <div class="col-6">
-                                            <a href="" class="btn-icon">
+                                            <a href="{{ url_for('edl_update', {'id': elem.inventory.id}) }}" class="btn-icon">
                                                 <span class="icon-compose"></span>
                                                 <span class="tooltip">Modifier</span>
                                             </a>

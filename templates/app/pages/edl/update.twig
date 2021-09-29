@@ -1,0 +1,18 @@
+{% extends 'app/pages/edl/template.twig' %}
+
+{% block title %}Modifier un état des lieux {{ parent() }}{% endblock %}
+
+{% block main_content %}
+    <div class="page-title">
+        <div class="page-title-container">
+            <h1>Modifier un état des lieux</h1>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="edl-form">
+            {% include 'app/pages/edl/components/form.twig' with { edl: edl } %}
+        </div>
+    </div>
+    <div id="view" data-donnees="{{ test }}"></div>
+{% endblock %}
