@@ -5,6 +5,26 @@
     border: 1px solid var(--fond);
     margin-bottom: 24px;
     border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover{
+      border-color: var(--txt);
+    }
+
+    &.active{
+      .card-header{
+        .title{
+          background-color: var(--color0);
+          color: var(--alpha);
+        }
+      }
+
+      &:hover{
+        border-color: var(--fond);
+        opacity: 0.8;
+      }
+    }
 
     .sub{
       font-size: 15px;
@@ -14,6 +34,7 @@
       .title{
         @include flex(row, flex-start, space-between);
         background-color: var(--fond);
+        border-radius: 4px;
         padding: 12px;
 
         .address{

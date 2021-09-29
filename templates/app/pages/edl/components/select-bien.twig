@@ -13,7 +13,9 @@
                             <div class="title">
                                 <div class="address">
                                     <div>{{ elem.addr1 }}</div>
+                                    {{ elem.type ? '<div>Type : '~ elem.type ~'</div>' : '' }}
                                     <div class="sub">{{ elem.zipcode }}, {{ elem.city }}</div>
+                                    <div class="sub">{{ elem.building }}</div>
                                 </div>
                                 <div class="ref">
                                     {{ elem.reference }}
@@ -24,6 +26,11 @@
                             {{ elem.addr2 ? "<div>Adresse 2 : "~ elem.addr2 ~"</div>" }}
                             {{ elem.addr3 ? "<div>Adresse 2 : "~ elem.addr3 ~"</div>" }}
                             <div class="owner">{{ elem.owner != "" ? "Propriétaire : " ~ elem.owner : "Pas de propriétaire" }}</div>
+                            {{ elem.surface > "0" ? '<div class="sub">'~ elem.surface ~' m²</div>' : '' }}
+                            {{ elem.room ? '<div class="sub">'~ elem.room ~' pièce'~ (elem.room > 1 ? "s" : "") ~'</div>' : '' }}
+                            {{ elem.floor != "0" ? '<div class="sub">'~ elem.floor ~' étage'~ (elem.floor > 1 ? "s" : "") ~'</div>' : '' }}
+                            {{ elem.door  ? '<div class="sub">Porte '~ elem.door ~'</div>' : '' }}
+                            {{ elem.is_furnished  ? '<div class="sub">Meublé</div>' : '' }}
                         </div>
                     </div>
                 {% endfor %}
