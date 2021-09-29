@@ -31,16 +31,7 @@ if(btnSeePassword){
 //*****
 // Ouvrir l'aside pour retrouver son mot de passe
 //*****
-let btnsLost = document.querySelectorAll('.btn-lost');
-if(btnsLost){
-    let aside = document.querySelector('.aside-lost');
-
-    let overlay = document.querySelector('.aside-overlay');
-    btnsLost.forEach(btnLost => {
-        btnLost.addEventListener('click', function (e) { Aside.openCloseAside(aside) })
-    })
-    overlay.addEventListener('click', function (e) { Aside.openCloseAside(aside) })
-}
+Aside.manageAside('.btn-lost', '.aside-lost');
 
 //*****
 // Formulaire pour retrouver son mot de passe oublié

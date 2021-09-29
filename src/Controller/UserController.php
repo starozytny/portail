@@ -44,7 +44,7 @@ class UserController
                 return "[UU001] Une erreur est survenu. Veuillez contacter le support.";
             }
 
-            if($data->main){
+            if($data->formFrom == "main"){
                 $user = [
                     $this->session->get('user')[0],
                     $this->session->get('user')[1],

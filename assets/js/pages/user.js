@@ -2,6 +2,12 @@ import '../../css/pages/user.scss';
 import Validateur from "../components/validateur";
 import toastr from "toastr";
 import axios from "axios";
+import Aside from "../components/aside";
+
+//*****
+// Ouvrir l'aside pour la page mon compte
+//*****
+Aside.manageAside('.btn-add-user', '.aside-add-user');
 
 //*****
 // Formulaire pour modifier un utilisateur
@@ -14,35 +20,55 @@ if(forms){
 
             Validateur.hideErrors();
 
+            let method = "PUT";
             let formId = form.dataset.id;
-            let isMain = formId === "main";
+            let formClass = "." + form.dataset.id;
 
-            let firstname = document.querySelector('.user-form-'+ formId +' .firstname').value;
-            let lastname = document.querySelector('.user-form-'+ formId +' .lastname').value;
-            let email = document.querySelector('.user-form-'+ formId +' .email').value;
-            let userTag = document.querySelector('.user-form-'+ formId +' .userTag').value;
-            let validate = Validateur.validateur([
-                {type: "text", id: 'firstname', value: firstname},
-                {type: "text", id: 'lastname', value: lastname},
-                {type: "email", id: 'email', value: email}
-            ])
+            let firstname = document.querySelector(formClass + '-firstname').value;
+            let lastname = document.querySelector(formClass + '-lastname').value;
+            let email = document.querySelector(formClass + '-email').value;
+            let userTag = document.querySelector(formClass + '-userTag').value;
+            let password = "";
+
+            let paramsToValidate = [
+                {type: "text", id: formId + '-firstname', value: firstname},
+                {type: "text", id: formId + '-lastname', value: lastname},
+                {type: "email", id: formId + '-email', value: email}
+            ];
+
+            if(formId === "create"){
+                method = "POST";
+                password = document.querySelector(formClass + '-password').value;
+                let passwordConfirm = document.querySelector(formClass + '-passwordConfirm').value;
+
+                paramsToValidate = [...paramsToValidate,
+                    ...[{type: "password", id: formId + '-password', value: password, idCheck: formId + '-passwordConfirm', valueCheck: passwordConfirm}]
+                ];
+            }
+
+            let validate = Validateur.validateur(paramsToValidate)
 
             if(!validate.code){
                 toastr.warning("Veuillez vérifier les informations transmises.");
                 Validateur.displayErrors(validate.errors);
             }else{
                 Validateur.loader(true);
-                axios.put(form.dataset.url, {
+                axios(method, form.dataset.url, {
                     firstname: firstname,
                     lastname: lastname,
                     email: email,
+                    password: password,
                     userTag: userTag,
-                    main: isMain
+                    formFrom: formId
                 })
                     .then(function (response) {
                         toastr.info(response.data);
 
-                        if(isMain){
+                        if(formId === "create"){
+                            location.reload();
+                        }
+
+                        if(formId === "main"){
                             let headerLogo = document.querySelector('.nav-header-logo-span');
                             headerLogo.innerHTML = firstname;
 

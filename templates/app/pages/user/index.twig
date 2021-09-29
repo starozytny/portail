@@ -24,33 +24,14 @@
                             <span class="card-header-lastname">{{ session.user[3] | upper }}</span>
                         </div>
                         <div class="card-body">
-                            <form class="user-form user-form-main" data-id="main" data-url="{{ url_for('user_update', {'id': session.user[7]}) }}" method="POST">
-                                <div class="line">
-                                    {% include 'app/layout/components/form/input.twig' with {
-                                        input_name: 'firstname',
-                                        input_label: 'Prénom',
-                                        input_value: session.user[2],
-                                        input_required: true
-                                    } %}
-                                </div>
-                                <div class="line">
-                                    {% include 'app/layout/components/form/input.twig' with {
-                                        input_name: 'lastname',
-                                        input_label: 'Nom',
-                                        input_value: session.user[3],
-                                        input_required: true
-                                    } %}
-                                </div>
-                                <div class="line">
-                                    {% include 'app/layout/components/form/input.twig' with {
-                                        input_name: 'email',
-                                        input_label: 'Adresse e-mail',
-                                        input_value: session.user[5],
-                                        input_required: true,
-                                        input_type: 'email'
-                                    } %}
-                                </div>
-                                <input type="hidden" name="userTag" class="userTag" value="{{ session.user[6] }}">
+                            <form class="user-form" data-id="main" data-url="{{ url_for('user_update', {'id': session.user[7]}) }}" method="POST">
+                                {% include "app/pages/user/components/form.twig" with {
+                                    input_id: "main-",
+                                    firstname: session.user[2],
+                                    lastname: session.user[3],
+                                    email: session.user[5],
+                                    userTag: session.user[6],
+                                } %}
                                 <div class="form-button">
                                     <button type="submit" class="btn btn-warning">Modifier</button>
                                 </div>
@@ -76,9 +57,9 @@
                     <div class="title">
                         <h2>Utilisateurs</h2>
                         <div class="actions">
-                            <a href="" class="btn btn-primary">
+                            <button class="btn btn-primary btn-add-user">
                                 <span>Ajouter un utilisateur</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
 
@@ -137,10 +118,21 @@
         <div class="aside-content">
             <div class="aside-title">
                 <span class="title">Ajouter un utilisateur</span>
-                <span class="icon-cancel btn-lost"></span>
+                <span class="icon-cancel btn-add-user"></span>
             </div>
             <div class="form">
-                <form class="user-form" data-url="{{ url_for('user_create') }}" method="POST">
+                <form class="user-form" data-id="create" data-url="{{ url_for('user_create') }}" method="POST">
+                    {% include "app/pages/user/components/form.twig" with {
+                        input_id: "create-",
+                        firstname: "",
+                        lastname: "",
+                        email: "",
+                        password: "",
+                        userTag: "",
+                    } %}
+                    <div class="form-button">
+                        <button type="submit" class="btn btn-warning">Modifier</button>
+                    </div>
                 </form>
             </div>
         </div>
