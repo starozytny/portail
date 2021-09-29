@@ -1,10 +1,10 @@
 <?php
 
 // Should be set to 0 in production
-error_reporting(E_ALL);
+error_reporting(0);
 
 // Should be set to '0' in production
-ini_set('display_errors', '1');
+ini_set('display_errors', '0');
 
 // Timezone
 date_default_timezone_set('Europe/Paris');
@@ -23,7 +23,7 @@ $settings['root'] = dirname(__DIR__);
 $settings['error'] = [
 
     // Should be set to false in production
-    'display_error_details' => true,
+    'display_error_details' => false,
 
     // Parameter is passed to the default ErrorHandler
     // View in rendered output by enabling the "displayErrorDetails" setting.
