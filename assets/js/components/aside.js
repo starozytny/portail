@@ -19,6 +19,14 @@ function openCloseAside(aside) {
     }
 }
 
+function closeAside(aside) {
+    if(aside.classList.contains('true')){
+        aside.classList.remove('true');
+    }
+}
+
 module.exports = {
-    manageAside
+    manageAside,
+    openCloseAside,
+    closeAside
 }

@@ -39,8 +39,8 @@ class UserController
         $data = json_decode($request->getBody());
         $res = $this->submitForm($data, 'add_user/');
 
-        if($res != 1){
-            $response->getBody()->write($res);
+        if($res['code'] != 1){
+            $response->getBody()->write($res['errors']);
             return $response->withStatus(400);
         }
 
@@ -61,14 +61,14 @@ class UserController
         $response->withHeader('Content-Type', 'application/json');
 
         $data = json_decode($request->getBody());
-        $res = $this->submitForm($data, 'edit_user/' . $args['id']);
+        $res = $this->submitForm($data, 'edit_user/' . $args['id'], $args['id']);
 
-        if($res != 1){
-            $response->getBody()->write($res);
+        if($res['code'] != 1){
+            $response->getBody()->write($res['errors']);
             return $response->withStatus(400);
         }
 
-        $response->getBody()->write("Données mises à jour.");
+        $response->getBody()->write(json_encode($res['data']));
         return $response->withStatus(200);
     }
 
@@ -77,12 +77,12 @@ class UserController
      *
      * @param $data
      * @param $url
-     * @return false|int|string
+     * @return array
      */
-    private function submitForm($data, $url)
+    private function submitForm($data, $url, $userId=null): array
     {
         $formFrom = $data->formFrom;
-        $username = $this->session->get('user')[0];
+        $username = $data->username ?? "";
         $firstname = $this->sanitizeData->clean($data->firstname);
         $lastname = $this->sanitizeData->clean($data->lastname);
         $password = $data->password ?? "";
@@ -100,7 +100,10 @@ class UserController
         }
         $errors = $this->validateur->validate($paramsToValidate);
         if(count($errors) > 0){
-            return json_encode($errors);
+            return [
+                'code' => 0,
+                'error' => json_encode($errors)
+            ];
         }
 
         if($formFrom == "create"){
@@ -126,16 +129,21 @@ class UserController
         }
 
         //Appel API
-        $res = $this->apiService->callApi($url, 'POST', false, [
+        $dataToSend = [
+            'id' => $userId, // for javascript edit
             'username' => $username,
             'first_name' => $firstname,
             'last_name' => $lastname,
             'password' => $password,
             'email' => $email,
             'user_tag' => $userTag
-        ]);
+        ];
+        $res = $this->apiService->callApi($url, 'POST', false, $dataToSend);
         if($res == false){
-            return "[UU001] Une erreur est survenu. Veuillez contacter le support.";
+            return [
+                'code' => 0,
+                'errors' => "[UU001] Une erreur est survenu. Veuillez contacter le support."
+            ];
         }
 
         //regeneration des variables en sessions
@@ -160,7 +168,10 @@ class UserController
             $this->session->set('user', $user);
         }
 
-        return 1;
+        return [
+            'code' => 1,
+            'data' => $dataToSend
+        ];
     }
 
     /**

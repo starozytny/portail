@@ -76,6 +76,10 @@ h2{
       padding: 4px 12px;
       font-size: 14px;
       display: inline-block;
+
+      & + .role-blocked{
+        margin-top: 4px;
+      }
     }
   }
 

@@ -27,6 +27,7 @@
                             <form class="user-form" data-id="main" data-url="{{ url_for('user_update', {'id': session.user[7]}) }}" method="POST">
                                 {% include "app/pages/user/components/form.twig" with {
                                     input_id: "main-",
+                                    username: session.user[0],
                                     firstname: session.user[2],
                                     lastname: session.user[3],
                                     email: session.user[5],
@@ -83,6 +84,7 @@
                                             <div class="sub">{{ elem.user_tag }}</div>
                                         </div>
                                         <div class="col-3">
+                                            {{ elem.rights == 0 ? "<div class='role-blocked'>Accès restreint</div>" : "" }}
                                             {{ isBLocked ? "<div class='role-blocked'>Bloqué</div>" : "" }}
                                         </div>
                                         <div class="col-4">
@@ -91,7 +93,10 @@
                                                     <span class="icon-{{ isBlocked ? "minus" : "block" }}"></span>
                                                     <span class="tooltip">{{ isBLocked ? "Débloquer" : "Bloquer"}}</span>
                                                 </button>
-                                                <button class="btn-icon" data-url="{{ url_for('user_update', {'id': elem.id}) }}">
+                                                <button class="btn-icon btn-edit-user"
+                                                        data-id="{{ elem.id }}"
+                                                        data-user="{{ elem | json_encode }}"
+                                                        data-url="{{ url_for('user_update', {'id': elem.id}) }}">
                                                     <span class="icon-compose"></span>
                                                     <span class="tooltip">Modifier</span>
                                                 </button>
@@ -124,6 +129,7 @@
                 <form class="user-form" data-id="create" data-url="{{ url_for('user_create') }}" method="POST">
                     {% include "app/pages/user/components/form.twig" with {
                         input_id: "create-",
+                        username: "",
                         firstname: "",
                         lastname: "",
                         email: "",
@@ -131,7 +137,32 @@
                         userTag: "",
                     } %}
                     <div class="form-button">
-                        <button type="submit" class="btn btn-warning">Modifier</button>
+                        <button type="submit" class="btn btn-primary">Ajouter cet utilisateur</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class='aside aside-edit-user'>
+        <div class="aside-overlay"></div>
+        <div class="aside-content">
+            <div class="aside-title">
+                <span class="title"></span>
+                <span class="icon-cancel btn-edit-user-close"></span>
+            </div>
+            <div class="form">
+                <form class="user-form" data-id="edit" method="POST">
+                    {% include "app/pages/user/components/form.twig" with {
+                        input_id: "edit-",
+                        username: "",
+                        firstname: "",
+                        lastname: "",
+                        email: "",
+                        userTag: "",
+                    } %}
+                    <div class="form-button">
+                        <button type="submit" class="btn btn-warning">Modifier cet utilisateur</button>
                     </div>
                 </form>
             </div>
