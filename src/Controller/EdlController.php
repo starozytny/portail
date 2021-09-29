@@ -45,8 +45,12 @@ class EdlController
 
         }
 
+        $properties = $this->apiService->callApi('properties');
+
         return $this->twig->render($response, 'app/pages/edl/create.twig', [
-            'users' => $this->getUsers()
+            'users' => $this->getUsers(),
+            'properties' => $properties,
+            'donnees' => json_encode($properties)
         ]);
     }
 

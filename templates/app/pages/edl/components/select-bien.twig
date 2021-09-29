@@ -1,0 +1,35 @@
+<div class='aside true aside-select-bien'>
+    <div class="aside-overlay"></div>
+    <div class="aside-content">
+        <div class="aside-title">
+            <span class="title">Sélectionner un bien</span>
+            <span class="icon-cancel btn-select-bien"></span>
+        </div>
+        <div class="list list-select">
+            {% if properties | length > 0 %}
+                {% for elem in properties %}
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="title">
+                                <div class="address">
+                                    <div>{{ elem.addr1 }}</div>
+                                    <div class="sub">{{ elem.zipcode }}, {{ elem.city }}</div>
+                                </div>
+                                <div class="ref">
+                                    {{ elem.reference }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            {{ elem.addr2 ? "<div>Adresse 2 : "~ elem.addr2 ~"</div>" }}
+                            {{ elem.addr3 ? "<div>Adresse 2 : "~ elem.addr3 ~"</div>" }}
+                            <div class="owner">{{ elem.owner != "" ? "Propriétaire : " ~ elem.owner : "Pas de propriétaire" }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div>Il n'y a aucun bien enregistré.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>

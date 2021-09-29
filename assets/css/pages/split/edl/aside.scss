@@ -1,0 +1,36 @@
+@import "../../../vars/vars";
+
+.list-select{
+  .card{
+    border: 1px solid var(--fond);
+    margin-bottom: 24px;
+    border-radius: 4px;
+
+    .sub{
+      font-size: 15px;
+    }
+
+    .card-header{
+      .title{
+        @include flex(row, flex-start, space-between);
+        background-color: var(--fond);
+        padding: 12px;
+
+        .address{
+          div:first-child{
+            @include fontSemibold();
+          }
+        }
+
+        .sub{
+          margin-top: 4px;
+          opacity: 0.9;
+        }
+      }
+    }
+
+    .card-body{
+      padding: 12px;
+    }
+  }
+}

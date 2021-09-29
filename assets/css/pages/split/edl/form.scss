@@ -1,0 +1,80 @@
+@import "../../../vars/vars";
+
+.edl-form{
+  background-color: var(--alpha);
+  box-shadow: 0 0 8px var(--greyShadow);
+  border: 1px solid var(--fond);
+  border-radius: 4px;
+  padding: 24px 12px;
+
+  .line-select-or-add{
+    margin-top: 48px;
+  }
+
+  .select-or-add{
+    & > div{
+      width: calc(100% - 50px);
+
+      &:not(:last-child){
+        margin-bottom: 12px;
+      }
+    }
+  }
+
+  .form-button{
+    margin-top: 48px;
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .edl-form{
+    padding: 24px;
+
+    .select-or-add{
+      & > div{
+        width: auto;
+
+        &:not(:last-child){
+          margin-bottom: 0;
+          margin-right: 12px;
+        }
+      }
+    }
+
+    .form-button{
+      justify-content: flex-end;
+
+      & > .btn{
+        width: 100%;
+      }
+    }
+
+    .radiobox-item{
+      input:checked{
+        & + label{
+          border: 1px solid var(--grey);
+          color: var(--txt);
+          opacity: 1;
+
+          &:hover{
+            background-color: var(--fond);
+            border-style: dashed;
+          }
+        }
+
+        & + label[for="entrant"]{
+          background-color: var(--entrant);
+        }
+        &+ label[for="sortant"]{
+          background-color: var(--sortant);
+        }
+      }
+    }
+  }
+}
