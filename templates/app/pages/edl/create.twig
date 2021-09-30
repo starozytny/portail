@@ -2,7 +2,7 @@
 
 {% block title %}Ajouter un état des lieux {{ parent() }}{% endblock %}
 
-{% block main_content %}
+{% block edl_content %}
     <div class="page-title">
         <div class="page-title-container">
             <h1>Ajouter un état des lieux</h1>
@@ -15,8 +15,5 @@
         </div>
     </div>
 
-    {% include 'app/pages/edl/components/select-bien.twig' %}
-    {% include 'app/pages/edl/components/select-tenants.twig' %}
-
-    <div id="view" data-donnees="{{ donnees }}"></div>
+    {{ parent() }}
 {% endblock %}

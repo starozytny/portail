@@ -62,13 +62,14 @@
                                             </div>
                                         </div>
                                         <div class="col-4">
+                                            <div style="margin-bottom: 4px;"><u>Référence</u> : {{ elem.property.reference }}</div>
                                             <div>Adresse : {{ elem.property.addr1 }}</div>
                                             <div>Type : {{ elem.property.type }}</div>
                                             <div>{{ elem.property.owner ? "Propriétaire : " ~ elem.property.owner : "Pas de propriétaire" }}</div>
                                         </div>
                                         <div class="col-5">
                                             {% if elem.tenants | length > 0 %}
-                                                <div class="tenant-title">Locataires : </div>
+                                                <div class="tenant-title"><u>Locataires</u> : </div>
                                                 {% for tenant in elem.tenants %}
                                                     <div>{{ tenant.first_name | capitalize }}</div>
                                                     <div>{{ tenant.flast_name | upper }}</div>
