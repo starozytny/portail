@@ -46,7 +46,7 @@ btnsBien.forEach(btnBien => {
             selectedBienRef.innerHTML = bien.reference;
         }
 
-        Aside.closeAside(document.querySelector('.aside-select-bien'));
+        Aside.closeAside('.aside-select-bien');
     });
 
     btnRemoveBien.addEventListener('click', function (e) {

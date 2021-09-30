@@ -197,6 +197,5 @@ function updateEditUser(data) {
         document.querySelector(itemClass + " .btn-edit-user").setAttribute('data-user', JSON.stringify(data));
     }
 
-    let aside = document.querySelector('.aside-edit-user');
-    Aside.closeAside(aside);
+    Aside.closeAside('.aside-edit-user');
 }

@@ -1,3 +1,5 @@
+{% set isDefined = edl is defined %}
+
 <div class='aside true aside-select-bien'>
     <div class="aside-overlay"></div>
     <div class="aside-content">
@@ -11,7 +13,9 @@
             </div>
             {% if properties | length > 0 %}
                 {% for elem in properties %}
-                    <div class="card" data-id="{{ elem.id }}" data-bien="{{ elem | json_encode }}">
+                    <div class="card {{ isDefined and edl.property.id == elem.id ? "active" : "" }}"
+                         data-id="{{ elem.id }}" data-bien="{{ elem | json_encode }}"
+                    >
                         <div class="card-header">
                             <div class="title">
                                 <div class="address">

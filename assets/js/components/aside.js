@@ -4,6 +4,8 @@ function manageAside(btnsClass, asideClasse) {
         let aside = document.querySelector(asideClasse);
         let overlay = document.querySelector(asideClasse + ' .aside-overlay');
 
+        console.log(aside)
+        console.log(overlay)
         btns.forEach(btn => {
             btn.addEventListener('click', function (e) { openCloseAside(aside) })
         })
@@ -19,8 +21,9 @@ function openCloseAside(aside) {
     }
 }
 
-function closeAside(aside) {
-    if(aside.classList.contains('true')){
+function closeAside(asideClasse) {
+    let aside = document.querySelector(asideClasse);
+    if(aside && aside.classList.contains('true')){
         aside.classList.remove('true');
     }
 }

@@ -1,9 +1,11 @@
+{% set isDefined = edl is defined %}
+
 <form method="POST">
     <div class="line line-3">
         {% include 'app/layout/components/form/select.twig' with {
             input_name: 'structure',
             input_label: 'Structure',
-            input_value: edl is defined and edl.input != 0 ? 1 : 0,
+            input_value: isDefined and edl.inventory.input != 0 ? 1 : 0,
             input_required: true,
             input_choices: [
                 {value: 0, label: 'EDL vierge'},
@@ -14,7 +16,7 @@
         {% include 'app/layout/components/form/select.twig' with {
             input_name: 'user',
             input_label: 'Attribution',
-            input_value: edl is defined ? edl.user_id : session.user[7],
+            input_value: isDefined ? edl.inventory.user_id : session.user[7],
             input_required: true,
             input_choices: users
         } %} {# var users come from controller #}
@@ -22,7 +24,7 @@
         {% include 'app/layout/components/form/input.twig' with {
             input_name: 'startDate',
             input_label: 'Prévu le (facultatif)',
-            input_value: edl is defined and edl.date != "0" ? edl.date | date('Y-m-d\\TH:i') : '',
+            input_value: isDefined and edl.date != "0" ? edl.inventory.date | date('Y-m-d\\TH:i') : '',
             input_required: true,
             input_type: 'datetime-local'
         } %}
@@ -31,7 +33,7 @@
         {% include 'app/layout/components/form/box.twig' with {
             input_name: 'type',
             input_label: 'Type d\'état des lieux',
-            input_value: edl is defined ? edl.type : 0,
+            input_value: isDefined ? edl.inventory.type : 0,
             input_choices: [
                 {value: 0, label: 'Entrant', name: 'entrant'},
                 {value: 1, label: 'Sortant', name: 'sortant'},
@@ -43,11 +45,11 @@
 
     <div class="line line-select-or-add">
         <label>Bien</label>
-        <div class="actions-bien select-or-add active">
+        <div class="actions-bien select-or-add {{ isDefined ? "" : "active" }}">
             <div class="btn btn-outline-default btn-select-bien">Sélectionner un bien</div>
             <div class="btn btn-outline-default">Ajouter un bien</div>
         </div>
-        <div class="selected selected-bien">
+        <div class="selected selected-bien {{ isDefined ? "active" : "" }}">
             <div class="card active">
                 <div class="btn-remove">
                     <div class="btn-icon btn-remove-bien">
@@ -58,13 +60,13 @@
                 <div class="card-header">
                     <div class="title">
                         <div class="address">
-                            <div class="adr"></div>
+                            <div class="adr">{{ isDefined ? edl.property.addr1 : "" }}</div>
                             <div class="sub">
-                                <span class="zipcode"></span>,
-                                <span class="city"></span>
+                                <span class="zipcode">{{ isDefined ? edl.property.zipcode : "" }}</span>,
+                                <span class="city">{{ isDefined ? edl.property.city : "" }}</span>
                             </div>
                         </div>
-                        <div class="ref"></div>
+                        <div class="ref">{{ isDefined ? edl.property.reference : "" }}</div>
                     </div>
                 </div>
             </div>
@@ -79,7 +81,7 @@
         </div>
     </div>
 
-    <input type="hidden" name="bien" id="bien" value="" required>
+    <input type="hidden" name="bien" id="bien" value="{{ isDefined ? edl.property.id }}" required>
 
     <div class="form-button">
         <button type="submit" class="btn btn-primary">Ajouter l'état des lieux</button>

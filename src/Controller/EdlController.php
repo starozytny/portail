@@ -67,12 +67,14 @@ class EdlController
 
         }
 
-        $edl = $this->apiService->callApi('inventories/' . $args['id']);
+        $edl = $this->apiService->callApi('inventories/full/' . $args['id']);
+        $properties = $this->apiService->callApi('properties');
 
         return $this->twig->render($response, 'app/pages/edl/update.twig', [
             'edl' => $edl,
-            'test' => json_encode($edl),
-            'users' => $this->getUsers()
+            'donnees' => json_encode($edl),
+            'users' => $this->getUsers(),
+            'properties' => $properties,
         ]);
     }
 }

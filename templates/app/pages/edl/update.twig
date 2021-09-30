@@ -14,5 +14,8 @@
             {% include 'app/pages/edl/components/form.twig' with { edl: edl } %}
         </div>
     </div>
-    <div id="view" data-donnees="{{ test }}"></div>
+
+    {% include 'app/pages/edl/components/select-bien.twig' %}
+
+    <div id="view" data-donnees="{{ donnees }}"></div>
 {% endblock %}
