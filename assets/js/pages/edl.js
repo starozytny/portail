@@ -8,10 +8,11 @@ let view = document.querySelector("#view");
 console.log(JSON.parse(view.dataset.donnees))
 
 //*****
-// Ouvrir l'aside select bien
+// Ouvrir les asides
 //*****
 Aside.manageAside('.btn-select-bien', '.aside-select-bien');
 Aside.manageAside('.btn-select-tenants', '.aside-select-tenants');
+Aside.manageAside('.btn-add-bien', '.aside-add-bien');
 
 //*****
 // Selections
