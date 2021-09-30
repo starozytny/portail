@@ -1,8 +1,9 @@
 import '../../css/pages/edl.scss';
 
-import Aside        from "../components/aside";
-import SelectBien   from "./components/edl/select-bien";
-import SelectTenants   from "./components/edl/select-tenants";
+import Aside            from "../components/aside";
+import SelectBien       from "./components/edl/select-bien";
+import SelectTenants    from "./components/edl/select-tenants";
+import AddBien          from "./components/edl/add-bien";
 
 let view = document.querySelector("#view");
 console.log(JSON.parse(view.dataset.donnees))
@@ -19,3 +20,4 @@ Aside.manageAside('.btn-add-bien', '.aside-add-bien');
 //*****
 SelectBien.selectBien();
 SelectTenants.selectTenants();
+AddBien.addBien();

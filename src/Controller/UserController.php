@@ -77,6 +77,7 @@ class UserController
      *
      * @param $data
      * @param $url
+     * @param null $userId
      * @return array
      */
     private function submitForm($data, $url, $userId=null): array

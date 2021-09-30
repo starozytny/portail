@@ -6,7 +6,7 @@
             <span class="icon-cancel btn-add-bien"></span>
         </div>
         <div class="list list-add-bien">
-            <form class="bien-form" method="POST">
+            <form class="bien-form" data-url="{{ url_for('property_check') }}" method="POST">
                 <div class="line line-2">
                     {% include 'app/layout/components/form/input.twig' with {
                         input_name: 'typeBien',
@@ -17,7 +17,6 @@
                         input_name: 'reference',
                         input_label: 'Référence *',
                         input_value: '',
-                        input_required: true
                     } %}
                 </div>
                 <div class="line line-2">
@@ -37,7 +36,6 @@
                         input_name: 'addr1',
                         input_label: 'Adresse 1 *',
                         input_value: '',
-                        input_required: true
                     } %}
                     {% include 'app/layout/components/form/input.twig' with {
                         input_name: 'surface',
@@ -78,7 +76,6 @@
                         input_name: 'city',
                         input_label: 'Ville *',
                         input_value: '',
-                        input_required: true
                     } %}
                     {% include 'app/layout/components/form/input.twig' with {
                         input_name: 'door',
@@ -91,7 +88,6 @@
                         input_name: 'zipcode',
                         input_label: 'Code postal *',
                         input_value: '',
-                        input_required: true
                     } %}
                     {% include 'app/layout/components/form/box.twig' with {
                         input_name: 'isFurniture',

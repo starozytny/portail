@@ -2,6 +2,7 @@
 
 use App\Controller\AppController;
 use App\Controller\EdlController;
+use App\Controller\PropertyController;
 use App\Controller\SecurityController;
 use App\Controller\UserController;
 use App\Middleware\UserAuthMiddleware;
@@ -33,6 +34,8 @@ return function (App $app) {
         $group->put('/utilisateur/{id}', [UserController::class, 'update'])->setName('user_update');
         $group->delete('/utilisateur/{id}', [UserController::class, 'delete'])->setName('user_delete');
         $group->post('/utilisateur', [UserController::class, 'create'])->setName('user_create');
+
+        $group->post('/property', [PropertyController::class, 'check'])->setName('property_check');
 
     })->add(UserAuthMiddleware::class);
 
