@@ -1,6 +1,6 @@
 {% set isDefined = edl is defined %}
 
-<div class='aside true aside-select-bien'>
+<div class='aside aside-select-bien'>
     <div class="aside-overlay"></div>
     <div class="aside-content">
         <div class="aside-title">
@@ -20,22 +20,33 @@
                             <div class="title">
                                 <div class="address">
                                     <div>{{ elem.addr1 }}</div>
-                                    {{ elem.type ? '<div>Type : '~ elem.type ~'</div>' : '' }}
+                                    {% if elem.type %}<div>Type : {{ elem.type }}</div>{% endif %}
                                     <div class="sub">{{ elem.zipcode }}, {{ elem.city }}</div>
-                                    {{ elem.building ? '<div class="sub">'~ elem.building ~'</div>' : '' }}
+                                    {% if elem.building %}<div>Bâtiment : {{ elem.building }}</div>{% endif %}
                                 </div>
-                                <div class="ref">{{ elem.reference }}</div>
+                                <div class="ref">Ref : {{ elem.reference }}</div>
                             </div>
                         </div>
                         <div class="card-body">
-                            {{ elem.addr2 ? "<div>Adresse 2 : "~ elem.addr2 ~"</div>" }}
-                            {{ elem.addr3 ? "<div>Adresse 2 : "~ elem.addr3 ~"</div>" }}
+                            {% if elem.addr2 %}<div>Adresse 2 : {{ elem.addr2 }}</div>{% endif %}
+                            {% if elem.addr3 %}<div>Adresse 3 : {{ elem.addr3 }}</div>{% endif %}
                             <div class="owner">{{ elem.owner != "" ? "Propriétaire : " ~ elem.owner : "Pas de propriétaire" }}</div>
-                            {{ elem.surface > "0" ? '<div class="sub">'~ elem.surface ~' m²</div>' : '' }}
-                            {{ elem.room ? '<div class="sub">'~ elem.room ~' pièce'~ (elem.room > 1 ? "s" : "") ~'</div>' : '' }}
-                            {{ elem.floor != "0" ? '<div class="sub">'~ elem.floor ~' étage'~ (elem.floor > 1 ? "s" : "") ~'</div>' : '' }}
-                            {{ elem.door  ? '<div class="sub">Porte '~ elem.door ~'</div>' : '' }}
-                            {{ elem.is_furnished  ? '<div class="sub">Meublé</div>' : '' }}
+
+                            {% if elem.surface > "0" %}
+                                <div class="sub">{{ elem.surface }}m²</div>
+                            {% endif %}
+                            {% if elem.room %}
+                                <div class="sub">{{ elem.room }} {{ elem.room > 1 ? "pièces" : "piece" }}</div>
+                            {% endif %}
+                            {% if elem.surface != "0" %}
+                                <div class="sub">{{ elem.floor }} {{ elem.room > 1 ? "étages" : "étage" }}</div>
+                            {% endif %}
+                            {% if elem.door %}
+                                <div class="sub">Porte : {{ elem.door }}</div>
+                            {% endif %}
+                            {% if elem.is_furnished %}
+                                <div class="sub">Meublé</div>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

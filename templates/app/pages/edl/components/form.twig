@@ -59,14 +59,14 @@
                 </div>
                 <div class="card-header">
                     <div class="title">
-                        <div class="address">
+                        <div class="label">
                             <div class="adr">{{ isDefined ? edl.property.addr1 : "" }}</div>
                             <div class="sub">
                                 <span class="zipcode">{{ isDefined ? edl.property.zipcode : "" }}</span>,
                                 <span class="city">{{ isDefined ? edl.property.city : "" }}</span>
                             </div>
                         </div>
-                        <div class="ref">{{ isDefined ? edl.property.reference : "" }}</div>
+                        <div class="ref">Ref : {{ isDefined ? edl.property.reference : "" }}</div>
                     </div>
                 </div>
             </div>
@@ -82,6 +82,7 @@
     </div>
 
     <input type="hidden" name="bien" id="bien" value="{{ isDefined ? edl.property.id }}" required>
+    <input type="hidden" name="tenants" id="tenants" value="" required>
 
     <div class="form-button">
         <button type="submit" class="btn btn-primary">Ajouter l'état des lieux</button>

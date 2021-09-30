@@ -1,0 +1,48 @@
+{% set isDefined = edl is defined %}
+
+<div class='aside true aside-select-tenants'>
+    <div class="aside-overlay"></div>
+    <div class="aside-content">
+        <div class="aside-title">
+            <span class="title">Sélectionner un/des locataire(s)</span>
+            <span class="icon-cancel btn-select-tenants"></span>
+        </div>
+        <div class="list list-select list-select-tenants">
+            <div class="toolbar">
+                {# Search by #}
+            </div>
+            {% if tenants | length > 0 %}
+                {% for elem in tenants %}
+                    <div class="card"
+                         data-id="{{ elem.id }}" data-tenant="{{ elem | json_encode }}"
+                    >
+                        <div class="card-header">
+                            <div class="title">
+                                <div class="label">
+                                    <div>{{ elem.first_name }} {{ elem.last_name | upper }}</div>
+                                </div>
+                                <div class="ref">Ref : {{ elem.reference }}</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            {% if elem.addr1 %}<div>Adresse : {{ elem.addr1 }}</div>{% endif %}
+                            {% if elem.addr2 %}<div>Adresse 2 : {{ elem.addr1 }}</div>{% endif %}
+                            {% if elem.addr3 %}<div>Adresse 3 : {{ elem.addr1 }}</div>{% endif %}
+                            {% if elem.zipcode or elem.city %}
+                                <div>
+                                    {% if elem.zipcode %}<span>{{ elem.zipcode }}</span>{% endif %}
+                                    {% if elem.zipcode and elem.city %},{% endif %}
+                                    {% if elem.city %}<span>{{ elem.city }}</span>{% endif %}
+                                </div>
+                            {% endif %}
+                            {% if elem.email %}<div class="sub">{{ elem.email }}</div>{% endif %}
+                            {% if elem.phone %}<div class="sub">{{ elem.phone }}</div>{% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div>Il n'y a aucun locataire enregistré.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>

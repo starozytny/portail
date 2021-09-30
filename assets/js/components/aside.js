@@ -4,8 +4,6 @@ function manageAside(btnsClass, asideClasse) {
         let aside = document.querySelector(asideClasse);
         let overlay = document.querySelector(asideClasse + ' .aside-overlay');
 
-        console.log(aside)
-        console.log(overlay)
         btns.forEach(btn => {
             btn.addEventListener('click', function (e) { openCloseAside(aside) })
         })

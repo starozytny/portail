@@ -46,11 +46,13 @@ class EdlController
         }
 
         $properties = $this->apiService->callApi('properties');
+        $tenants = $this->apiService->callApi('tenants');
 
         return $this->twig->render($response, 'app/pages/edl/create.twig', [
             'users' => $this->getUsers(),
             'properties' => $properties,
-            'donnees' => json_encode($properties)
+            'tenants' => $tenants,
+            'donnees' => json_encode($tenants)
         ]);
     }
 
@@ -69,12 +71,14 @@ class EdlController
 
         $edl = $this->apiService->callApi('inventories/full/' . $args['id']);
         $properties = $this->apiService->callApi('properties');
+        $tenants = $this->apiService->callApi('tenants');
 
         return $this->twig->render($response, 'app/pages/edl/update.twig', [
             'edl' => $edl,
-            'donnees' => json_encode($edl),
             'users' => $this->getUsers(),
             'properties' => $properties,
+            'tenants' => $tenants,
+            'donnees' => json_encode($tenants),
         ]);
     }
 }
