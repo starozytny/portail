@@ -4,6 +4,7 @@ use App\Controller\AppController;
 use App\Controller\EdlController;
 use App\Controller\PropertyController;
 use App\Controller\SecurityController;
+use App\Controller\TenantController;
 use App\Controller\UserController;
 use App\Middleware\UserAuthMiddleware;
 use Slim\App;
@@ -36,6 +37,7 @@ return function (App $app) {
         $group->post('/utilisateur', [UserController::class, 'create'])->setName('user_create');
 
         $group->post('/property', [PropertyController::class, 'check'])->setName('property_check');
+        $group->post('/tenant', [TenantController::class, 'check'])->setName('tenant_check');
 
     })->add(UserAuthMiddleware::class);
 

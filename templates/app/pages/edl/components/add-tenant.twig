@@ -1,0 +1,81 @@
+<div class='aside true aside-add-tenant'>
+    <div class="aside-overlay"></div>
+    <div class="aside-content">
+        <div class="aside-title">
+            <span class="title">Ajouter un locataire</span>
+            <span class="icon-cancel btn-add-tenant"></span>
+        </div>
+        <div class="list list-tenant-bien">
+            <form class="tenant-form" data-url="{{ url_for('tenant_check') }}" method="POST">
+                <div class="line line-2">
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'lastname',
+                        input_label: 'Nom *',
+                        input_value: ''
+                    } %}
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'addr1-tenant',
+                        input_label: 'Adresse 1',
+                        input_value: '',
+                    } %}
+                </div>
+                <div class="line line-2">
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'firstname',
+                        input_label: 'Prénom *',
+                        input_value: ''
+                    } %}
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'addr2-tenant',
+                        input_label: 'Adresse 2',
+                        input_value: ''
+                    } %}
+                </div>
+                <div class="line line-2">
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'reference-tenant',
+                        input_label: 'Référence *',
+                        input_value: '',
+                    } %}
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'addr3-tenant',
+                        input_label: 'Adresse 3',
+                        input_value: ''
+                    } %}
+                </div>
+                <div class="line line-2">
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'phone',
+                        input_label: 'Téléphone',
+                        input_value: '',
+                        input_type: 'number'
+                    } %}
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'city-tenant',
+                        input_label: 'Ville',
+                        input_value: ''
+                    } %}
+                </div>
+                <div class="line line-2">
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'email',
+                        input_label: 'Email',
+                        input_value: ''
+                    } %}
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'zipcode-tenant',
+                        input_label: 'Etage',
+                        input_value: 0,
+                        input_type: 'number'
+                    } %}
+                </div>
+                <div class="line">
+                    <div class="alert alert-default"><p>(*) champs obligatoires</p></div>
+                </div>
+                <div class="form-button">
+                    <button type="submit" class="btn btn-primary">Valider la saisie</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

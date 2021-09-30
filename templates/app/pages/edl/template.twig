@@ -5,17 +5,6 @@
     {% webpack_entry_css 'edl' %}
 {% endblock %}
 
-{% block main_content %}
-
-    {% block edl_content %}{% endblock %}
-
-    {% include 'app/pages/edl/components/select-bien.twig' %}
-    {% include 'app/pages/edl/components/select-tenants.twig' %}
-    {% include 'app/pages/edl/components/add-bien.twig' %}
-
-    <div id="view" data-donnees="{{ donnees }}"></div>
-{% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
     {% webpack_entry_js 'edl' %}

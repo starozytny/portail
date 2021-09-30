@@ -83,7 +83,14 @@
 .selected-tenants{
   margin-top: 12px;
 
+  .from{
+    font-size: 15px;
+    opacity: 0.8;
+  }
+
   .btn-remove{
+    justify-content: space-between;
+
     .tooltip{
       width: 136px;
     }

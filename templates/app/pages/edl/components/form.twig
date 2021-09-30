@@ -25,7 +25,6 @@
             input_name: 'startDate',
             input_label: 'Prévu le (facultatif)',
             input_value: isDefined and edl.date != "0" ? edl.inventory.date | date('Y-m-d\\TH:i') : '',
-            input_required: true,
             input_type: 'datetime-local'
         } %}
     </div>
@@ -77,7 +76,7 @@
         <label>Locataire(s)</label>
         <div class="actions-tenants select-or-add active">
             <div class="btn btn-outline-default btn-select-tenants">Sélectionner un/des locataire(s)</div>
-            <div class="btn btn-outline-default">Ajouter un/des locataire(s)</div>
+            <div class="btn btn-outline-default btn-add-tenant">Ajouter un/des locataire(s)</div>
         </div>
         <div class="selected selected-tenants {{ isDefined and edl.tenants | length > 0 ? "active" : "" }}">
             {% if isDefined %}
@@ -111,8 +110,10 @@
         </div>
     </div>
 
-    <input type="hidden" name="bien" id="bien" value="{{ isDefined ? edl.property.id }}" required>
-    <input type="hidden" name="tenants" id="tenants" value="" required>
+    <input type="hidden" name="bien" id="bien" value="{{ isDefined ? edl.property.id }}">
+    <input type="hidden" name="tenants" id="tenants" value="">
+    <input type="hidden" name="bien-created" id="bien-created" value="">
+    <input type="hidden" name="tenants-created" id="tenants-created" value="">
 
     <div class="form-button">
         <button type="submit" class="btn btn-primary">Ajouter l'état des lieux</button>

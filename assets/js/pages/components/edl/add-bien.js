@@ -3,7 +3,7 @@ const toastr        = require("toastr");
 
 const Validateur    = require("../../../components/validateur");
 const Aside         = require("../../../components/aside");
-const Bien          = require("./bien");
+const Selected          = require("./selected");
 
 function addBien() {
     let formClass = '.bien-form';
@@ -61,13 +61,13 @@ function addBien() {
                 };
                 axios({method: "POST", url: form.dataset.url, data: formData})
                     .then(function (response) {
-                        let input = document.querySelector('#bien');
+                        let input = document.querySelector('#bien-created');
                         let actions = document.querySelector('.actions-bien');
 
                         actions.classList.remove('active');
                         input.value = JSON.stringify(response.data);
 
-                        Bien.addBienSelected(response.data);
+                        Selected.addBienSelected(response.data);
                         Aside.closeAside('.aside-add-bien');
                     })
                     .catch(function (error) {

@@ -16,6 +16,7 @@ class SanitizeData
     public function clean($value): string
     {
         $value = trim($value);
+        $value = str_replace('#', '-', $value);
         return htmlspecialchars($value);
     }
 }

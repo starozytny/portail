@@ -1,5 +1,5 @@
 const Aside = require("../../../components/aside");
-const Bien  = require("./bien");
+const Selected  = require("./selected");
 
 function selectBien() {
     let btns = document.querySelectorAll('.list-select-bien .card');
@@ -27,7 +27,7 @@ function selectBien() {
 
                 actions.classList.remove('active');
 
-                Bien.addBienSelected(JSON.parse(btn.dataset.bien))
+                Selected.addBienSelected(JSON.parse(btn.dataset.bien))
             }
 
             Aside.closeAside('.aside-select-bien');
