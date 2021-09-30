@@ -1,4 +1,5 @@
-const Aside = require( "../../../components/aside");
+const Aside = require("../../../components/aside");
+const Bien  = require("./bien");
 
 function selectBien() {
     let btns = document.querySelectorAll('.list-select-bien .card');
@@ -26,12 +27,7 @@ function selectBien() {
 
                 actions.classList.remove('active');
 
-                let bien = JSON.parse(btn.dataset.bien);
-                selected.classList.add('active');
-                selectedAdr.innerHTML = bien.addr1;
-                selectedZip.innerHTML = bien.zipcode;
-                selectedCit.innerHTML = bien.city;
-                selectedRef.innerHTML = bien.reference;
+                Bien.addBienSelected(JSON.parse(btn.dataset.bien))
             }
 
             Aside.closeAside('.aside-select-bien');
