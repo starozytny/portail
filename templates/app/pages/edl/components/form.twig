@@ -60,7 +60,7 @@
                 <div class="card-header">
                     <div class="title">
                         <div class="label">
-                            <div class="adr">{{ isDefined ? edl.property.addr1 : "" }}</div>
+                            <div class="name">{{ isDefined ? edl.property.addr1 : "" }}</div>
                             <div class="sub">
                                 <span class="zipcode">{{ isDefined ? edl.property.zipcode : "" }}</span>,
                                 <span class="city">{{ isDefined ? edl.property.city : "" }}</span>
@@ -79,27 +79,35 @@
             <div class="btn btn-outline-default btn-select-tenants">Sélectionner un/des locataire(s)</div>
             <div class="btn btn-outline-default">Ajouter un/des locataire(s)</div>
         </div>
-        <div class="selected selected-tenants">
-{#            <div class="card active">#}
-{#                <div class="btn-remove">#}
-{#                    <div class="btn-icon btn-remove-tenant">#}
-{#                        <span class="icon-cancel"></span>#}
-{#                        <div class="tooltip">Déselectionner ce bien</div>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="card-header">#}
-{#                    <div class="title">#}
-{#                        <div class="label">#}
-{#                            <div class="adr"></div>#}
-{#                            <div class="sub">#}
-{#                                <span class="zipcode"></span>,#}
-{#                                <span class="city"></span>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                        <div class="ref">Ref : </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
+        <div class="selected selected-tenants {{ isDefined and edl.tenants | length > 0 ? "active" : "" }}">
+            {% if isDefined %}
+                {% for tenant in edl.tenants %}
+                    <div class="card active">
+                        <div class="btn-remove">
+                            <div class="btn-icon btn-remove-tenant" data-id="{{ tenant.id }}">
+                                <span class="icon-cancel"></span>
+                                <div class="tooltip">Déselectionner ce locataire</div>
+                            </div>
+                        </div>
+                        <div class="card-header">
+                            <div class="title">
+                                <div class="label">
+                                    <div class="name">{{ tenant.first_name }} {{ tenant.last_name | upper }}</div>
+                                    <div class="sub">
+                                        <div class="adr">{{ tenant.addr1 }}</div>
+                                    </div>
+                                    <div class="sub">
+                                        <span class="zipcode">{{ tenant.zipcode }}</span>
+                                        {% if tenant.zipcode and tenant.city %},{% endif %}
+                                        <span class="city">{{ tenant.city }}</span>
+                                    </div>
+                                </div>
+                                <div class="ref">Ref : {{ tenant.reference }}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 

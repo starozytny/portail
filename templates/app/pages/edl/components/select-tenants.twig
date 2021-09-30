@@ -1,6 +1,6 @@
 {% set isDefined = edl is defined %}
 
-<div class='aside true aside-select-tenants'>
+<div class='aside aside-select-tenants'>
     <div class="aside-overlay"></div>
     <div class="aside-content">
         <div class="aside-title">
@@ -8,7 +8,7 @@
             <span class="icon-cancel btn-select-tenants"></span>
         </div>
         <div class="list list-select list-select-tenants">
-            <div id="allTenants" data-data="{{ tenants | json_encode }}"></div>
+            <div id="allTenants" data-data="{{ tenants | json_encode }}" data-selected="{{ isDefined ? edl.tenants | json_encode : [] | json_encode }}"></div>
             <div class="toolbar">
                 {# Search by #}
             </div>

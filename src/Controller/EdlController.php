@@ -78,7 +78,7 @@ class EdlController
             'users' => $this->getUsers(),
             'properties' => $properties,
             'tenants' => $tenants,
-            'donnees' => json_encode($tenants),
+            'donnees' => json_encode($edl),
         ]);
     }
 }

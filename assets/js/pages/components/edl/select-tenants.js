@@ -6,11 +6,13 @@ function selectTenants() {
 
     let selected = document.querySelector('.selected-tenants');
 
+    JSON.parse(tenants.dataset.selected).forEach(elem => {
+        updateValues(elem.id, input);
+    })
+
     btns.forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
-
-            btn.classList.add('active');
 
             updateValues(btn.dataset.id, input);
         });
@@ -27,6 +29,8 @@ function selectTenants() {
         let btn = document.querySelector('.list-select-tenants .card-' + tenantId)
         let oldValues = input.value;
         let values = [];
+
+        btn.classList.add('active');
 
         if(oldValues !== ""){
             oldValues = oldValues.split(',')
