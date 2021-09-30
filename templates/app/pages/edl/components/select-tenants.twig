@@ -8,14 +8,13 @@
             <span class="icon-cancel btn-select-tenants"></span>
         </div>
         <div class="list list-select list-select-tenants">
+            <div id="allTenants" data-data="{{ tenants | json_encode }}"></div>
             <div class="toolbar">
                 {# Search by #}
             </div>
             {% if tenants | length > 0 %}
                 {% for elem in tenants %}
-                    <div class="card"
-                         data-id="{{ elem.id }}" data-tenant="{{ elem | json_encode }}"
-                    >
+                    <div class="card card-{{ elem.id }}" data-id="{{ elem.id }}">
                         <div class="card-header">
                             <div class="title">
                                 <div class="label">
