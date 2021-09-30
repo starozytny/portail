@@ -1,6 +1,6 @@
 function manageAside(btnsClass, asideClasse) {
     let btns = document.querySelectorAll(btnsClass);
-    if(btns){
+    if(btns.length !== 0){
         let aside = document.querySelector(asideClasse);
         let overlay = document.querySelector(asideClasse + ' .aside-overlay');
 

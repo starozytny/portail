@@ -5,21 +5,22 @@
             <span class="title">Sélectionner un bien</span>
             <span class="icon-cancel btn-select-bien"></span>
         </div>
-        <div class="list list-select">
+        <div class="list list-select list-select-bien">
+            <div class="toolbar">
+                {# Search by ref, zipcode, city, owner #}
+            </div>
             {% if properties | length > 0 %}
                 {% for elem in properties %}
-                    <div class="card">
+                    <div class="card" data-id="{{ elem.id }}" data-bien="{{ elem | json_encode }}">
                         <div class="card-header">
                             <div class="title">
                                 <div class="address">
                                     <div>{{ elem.addr1 }}</div>
                                     {{ elem.type ? '<div>Type : '~ elem.type ~'</div>' : '' }}
                                     <div class="sub">{{ elem.zipcode }}, {{ elem.city }}</div>
-                                    <div class="sub">{{ elem.building }}</div>
+                                    {{ elem.building ? '<div class="sub">'~ elem.building ~'</div>' : '' }}
                                 </div>
-                                <div class="ref">
-                                    {{ elem.reference }}
-                                </div>
+                                <div class="ref">{{ elem.reference }}</div>
                             </div>
                         </div>
                         <div class="card-body">

@@ -12,6 +12,12 @@
   }
 
   .select-or-add{
+    display: none;
+
+    &.active{
+      display: block;
+    }
+
     & > div{
       width: calc(100% - 50px);
 
@@ -25,6 +31,51 @@
     margin-top: 48px;
   }
 }
+
+//main style selected in aside
+.selected{
+  display: none;
+
+  &.active{
+    display: block;
+  }
+
+  .card{
+    cursor: initial;
+    max-width: 414px;
+    margin-bottom: 0;
+
+    &.active{
+      &:hover{
+        opacity: 1;
+      }
+    }
+
+    .card-header{
+      .title{
+        border-radius: 0 0 3px 3px;
+      }
+    }
+  }
+
+  .btn-remove{
+    @include flex(row, flex-end, flex-end);
+    padding: 12px;
+
+    .btn-icon{
+      padding: 0;
+    }
+
+    .tooltip{
+      width: 120px;
+    }
+
+    [class^="icon-"]{
+      font-size: 17px;
+    }
+  }
+}
+
 
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
