@@ -128,6 +128,8 @@ if(form){
                     }, 1000);
                 })
                 .catch(function (error) {
+                    console.log(error.response)
+                    console.log(error.response.data)
                     Validateur.loader(false);
                     Validateur.handleErrors(error)
                 })

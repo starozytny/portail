@@ -27,14 +27,25 @@ function addBien() {
             let door            = document.querySelector(formClass + ' .door').value;
             let city            = document.querySelector(formClass + ' .city').value;
             let zipcode         = document.querySelector(formClass + ' .zipcode').value;
-            let isFurniture     = document.querySelector(formClass + ' [name="isFurniture"]:checked').value;
+            let isFurnished     = document.querySelector(formClass + ' [name="isFurnished"]:checked').value;
 
             // validate data
             let validate = Validateur.validateur([
                 {type: "text", id: 'reference', value: reference},
                 {type: "text", id: 'addr1', value: addr1},
                 {type: "text", id: 'city', value: city},
-                {type: "text", id: 'zipcode', value: zipcode}
+                {type: "text", id: 'zipcode', value: zipcode},
+                {type: "length", min: 0, max: 10, id: 'reference', value: reference},
+                {type: "length", min: 0, max: 64, id: 'addr1', value: addr1},
+                {type: "length", min: 0, max: 64, id: 'addr2', value: addr2},
+                {type: "length", min: 0, max: 64, id: 'addr2', value: addr2},
+                {type: "length", min: 0, max: 10, id: 'zipcode', value: zipcode},
+                {type: "length", min: 0, max: 64, id: 'city', value: city},
+                {type: "length", min: 0, max: 20, id: 'door', value: door},
+                {type: "length", min: 0, max: 20, id: 'floor', value: floor},
+                {type: "length", min: 0, max: 20, id: 'typeBien', value: typeBien},
+                {type: "length", min: 0, max: 40, id: 'building', value: building},
+                {type: "length", min: 0, max: 32, id: 'owner', value: owner},
             ])
 
             if(!validate.code){
@@ -57,7 +68,7 @@ function addBien() {
                     door: door,
                     city: city,
                     zipcode: zipcode,
-                    isFurniture: isFurniture,
+                    isFurnished: isFurnished,
                 };
                 axios({method: "POST", url: form.dataset.url, data: formData})
                     .then(function (response) {

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
+use App\Services\Edl\PropertyService;
 use App\Services\Validateur;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,12 +18,18 @@ class EdlController
     private $twig;
     private $apiService;
     private $validateur;
+    /**
+     * @var PropertyService
+     */
+    private $propertyService;
 
-    public function __construct(Twig $twig, ApiService $apiService, Validateur $validateur)
+    public function __construct(Twig $twig, ApiService $apiService, Validateur $validateur,
+                                PropertyService $propertyService)
     {
         $this->twig = $twig;
         $this->apiService = $apiService;
         $this->validateur = $validateur;
+        $this->propertyService = $propertyService;
     }
 
     private function getUsers(): array
@@ -103,7 +110,10 @@ class EdlController
             // extract data bien and tenants to create
             $propertyUid = null;
             if($bienCreate != "") {
+                $this->propertyService->createProperty(json_decode($bienCreate));
 
+                $response->getBody()->write("error");
+                return $response->withStatus(400);
             }else{
                 $property = $this->apiService->callApi('properties/' . $bien);
                 if($property == false){

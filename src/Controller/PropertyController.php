@@ -39,14 +39,25 @@ class PropertyController
         $door = $this->sanitizeData->clean($data->door);
         $city = $this->sanitizeData->clean($data->city);
         $zipcode = $this->sanitizeData->clean($data->zipcode);
-        $isFurniture = $this->sanitizeData->clean($data->isFurniture);
+        $isFurnished = $this->sanitizeData->clean($data->isFurnished);
 
         // validation des données
         $paramsToValidate = [
             ['type' => 'text', 'name' => 'reference',    'value' => $reference],
             ['type' => 'text', 'name' => 'addr1',        'value' => $addr1],
             ['type' => 'text', 'name' => 'city',         'value' => $city],
-            ['type' => 'text', 'name' => 'zipcode',      'value' => $zipcode]
+            ['type' => 'text', 'name' => 'zipcode',      'value' => $zipcode],
+            ['type' => 'length', 'min' => 0, 'max' => 10, 'id' => 'reference',  'value'=> $reference],
+            ['type' => 'length', 'min' => 0, 'max' => 64, 'id' => 'addr1',      'value'=> $addr1],
+            ['type' => 'length', 'min' => 0, 'max' => 64, 'id' => 'addr2',      'value'=> $addr2],
+            ['type' => 'length', 'min' => 0, 'max' => 64, 'id' => 'addr2',      'value'=> $addr2],
+            ['type' => 'length', 'min' => 0, 'max' => 10, 'id' => 'zipcode',    'value'=> $zipcode],
+            ['type' => 'length', 'min' => 0, 'max' => 64, 'id' => 'city',       'value'=> $city],
+            ['type' => 'length', 'min' => 0, 'max' => 20, 'id' => 'door',       'value'=> $door],
+            ['type' => 'length', 'min' => 0, 'max' => 20, 'id' => 'floor',      'value'=> $floor],
+            ['type' => 'length', 'min' => 0, 'max' => 20, 'id' => 'typeBien',   'value'=> $typeBien],
+            ['type' => 'length', 'min' => 0, 'max' => 40, 'id' => 'building',   'value'=> $building],
+            ['type' => 'length', 'min' => 0, 'max' => 32, 'id' => 'owner',      'value'=> $owner],
         ];
         $errors = $this->validateur->validate($paramsToValidate);
         if(count($errors) > 0){
@@ -68,7 +79,7 @@ class PropertyController
             'door' => $door,
             'city' => $city,
             'zipcode' => $zipcode,
-            'isFurniture' => $isFurniture,
+            'isFurnished' => $isFurnished,
         ];
 
         $properties = $this->apiService->callApi('properties');

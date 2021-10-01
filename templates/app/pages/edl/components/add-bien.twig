@@ -42,7 +42,8 @@
                     {% include 'app/layout/components/form/input.twig' with {
                         input_name: 'surface',
                         input_label: 'Surface (m²)',
-                        input_value: 0
+                        input_value: 0,
+                        input_type: 'number'
                     } %}
                 </div>
                 <div class="line line-2">
@@ -50,7 +51,6 @@
                         input_name: 'addr2',
                         input_label: 'Adresse 2',
                         input_value: '',
-                        input_type: 'number'
                     } %}
                     {% include 'app/layout/components/form/input.twig' with {
                         input_name: 'room',
@@ -64,7 +64,6 @@
                         input_name: 'addr3',
                         input_label: 'Adresse 3',
                         input_value: '',
-                        input_type: 'number'
                     } %}
                     {% include 'app/layout/components/form/input.twig' with {
                         input_name: 'floor',
@@ -94,7 +93,7 @@
                         input_required: true
                     } %}
                     {% include 'app/layout/components/form/box.twig' with {
-                        input_name: 'isFurniture',
+                        input_name: 'isFurnished',
                         input_label: 'Le bien est ?',
                         input_value: 1,
                         input_choices: [

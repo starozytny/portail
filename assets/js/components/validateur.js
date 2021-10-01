@@ -98,6 +98,17 @@ function validateAtLeastOne($value, $valueCheck) {
     return {'code': true};
 }
 
+function validateLength($value, min, max) {
+    if($value.length < min || $value.length > max){
+        return {
+            'code': false,
+            'message': 'Ce champ doit contenir entre ' + min + " et " + max + " caractères."
+        };
+    }
+
+    return {'code': true}
+}
+
 function switchCase(element){
     let validate;
     switch (element.type) {
@@ -118,6 +129,9 @@ function switchCase(element){
             break;
         case 'atLeastOne':
             validate = validateAtLeastOne(element.value, element.valueCheck);
+            break;
+        case 'length':
+            validate = validateLength(element.value, element.min, element.max);
             break;
         case 'date':
             validate = validateDate(element.value);
