@@ -6,6 +6,7 @@ use App\Services\ApiService;
 use App\Services\Validateur;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -130,7 +131,7 @@ class EdlController
             $dataToSend = [
                 'uid' => round(microtime(true)),
                 'property_uid' => $propertyUid, // for javascript edit
-                'date' => $startDate != "" ? $startDate : 0,
+                'date' => $startDate,
                 'type' => $type,
                 'tenants' => json_encode($tenantsArray),
                 'user_id' => $attribution,
@@ -143,7 +144,10 @@ class EdlController
                 return $response->withStatus(400);
             }
 
-            $response->getBody()->write("Cool !");
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            $url = $routeParser->fullUrlFor($request->getUri(), 'edl');
+
+            $response->getBody()->write($url);
             return $response->withStatus(200);
         }
 

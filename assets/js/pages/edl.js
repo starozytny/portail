@@ -66,6 +66,16 @@ if(form){
         let tenants         = document.querySelector(formClass + ' #tenants').value;
         let tenantsCreate   = document.querySelector(formClass + ' #tenants-created').value;
 
+        console.log("Structure : " + structure)
+        console.log("Model : " + model)
+        console.log("Attribution : " + attribution)
+        console.log("Date : " + new Date(startDate).getTime())
+        console.log("Type : " + type)
+        console.log("Bien : " + bien)
+        console.log("Bien created : " + bienCreate)
+        console.log("Tenants : " + tenants)
+        console.log("Tenants creates : " + tenantsCreate)
+
         //reset errors
         errorBien.classList.remove('form-group-error');
         errorTenant.classList.remove('form-group-error');
@@ -96,23 +106,14 @@ if(form){
             toastr.warning("Veuillez vérifier les informations transmises.");
             Validateur.displayErrors(validate.errors);
         }else{
-            console.log("Structure : " + structure)
-            console.log("Model : " + model)
-            console.log("Attribution : " + attribution)
-            console.log("Date : " + startDate)
-            console.log("Type : " + type)
-            console.log("Bien : " + bien)
-            console.log("Bien created : " + bienCreate)
-            console.log("Tenants : " + tenants)
-            console.log("Tenants creates : " + tenantsCreate)
-
             //send data ajax
             Validateur.loader(true);
+            startDate = startDate !== "" ? new Date(startDate).getTime() + "" : 0;
             let formData = {
                 structure: structure,
                 model: model,
                 attribution: attribution,
-                startDate: startDate,
+                startDate: startDate !== 0 ? startDate.substring(0, startDate.length - 3) : 0,
                 type: type,
                 bien: bien,
                 bienCreate: bienCreate,
@@ -121,19 +122,14 @@ if(form){
             };
             axios({method: method, url: form.dataset.url, data: formData})
                 .then(function (response) {
-                    console.log("ok")
-                    toastr.info(response.data)
-                    console.log(response)
-                    console.log(response.data)
+                    toastr.info("Etat des lieux ajouté ! La page va se rafraichir dans quelques instants.")
+                    setTimeout(function () {
+                        location.href = response.data;
+                    }, 1000);
                 })
                 .catch(function (error) {
-                    // console.log(error)
-                    // console.log(error.response)
-                    console.log(error.response.data)
-                    Validateur.handleErrors(error)
-                })
-                .then(function () {
                     Validateur.loader(false);
+                    Validateur.handleErrors(error)
                 })
             ;
         }
