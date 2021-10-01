@@ -68,15 +68,15 @@ class EdlController
         if($method == "POST"){
 
             $data = json_decode($request->getBody());
-            $structure = $data->structure;
-            $model = $data->model;
-            $attribution = $data->attribution;
-            $startDate = $data->startDate;
-            $type = $data->type;
-            $bien = $data->bien;
-            $bienCreate = $data->bienCreate;
-            $tenants = $data->tenants;
-            $tenantsCreate = $data->tenantsCreate;
+            $structure      = $data->structure;
+            $model          = $data->model;
+            $attribution    = $data->attribution;
+            $startDate      = $data->startDate;
+            $type           = $data->type;
+            $bienId           = $data->bien;
+            $bienCreate     = $data->bienCreate;
+            $tenants        = $data->tenants;
+            $tenantsCreate  = $data->tenantsCreate;
 
             // validation des données
             $paramsToValidate = [
@@ -88,8 +88,7 @@ class EdlController
                 array_push($paramsToValidate, ['type' => 'text', 'name' => 'model', 'value' => $model]);
             }
             $errors = $this->validateur->validate($paramsToValidate);
-
-            if($bien == "" && $bienCreate == ""){
+            if($bienId == "" && $bienCreate == ""){
                 array_push($errors, [
                     'name' => 'bien',
                     'message' => 'Veuillez sélectionner ou ajouter un bien'
@@ -108,20 +107,29 @@ class EdlController
             }
 
             // extract data bien and tenants to create
-            $propertyUid = null;
             if($bienCreate != "") {
-                $this->propertyService->createProperty(json_decode($bienCreate));
+                $bienCreate = json_decode($bienCreate);
+                $res = $this->propertyService->createProperty($bienCreate);
 
-                $response->getBody()->write("error");
-                return $response->withStatus(400);
-            }else{
-                $property = $this->apiService->callApi('properties/' . $bien);
-                if($property == false){
-                    $response->getBody()->write("[EP001] Une erreur est survenu. Veuillez contacter le support.");
+                if($res['code'] == 0){
+                    $response->getBody()->write($res['message']);
                     return $response->withStatus(400);
                 }
-                $propertyUid = $property->uid;
+
+                $properties = $this->apiService->callApi('properties');
+                foreach($properties as $property){
+                    if($property->reference == $bienCreate->reference){
+                        $bienId = $property->id;
+                    }
+                }
             }
+
+            $property = $this->apiService->callApi('properties/' . $bienId);
+            if($property == false){
+                $response->getBody()->write("[EP001] Une erreur est survenu. Veuillez contacter le support.");
+                return $response->withStatus(400);
+            }
+            $propertyUid = $property->uid;
 
             $tenantsArray = [];
             if($tenantsCreate != ""){
@@ -139,16 +147,16 @@ class EdlController
             }
 
             $dataToSend = [
-                'uid' => round(microtime(true)),
-                'property_uid' => $propertyUid, // for javascript edit
-                'date' => $startDate,
-                'type' => $type,
-                'tenants' => json_encode($tenantsArray),
-                'user_id' => $attribution,
-                'comparative' => 0,
-                'input' => $model
+                'uid'           => round(microtime(true) * 10000),
+                'property_uid'  => $propertyUid,
+                'date'          => $startDate,
+                'type'          => $type,
+                'tenants'       => json_encode($tenantsArray),
+                'user_id'       => $attribution,
+                'comparative'   => 0,
+                'input'         => $model
             ];
-            $res = $this->apiService->callApiInventory('add_inventory', 'POST', false, $dataToSend);
+            $res = $this->apiService->callApiWithErrors('add_inventory', 'POST', false, $dataToSend);
             if($res['code'] == 0){
                 $response->getBody()->write($res['message']);
                 return $response->withStatus(400);

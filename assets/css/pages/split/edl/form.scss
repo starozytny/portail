@@ -7,6 +7,15 @@
   border-radius: 4px;
   padding: 24px 12px;
 
+  .error-form{
+    display: none;
+
+    .active{
+      display: block;
+      margin-bottom: 24px;
+    }
+  }
+
   .line-select-or-add{
     margin-top: 48px;
   }

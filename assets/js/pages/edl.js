@@ -53,6 +53,8 @@ if(form){
         e.preventDefault();
 
         let method = form.dataset.from === "create" ? "POST" : "PUT";
+
+        let errorForm = document.querySelector(formClass + ' .error-form');
         let errorBien = document.querySelector('.input-bien')
         let errorTenant = document.querySelector('.input-tenants')
 
@@ -77,6 +79,7 @@ if(form){
         console.log("Tenants creates : " + tenantsCreate)
 
         //reset errors
+        errorForm.classList.remove('active');
         errorBien.classList.remove('form-group-error');
         errorTenant.classList.remove('form-group-error');
         Validateur.hideErrors();
@@ -124,6 +127,7 @@ if(form){
                 .then(function (response) {
                     toastr.info("Etat des lieux ajouté ! La page va se rafraichir dans quelques instants.")
                     setTimeout(function () {
+                        console.log(response.data)
                         location.href = response.data;
                     }, 1000);
                 })
@@ -131,7 +135,7 @@ if(form){
                     console.log(error.response)
                     console.log(error.response.data)
                     Validateur.loader(false);
-                    Validateur.handleErrors(error)
+                    Validateur.handleErrors(error, formClass);
                 })
             ;
         }

@@ -196,16 +196,19 @@ function hideErrors() {
     }
 }
 
-function handleErrors(error, message="Veuillez vérifier les informations transmises."){
+function handleErrors(error, formClass=null, message="Veuillez vérifier les informations transmises."){
     if(Array.isArray(error.response.data)){
         toastr.error(message);
         displayErrors(error.response.data);
     }else{
-        if(error.response.data){
-            toastr.error(error.response.data)
-        }else{
-            toastr.error(message);
-        }
+        let errorForm = document.querySelector(formClass + ' .error-form');
+        let errorMsg = document.querySelector(formClass + ' .error-form p');
+
+        let messageError = error.response.data ? error.response.data : message;
+        toastr.error(messageError);
+
+        errorForm.classList.add('active');
+        errorMsg.innerHTML = messageError;
     }
 }
 

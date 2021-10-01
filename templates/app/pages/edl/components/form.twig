@@ -1,6 +1,12 @@
 {% set isDefined = edl is defined %}
 
 <form class="edl-form" data-from="{{ from }}" data-url="{{ url_edl_form }}" method="POST">
+    <div class="error-form">
+        <div class="alert alert-danger">
+            <span class="icon-warning"></span>
+            <p></p>
+        </div>
+    </div>
     <div class="line line-3">
         {% include 'app/layout/components/form/select.twig' with {
             input_name: 'attribution',

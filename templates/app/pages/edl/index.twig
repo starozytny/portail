@@ -64,8 +64,12 @@
                                         <div class="col-4">
                                             <div style="margin-bottom: 4px;"><u>Référence</u> : {{ elem.property.reference }}</div>
                                             <div>Adresse : {{ elem.property.addr1 }}</div>
-                                            <div>Type : {{ elem.property.type }}</div>
-                                            <div>{{ elem.property.owner ? "Propriétaire : " ~ elem.property.owner : "Pas de propriétaire" }}</div>
+                                            {% if elem.property.type %}
+                                                <div>Type : {{ elem.property.type }}</div>
+                                            {% endif %}
+                                            {% if elem.property.owner %}
+                                                <div>Propriétaire : {{ elem.property.owner }}</div>
+                                            {% endif %}
                                         </div>
                                         <div class="col-5">
                                             {% if elem.tenants | length > 0 %}

@@ -84,7 +84,7 @@ class ApiService
         }
     }
 
-    public function callApiInventory($path, $method="GET", $decodeResponseToJson=true, $json=[]): array
+    public function callApiWithErrors($path, $method="GET", $decodeResponseToJson=true, $json=[]): array
     {
         $client = new Client();
 
@@ -110,7 +110,7 @@ class ApiService
             }
             return [
                 'code' => 0,
-                'message' => "[II001] Une erreur est survenu. Veuillez contacter le support."
+                'message' => "[APE001] Une erreur est survenu. Veuillez contacter le support."
             ];
         }
     }
