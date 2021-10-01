@@ -44,6 +44,16 @@ class EdlController
         if($method == "POST"){
             $response->withHeader('Content-Type', 'application/json');
 
+            $data = json_decode($request->getBody());
+            $structure = $data->structure;
+            $attribution = $data->attribution;
+            $startDate = $data->startDate;
+            $type = $data->type;
+            $bien = $data->bien;
+            $bienCreate = $data->bienCreate;
+            $tenants = $data->tenants;
+            $tenantsCreate = $data->tenantsCreate;
+
             $response->getBody()->write("Cool !");
             return $response->withStatus(200);
         }
