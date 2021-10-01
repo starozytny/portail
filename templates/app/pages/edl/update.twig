@@ -10,9 +10,7 @@
     </div>
 
     <div class="main-content">
-        <div class="edl-form">
-            {% include 'app/pages/edl/components/form.twig' with { edl: edl } %}
-        </div>
+        {% include 'app/pages/edl/components/form.twig' with { edl: edl } %}
     </div>
 
     {{ parent() }}

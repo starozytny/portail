@@ -7,8 +7,5 @@
             {{ input_required is defined ? "required" : "" }}
     >
 
-    <div class="error">
-        <span class='icon-warning'></span>
-        <p></p>
-    </div>
+    {% include 'app/layout/components/form/input_error.twig' %}
 </div>

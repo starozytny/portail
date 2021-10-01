@@ -1,6 +1,6 @@
 {% set isDefined = edl is defined %}
 
-<form method="POST">
+<form class="edl-form" method="POST">
     <div class="line line-3">
         {% include 'app/layout/components/form/select.twig' with {
             input_name: 'structure',
@@ -14,7 +14,7 @@
             ]
         } %}
         {% include 'app/layout/components/form/select.twig' with {
-            input_name: 'user',
+            input_name: 'attribution',
             input_label: 'Attribution',
             input_value: isDefined ? edl.inventory.user_id : session.user[7],
             input_required: true,
@@ -43,7 +43,12 @@
     </div>
 
     <div class="line line-select-or-add">
-        <label>Bien</label>
+        <div class="form-group input-bien">
+            <label>Bien</label>
+            {% include 'app/layout/components/form/input_error.twig' with {
+                msg: "Veuillez sélectionner ou ajouter un bien."
+            } %}
+        </div>
         <div class="actions-bien select-or-add {{ isDefined ? "" : "active" }}">
             <div class="btn btn-outline-default btn-select-bien">Sélectionner un bien</div>
             <div class="btn btn-outline-default btn-add-bien">Ajouter un bien</div>
@@ -73,7 +78,12 @@
     </div>
 
     <div class="line line-select-or-add">
-        <label>Locataire(s)</label>
+        <div class="form-group input-tenants">
+            <label>Locataire(s)</label>
+            {% include 'app/layout/components/form/input_error.twig' with {
+                msg: "Veuillez sélectionner ou ajouter un locataire."
+            } %}
+        </div>
         <div class="actions-tenants select-or-add active">
             <div class="btn btn-outline-default btn-select-tenants">Sélectionner un/des locataire(s)</div>
             <div class="btn btn-outline-default btn-add-tenant">Ajouter un/des locataire(s)</div>
