@@ -42,10 +42,10 @@
         {% include 'app/layout/components/form/box.twig' with {
             input_name: 'type',
             input_label: 'Type d\'état des lieux',
-            input_value: isDefined ? edl.inventory.type : 0,
+            input_value: isDefined ? edl.inventory.type : 1,
             input_choices: [
-                {value: 0, label: 'Entrant', name: 'entrant'},
-                {value: 1, label: 'Sortant', name: 'sortant'},
+                {value: 1, label: 'Entrant', name: 'entrant'},
+                {value: 0, label: 'Sortant', name: 'sortant'},
             ],
             input_class: 'radiobox-item',
             input_type: 'radio'

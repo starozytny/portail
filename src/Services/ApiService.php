@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Odan\Session\SessionInterface;
@@ -80,6 +81,37 @@ class ApiService
             return $response->getBody();
         } catch (GuzzleException $e){
             return false;
+        }
+    }
+
+    public function callApiInventory($path, $method="GET", $decodeResponseToJson=true, $json=[]): array
+    {
+        $client = new Client();
+
+        $username = $this->session->get('user')[0];
+        $password = $this->decryption();
+
+        try {
+            $response = $client->request($method, $this->apiUrl . $path , [
+                'auth' =>  [$username, $password],
+                'json' => $json
+            ]);
+            return [
+                'code' => 1,
+                'data' => $decodeResponseToJson ? json_decode($response->getBody()) : $response->getBody()
+            ];
+        } catch (GuzzleException $e){
+            if($e->getCode() == 409){
+                $pos = strrpos($e->getMessage(), 'response:') + 10;
+                return [
+                    'code' => 0,
+                    'message' => substr($e->getMessage(), $pos)
+                ];
+            }
+            return [
+                'code' => 0,
+                'message' => "[II001] Une erreur est survenu. Veuillez contacter le support."
+            ];
         }
     }
 }

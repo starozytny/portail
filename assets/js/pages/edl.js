@@ -54,11 +54,11 @@ if(form){
         let errorBien = document.querySelector('.input-bien')
         let errorTenant = document.querySelector('.input-tenants')
 
+        let attribution     = document.querySelector(formClass + ' #attribution').value;
         let structure       = document.querySelector(formClass + ' #structure').value;
         let model           = document.querySelector(formClass + ' #model').value;
-        let attribution     = document.querySelector(formClass + ' #attribution').value;
-        let startDate       = document.querySelector(formClass + ' .startDate').value;
         let type            = document.querySelector(formClass + ' input[name="type"]').value;
+        let startDate       = document.querySelector(formClass + ' .startDate').value;
         let bien            = document.querySelector(formClass + ' #bien').value;
         let bienCreate      = document.querySelector(formClass + ' #bien-created').value;
         let tenants         = document.querySelector(formClass + ' #tenants').value;
@@ -94,15 +94,15 @@ if(form){
             toastr.warning("Veuillez vérifier les informations transmises.");
             Validateur.displayErrors(validate.errors);
         }else{
-            console.log(structure)
-            console.log(model)
-            console.log(attribution)
-            console.log(startDate)
-            console.log(type)
-            console.log(bien)
-            console.log(bienCreate)
-            console.log(tenants)
-            console.log(tenantsCreate)
+            // console.log(structure)
+            // console.log(model)
+            // console.log(attribution)
+            // console.log(startDate)
+            // console.log(type)
+            // console.log(bien)
+            // console.log(bienCreate)
+            // console.log(tenants)
+            // console.log(tenantsCreate)
 
             //send data ajax
             Validateur.loader(true);
@@ -125,8 +125,9 @@ if(form){
                     console.log(response.data)
                 })
                 .catch(function (error) {
-                    console.log(error)
-                    console.log(error.response)
+                    // console.log(error)
+                    // console.log(error.response)
+                    console.log(error.response.data)
                     Validateur.handleErrors(error)
                 })
                 .then(function () {

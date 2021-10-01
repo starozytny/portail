@@ -29,7 +29,7 @@ class EdlController
         $data = $this->apiService->callApi('users');
         $objs = [];
         foreach($data as $elem){
-            array_push($objs, ['value' => 10 . $elem->id, 'label' =>  $elem->first_name . ' ' . $elem->last_name . ' - ' . '#' . $elem->username]);
+            array_push($objs, ['value' => $elem->id, 'label' =>  $elem->first_name . ' ' . $elem->last_name . ' - ' . '#' . $elem->username]);
         }
 
         return $objs;
@@ -40,7 +40,7 @@ class EdlController
         $data = $this->apiService->callApi('models');
         $objs = [];
         foreach($data as $elem){
-            array_push($objs, ['value' => $elem->id, 'label' =>  $elem->name]);
+            array_push($objs, ['value' => 10 . $elem->id, 'label' =>  $elem->name]);
         }
 
         return $objs;
@@ -55,8 +55,9 @@ class EdlController
     {
         $method = $request->getMethod();
 
+        $allTenants = $this->apiService->callApi('tenants');
+
         if($method == "POST"){
-            $response->withHeader('Content-Type', 'application/json');
 
             $data = json_decode($request->getBody());
             $structure = $data->structure;
@@ -98,19 +99,62 @@ class EdlController
                 return $response->withStatus(400);
             }
 
+            // extract data bien and tenants to create
+            $propertyUid = null;
+            if($bienCreate != "") {
+
+            }else{
+                $property = $this->apiService->callApi('properties/' . $bien);
+                if($property == false){
+                    $response->getBody()->write("[EP001] Une erreur est survenu. Veuillez contacter le support.");
+                    return $response->withStatus(400);
+                }
+                $propertyUid = $property->uid;
+            }
+
+            $tenantsArray = [];
+            if($tenantsCreate != ""){
+
+            }
+            if($tenants != ""){
+                $tenants = explode(',', $tenants);
+                foreach($tenants as $tenantId){
+                    foreach($allTenants as $oriTenant){
+                        if($oriTenant->id == $tenantId){
+                            array_push($tenantsArray, $oriTenant->reference);
+                        }
+                    }
+                }
+            }
+
+            $dataToSend = [
+                'uid' => round(microtime(true)),
+                'property_uid' => $propertyUid, // for javascript edit
+                'date' => $startDate != "" ? $startDate : 0,
+                'type' => $type,
+                'tenants' => json_encode($tenantsArray),
+                'user_id' => $attribution,
+                'comparative' => 0,
+                'input' => $model
+            ];
+            $res = $this->apiService->callApiInventory('add_inventory', 'POST', false, $dataToSend);
+            if($res['code'] == 0){
+                $response->getBody()->write($res['message']);
+                return $response->withStatus(400);
+            }
+
             $response->getBody()->write("Cool !");
             return $response->withStatus(200);
         }
 
         $properties = $this->apiService->callApi('properties');
-        $tenants = $this->apiService->callApi('tenants');
 
         return $this->twig->render($response, 'app/pages/edl/create.twig', [
             'users' => $this->getUsers(),
             'properties' => $properties,
-            'tenants' => $tenants,
+            'tenants' => $allTenants,
             'models' => $this->getModels(),
-            'donnees' => json_encode($tenants)
+            'donnees' => json_encode($allTenants)
         ]);
     }
 
@@ -123,6 +167,8 @@ class EdlController
     {
         $method = $request->getMethod();
 
+        $allTenants = $this->apiService->callApi('tenants');
+
         if($method == "PUT"){
             $response->withHeader('Content-Type', 'application/json');
 
@@ -132,13 +178,12 @@ class EdlController
 
         $edl = $this->apiService->callApi('inventories/full/' . $args['id']);
         $properties = $this->apiService->callApi('properties');
-        $tenants = $this->apiService->callApi('tenants');
 
         return $this->twig->render($response, 'app/pages/edl/update.twig', [
             'edl' => $edl,
             'users' => $this->getUsers(),
             'properties' => $properties,
-            'tenants' => $tenants,
+            'tenants' => $allTenants,
             'models' => $this->getModels(),
             'donnees' => json_encode($edl),
         ]);
