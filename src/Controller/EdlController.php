@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
+use App\Services\Validateur;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -14,11 +15,13 @@ class EdlController
 {
     private $twig;
     private $apiService;
+    private $validateur;
 
-    public function __construct(Twig $twig, ApiService $apiService)
+    public function __construct(Twig $twig, ApiService $apiService, Validateur $validateur)
     {
         $this->twig = $twig;
         $this->apiService = $apiService;
+        $this->validateur = $validateur;
     }
 
     private function getUsers(): array
@@ -65,6 +68,35 @@ class EdlController
             $bienCreate = $data->bienCreate;
             $tenants = $data->tenants;
             $tenantsCreate = $data->tenantsCreate;
+
+            // validation des données
+            $paramsToValidate = [
+                ['type' => 'text', 'name' => 'structure',    'value' => $structure],
+                ['type' => 'text', 'name' => 'attribution',  'value' => $attribution],
+                ['type' => 'text', 'name' => 'type',         'value' => $type]
+            ];
+            if($structure == 1) { //etablir structure = model required
+                array_push($paramsToValidate, ['type' => 'text', 'name' => 'model', 'value' => $model]);
+            }
+            $errors = $this->validateur->validate($paramsToValidate);
+
+            if($bien == "" && $bienCreate == ""){
+                array_push($errors, [
+                    'name' => 'bien',
+                    'message' => 'Veuillez sélectionner ou ajouter un bien'
+                ]);
+            }
+            if($tenants == "" && $tenantsCreate == ""){
+                array_push($errors, [
+                    'name' => 'tenants',
+                    'message' => 'Veuillez sélectionner ou ajouter un locataire'
+                ]);
+            }
+
+            if(count($errors) > 0){
+                $response->getBody()->write(json_encode($errors));
+                return $response->withStatus(400);
+            }
 
             $response->getBody()->write("Cool !");
             return $response->withStatus(200);
