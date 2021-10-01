@@ -42,6 +42,16 @@ class TenantController
             ['type' => 'text', 'name' => 'lastname',            'value' => $lastname],
             ['type' => 'text', 'name' => 'firstname',           'value' => $firstname],
             ['type' => 'text', 'name' => 'reference-tenant',    'value' => $reference],
+            ['type' => 'length', 'min' => 0, 'max' => 5,  'id' => 'reference',  'value'=> $reference],
+            ['type' => 'length', 'min' => 0, 'max' => 80, 'id' => 'lastname',   'value' => $lastname],
+            ['type' => 'length', 'min' => 0, 'max' => 80, 'id' => 'firstname',  'value' => $firstname],
+            ['type' => 'length', 'min' => 0, 'max' => 15, 'id' => 'phone',      'value' => $phone],
+            ['type' => 'length', 'min' => 0, 'max' => 80, 'id' => 'email',      'value' => $email],
+            ['type' => 'length', 'min' => 0, 'max' => 80, 'id' => 'addr1',      'value' => $addr1],
+            ['type' => 'length', 'min' => 0, 'max' => 40, 'id' => 'addr2',      'value' => $addr2],
+            ['type' => 'length', 'min' => 0, 'max' => 40, 'id' => 'addr3',      'value' => $addr3],
+            ['type' => 'length', 'min' => 0, 'max' => 40, 'id' => 'city',       'value' => $city],
+            ['type' => 'length', 'min' => 0, 'max' => 5,  'id' => 'zipcode',    'value' => $zipcode],
         ];
         $errors = $this->validateur->validate($paramsToValidate);
         if(count($errors) > 0){
