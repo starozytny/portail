@@ -14,7 +14,7 @@ class PropertyService
         $this->apiService = $apiService;
     }
 
-    public function extractBienFromFormEdl($bienId, $bienCreate): array
+    public function extractBienFromFormEdl($from, $bienId, $bienCreate): array
     {
         if($bienCreate != "") {
             $res = $this->extractBienFromJs($bienCreate);

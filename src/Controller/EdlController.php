@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Services\ApiService;
 use App\Services\Edl\PropertyService;
+use App\Services\Edl\TenantService;
 use App\Services\Validateur;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,43 +19,110 @@ class EdlController
     private $twig;
     private $apiService;
     private $validateur;
-    /**
-     * @var PropertyService
-     */
     private $propertyService;
+    private $tenantService;
 
     public function __construct(Twig $twig, ApiService $apiService, Validateur $validateur,
-                                PropertyService $propertyService)
+                                PropertyService $propertyService, TenantService $tenantService)
     {
         $this->twig = $twig;
         $this->apiService = $apiService;
         $this->validateur = $validateur;
         $this->propertyService = $propertyService;
-    }
-
-    private function getUsers(): array
-    {
-        $data = $this->apiService->callApi('users');
-        $objs = [];
-        foreach($data as $elem){
-            array_push($objs, ['value' => $elem->id, 'label' =>  $elem->first_name . ' ' . $elem->last_name . ' - ' . '#' . $elem->username]);
-        }
-
-        return $objs;
-    }
-
-    private function getModels(): array
-    {
-        $data = $this->apiService->callApi('models');
-        $objs = [];
-        foreach($data as $elem){
-            array_push($objs, ['value' => 10 . $elem->id, 'label' =>  $elem->name]);
-        }
-
-        return $objs;
+        $this->tenantService = $tenantService;
     }
 
     /**
+     * Methode pour envoyer les data pour créer ou modifier un edl
+     *
+     * @param $existe
+     * @param $request
+     * @param $data
+     * @param $url
+     * @return array
+     */
+    private function submitForm($existe, $request, $data, $url): array
+    {
+        $structure      = $data->structure;
+        $model          = $data->model;
+        $attribution    = $data->attribution;
+        $startDate      = $data->startDate;
+        $type           = $data->type;
+        $bienId         = $data->bien;
+        $bienCreate     = $data->bienCreate;
+        $tenants        = $data->tenants;
+        $tenantsCreate  = $data->tenantsCreate;
+
+        // validation des données
+        $paramsToValidate = [
+            ['type' => 'text', 'name' => 'structure',    'value' => $structure],
+            ['type' => 'text', 'name' => 'attribution',  'value' => $attribution],
+            ['type' => 'text', 'name' => 'type',         'value' => $type]
+        ];
+        if($structure == 1) { //etablir structure = model required
+            array_push($paramsToValidate, ['type' => 'text', 'name' => 'model', 'value' => $model]);
+        }
+        $errors = $this->validateur->validate($paramsToValidate);
+        if($bienId == "" && $bienCreate == ""){
+            array_push($errors, [
+                'name' => 'bien',
+                'message' => 'Veuillez sélectionner ou ajouter un bien'
+            ]);
+        }
+        if($tenants == "" && $tenantsCreate == ""){
+            array_push($errors, [
+                'name' => 'tenants',
+                'message' => 'Veuillez sélectionner ou ajouter un locataire'
+            ]);
+        }
+
+        if(count($errors) > 0){
+            return ['code' => 0,'errors' => json_encode($errors)];
+        }
+
+        // extract tenants before property
+        // if tenants from create fails, delete them
+        $res = $this->tenantService->extractTenantsFromFormEdl($existe, $tenants, $tenantsCreate);
+        if($res['code'] == 0){
+            return ['code' => 0,'errors' => $res['message']];
+        }
+        $tenantsArray = $res['data'];
+
+        $res = $this->propertyService->extractBienFromFormEdl($existe, $bienId, $bienCreate);
+        if($res['code'] == 0){
+            return ['code' => 0,'errors' => $res['message']];
+        }
+        $propertyUid = $res['data'];
+
+        //send to api
+        $dataToSend = [
+            'property_uid'  => $propertyUid,
+            'date'          => $startDate,
+            'type'          => $type,
+            'tenants'       => json_encode($tenantsArray),
+            'user_id'       => $attribution,
+            'input'         => $model
+        ];
+
+        if(!$existe){
+            array_push($dataToSend, ['uid' => round(microtime(true) * 10000)]);
+        }
+
+        $res = $this->apiService->callApiWithErrors($url, 'POST', false, $dataToSend);
+        if($res['code'] == 0){
+            return ['code' => 0,'errors' => $res['message']];
+        }
+
+        //redirect to edl list
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+        $url = $routeParser->fullUrlFor($request->getUri(), 'edl');
+
+        return ['code' => 1, 'data' => $url];
+    }
+
+    /**
+     * Route pour créer un edl
+     *
      * @throws RuntimeError
      * @throws SyntaxError
      * @throws LoaderError
@@ -63,108 +131,36 @@ class EdlController
     {
         $method = $request->getMethod();
 
-        $allTenants = $this->apiService->callApi('tenants');
-
         if($method == "POST"){
+            $response->withHeader('Content-Type', 'application/json');
 
             $data = json_decode($request->getBody());
-            $structure      = $data->structure;
-            $model          = $data->model;
-            $attribution    = $data->attribution;
-            $startDate      = $data->startDate;
-            $type           = $data->type;
-            $bienId         = $data->bien;
-            $bienCreate     = $data->bienCreate;
-            $tenants        = $data->tenants;
-            $tenantsCreate  = $data->tenantsCreate;
+            $res = $this->submitForm(null, $request, $data, 'add_inventory/');
 
-            // validation des données
-            $paramsToValidate = [
-                ['type' => 'text', 'name' => 'structure',    'value' => $structure],
-                ['type' => 'text', 'name' => 'attribution',  'value' => $attribution],
-                ['type' => 'text', 'name' => 'type',         'value' => $type]
-            ];
-            if($structure == 1) { //etablir structure = model required
-                array_push($paramsToValidate, ['type' => 'text', 'name' => 'model', 'value' => $model]);
-            }
-            $errors = $this->validateur->validate($paramsToValidate);
-            if($bienId == "" && $bienCreate == ""){
-                array_push($errors, [
-                    'name' => 'bien',
-                    'message' => 'Veuillez sélectionner ou ajouter un bien'
-                ]);
-            }
-            if($tenants == "" && $tenantsCreate == ""){
-                array_push($errors, [
-                    'name' => 'tenants',
-                    'message' => 'Veuillez sélectionner ou ajouter un locataire'
-                ]);
-            }
-
-            if(count($errors) > 0){
-                $response->getBody()->write(json_encode($errors));
+            if($res['code'] != 1){
+                $response->getBody()->write($res['errors']);
                 return $response->withStatus(400);
             }
 
-            // extract data bien and tenants to create
-            $res = $this->propertyService->extractBienFromFormEdl($bienId, $bienCreate);
-            if($res['code'] == 0){
-                $response->getBody()->write($res['message']);
-                return $response->withStatus(400);
-            }
-            $propertyUid = $res['data'];
-
-            $tenantsArray = [];
-            if($tenantsCreate != ""){
-
-            }
-            if($tenants != ""){
-                $tenants = explode(',', $tenants);
-                foreach($tenants as $tenantId){
-                    foreach($allTenants as $oriTenant){
-                        if($oriTenant->id == $tenantId){
-                            array_push($tenantsArray, $oriTenant->reference);
-                        }
-                    }
-                }
-            }
-
-            //send to api
-            $dataToSend = [
-                'uid'           => round(microtime(true) * 10000),
-                'property_uid'  => $propertyUid,
-                'date'          => $startDate,
-                'type'          => $type,
-                'tenants'       => json_encode($tenantsArray),
-                'user_id'       => $attribution,
-                'comparative'   => 0,
-                'input'         => $model
-            ];
-            $res = $this->apiService->callApiWithErrors('add_inventory', 'POST', false, $dataToSend);
-            if($res['code'] == 0){
-                $response->getBody()->write($res['message']);
-                return $response->withStatus(400);
-            }
-
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            $url = $routeParser->fullUrlFor($request->getUri(), 'edl');
-
-            $response->getBody()->write($url);
+            $response->getBody()->write($res['data']);
             return $response->withStatus(200);
         }
 
         $properties = $this->apiService->callApi('properties');
+        $tenants = $this->apiService->callApi('tenants');
 
         return $this->twig->render($response, 'app/pages/edl/create.twig', [
             'users' => $this->getUsers(),
             'properties' => $properties,
-            'tenants' => $allTenants,
+            'tenants' => $tenants,
             'models' => $this->getModels(),
-            'donnees' => json_encode($allTenants)
+            'donnees' => json_encode($tenants)
         ]);
     }
 
     /**
+     * Route pour modifier un edl
+     *
      * @throws RuntimeError
      * @throws SyntaxError
      * @throws LoaderError
@@ -173,23 +169,36 @@ class EdlController
     {
         $method = $request->getMethod();
 
-        $allTenants = $this->apiService->callApi('tenants');
-
         if($method == "PUT"){
             $response->withHeader('Content-Type', 'application/json');
 
-            $response->getBody()->write("Cool !");
+            $existe = $this->apiService->callApi('inventories/' . $args['id']);
+            if($existe == false){
+                $response->getBody()->write("[EU001] Une erreur est survenu. Veuillez contacter le support.");
+                return $response->withStatus(400);
+            }
+
+            $data = json_decode($request->getBody());
+            $res = $this->submitForm($existe, $request, $data, 'edit_inventory/' . $args['id']);
+
+            if($res['code'] != 1){
+                $response->getBody()->write($res['errors']);
+                return $response->withStatus(400);
+            }
+
+            $response->getBody()->write($res['data']);
             return $response->withStatus(200);
         }
 
         $edl = $this->apiService->callApi('inventories/full/' . $args['id']);
         $properties = $this->apiService->callApi('properties');
+        $tenants = $this->apiService->callApi('tenants');
 
         return $this->twig->render($response, 'app/pages/edl/update.twig', [
             'edl' => $edl,
             'users' => $this->getUsers(),
             'properties' => $properties,
-            'tenants' => $allTenants,
+            'tenants' => $tenants,
             'models' => $this->getModels(),
             'donnees' => json_encode($edl),
         ]);
@@ -215,5 +224,35 @@ class EdlController
 
         $response->getBody()->write("Etat des lieux supprimé.");
         return $response->withStatus(200);
+    }
+
+    /**
+     * Method retournant un tableau pour le select HTML
+     * @return array
+     */
+    private function getUsers(): array
+    {
+        $data = $this->apiService->callApi('users');
+        $objs = [];
+        foreach($data as $elem){
+            array_push($objs, ['value' => $elem->id, 'label' =>  $elem->first_name . ' ' . $elem->last_name . ' - ' . '#' . $elem->username]);
+        }
+
+        return $objs;
+    }
+
+    /**
+     * Method retournant un tableau pour le select HTML
+     * @return array
+     */
+    private function getModels(): array
+    {
+        $data = $this->apiService->callApi('models');
+        $objs = [];
+        foreach($data as $elem){
+            array_push($objs, ['value' => 10 . $elem->id, 'label' =>  $elem->name]);
+        }
+
+        return $objs;
     }
 }

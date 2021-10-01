@@ -101,10 +101,7 @@ class UserController
         }
         $errors = $this->validateur->validate($paramsToValidate);
         if(count($errors) > 0){
-            return [
-                'code' => 0,
-                'error' => json_encode($errors)
-            ];
+            return ['code' => 0, 'errors' => json_encode($errors)];
         }
 
         if($formFrom == "create"){
@@ -141,10 +138,7 @@ class UserController
         ];
         $res = $this->apiService->callApi($url, 'POST', false, $dataToSend);
         if($res == false){
-            return [
-                'code' => 0,
-                'errors' => "[UU001] Une erreur est survenu. Veuillez contacter le support."
-            ];
+            return ['code' => 0, 'errors' => "[UU001] Une erreur est survenu. Veuillez contacter le support."];
         }
 
         //regeneration des variables en sessions
@@ -169,10 +163,7 @@ class UserController
             $this->session->set('user', $user);
         }
 
-        return [
-            'code' => 1,
-            'data' => $dataToSend
-        ];
+        return ['code' => 1, 'data' => $dataToSend];
     }
 
     /**
