@@ -2,6 +2,9 @@
     <label for="{{ input_name }}">{{ input_label }}</label>
 
     <select id="{{ input_name }}" name="{{ input_name }}" {{ input_required is defined ? "required" : "" }}>
+        {% if input_void is defined %}
+            <option value=""></option>
+        {% endif %}
         {% for choice in input_choices %}
             <option value="{{ choice.value }}" {{ choice.value == input_value ? "selected='selected'" : "" }}>{{ choice.label }}</option>
         {% endfor %}

@@ -3,23 +3,33 @@
 <form class="edl-form" data-from="{{ from }}" data-url="{{ url_edl_form }}" method="POST">
     <div class="line line-3">
         {% include 'app/layout/components/form/select.twig' with {
-            input_name: 'structure',
-            input_label: 'Structure',
-            input_value: isDefined and edl.inventory.input != 0 ? 1 : 0,
-            input_required: true,
-            input_choices: [
-                {value: 0, label: 'EDL vierge'},
-                {value: 1, label: 'Etablir structure'},
-                {value: 2, label: 'EDL précédent'}
-            ]
-        } %}
-        {% include 'app/layout/components/form/select.twig' with {
             input_name: 'attribution',
             input_label: 'Attribution',
             input_value: isDefined ? edl.inventory.user_id : session.user[7],
             input_required: true,
             input_choices: users
         } %} {# var users come from controller #}
+
+        {% if models | length > 0 %}
+            {% set structures = [
+                {value: 0, label: 'EDL vierge'},
+                {value: 1, label: 'Etablir structure'},
+                {value: 2, label: 'EDL précédent'}
+            ] %}
+        {% else %}
+            {% set structures = [
+                {value: 0, label: 'EDL vierge'},
+                {value: 2, label: 'EDL précédent'}
+            ] %}
+        {% endif %}
+
+        {% include 'app/layout/components/form/select.twig' with {
+            input_name: 'structure',
+            input_label: 'Structure',
+            input_value: isDefined and edl.inventory.input != 0 ? 1 : 0,
+            input_required: true,
+            input_choices: structures
+        } %}
 
         {% include 'app/layout/components/form/input.twig' with {
             input_name: 'startDate',
@@ -28,7 +38,7 @@
             input_type: 'datetime-local'
         } %}
     </div>
-    <div class="line">
+    <div class="line line-3">
         {% include 'app/layout/components/form/box.twig' with {
             input_name: 'type',
             input_label: 'Type d\'état des lieux',
@@ -40,6 +50,16 @@
             input_class: 'radiobox-item',
             input_type: 'radio'
         } %}
+
+        {% include 'app/layout/components/form/select.twig' with {
+            input_name: 'model',
+            input_label: 'Modèle',
+            input_value: isDefined and edl.inventory.input != "0" ? edl.inventory.input : "",
+            input_choices: models,
+            input_void: true
+        } %} {# var models come from controller #}
+
+        <div class="form-group"></div>
     </div>
 
     <div class="line line-select-or-add">

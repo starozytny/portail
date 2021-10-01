@@ -24,12 +24,23 @@ class EdlController
     private function getUsers(): array
     {
         $data = $this->apiService->callApi('users');
-        $users = [];
+        $objs = [];
         foreach($data as $elem){
-            array_push($users, ['value' => $elem->id, 'label' =>  $elem->first_name . ' ' . $elem->last_name . ' - ' . '#' . $elem->username]);
+            array_push($objs, ['value' => 10 . $elem->id, 'label' =>  $elem->first_name . ' ' . $elem->last_name . ' - ' . '#' . $elem->username]);
         }
 
-        return $users;
+        return $objs;
+    }
+
+    private function getModels(): array
+    {
+        $data = $this->apiService->callApi('models');
+        $objs = [];
+        foreach($data as $elem){
+            array_push($objs, ['value' => $elem->id, 'label' =>  $elem->name]);
+        }
+
+        return $objs;
     }
 
     /**
@@ -46,6 +57,7 @@ class EdlController
 
             $data = json_decode($request->getBody());
             $structure = $data->structure;
+            $model = $data->model;
             $attribution = $data->attribution;
             $startDate = $data->startDate;
             $type = $data->type;
@@ -65,6 +77,7 @@ class EdlController
             'users' => $this->getUsers(),
             'properties' => $properties,
             'tenants' => $tenants,
+            'models' => $this->getModels(),
             'donnees' => json_encode($tenants)
         ]);
     }
@@ -94,6 +107,7 @@ class EdlController
             'users' => $this->getUsers(),
             'properties' => $properties,
             'tenants' => $tenants,
+            'models' => $this->getModels(),
             'donnees' => json_encode($edl),
         ]);
     }

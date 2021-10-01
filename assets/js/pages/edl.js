@@ -28,6 +28,19 @@ SelectTenants.selectTenants();
 AddBien.addBien();
 AddTenant.addTenant();
 
+let structure = document.querySelector('#structure');
+if(structure){
+    let inputModel = document.querySelector('.input-model');
+
+    structure.addEventListener('change', function (e) {
+        if(structure.value === "1") { //etablir structure
+            inputModel.classList.add('active');
+        }else{
+            inputModel.classList.remove('active');
+        }
+    })
+}
+
 //*****
 // Submit form
 //*****
@@ -42,6 +55,7 @@ if(form){
         let errorTenant = document.querySelector('.input-tenants')
 
         let structure       = document.querySelector(formClass + ' #structure').value;
+        let model           = document.querySelector(formClass + ' #model').value;
         let attribution     = document.querySelector(formClass + ' #attribution').value;
         let startDate       = document.querySelector(formClass + ' .startDate').value;
         let type            = document.querySelector(formClass + ' input[name="type"]').value;
@@ -50,8 +64,10 @@ if(form){
         let tenants         = document.querySelector(formClass + ' #tenants').value;
         let tenantsCreate   = document.querySelector(formClass + ' #tenants-created').value;
 
+        //reset errors
         errorBien.classList.remove('form-group-error');
         errorTenant.classList.remove('form-group-error');
+        Validateur.hideErrors();
 
         // validate data
         let error = false;
@@ -64,17 +80,22 @@ if(form){
             errorTenant.classList.add('form-group-error');
         }
 
-        let validate = Validateur.validateur([
+        let paramsToValidate = [
             {type: "text", id: 'structure', value: structure},
             {type: "text", id: 'attribution', value: attribution},
             {type: "text", id: 'type', value: type},
-        ]);
+        ];
+        if(structure === "1") { //établir structure = model set
+            paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'model', value: model}]];
+        }
 
+        let validate = Validateur.validateur(paramsToValidate);
         if(!validate.code || error){
             toastr.warning("Veuillez vérifier les informations transmises.");
             Validateur.displayErrors(validate.errors);
         }else{
             console.log(structure)
+            console.log(model)
             console.log(attribution)
             console.log(startDate)
             console.log(type)
@@ -87,6 +108,7 @@ if(form){
             Validateur.loader(true);
             let formData = {
                 structure: structure,
+                model: model,
                 attribution: attribution,
                 startDate: startDate,
                 type: type,
