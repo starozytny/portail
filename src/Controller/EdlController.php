@@ -73,7 +73,7 @@ class EdlController
             $attribution    = $data->attribution;
             $startDate      = $data->startDate;
             $type           = $data->type;
-            $bienId           = $data->bien;
+            $bienId         = $data->bien;
             $bienCreate     = $data->bienCreate;
             $tenants        = $data->tenants;
             $tenantsCreate  = $data->tenantsCreate;
@@ -107,29 +107,12 @@ class EdlController
             }
 
             // extract data bien and tenants to create
-            if($bienCreate != "") {
-                $bienCreate = json_decode($bienCreate);
-                $res = $this->propertyService->createProperty($bienCreate);
-
-                if($res['code'] == 0){
-                    $response->getBody()->write($res['message']);
-                    return $response->withStatus(400);
-                }
-
-                $properties = $this->apiService->callApi('properties');
-                foreach($properties as $property){
-                    if($property->reference == $bienCreate->reference){
-                        $bienId = $property->id;
-                    }
-                }
-            }
-
-            $property = $this->apiService->callApi('properties/' . $bienId);
-            if($property == false){
-                $response->getBody()->write("[EP001] Une erreur est survenu. Veuillez contacter le support.");
+            $res = $this->propertyService->extractBienFromFormEdl($bienId, $bienCreate);
+            if($res['code'] == 0){
+                $response->getBody()->write($res['message']);
                 return $response->withStatus(400);
             }
-            $propertyUid = $property->uid;
+            $propertyUid = $res['data'];
 
             $tenantsArray = [];
             if($tenantsCreate != ""){
@@ -146,6 +129,7 @@ class EdlController
                 }
             }
 
+            //send to api
             $dataToSend = [
                 'uid'           => round(microtime(true) * 10000),
                 'property_uid'  => $propertyUid,
