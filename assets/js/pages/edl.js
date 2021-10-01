@@ -7,6 +7,7 @@ import AddBien          from "./components/edl/add-bien";
 import AddTenant        from "./components/edl/add-tenant";
 import Validateur       from "../components/validateur";
 import toastr from "toastr";
+import axios from "axios";
 
 let view = document.querySelector("#view");
 console.log(JSON.parse(view.dataset.donnees))
@@ -36,6 +37,7 @@ if(form){
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        let method = form.dataset.from === "create" ? "POST" : "PUT";
         let errorBien = document.querySelector('.input-bien')
         let errorTenant = document.querySelector('.input-tenants')
 
@@ -48,23 +50,17 @@ if(form){
         let tenants         = document.querySelector(formClass + ' #tenants').value;
         let tenantsCreate   = document.querySelector(formClass + ' #tenants-created').value;
 
-        console.log(structure)
-        console.log(attribution)
-        console.log(startDate)
-        console.log(type)
-        console.log(bien)
-        console.log(bienCreate)
-        console.log(tenants)
-        console.log(tenantsCreate)
-
         errorBien.classList.remove('form-group-error');
         errorTenant.classList.remove('form-group-error');
 
         // validate data
+        let error = false;
         if(bien === "" && bienCreate === ""){
+            error = true;
             errorBien.classList.add('form-group-error');
         }
         if(tenants === "" && tenantsCreate === ""){
+            error = true;
             errorTenant.classList.add('form-group-error');
         }
 
@@ -74,11 +70,47 @@ if(form){
             {type: "text", id: 'type', value: type},
         ]);
 
-        if(!validate.code){
+        if(!validate.code || error){
             toastr.warning("Veuillez vérifier les informations transmises.");
             Validateur.displayErrors(validate.errors);
         }else{
-            console.log("ok");
+            console.log(structure)
+            console.log(attribution)
+            console.log(startDate)
+            console.log(type)
+            console.log(bien)
+            console.log(bienCreate)
+            console.log(tenants)
+            console.log(tenantsCreate)
+
+            //send data ajax
+            Validateur.loader(true);
+            let formData = {
+                structure: structure,
+                attribution: attribution,
+                startDate: startDate,
+                type: type,
+                bien: bien,
+                bienCreate: bienCreate,
+                tenants: tenants,
+                tenantsCreate: tenantsCreate
+            };
+            axios({method: method, url: form.dataset.url, data: formData})
+                .then(function (response) {
+                    console.log("ok")
+                    toastr.info(response.data)
+                    console.log(response)
+                    console.log(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                    console.log(error.response)
+                    Validateur.handleErrors(error)
+                })
+                .then(function () {
+                    Validateur.loader(false);
+                })
+            ;
         }
 
     })

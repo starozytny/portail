@@ -42,7 +42,10 @@ class EdlController
         $method = $request->getMethod();
 
         if($method == "POST"){
+            $response->withHeader('Content-Type', 'application/json');
 
+            $response->getBody()->write("Cool !");
+            return $response->withStatus(200);
         }
 
         $properties = $this->apiService->callApi('properties');
@@ -65,8 +68,11 @@ class EdlController
     {
         $method = $request->getMethod();
 
-        if($method == "POST"){
+        if($method == "PUT"){
+            $response->withHeader('Content-Type', 'application/json');
 
+            $response->getBody()->write("Cool !");
+            return $response->withStatus(200);
         }
 
         $edl = $this->apiService->callApi('inventories/full/' . $args['id']);

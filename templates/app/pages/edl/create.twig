@@ -10,7 +10,10 @@
     </div>
 
     <div class="main-content">
-        {% include 'app/pages/edl/components/form.twig' %}
+        {% include 'app/pages/edl/components/form.twig' with {
+            url_edl_form: url_for('edl_create'),
+            from: "create"
+        }%}
     </div>
 
     {{ parent() }}
