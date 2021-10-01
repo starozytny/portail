@@ -188,4 +188,26 @@ class EdlController
             'donnees' => json_encode($edl),
         ]);
     }
+
+    /**
+     * Route pour supprimer un edl
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
+    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->withHeader('Content-Type', 'application/json');
+
+        $res = $this->apiService->callApi('delete_inventory/' . $args['id'], 'DELETE', false);
+        if($res == false){
+            $response->getBody()->write("[ED001] Une erreur est survenu. Veuillez contacter le support.");
+            return $response->withStatus(400);
+        }
+
+        $response->getBody()->write("Etat des lieux supprimé.");
+        return $response->withStatus(200);
+    }
 }

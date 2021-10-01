@@ -5,8 +5,6 @@ const Validateur    = require("../../../components/validateur");
 const Aside         = require("../../../components/aside");
 const Tenants       = require('./tenants');
 
-
-
 function addTenant() {
     let formClass = '.tenant-form';
     let form = document.querySelector(formClass);

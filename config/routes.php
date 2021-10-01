@@ -29,6 +29,7 @@ return function (App $app) {
 
         $group->get('/edls', [AppController::class, 'edl'])->setName('edl');
         $group->map(['GET', 'PUT'], '/edl/{id}', [EdlController::class, 'update'])->setName('edl_update');
+        $group->delete('/edl/{id}', [EdlController::class, 'delete'])->setName('edl_delete');
         $group->map(['GET', 'POST'], '/edl', [EdlController::class, 'create'])->setName('edl_create');
 
         $group->get('/mon-compte', [AppController::class, 'user'])->setName('user');

@@ -7,9 +7,11 @@ function selectTenants() {
     let btnsRemove = document.querySelectorAll('.btn-remove-tenant');
     let input = document.querySelector('#tenants');
 
-    JSON.parse(tenants.dataset.selected).forEach(elem => {
-        Tenants.updateValuesFromServer(input, elem.id);
-    })
+    if(tenants){
+        JSON.parse(tenants.dataset.selected).forEach(elem => {
+            Tenants.updateValuesFromServer(input, elem.id);
+        })
+    }
 
     btns.forEach(btn => {
         btn.addEventListener('click', function (e) {

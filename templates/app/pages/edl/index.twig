@@ -39,7 +39,7 @@
                                 </div>
 
                                 {% for elem in item %}
-                                    <div class="item">
+                                    <div class="item item-{{ elem.inventory.id }}">
                                         <div class="col-1">
                                             {% if elem.inventory.date != 0 %}
                                                 <div>
@@ -71,8 +71,7 @@
                                             {% if elem.tenants | length > 0 %}
                                                 <div class="tenant-title"><u>Locataires</u> : </div>
                                                 {% for tenant in elem.tenants %}
-                                                    <div>{{ tenant.first_name | capitalize }}</div>
-                                                    <div>{{ tenant.flast_name | upper }}</div>
+                                                    <div>{{ tenant.first_name | capitalize }} {{ tenant.flast_name | upper }}</div>
                                                 {% endfor %}
                                             {% endif %}
                                         </div>
@@ -81,10 +80,10 @@
                                                 <span class="icon-compose"></span>
                                                 <span class="tooltip">Modifier</span>
                                             </a>
-                                            <a href="" class="btn-icon">
+                                            <button data-url="{{ url_for('edl_delete', {'id': elem.inventory.id}) }}" data-id="{{ elem.inventory.id }}" class="btn-icon btn-delete">
                                                 <span class="icon-delete"></span>
                                                 <span class="tooltip">Supprimer</span>
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 {% endfor %}

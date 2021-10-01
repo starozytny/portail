@@ -8,6 +8,8 @@ import AddTenant        from "./components/edl/add-tenant";
 import Validateur       from "../components/validateur";
 import toastr from "toastr";
 import axios from "axios";
+import Swal from "sweetalert2";
+import SwalOptions from "../components/swalOptions";
 
 let view = document.querySelector("#view");
 console.log(JSON.parse(view.dataset.donnees))
@@ -57,7 +59,7 @@ if(form){
         let attribution     = document.querySelector(formClass + ' #attribution').value;
         let structure       = document.querySelector(formClass + ' #structure').value;
         let model           = document.querySelector(formClass + ' #model').value;
-        let type            = document.querySelector(formClass + ' input[name="type"]').value;
+        let type            = document.querySelector(formClass + ' input[name="type"]:checked').value;
         let startDate       = document.querySelector(formClass + ' .startDate').value;
         let bien            = document.querySelector(formClass + ' #bien').value;
         let bienCreate      = document.querySelector(formClass + ' #bien-created').value;
@@ -94,15 +96,15 @@ if(form){
             toastr.warning("Veuillez vérifier les informations transmises.");
             Validateur.displayErrors(validate.errors);
         }else{
-            // console.log(structure)
-            // console.log(model)
-            // console.log(attribution)
-            // console.log(startDate)
-            // console.log(type)
-            // console.log(bien)
-            // console.log(bienCreate)
-            // console.log(tenants)
-            // console.log(tenantsCreate)
+            console.log("Structure : " + structure)
+            console.log("Model : " + model)
+            console.log("Attribution : " + attribution)
+            console.log("Date : " + startDate)
+            console.log("Type : " + type)
+            console.log("Bien : " + bien)
+            console.log("Bien created : " + bienCreate)
+            console.log("Tenants : " + tenants)
+            console.log("Tenants creates : " + tenantsCreate)
 
             //send data ajax
             Validateur.loader(true);
@@ -136,5 +138,50 @@ if(form){
             ;
         }
 
+    })
+}
+
+//*****
+// Supprimer un edl
+//*****
+let btnsDelete = document.querySelectorAll('.btn-delete');
+if(btnsDelete){
+    btnsDelete.forEach(btnDelete => {
+        btnDelete.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            Swal.fire(SwalOptions.options("Supprimer cet état des lieux ?", "Cette action est irréversible."))
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        axios.delete(btnDelete.dataset.url, {})
+                            .then(function (response) {
+                                let item = document.querySelector('.item-' + btnDelete.dataset.id);
+                                if(item){
+                                    let parentItem = item.parentElement;
+                                    item.remove();
+
+                                    if(parentItem.children.length === 2){
+                                        let parentParentItem = parentItem.parentElement;
+                                        parentItem.remove();
+
+                                        if(parentParentItem.children.length === 0){
+                                            parentParentItem.insertAdjacentHTML('beforeend', '' +
+                                                '<div class="alert alert-default">' +
+                                                '   Aucun état des lieux enregistré.' +
+                                                '</div>');
+                                        }
+                                    }
+
+                                    toastr.info(response.data);
+                                }
+                            })
+                            .catch(function (error) {
+                                Validateur.handleErrors(error)
+                            })
+                        ;
+                    }
+                })
+            ;
+        })
     })
 }
