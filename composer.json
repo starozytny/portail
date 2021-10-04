@@ -15,8 +15,7 @@
         "slim/slim": "4.*",
         "slim/twig-view": "^3.2",
         "symfony/mailer": "^5.3",
-        "symfony/twig-bridge": "^5.3",
-        "tecnickcom/tcpdf": "^6.4"
+        "symfony/twig-bridge": "^5.3"
     },
     "autoload": {
         "psr-4": {
