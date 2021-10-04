@@ -95,10 +95,10 @@
                     {% include 'app/layout/components/form/box.twig' with {
                         input_name: 'isFurnished',
                         input_label: 'Le bien est ?',
-                        input_value: 1,
+                        input_value: 0,
                         input_choices: [
-                            {value: 0, label: 'Meublé', name: 'meuble'},
-                            {value: 1, label: 'Non meublé', name: 'non-meuble'},
+                            {value: 1, label: 'Meublé', name: 'meuble'},
+                            {value: 0, label: 'Non meublé', name: 'non-meuble'},
                         ],
                         input_class: 'radiobox-item',
                         input_type: 'radio'
