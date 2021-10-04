@@ -71,6 +71,7 @@
 
         & > .title{
             padding: 12px;
+            border-top: 1px solid var(--grey);
         }
 
         .sub{
@@ -78,6 +79,7 @@
 
             &:last-child{
                 padding-bottom: 12px;
+                border-bottom: 1px solid var(--grey);
             }
         }
     }

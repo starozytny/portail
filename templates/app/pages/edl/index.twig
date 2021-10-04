@@ -110,7 +110,7 @@
                         {% endfor %}
                     {% endfor %}
                 {% else %}
-                    <div class="alert alert-default">Aucun état des lieux enregistré.</div>
+                    <div class="alert alert-default">Aucun état des lieux {{ is_current_url('edl', {'status': 'en-cours'}) ? "en cours" : "terminé"}} enregistré.</div>
                 {% endif %}
             </div>
         </div>
