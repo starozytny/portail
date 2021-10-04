@@ -63,6 +63,7 @@
                                         </div>
                                         <div class="col-2">
                                             <div>{{ session.user[0] }}</div>
+                                            <div class="sub">{{ session.user[2] }} {{ session.user[3] | upper }}</div>
                                         </div>
                                         <div class="col-3">
                                             <div class="role-type type-{{ elem.inventory.type }}">
@@ -83,7 +84,7 @@
                                             {% if elem.tenants | length > 0 %}
                                                 <div class="tenant-title"><u>Locataires</u> : </div>
                                                 {% for tenant in elem.tenants %}
-                                                    <div>{{ tenant.first_name | capitalize }} {{ tenant.flast_name | upper }}</div>
+                                                    <div><span class="icon-rec"></span>{{ tenant.first_name | capitalize }} {{ tenant.flast_name | upper }}</div>
                                                 {% endfor %}
                                             {% endif %}
                                         </div>

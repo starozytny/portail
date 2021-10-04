@@ -51,6 +51,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-rec:before {
+  content: "\e936";
+}
 .icon-menu:before {
   content: "\e935";
 }
