@@ -20,10 +20,10 @@ class TenantService
 
         $tenantsArray = [];
         if($tenantsCreate != ""){
-            $tenants = explode('#', $tenants);
+            $tab = explode('#', $tenantsCreate);
 
             $fail = false; $failsReturn = null;
-            foreach($tenants as $tenantObject){
+            foreach($tab as $tenantObject){
                 if(!$fail){
 
                     $obj = json_decode($tenantObject);

@@ -68,15 +68,15 @@ if(form){
         let tenants         = document.querySelector(formClass + ' #tenants').value;
         let tenantsCreate   = document.querySelector(formClass + ' #tenants-created').value;
 
-        console.log("Structure : " + structure)
-        console.log("Model : " + model)
-        console.log("Attribution : " + attribution)
-        console.log("Date : " + new Date(startDate).getTime())
-        console.log("Type : " + type)
-        console.log("Bien : " + bien)
-        console.log("Bien created : " + bienCreate)
-        console.log("Tenants : " + tenants)
-        console.log("Tenants creates : " + tenantsCreate)
+        // console.log("Structure : " + structure)
+        // console.log("Model : " + model)
+        // console.log("Attribution : " + attribution)
+        // console.log("Date : " + new Date(startDate).getTime())
+        // console.log("Type : " + type)
+        // console.log("Bien : " + bien)
+        // console.log("Bien created : " + bienCreate)
+        // console.log("Tenants : " + tenants)
+        // console.log("Tenants creates : " + tenantsCreate)
 
         //reset errors
         errorForm.classList.remove('active');
@@ -125,15 +125,13 @@ if(form){
             };
             axios({method: method, url: form.dataset.url, data: formData})
                 .then(function (response) {
-                    toastr.info("Etat des lieux ajouté ! La page va se rafraichir dans quelques instants.")
+                    toastr.info(form.dataset.from === "create" ? "Etat des lieux ajouté" : "Données mises à jour" +
+                        "! La page va se rafraichir dans quelques instants.")
                     setTimeout(function () {
-                        console.log(response.data)
                         location.href = response.data;
                     }, 1000);
                 })
                 .catch(function (error) {
-                    console.log(error.response)
-                    console.log(error.response.data)
                     Validateur.loader(false);
                     Validateur.handleErrors(error, formClass);
                 })

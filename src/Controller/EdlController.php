@@ -104,11 +104,13 @@ class EdlController
             'input'         => $model
         ];
 
+        $method = "PUT";
         if(!$existe){
+            $method = "POST";
             array_push($dataToSend, ['uid' => round(microtime(true) * 10000)]);
         }
 
-        $res = $this->apiService->callApiWithErrors($url, 'POST', false, $dataToSend);
+        $res = $this->apiService->callApiWithErrors($url, $method, false, $dataToSend);
         if($res['code'] == 0){
             return ['code' => 0,'errors' => $res['message']];
         }

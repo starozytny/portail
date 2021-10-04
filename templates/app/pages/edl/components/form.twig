@@ -152,6 +152,6 @@
     <input type="hidden" name="tenants-created" id="tenants-created" value="">
 
     <div class="form-button">
-        <button type="submit" class="btn btn-primary">Ajouter l'état des lieux</button>
+        <button type="submit" class="btn btn-{{ from == "create" ? "primary" : "warning" }}">{{ from == "create" ? "Ajouter" : "Modifier" }} l'état des lieux</button>
     </div>
 </form>

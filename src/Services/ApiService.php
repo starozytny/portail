@@ -110,7 +110,7 @@ class ApiService
             }
             return [
                 'code' => 0,
-                'message' => "[APE001] Une erreur est survenu. Veuillez contacter le support."
+                'message' => "[APE001] Une erreur est survenu. Veuillez contacter le support. " . $e->getMessage()
             ];
         }
     }
