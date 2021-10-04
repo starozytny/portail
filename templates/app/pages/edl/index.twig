@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
 
-                                {% for elem in item %}
+                                {% for elem in item | sort((a,b) => a.inventory.date <=> b.inventory.date) %}
                                     <div class="item item-{{ elem.inventory.id }}">
                                         <div class="col-1">
                                             {% if elem.inventory.date != 0 %}
