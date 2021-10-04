@@ -40,13 +40,22 @@
                     'icon': 'plus',
                     'label': 'Ajouter un état des lieux',
                     'name': 'edl'
-                },{
+                },
+                {
                     'path': url_for('user'),
                     'route': 'user',
                     'route_args': {},
                     'icon': 'account',
                     'label': 'Mon compte',
                     'name': 'mon-compte'
+                },
+                {
+                    'path': url_for('documentation'),
+                    'route': 'documentation',
+                    'route_args': {},
+                    'icon': 'help',
+                    'label': 'Documentation',
+                    'name': 'documentation'
                 },
                 {
                     'path': url_for('logout'),
@@ -61,7 +70,8 @@
                 <div class="items">
                     {% for item in menu %}
                         <div class="item">
-                            <a href="{{ item.path }}" class="{{ is_current_url(item.route, item.route_args) ? "active" : "" }}" data-name="{{ item.name }}">
+                            <a href="{{ item.path }}" class="{{ is_current_url(item.route, item.route_args) ? "active" : "" }}"
+                               data-name="{{ item.name }}" target="{{ item.route == 'documentation' ? "_blank" : "" }}">
                                 <span class="icon-{{ item.icon }}"></span>
                                 <span>{{ item.label }}</span>
                             </a>
@@ -82,7 +92,7 @@
                         <div class="profil">
                             <span>{{ session.user[4] }} {{ session.user[4] > 1 ? 'crédits restants' : 'crédit restant' }}</span>
                             <div>
-                                <a class="btn-icon" href="{{ url_for('logout') }}">
+                                <a class="btn-icon" href="{{ url_for('documentation') }}" target="_blank">
                                     <span class="icon-help"></span>
                                     <span class="tooltip">Besoin d'aide ?</span>
                                 </a>

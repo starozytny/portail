@@ -236,11 +236,10 @@ class EdlController
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param array $args
+     * @return ResponseInterface
      */
     public function pdf(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/pdf');
-
         $res = $this->apiService->callApi('inventories/pdf/' . $args['uid'], "GET", false);
         if($res == false){
             $response->getBody()->write("[ED001] Une erreur est survenu. Veuillez contacter le support.");

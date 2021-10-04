@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -14,11 +15,13 @@ class AppController
 {
     private $twig;
     private $apiService;
+    private $container;
 
-    public function __construct(Twig $twig, ApiService $apiService)
+    public function __construct(ContainerInterface $container, Twig $twig, ApiService $apiService)
     {
         $this->twig = $twig;
         $this->apiService = $apiService;
+        $this->container = $container;
     }
 
     public function homepage(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -110,5 +113,23 @@ class AppController
         return $this->twig->render($response, 'app/pages/user/index.twig', [
             'data' => $data
         ]);
+    }
+
+    /**
+     * Route pour la documentation pdf
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
+    public function documentation(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response = $response->withHeader('Content-Type', 'application/pdf');
+        $response = $response->withHeader('Content-Disposition', sprintf('inline; filename="%s"', "documentation.pdf"));
+
+        $stream = fopen($this->container->get('settings')['root'] . '/documents/documentation.pdf', 'r');
+        $response->getBody()->write(fread($stream, (int)fstat($stream)['size']));
+        return $response;
     }
 }
