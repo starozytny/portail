@@ -78,7 +78,7 @@ function addBien() {
                         actions.classList.remove('active');
                         input.value = JSON.stringify(response.data);
 
-                        Selected.addBienSelected(response.data);
+                        Selected.addBienSelected(response.data, "create");
                         Aside.closeAside('.aside-add-bien');
                     })
                     .catch(function (error) {

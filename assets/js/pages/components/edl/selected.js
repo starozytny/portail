@@ -1,11 +1,13 @@
-function addBienSelected (bien) {
+function addBienSelected (bien, from) {
     let selected = document.querySelector('.selected-bien');
+    let selectedFro = document.querySelector('.selected-bien .from');
     let selectedAdr = document.querySelector('.selected-bien .adr');
     let selectedZip = document.querySelector('.selected-bien .zipcode');
     let selectedCit = document.querySelector('.selected-bien .city');
     let selectedRef = document.querySelector('.selected-bien .ref');
 
     selected.classList.add('active');
+    selectedFro.innerHTML = from === "create" ? "Création" : "";
     selectedAdr.innerHTML = bien.addr1;
     selectedZip.innerHTML = bien.zipcode;
     selectedCit.innerHTML = bien.city;

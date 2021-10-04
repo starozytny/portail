@@ -27,7 +27,7 @@ function selectBien() {
 
                 actions.classList.remove('active');
 
-                Selected.addBienSelected(JSON.parse(btn.dataset.bien))
+                Selected.addBienSelected(JSON.parse(btn.dataset.bien), "server")
             }
 
             Aside.closeAside('.aside-select-bien');
