@@ -9,8 +9,10 @@ use App\Services\Validateur;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Psr7\Stream;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
+use TCPDF;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -236,11 +238,10 @@ class EdlController
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param array $args
-     * @return ResponseInterface
      */
     public function pdf(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
+        $response->withHeader('Content-Type', 'application/pdf');
 
         $res = $this->apiService->callApi('inventories/pdf/' . $args['uid'], "GET", false);
         if($res == false){
@@ -248,7 +249,15 @@ class EdlController
             return $response->withStatus(400);
         }
 
-        return $response->withStatus(200);
+        $response = $response->withHeader('Content-Type', 'application/pdf');
+        $response = $response->withHeader('Content-Disposition', sprintf('attachment; filename="%s"', "edl.pdf"));
+
+        $stream = fopen('php://memory', 'w+');
+        fwrite($stream, $res);
+        rewind($stream);
+
+        $response->getBody()->write(fread($stream, (int)fstat($stream)['size']));
+        return $response;
     }
 
     /**
