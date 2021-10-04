@@ -47,6 +47,14 @@ class PropertyService
             if($res['code'] == 0){
                 return $res;
             }
+
+            //get id created
+            $properties = $this->apiService->callApi('properties');
+            foreach($properties as $property){
+                if($property->reference == $bienCreate->reference){
+                    $bienId = $property->id;
+                }
+            }
         }
 
         if(!$bienId){
