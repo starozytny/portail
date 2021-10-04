@@ -1,6 +1,11 @@
 import '../css/app.scss';
 
 import toastr from 'toastr';
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import frLocale from '@fullcalendar/core/locales/fr'
 
 toastr.options = {
     "closeButton": true,
@@ -19,4 +24,54 @@ toastr.options = {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut",
     "escapeHtml": false,
+}
+
+function addZero (data){
+    return data > 9 ? data : "0" + data;
+}
+
+function createStart (start)
+{
+    return start.getFullYear() + "-" + addZero(start.getMonth() + 1) + "-" + addZero(start.getUTCDate()) + "T"
+        + addZero(start.getHours()) + ":" + addZero(start.getMinutes()) + ":00"
+}
+
+let calendarEl = document.getElementById("calendar");
+if(calendarEl){
+
+    let events = [];
+    let data = JSON.parse(calendarEl.dataset.donnees);
+    console.log(data)
+    if(data){
+        data.forEach(el => {
+            if(el.inventory.date !== 0){
+
+                let start = new Date(el.inventory.date * 1000);
+
+                events.push({
+                    id: el.inventory.id,
+                    title: "(" + (el.inventory.type === 0 ? "sortant" : "entrant") + ") - " + el.property.addr1,
+                    start: createStart(start),
+                    allDay : false
+                })
+            }
+        })
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        let calendar = new Calendar(calendarEl, {
+            locale: frLocale,
+            plugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
+            initialView: 'timeGridWeek',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,listWeek'
+            },
+            slotMinTime: "08:30:00",
+            slotMaxTime: "21:30:00",
+            events: events,
+        });
+        calendar.render();
+    });
+
 }

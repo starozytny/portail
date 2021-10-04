@@ -5,16 +5,11 @@
 {% block main_content %}
     <div class="page-title">
         <div class="page-title-container">
-            <h1>Welcome</h1>
+            <h1>Bon retour !</h1>
         </div>
     </div>
 
     <div class="main-content">
-        <div>hello world</div>
-        <div id="test" data-donnees="{{ test }}"></div>
-        <script>
-            let test = document.querySelector("#test");
-            console.log(JSON.parse(test.dataset.donnees))
-        </script>
+        <div id="calendar" data-donnees="{{ data }}"></div>
     </div>
 {% endblock %}

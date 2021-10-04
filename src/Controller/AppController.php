@@ -23,7 +23,11 @@ class AppController
 
     public function homepage(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return $this->twig->render($response, 'app/pages/index.twig');
+        $data = $this->apiService->callApi('inventories/full/list/0');
+
+        return $this->twig->render($response, 'app/pages/index.twig', [
+            'data' => json_encode($data)
+        ]);
     }
 
     public function mentions(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
