@@ -3,6 +3,12 @@
 @import "split/edl/aside";
 @import "split/edl/form";
 
+.edl-list{
+  .toolbar{
+    margin-bottom: 24px;
+  }
+}
+
 .list-month-header{
   display: none;
 }

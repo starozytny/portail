@@ -27,7 +27,7 @@ return function (App $app) {
     $app->group('/espace-client', function (RouteCollectorProxy $group) {
         $group->get('', [AppController::class, 'homepage'])->setName('homepage');
 
-        $group->get('/edls', [AppController::class, 'edl'])->setName('edl');
+        $group->get('/edls/{status}', [AppController::class, 'edl'])->setName('edl');
         $group->map(['GET', 'PUT'], '/edl/{id}', [EdlController::class, 'update'])->setName('edl_update');
         $group->delete('/edl/{id}', [EdlController::class, 'delete'])->setName('edl_delete');
         $group->map(['GET', 'POST'], '/edl', [EdlController::class, 'create'])->setName('edl_create');

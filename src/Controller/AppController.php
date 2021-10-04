@@ -54,7 +54,7 @@ class AppController
      */
     public function edl(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $elements = $this->apiService->callApi('inventories/full/list');
+        $elements = $this->apiService->callApi('inventories/full/list/' . ($args['status'] == "en-cours" ? 0 : 2));
 
         $data = [];
 

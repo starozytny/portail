@@ -20,13 +20,15 @@
                 {
                     'path': url_for('homepage'),
                     'route': 'homepage',
+                    'route_args': {},
                     'icon': 'home',
                     'label': 'Accueil',
                     'name': 'espace-client'
                 },
                 {
-                    'path': url_for('edl'),
+                    'path': url_for('edl', {'status': 'en-cours'}),
                     'route': 'edl',
+                    'route_args': { 'status': 'en-cours' },
                     'icon': 'paste',
                     'label': 'Etats des lieux',
                     'name': 'edls'
@@ -34,12 +36,14 @@
                 {
                     'path': url_for('edl_create'),
                     'route': 'edl_create',
+                    'route_args': {},
                     'icon': 'plus',
                     'label': 'Ajouter un état des lieux',
                     'name': 'edl'
                 },{
                     'path': url_for('user'),
                     'route': 'user',
+                    'route_args': {},
                     'icon': 'account',
                     'label': 'Mon compte',
                     'name': 'mon-compte'
@@ -47,6 +51,7 @@
                 {
                     'path': url_for('logout'),
                     'route': 'logout',
+                    'route_args': {},
                     'icon': 'logout',
                     'label': 'Se déconnecter',
                     'name': 'logout'
@@ -56,7 +61,7 @@
                 <div class="items">
                     {% for item in menu %}
                         <div class="item">
-                            <a href="{{ item.path }}" class="{{ is_current_url(item.route) ? "active" : "" }}" data-name="{{ item.name }}">
+                            <a href="{{ item.path }}" class="{{ is_current_url(item.route, item.route_args) ? "active" : "" }}" data-name="{{ item.name }}">
                                 <span class="icon-{{ item.icon }}"></span>
                                 <span>{{ item.label }}</span>
                             </a>
