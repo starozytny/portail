@@ -57,7 +57,7 @@ function validatePassword($value, $valueCheck){
         };
     }
 
-    return {'code': true};
+    // return {'code': true};
 
     if (/^(?=.{12,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\w).*$/.test($value)){
 
