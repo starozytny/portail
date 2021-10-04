@@ -14,7 +14,7 @@ class PropertyService
         $this->apiService = $apiService;
     }
 
-    public function extractBienFromFormEdl($from, $bienId, $bienCreate): array
+    public function extractBienFromFormEdl($bienId, $bienCreate): array
     {
         if($bienCreate != "") {
             $res = $this->extractBienFromJs($bienCreate);
@@ -31,17 +31,21 @@ class PropertyService
     public function extractBienFromJs($bienCreate): array
     {
         $bienCreate = json_decode($bienCreate);
-        $res = $this->createProperty($bienCreate);
 
-        if($res['code'] == 0){
-            return $res;
-        }
-
-        $bienId = null;
+        $bienId = null; $alreadyCreated = false;
         $properties = $this->apiService->callApi('properties');
         foreach($properties as $property){
             if($property->reference == $bienCreate->reference){
                 $bienId = $property->id;
+                $alreadyCreated = true;
+            }
+        }
+
+        if(!$alreadyCreated){
+            $res = $this->createProperty($bienCreate);
+
+            if($res['code'] == 0){
+                return $res;
             }
         }
 

@@ -82,13 +82,13 @@ class EdlController
 
         // extract tenants before property
         // if tenants from create fails, delete them
-        $res = $this->tenantService->extractTenantsFromFormEdl($existe, $tenants, $tenantsCreate);
+        $res = $this->tenantService->extractTenantsFromFormEdl($tenants, $tenantsCreate);
         if($res['code'] == 0){
             return ['code' => 0,'errors' => $res['message']];
         }
         $tenantsArray = $res['data'];
 
-        $res = $this->propertyService->extractBienFromFormEdl($existe, $bienId, $bienCreate);
+        $res = $this->propertyService->extractBienFromFormEdl($bienId, $bienCreate);
         if($res['code'] == 0){
             return ['code' => 0,'errors' => $res['message']];
         }

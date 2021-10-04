@@ -14,14 +14,9 @@ class TenantService
         $this->apiService = $apiService;
     }
 
-    public function extractTenantsFromFormEdl($existe, $tenants, $tenantsCreate): array
+    public function extractTenantsFromFormEdl($tenants, $tenantsCreate): array
     {
-        $tenantsAlreadySet = [];
-        if($existe){
-            foreach($existe->tenants as $tenant){
-
-            }
-        }
+        $allTenants = $this->apiService->callApi('tenants');
 
         $tenantsArray = [];
         if($tenantsCreate != ""){
@@ -30,12 +25,25 @@ class TenantService
             $fail = false; $failsReturn = null;
             foreach($tenants as $tenantObject){
                 if(!$fail){
-                    $obj = json_decode($tenantObject);
-                    $res = $this->createTenant($obj);
 
-                    if($res['code'] == 0){
-                        $fail = true;
-                        $failsReturn = $res;
+                    $obj = json_decode($tenantObject);
+
+                    $alreadyCreated = false;
+                    foreach($allTenants as $oriTenant){
+                        if($oriTenant->reference == $obj->reference){
+                            $alreadyCreated = true;
+                        }
+                    }
+
+                    if(!$alreadyCreated){
+                        $res = $this->createTenant($obj);
+
+                        if($res['code'] == 0){
+                            $fail = true;
+                            $failsReturn = $res;
+                        }else{
+                            array_push($tenantsArray, $obj->reference);
+                        }
                     }else{
                         array_push($tenantsArray, $obj->reference);
                     }
@@ -49,8 +57,6 @@ class TenantService
             }
         }
         if($tenants != ""){
-            $allTenants = $this->apiService->callApi('tenants');
-
             $tenants = explode(',', $tenants);
             foreach($tenants as $tenantId){
                 foreach($allTenants as $oriTenant){
