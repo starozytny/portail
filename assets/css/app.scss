@@ -19,9 +19,36 @@
 
 @import "pages/security";
 
-.fc-v-event .fc-event-main{
-    overflow: auto;
-    @include scrollbar();
+#calendar{
+    .fc-v-event .fc-event-main,
+    .fc-v-event .fc-event-title,
+    .fc-timegrid-event-harness > .fc-timegrid-event{
+        overflow: auto;
+        @include scrollbar();
+    }
+
+    .fc-timegrid-event-harness > .fc-timegrid-event{
+
+        &.entrant{
+            background-color: var(--entrant);
+        }
+
+        &.sortant{
+            background-color: var(--sortant);
+        }
+
+        & > .title{
+            padding: 4px;
+
+            & + .sub{
+                @include fontSemibold();
+            }
+        }
+
+        .sub{
+            padding: 0 4px;
+        }
+    }
 }
 
 html, body{
