@@ -6,6 +6,7 @@ use App\Services\ApiService;
 use App\Services\Edl\PropertyService;
 use App\Services\Edl\TenantService;
 use App\Services\Validateur;
+use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Routing\RouteContext;
@@ -21,8 +22,9 @@ class EdlController
     private $validateur;
     private $propertyService;
     private $tenantService;
+    private $session;
 
-    public function __construct(Twig $twig, ApiService $apiService, Validateur $validateur,
+    public function __construct(Twig $twig, ApiService $apiService, Validateur $validateur, SessionInterface $session,
                                 PropertyService $propertyService, TenantService $tenantService)
     {
         $this->twig = $twig;
@@ -30,6 +32,7 @@ class EdlController
         $this->validateur = $validateur;
         $this->propertyService = $propertyService;
         $this->tenantService = $tenantService;
+        $this->session = $session;
     }
 
     /**
@@ -234,10 +237,18 @@ class EdlController
      */
     private function getUsers(): array
     {
-        $data = $this->apiService->callApi('users');
         $objs = [];
-        foreach($data as $elem){
-            array_push($objs, ['value' => $elem->id, 'label' =>  $elem->first_name . ' ' . $elem->last_name . ' - ' . '#' . $elem->username]);
+        $user = $this->session->get('user');
+
+        if($user[9] == 1){
+            $data = $this->apiService->callApi('users');
+            if($data){
+                foreach($data as $elem){
+                    array_push($objs, ['value' => $elem->id, 'label' =>  $elem->first_name . ' ' . $elem->last_name . ' - ' . '#' . $elem->username]);
+                }
+            }
+        }else{
+            array_push($objs, ['value' => $user[7], 'label' =>  $user[2] . ' ' . $user[3] . ' - ' . '#' . $user[0]]);
         }
 
         return $objs;
@@ -249,10 +260,14 @@ class EdlController
      */
     private function getModels(): array
     {
-        $data = $this->apiService->callApi('models');
+
         $objs = [];
-        foreach($data as $elem){
-            array_push($objs, ['value' => 10 . $elem->id, 'label' =>  $elem->name]);
+        $data = $this->apiService->callApi('models');
+
+        if($data){
+            foreach($data as $elem){
+                array_push($objs, ['value' => 10 . $elem->id, 'label' =>  $elem->name]);
+            }
         }
 
         return $objs;

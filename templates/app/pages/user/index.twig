@@ -84,15 +84,15 @@
                                             <div class="sub">{{ elem.user_tag }}</div>
                                         </div>
                                         <div class="col-3">
-                                            {{ elem.rights == 0 ? "<div class='role-blocked'>Accès restreint</div>" : "" }}
-                                            {{ isBLocked ? "<div class='role-blocked'>Bloqué</div>" : "" }}
+                                            {{ elem.rights == 0 ? "<div class='role-blocked'>Utilisateur</div>" : "" }}
+{#                                            {{ isBLocked ? "<div class='role-blocked'>Bloqué</div>" : "" }}#}
                                         </div>
                                         <div class="col-4">
                                             {% if elem.id != session.user[7] %}
-                                                <button class="btn-icon">
-                                                    <span class="icon-{{ isBlocked ? "minus" : "block" }}"></span>
-                                                    <span class="tooltip">{{ isBLocked ? "Débloquer" : "Bloquer"}}</span>
-                                                </button>
+{#                                                <button class="btn-icon">#}
+{#                                                    <span class="icon-{{ isBlocked ? "minus" : "block" }}"></span>#}
+{#                                                    <span class="tooltip">{{ isBLocked ? "Débloquer" : "Bloquer"}}</span>#}
+{#                                                </button>#}
                                                 <button class="btn-icon btn-edit-user"
                                                         data-id="{{ elem.id }}"
                                                         data-user="{{ elem | json_encode }}"
