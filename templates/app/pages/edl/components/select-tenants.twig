@@ -10,11 +10,18 @@
         <div class="list list-select list-select-tenants">
             <div id="allTenants" data-data="{{ tenants | json_encode }}" data-selected="{{ isDefined ? edl.tenants | json_encode : [] | json_encode }}"></div>
             <div class="toolbar">
-                {# Search by #}
+                <div class="line">
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'searchTenant',
+                        input_label: 'Rechercher un locataire',
+                        input_value: '',
+                        input_placeholder: 'Recherche par référence, nom, zipcode, ville ou adresse.'
+                    } %}
+                </div>
             </div>
             {% if tenants | length > 0 %}
                 {% for elem in tenants %}
-                    <div class="card card-{{ elem.id }}" data-id="{{ elem.id }}">
+                    <div class="card card-{{ elem.id }}" data-id="{{ elem.id }}" data-tenant="{{ elem | json_encode }}">
                         <div class="card-header">
                             <div class="title">
                                 <div class="label">

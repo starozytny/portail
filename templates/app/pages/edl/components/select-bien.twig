@@ -9,7 +9,14 @@
         </div>
         <div class="list list-select list-select-bien">
             <div class="toolbar">
-                {# Search by ref, zipcode, city, owner #}
+                <div class="line">
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'searchBien',
+                        input_label: 'Rechercher un bien',
+                        input_value: '',
+                        input_placeholder: 'Recherche par référence, code postal, ville, adresse ou propriétaire.'
+                    } %}
+                </div>
             </div>
             {% if properties | length > 0 %}
                 {% for elem in properties %}
