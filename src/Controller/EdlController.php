@@ -121,7 +121,7 @@ class EdlController
 
         //redirect to edl list
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-        $url = $routeParser->fullUrlFor($request->getUri(), 'edl');
+        $url = $routeParser->fullUrlFor($request->getUri(), 'edl', ['status' => 'en-cours']);
 
         return ['code' => 1, 'data' => $url];
     }
