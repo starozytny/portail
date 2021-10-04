@@ -2,6 +2,11 @@
 
 {% block title %}Espace client  {{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% webpack_entry_css 'homepage' %}
+{% endblock %}
+
 {% block main_content %}
     <div class="page-title">
         <div class="page-title-container">
@@ -12,4 +17,9 @@
     <div class="main-content">
         <div id="calendar" data-donnees="{{ data }}"></div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% webpack_entry_js 'homepage' %}
 {% endblock %}

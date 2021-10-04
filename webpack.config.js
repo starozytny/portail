@@ -10,6 +10,7 @@ module.exports = {
     mode: "development",
     entry: {
         'app': ['./assets/js/app.js', './assets/css/app.scss'],
+        'homepage': ['./assets/js/homepage.js', './assets/css/homepage.scss'],
         'edl': ['./assets/js/pages/edl.js', './assets/css/pages/edl.scss'],
         'user': ['./assets/js/pages/user.js', './assets/css/pages/user.scss'],
         'security': ['./assets/js/pages/security.js', './assets/css/pages/security.scss'],
