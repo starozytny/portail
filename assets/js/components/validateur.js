@@ -73,7 +73,7 @@ function validatePassword($value, $valueCheck){
     }else{
         return {
             'code': false,
-            'message': 'Le mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre, 1 caratère spécial et au moins 12 caractères.'
+            'message': 'Le mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial et au moins 12 caractères.'
         };
     }
 }

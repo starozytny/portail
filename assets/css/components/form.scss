@@ -101,6 +101,10 @@ input, textarea, select{
   width: calc(100% - 20px);
   outline: none;
 
+  &:focus-visible{
+    outline: var(--grey) auto 1px;
+  }
+
   &:focus{
     border: 1px solid var(--grey2);
   }
