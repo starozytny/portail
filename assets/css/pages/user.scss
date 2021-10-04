@@ -146,10 +146,6 @@ h2{
     padding: 24px;
     width: calc(100% - 48px);
 
-    & > *:first-child{
-      margin-bottom: 0;
-    }
-
     & > *{
       width: calc(100% - 48px);
     }
@@ -210,6 +206,7 @@ h2{
 
     & > *:first-child{
       margin-right: 24px;
+      margin-bottom: 0;
     }
   }
 
