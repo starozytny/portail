@@ -93,6 +93,12 @@ h2{
 
     .col-4{
       text-align: right;
+
+      .btn-icon {
+        [class^="icon-"] {
+          font-size: 18px;
+        }
+      }
     }
   }
 }
