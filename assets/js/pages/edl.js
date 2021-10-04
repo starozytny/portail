@@ -1,18 +1,16 @@
 import '../../css/pages/edl.scss';
 
+import axios            from "axios";
+import toastr           from "toastr";
+import Swal             from "sweetalert2";
+import SwalOptions      from "../components/swalOptions";
+
 import Aside            from "../components/aside";
 import SelectBien       from "./components/edl/select-bien";
 import SelectTenants    from "./components/edl/select-tenants";
 import AddBien          from "./components/edl/add-bien";
 import AddTenant        from "./components/edl/add-tenant";
 import Validateur       from "../components/validateur";
-import toastr from "toastr";
-import axios from "axios";
-import Swal from "sweetalert2";
-import SwalOptions from "../components/swalOptions";
-
-let view = document.querySelector("#view");
-console.log(JSON.parse(view.dataset.donnees))
 
 //*****
 // Ouvrir les asides

@@ -159,8 +159,7 @@ class EdlController
             'users' => $this->getUsers(),
             'properties' => $properties,
             'tenants' => $tenants,
-            'models' => $this->getModels(),
-            'donnees' => json_encode($tenants)
+            'models' => $this->getModels()
         ]);
     }
 
@@ -205,8 +204,7 @@ class EdlController
             'users' => $this->getUsers(),
             'properties' => $properties,
             'tenants' => $tenants,
-            'models' => $this->getModels(),
-            'donnees' => json_encode($edl),
+            'models' => $this->getModels()
         ]);
     }
 
