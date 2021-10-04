@@ -46,6 +46,8 @@ class EdlController
      */
     private function submitForm($existe, $request, $data, $url): array
     {
+        $method = $existe ? "PUT" : "POST";
+
         $structure      = $data->structure;
         $model          = $data->model;
         $attribution    = $data->attribution;
@@ -99,6 +101,7 @@ class EdlController
 
         //send to api
         $dataToSend = [
+            'uid'           => "",
             'property_uid'  => $propertyUid,
             'date'          => $startDate,
             'type'          => $type,
@@ -107,10 +110,8 @@ class EdlController
             'input'         => $model
         ];
 
-        $method = "PUT";
         if(!$existe){
-            $method = "POST";
-            array_push($dataToSend, ['uid' => round(microtime(true) * 10000)]);
+            $dataToSend['uid'] = round(microtime(true) * 10000);
         }
 
         $res = $this->apiService->callApiWithErrors($url, $method, false, $dataToSend);

@@ -125,13 +125,15 @@ if(form){
             };
             axios({method: method, url: form.dataset.url, data: formData})
                 .then(function (response) {
-                    toastr.info(form.dataset.from === "create" ? "Etat des lieux ajouté" : "Données mises à jour" +
+                    toastr.info((form.dataset.from === "create" ? "Etat des lieux ajouté" : "Données mises à jour") +
                         "! La page va se rafraichir dans quelques instants.")
                     setTimeout(function () {
                         location.href = response.data;
                     }, 1000);
                 })
                 .catch(function (error) {
+                    console.log(error.response)
+                    console.log(error.response.data)
                     Validateur.loader(false);
                     Validateur.handleErrors(error, formClass);
                 })
