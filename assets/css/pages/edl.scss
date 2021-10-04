@@ -76,6 +76,9 @@
         [class^="icon-"]{
           font-size: 18px;
         }
+        .icon-file + .tooltip{
+          width: 60px;
+        }
       }
     }
   }

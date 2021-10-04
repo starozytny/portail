@@ -88,14 +88,21 @@
                                             {% endif %}
                                         </div>
                                         <div class="col-6">
-                                            <a href="{{ url_for('edl_update', {'id': elem.inventory.id}) }}" class="btn-icon">
-                                                <span class="icon-compose"></span>
-                                                <span class="tooltip">Modifier</span>
-                                            </a>
-                                            <button data-url="{{ url_for('edl_delete', {'id': elem.inventory.id}) }}" data-id="{{ elem.inventory.id }}" class="btn-icon btn-delete">
-                                                <span class="icon-delete"></span>
-                                                <span class="tooltip">Supprimer</span>
-                                            </button>
+                                            {% if is_current_url('edl', {'status': 'termine'}) %}
+                                                <a href="{{ url_for('edl_pdf', {'uid': elem.inventory.uid}) }}" class="btn-icon">
+                                                    <span class="icon-file"></span>
+                                                    <span class="tooltip">Voir le PDF</span>
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ url_for('edl_update', {'id': elem.inventory.id}) }}" class="btn-icon">
+                                                    <span class="icon-compose"></span>
+                                                    <span class="tooltip">Modifier</span>
+                                                </a>
+                                                <button data-url="{{ url_for('edl_delete', {'id': elem.inventory.id}) }}" data-id="{{ elem.inventory.id }}" class="btn-icon btn-delete">
+                                                    <span class="icon-delete"></span>
+                                                    <span class="tooltip">Supprimer</span>
+                                                </button>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% endfor %}

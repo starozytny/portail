@@ -231,6 +231,27 @@ class EdlController
     }
 
     /**
+     * Route pour récupérer le pdf d'un edl via son uid
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
+    public function pdf(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->withHeader('Content-Type', 'application/json');
+
+        $res = $this->apiService->callApi('inventories/pdf/' . $args['uid'], "GET", false);
+        if($res == false){
+            $response->getBody()->write("[ED001] Une erreur est survenu. Veuillez contacter le support.");
+            return $response->withStatus(400);
+        }
+
+        return $response->withStatus(200);
+    }
+
+    /**
      * Method retournant un tableau pour le select HTML
      * @return array
      */
