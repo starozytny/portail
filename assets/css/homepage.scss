@@ -1,0 +1,69 @@
+@import "vars/vars";
+
+#calendar{
+  .fc-list-table {
+    border-collapse:separate;
+    border-spacing:0 12px;
+  }
+
+  .fc-list{
+    tbody{
+      transform: translateY(-13px);
+    }
+  }
+
+  .fc-list-day{
+    & > .fc-list-event{
+      transform: translateY(-12px);
+    }
+  }
+
+  .fc-v-event .fc-event-main,
+  .fc-v-event .fc-event-title,
+  .fc-timegrid-event-harness > .fc-timegrid-event{
+    overflow: auto;
+    @include scrollbar();
+  }
+
+  .fc-timegrid-event-harness > .fc-timegrid-event,
+  .fc-list-event{
+
+    &.entrant{
+      background-color: var(--entrant);
+    }
+
+    &.sortant{
+      background-color: var(--sortant);
+    }
+
+    & > .title{
+      padding: 4px;
+
+      & + .sub{
+        @include fontSemibold();
+      }
+    }
+
+    .sub{
+      padding: 0 4px;
+    }
+  }
+
+  .fc-list-event{
+    margin-bottom: 12px;
+
+    & > .title{
+      padding: 12px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .sub{
+      padding: 0 12px;
+
+      &:last-child{
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--grey);
+      }
+    }
+  }
+}
