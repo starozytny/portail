@@ -153,7 +153,7 @@ if(forms){
                         }
 
                         if(formId === "main"){
-                            toastr.info(response.data);
+                            toastr.info("Données mises à jour");
                             updateMainUser(firstname, lastname)
                         }
                     })
