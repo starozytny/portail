@@ -13,6 +13,9 @@ import AddBien          from "./components/edl/add-bien";
 import AddTenant        from "./components/edl/add-tenant";
 import Search           from "./components/edl/search";
 
+let view = document.getElementById("view")
+if(view) console.log(JSON.parse(view.dataset.donnees));
+
 //*****
 // Ouvrir les asides
 //*****

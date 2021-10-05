@@ -90,7 +90,8 @@ class AppController
         }
 
         return $this->twig->render($response, 'app/pages/edl/index.twig', [
-            'data' => $data
+            'data' => $data,
+            'donnees' => json_encode($data)
         ]);
     }
 

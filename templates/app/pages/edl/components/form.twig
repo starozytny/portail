@@ -40,7 +40,7 @@
         {% include 'app/layout/components/form/input.twig' with {
             input_name: 'startDate',
             input_label: 'Prévu le (facultatif)',
-            input_value: isDefined and edl.date != "0" ? edl.inventory.date | date('Y-m-d\\TH:i') : '',
+            input_value: isDefined and edl.inventory.date != "0" ? edl.inventory.date | date('Y-m-d\\TH:i') : '',
             input_type: 'datetime-local'
         } %}
     </div>

@@ -14,6 +14,8 @@
         </div>
     </div>
 
+    <div id="view" data-donnees="{{ donnees }}"></div>
+
     <div class="main-content">
         <div class="edl-list">
             <div class="toolbar">
@@ -26,8 +28,8 @@
             </div>
             <div class="list">
                 {% if data | length > 0 %}
-                    {% for year, months in data %}
-                        {% for month, item in months %}
+                    {% for year, months in data | sort %}
+                        {% for month, item in months | sort %}
                             <div class="list-month">
                                 {% if year == "unknown" %}
                                     <div class="title">Date indéfinie</div>
