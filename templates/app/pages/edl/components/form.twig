@@ -105,7 +105,32 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {% include "app/pages/edl/components/property-props.twig" with {property: edl.property} %}
+                        <div class="owner sub details">{{ edl.property.owner != "" ? "Propriétaire : " ~ edl.property.owner : "Pas de propriétaire renseigné" }}</div>
+                        <div class="surface sub details">
+                            {% if edl.property.surface > "0" %}
+                                {{ edl.property.surface }}m²
+                            {% endif %}
+                        </div>
+                        <div class="room sub details">
+                            {% if edl.property.room %}
+                                {{ edl.property.room }} {{ edl.property.room > 1 ? "pièces" : "piece" }}
+                            {% endif %}
+                        </div>
+                        <div class="floor sub details">
+                            {% if edl.property.floor != "0" %}
+                                {{ edl.property.floor }} {{ edl.property.floor > 1 ? "ème étage" : "er étage" }}
+                            {% endif %}
+                        </div>
+                        <div class="door sub details">
+                            {% if edl.property.door %}
+                                Porte : {{ edl.property.door }}
+                            {% endif %}
+                        </div>
+                        <div class="is_furnished sub details">
+                            {% if edl.property.is_furnished %}
+                                Meublé
+                            {% endif %}
+                        </div>
                 </div>
             </div>
         </div>
@@ -122,38 +147,7 @@
             <div class="btn btn-outline-default btn-select-tenants">Sélectionner un/des locataire(s)</div>
             <div class="btn btn-outline-default btn-add-tenant">Ajouter un/des locataire(s)</div>
         </div>
-        <div class="selected selected-tenants {{ isDefined and edl.tenants | length > 0 ? "active" : "" }}">
-            {% if isDefined %}
-                {% for tenant in edl.tenants %}
-                    <div class="card active">
-                        <div class="btn-remove">
-                            <div class="btn-icon btn-remove-tenant" data-id="{{ tenant.id }}">
-                                <span class="icon-cancel"></span>
-                                <div class="tooltip">Déselectionner ce locataire</div>
-                            </div>
-                        </div>
-                        <div class="card-header">
-                            <div class="title">
-                                <div class="label">
-                                    <div class="name bold">{{ tenant.first_name }} {{ tenant.last_name | upper }}</div>
-                                    <div class="sub">
-                                        <div class="adr">{{ tenant.addr1 }}</div>
-                                        <div class="adr">{{ tenant.addr2 }}</div>
-                                        <div class="adr">{{ tenant.addr3 }}</div>
-                                    </div>
-                                    <div class="sub">
-                                        <span class="zipcode">{{ tenant.zipcode }}</span>
-                                        {% if tenant.zipcode and tenant.city %},{% endif %}
-                                        <span class="city">{{ tenant.city }}</span>
-                                    </div>
-                                </div>
-                                <div>Ref : <span class="ref">{{ tenant.reference }}</span></div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
+        <div class="selected selected-tenants"></div>
     </div>
 
     <input type="hidden" name="bien" id="bien" value="{{ isDefined ? edl.property.id }}">

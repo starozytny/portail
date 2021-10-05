@@ -7,6 +7,12 @@ function addBienSelected (bien, from) {
     let selectedZip = document.querySelector('.selected-bien .zipcode');
     let selectedCit = document.querySelector('.selected-bien .city');
     let selectedRef = document.querySelector('.selected-bien .ref');
+    let selectedOwn = document.querySelector('.selected-bien .owner');
+    let selectedSur = document.querySelector('.selected-bien .surface');
+    let selectedRoo = document.querySelector('.selected-bien .room');
+    let selectedFlo = document.querySelector('.selected-bien .floor');
+    let selectedDoo = document.querySelector('.selected-bien .door');
+    let selectedFur = document.querySelector('.selected-bien .is_furnished');
 
     selected.classList.add('active');
     selectedFro.innerHTML = from === "create" ? "Création" : "";
@@ -16,6 +22,12 @@ function addBienSelected (bien, from) {
     selectedZip.innerHTML = bien.zipcode;
     selectedCit.innerHTML = bien.city;
     selectedRef.innerHTML = bien.reference;
+    selectedOwn.innerHTML = bien.owner ? "Propriétaire : " + bien.owner : "Pas de propriétaire renseigné";
+    selectedSur.innerHTML = parseFloat(bien.surface) > 0 ? bien.surface + "m²" : "";
+    selectedRoo.innerHTML = parseInt(bien.room) ? bien.room + " pièce" + (parseInt(bien.room) > 1 ? "s" : "") : "";
+    selectedFlo.innerHTML = parseInt(bien.floor) ? bien.floor + " étage" + (parseInt(bien.floor) > 1 ? "s" : "") : "";
+    selectedDoo.innerHTML = bien.door ? "Porte : " + bien.door : "";
+    selectedFur.innerHTML = parseInt(bien.is_furnished) === 1 ? "Meublé" : "";
 }
 
 function addTenantSelected (selected, inputValues, inputCreateValues, tenants) {

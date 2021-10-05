@@ -14,6 +14,12 @@ function selectBien() {
     let selectedZip = document.querySelector('.selected-bien .zipcode');
     let selectedCit = document.querySelector('.selected-bien .city');
     let selectedRef = document.querySelector('.selected-bien .ref');
+    let selectedOwn = document.querySelector('.selected-bien .owner');
+    let selectedSur = document.querySelector('.selected-bien .surface');
+    let selectedRoo = document.querySelector('.selected-bien .room');
+    let selectedFlo = document.querySelector('.selected-bien .floor');
+    let selectedDoo = document.querySelector('.selected-bien .door');
+    let selectedFur = document.querySelector('.selected-bien .is_furnished');
 
     btns.forEach(btn => {
         btn.addEventListener('click', function (e) {
@@ -54,6 +60,12 @@ function selectBien() {
             selectedZip.innerHTML = "";
             selectedCit.innerHTML = "";
             selectedRef.innerHTML = "";
+            selectedOwn.innerHTML = "";
+            selectedSur.innerHTML = "";
+            selectedRoo.innerHTML = "";
+            selectedFlo.innerHTML = "";
+            selectedDoo.innerHTML = "";
+            selectedFur.innerHTML = "";
         })
     }
 }

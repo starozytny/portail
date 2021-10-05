@@ -43,10 +43,6 @@ final class TransfertCommand extends Command
         $this->setDescription('Transfert old data to api db');
     }
 
-    /**
-     * @throws Exception
-     * @throws \Doctrine\DBAL\Driver\Exception
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if($this->connect()){
