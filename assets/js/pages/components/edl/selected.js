@@ -2,6 +2,8 @@ function addBienSelected (bien, from) {
     let selected = document.querySelector('.selected-bien');
     let selectedFro = document.querySelector('.selected-bien .from');
     let selectedAdr = document.querySelector('.selected-bien .adr');
+    let selectedAd2 = document.querySelector('.selected-bien .adr2');
+    let selectedAd3 = document.querySelector('.selected-bien .adr3');
     let selectedZip = document.querySelector('.selected-bien .zipcode');
     let selectedCit = document.querySelector('.selected-bien .city');
     let selectedRef = document.querySelector('.selected-bien .ref');
@@ -9,6 +11,8 @@ function addBienSelected (bien, from) {
     selected.classList.add('active');
     selectedFro.innerHTML = from === "create" ? "Création" : "";
     selectedAdr.innerHTML = bien.addr1;
+    selectedAd2.innerHTML = bien.addr2;
+    selectedAd3.innerHTML = bien.addr3;
     selectedZip.innerHTML = bien.zipcode;
     selectedCit.innerHTML = bien.city;
     selectedRef.innerHTML = bien.reference;
@@ -54,18 +58,26 @@ function addTenantHtml(selected, tenant, from) {
         '         <div class="card-header">\n' +
         '             <div class="title">\n' +
         '                 <div class="label">\n' +
-        '                     <div class="name">'+ tenant.first_name + ' ' + tenant.last_name +'</div>\n' +
-        '                     <div class="sub">\n' +
-        '                        <span class="adr">'+ tenant.addr1 +'</span>\n' +
-        '                     </div>\n' +
-        '                     <div class="sub">\n' +
-        '                         <span class="zipcode">'+ (tenant.zipcode !== "0" ? tenant.zipcode : "") +'</span>\n'+
-        '                           '+ (tenant.city && tenant.zipcode ? ',' : '') +'\n' +
-        '                         <span class="city">'+ tenant.city +'</span>\n' +
-        '                     </div>\n' +
+        '                     <div class="name bold">'+ tenant.first_name + ' ' + tenant.last_name +'</div>\n' +
         '                 </div>\n' +
         '                 <div class="ref">Ref : '+ tenant.reference +'</div>\n' +
         '             </div>\n' +
+        '         </div>\n' +
+        '         <div class="card-body">\n' +
+        '           <div class="sub fullAddress">\n' +
+        '              <div class="adr">'+ tenant.addr1 +'</div>\n' +
+        '              <div class="adr">'+ tenant.addr2 +'</div>\n' +
+        '              <div class="adr">'+ tenant.addr3 +'</div>\n' +
+        '              <div class="adr">' +
+        '                   <span class="zipcode">'+ (tenant.zipcode !== "0" ? tenant.zipcode : "") +'</span>\n'+
+        '                       '+ (tenant.city && tenant.zipcode ? ',' : '') +'\n' +
+        '                   <span class="city">'+ tenant.city +'</span>\n' +
+        '              </div>\n' +
+        '           </div>\n' +
+        '           <div class="sub">\n' +
+        '               <div class="email">'+ tenant.email +'</div>\n' +
+        '               <div class="phone">'+ tenant.phone +'</div>\n' +
+        '           </div>\n' +
         '         </div>\n' +
         '     </div>'
     );

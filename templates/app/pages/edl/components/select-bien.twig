@@ -27,9 +27,11 @@
                             <div class="title">
                                 <div class="address">
                                     <div>{{ elem.addr1 }}</div>
-                                    {% if elem.type %}<div>Type : {{ elem.type }}</div>{% endif %}
+                                    <div>{{ elem.addr2 }}</div>
+                                    <div>{{ elem.addr3 }}</div>
                                     <div class="sub">{{ elem.zipcode }}, {{ elem.city }}</div>
                                     {% if elem.building %}<div>Bâtiment : {{ elem.building }}</div>{% endif %}
+                                    {% if elem.type %}<div>Type : {{ elem.type }}</div>{% endif %}
                                 </div>
                                 <div class="ref">Ref : {{ elem.reference }}</div>
                             </div>

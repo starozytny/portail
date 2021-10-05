@@ -9,6 +9,8 @@ function selectBien() {
 
     let selected = document.querySelector('.selected-bien');
     let selectedAdr = document.querySelector('.selected-bien .adr');
+    let selectedAd2 = document.querySelector('.selected-bien .adr2');
+    let selectedAd3 = document.querySelector('.selected-bien .adr3');
     let selectedZip = document.querySelector('.selected-bien .zipcode');
     let selectedCit = document.querySelector('.selected-bien .city');
     let selectedRef = document.querySelector('.selected-bien .ref');
@@ -47,6 +49,8 @@ function selectBien() {
 
             selected.classList.remove('active');
             selectedAdr.innerHTML = "";
+            selectedAd2.innerHTML = "";
+            selectedAd3.innerHTML = "";
             selectedZip.innerHTML = "";
             selectedCit.innerHTML = "";
             selectedRef.innerHTML = "";

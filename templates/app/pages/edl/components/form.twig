@@ -91,7 +91,11 @@
                 <div class="card-header">
                     <div class="title">
                         <div class="label">
-                            <div class="name adr">{{ isDefined ? edl.property.addr1 : "" }}</div>
+                            <div class="name">
+                                <div class="adr bold">{{ isDefined ? edl.property.addr1 : "" }}</div>
+                                <div class="adr2">{{ isDefined ? edl.property.addr2 : "" }}</div>
+                                <div class="adr3">{{ isDefined ? edl.property.addr3 : "" }}</div>
+                            </div>
                             <div class="sub">
                                 <span class="zipcode">{{ isDefined ? edl.property.zipcode : "" }}</span>,
                                 <span class="city">{{ isDefined ? edl.property.city : "" }}</span>
@@ -131,9 +135,11 @@
                         <div class="card-header">
                             <div class="title">
                                 <div class="label">
-                                    <div class="name">{{ tenant.first_name }} {{ tenant.last_name | upper }}</div>
+                                    <div class="name bold">{{ tenant.first_name }} {{ tenant.last_name | upper }}</div>
                                     <div class="sub">
                                         <div class="adr">{{ tenant.addr1 }}</div>
+                                        <div class="adr">{{ tenant.addr2 }}</div>
+                                        <div class="adr">{{ tenant.addr3 }}</div>
                                     </div>
                                     <div class="sub">
                                         <span class="zipcode">{{ tenant.zipcode }}</span>

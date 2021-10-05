@@ -31,18 +31,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            {% if elem.addr1 %}<div>Adresse : {{ elem.addr1 }}</div>{% endif %}
-                            {% if elem.addr2 %}<div>Adresse 2 : {{ elem.addr1 }}</div>{% endif %}
-                            {% if elem.addr3 %}<div>Adresse 3 : {{ elem.addr1 }}</div>{% endif %}
-                            {% if elem.zipcode or elem.city %}
-                                <div>
-                                    {% if elem.zipcode %}<span>{{ elem.zipcode }}</span>{% endif %}
-                                    {% if elem.zipcode and elem.city %},{% endif %}
-                                    {% if elem.city %}<span>{{ elem.city }}</span>{% endif %}
-                                </div>
-                            {% endif %}
-                            {% if elem.email %}<div class="sub">{{ elem.email }}</div>{% endif %}
-                            {% if elem.phone %}<div class="sub">{{ elem.phone }}</div>{% endif %}
+                            {% include "app/pages/edl/components/tenant-props.twig" with {tenant: elem} %}
                         </div>
                     </div>
                 {% endfor %}

@@ -38,17 +38,18 @@
         border-radius: 3px 3px 0 0;
         padding: 12px;
 
-        .label{
-          div:first-child{
-            @include fontSemibold();
-          }
-        }
-
         .sub{
           margin-top: 4px;
           opacity: 0.9;
         }
       }
+      .bold{
+        @include fontSemibold();
+      }
+    }
+
+    .fullAddress{
+      margin-bottom: 8px;
     }
 
     .card-body{

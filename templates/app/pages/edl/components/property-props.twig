@@ -1,9 +1,5 @@
-{% if property.addr2 %}<div class="sub details">Adresse 2 : {{ property.addr2 }}</div>{% endif %}
-
-{% if property.addr3 %}<div class="sub details">Adresse 3 : {{ property.addr3 }}</div>{% endif %}
-
 {% if less is not defined %}
-    <div class="owner sub details">{{ property.owner != "" ? "Propriétaire : " ~ property.owner : "Pas de propriétaire" }}</div>
+    <div class="owner sub details">{{ property.owner != "" ? "Propriétaire : " ~ property.owner : "Pas de propriétaire renseigné" }}</div>
 {% endif %}
 
 {% if property.surface > "0" %}

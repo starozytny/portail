@@ -84,7 +84,10 @@
                                             </div>
                                             <div class="col-4">
                                                 <div style="margin-bottom: 4px;"><u>Référence</u> : {{ elem.property.reference }}</div>
-                                                <div>Adresse : {{ elem.property.addr1 }}</div>
+                                                <div>{{ elem.property.addr1 }}</div>
+                                                <div>{{ elem.property.addr2 }}</div>
+                                                <div>{{ elem.property.addr3 }}</div>
+                                                <div>{{ elem.property.zipcode }} {{ elem.property.zipcode and elem.property.city ? "," : "" }} {{ elem.property.city }}</div>
                                                 {% if elem.property.type %}<div>Type : {{ elem.property.type }}</div>{% endif %}
                                                 {% if elem.property.owner %}
                                                     <div>Propriétaire : {{ elem.property.owner }}</div>
@@ -102,18 +105,7 @@
                                                         </div>
                                                         <div class="details tenant-details">
                                                             <div class="sub"><u>Référence</u> : {{ tenant.reference }}</div>
-                                                            {% if tenant.addr1 %}<div class="sub">Adresse : {{ tenant.addr1 }}</div>{% endif %}
-                                                            {% if tenant.addr2 %}<div class="sub">Adresse 2 : {{ tenant.addr1 }}</div>{% endif %}
-                                                            {% if tenant.addr3 %}<div class="sub">Adresse 3 : {{ tenant.addr1 }}</div>{% endif %}
-                                                            {% if tenant.zipcode or tenant.city %}
-                                                                <div class="sub">
-                                                                    {% if tenant.zipcode %}<span>{{ tenant.zipcode }}</span>{% endif %}
-                                                                    {% if tenant.zipcode and tenant.city %},{% endif %}
-                                                                    {% if tenant.city %}<span>{{ tenant.city }}</span>{% endif %}
-                                                                </div>
-                                                            {% endif %}
-                                                            {% if tenant.email %}<div class="sub">{{ tenant.email }}</div>{% endif %}
-                                                            {% if tenant.phone %}<div class="sub">{{ tenant.phone }}</div>{% endif %}
+                                                            {% include "app/pages/edl/components/tenant-props.twig" with {tenant: tenant} %}
                                                         </div>
                                                     {% endfor %}
                                                 {% endif %}
