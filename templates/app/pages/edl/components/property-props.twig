@@ -1,0 +1,27 @@
+{% if property.addr2 %}<div class="sub details">Adresse 2 : {{ property.addr2 }}</div>{% endif %}
+
+{% if property.addr3 %}<div class="sub details">Adresse 3 : {{ property.addr3 }}</div>{% endif %}
+
+{% if less is not defined %}
+    <div class="owner sub details">{{ property.owner != "" ? "Propriétaire : " ~ property.owner : "Pas de propriétaire" }}</div>
+{% endif %}
+
+{% if property.surface > "0" %}
+    <div class="sub details">{{ property.surface }}m²</div>
+{% endif %}
+
+{% if property.room %}
+    <div class="sub details">{{ property.room }} {{ property.room > 1 ? "pièces" : "piece" }}</div>
+{% endif %}
+
+{% if property.surface != "0" %}
+    <div class="sub details">{{ property.floor }} {{ property.room > 1 ? "ème étage" : "er étage" }}</div>
+{% endif %}
+
+{% if property.door %}
+    <div class="sub details">Porte : {{ property.door }}</div>
+{% endif %}
+
+{% if property.is_furnished %}
+    <div class="sub details">Meublé</div>
+{% endif %}

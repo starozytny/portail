@@ -35,25 +35,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            {% if elem.addr2 %}<div>Adresse 2 : {{ elem.addr2 }}</div>{% endif %}
-                            {% if elem.addr3 %}<div>Adresse 3 : {{ elem.addr3 }}</div>{% endif %}
-                            <div class="owner">{{ elem.owner != "" ? "Propriétaire : " ~ elem.owner : "Pas de propriétaire" }}</div>
-
-                            {% if elem.surface > "0" %}
-                                <div class="sub">{{ elem.surface }}m²</div>
-                            {% endif %}
-                            {% if elem.room %}
-                                <div class="sub">{{ elem.room }} {{ elem.room > 1 ? "pièces" : "piece" }}</div>
-                            {% endif %}
-                            {% if elem.surface != "0" %}
-                                <div class="sub">{{ elem.floor }} {{ elem.room > 1 ? "ème étage" : "er étage" }}</div>
-                            {% endif %}
-                            {% if elem.door %}
-                                <div class="sub">Porte : {{ elem.door }}</div>
-                            {% endif %}
-                            {% if elem.is_furnished %}
-                                <div class="sub">Meublé</div>
-                            {% endif %}
+                            {% include "app/pages/edl/components/property-props.twig" with {property: elem} %}
                         </div>
                     </div>
                 {% endfor %}
