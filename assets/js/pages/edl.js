@@ -19,6 +19,7 @@ if(view) console.log(JSON.parse(view.dataset.donnees));
 
 List.resizeMonthList();
 List.details();
+List.pagination();
 
 //*****
 // Ouvrir les asides

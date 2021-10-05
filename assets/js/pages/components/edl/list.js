@@ -50,7 +50,6 @@ function removeItem (id) {
     if(item){
         let parentItem = item.parentElement;
         item.remove();
-        console.log(parentItem.children)
 
         if(parentItem.children.length === 2){
             let parentParentItem = parentItem.parentElement;
@@ -100,9 +99,44 @@ function hideItem (id) {
     }
 }
 
+function pagination () {
+    let paginations = document.querySelectorAll('.pagination');
+    if(paginations.length > 0){
+        paginations.forEach(pagination => {
+            let id = pagination.dataset.id;
+
+            let btnsPage = document.querySelectorAll('.pagination-' + id + " .item-pagination");
+
+            btnsPage.forEach(btn => {
+
+                btn.addEventListener('click', function (e) {
+                    let items = document.querySelectorAll('.inventories-' + id + " .item");
+
+                    btnsPage.forEach(b => {
+                        b.classList.remove('active');
+                    })
+                    btn.classList.add('active');
+
+                    items.forEach(item => {
+                        if(item.dataset.page === btn.dataset.page){
+                            item.style.display = "flex";
+                        }else{
+                            item.style.display = "none";
+                        }
+                    })
+                })
+            })
+
+
+        })
+    }
+
+}
+
 module.exports = {
     resizeMonthList,
     removeItem,
     hideItem,
-    details
+    details,
+    pagination
 }
