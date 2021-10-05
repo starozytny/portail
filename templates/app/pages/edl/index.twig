@@ -31,84 +31,85 @@
                     {% for year, months in data | sort %}
                         {% for month, item in months | sort %}
                             <div class="list-month">
-                                {% if year == "unknown" %}
-                                    <div class="title">Date indéfinie</div>
-                                {% else %}
-                                    <div class="title">{{ month | monthLongStringFr }} - {{ year }}</div>
-                                {% endif %}
-
-                                <div class="list-month-header">
-                                    <div class="item">
-                                        <div class="col-1">Date</div>
-                                        <div class="col-2">Attribution</div>
-                                        <div class="col-3">Type</div>
-                                        <div class="col-4">Bien</div>
-                                        <div class="col-5">Locataire(s)</div>
-                                        <div class="col-6">Actions</div>
-                                    </div>
+                                <div class="title">
+                                    <div>{{ year == "unknown" ? "Date indéfinie" : (month | monthLongStringFr) ~ " - " ~ year }}</div>
+                                    <div><span class="icon-minus"></span></div>
                                 </div>
 
-                                {% for elem in item | sort((a,b) => a.inventory.date <=> b.inventory.date) %}
-                                    <div class="item item-{{ elem.inventory.id }}">
-                                        <div class="col-1">
-                                            {% if elem.inventory.date != 0 %}
-                                                <div>
-                                                    {{ elem.inventory.date | date('D') | dayShortStringFr }}.
-                                                    {{ elem.inventory.date | date('d') }}
-                                                    {{ elem.inventory.date | date('n') | monthShortStringFr | lower }}.
-                                                    {{ elem.inventory.date | date('Y') }}
-                                                </div>
-                                                <div>{{ elem.inventory.date | date('H\\hi') }}</div>
-                                            {% else %}
-                                                <div>Date indéfinie</div>
-                                            {% endif %}
-                                        </div>
-                                        <div class="col-2">
-                                            <div>{{ session.user[0] }}</div>
-                                            <div class="sub">{{ session.user[2] }} {{ session.user[3] | upper }}</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="role-type type-{{ elem.inventory.type }}">
-                                                {{ elem.inventory.type == 0 ? "Sortant" : "Entrant"}}
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div style="margin-bottom: 4px;"><u>Référence</u> : {{ elem.property.reference }}</div>
-                                            <div>Adresse : {{ elem.property.addr1 }}</div>
-                                            {% if elem.property.type %}
-                                                <div>Type : {{ elem.property.type }}</div>
-                                            {% endif %}
-                                            {% if elem.property.owner %}
-                                                <div>Propriétaire : {{ elem.property.owner }}</div>
-                                            {% endif %}
-                                        </div>
-                                        <div class="col-5">
-                                            {% if elem.tenants | length > 0 %}
-                                                <div class="tenant-title"><u>Locataires</u> : </div>
-                                                {% for tenant in elem.tenants %}
-                                                    <div><span class="icon-rec"></span>{{ tenant.first_name | capitalize }} {{ tenant.flast_name | upper }}</div>
-                                                {% endfor %}
-                                            {% endif %}
-                                        </div>
-                                        <div class="col-6">
-                                            {% if is_current_url('edl', {'status': 'termine'}) %}
-                                                <a href="{{ url_for('edl_pdf', {'uid': elem.inventory.uid}) }}" class="btn-icon">
-                                                    <span class="icon-file"></span>
-                                                    <span class="tooltip">Voir le PDF</span>
-                                                </a>
-                                            {% else %}
-                                                <a href="{{ url_for('edl_update', {'id': elem.inventory.id}) }}" class="btn-icon">
-                                                    <span class="icon-compose"></span>
-                                                    <span class="tooltip">Modifier</span>
-                                                </a>
-                                                <button data-url="{{ url_for('edl_delete', {'id': elem.inventory.id}) }}" data-id="{{ elem.inventory.id }}" class="btn-icon btn-delete">
-                                                    <span class="icon-delete"></span>
-                                                    <span class="tooltip">Supprimer</span>
-                                                </button>
-                                            {% endif %}
+                                <div class="items active">
+                                    <div class="list-month-header">
+                                        <div class="item">
+                                            <div class="col-1">Date</div>
+                                            <div class="col-2">Attribution</div>
+                                            <div class="col-3">Type</div>
+                                            <div class="col-4">Bien</div>
+                                            <div class="col-5">Locataire(s)</div>
+                                            <div class="col-6">Actions</div>
                                         </div>
                                     </div>
-                                {% endfor %}
+
+                                    {% for elem in item | sort((a,b) => a.inventory.date <=> b.inventory.date) %}
+                                        <div class="item item-{{ elem.inventory.id }}">
+                                            <div class="col-1">
+                                                {% if elem.inventory.date != 0 %}
+                                                    <div>
+                                                        {{ elem.inventory.date | date('D') | dayShortStringFr }}.
+                                                        {{ elem.inventory.date | date('d') }}
+                                                        {{ elem.inventory.date | date('n') | monthShortStringFr | lower }}.
+                                                        {{ elem.inventory.date | date('Y') }}
+                                                    </div>
+                                                    <div>{{ elem.inventory.date | date('H\\hi') }}</div>
+                                                {% else %}
+                                                    <div>Date indéfinie</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-2">
+                                                <div>{{ session.user[0] }}</div>
+                                                <div class="sub">{{ session.user[2] }} {{ session.user[3] | upper }}</div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="role-type type-{{ elem.inventory.type }}">
+                                                    {{ elem.inventory.type == 0 ? "Sortant" : "Entrant"}}
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div style="margin-bottom: 4px;"><u>Référence</u> : {{ elem.property.reference }}</div>
+                                                <div>Adresse : {{ elem.property.addr1 }}</div>
+                                                {% if elem.property.type %}
+                                                    <div>Type : {{ elem.property.type }}</div>
+                                                {% endif %}
+                                                {% if elem.property.owner %}
+                                                    <div>Propriétaire : {{ elem.property.owner }}</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-5">
+                                                {% if elem.tenants | length > 0 %}
+                                                    <div class="tenant-title"><u>Locataires</u> : </div>
+                                                    {% for tenant in elem.tenants %}
+                                                        <div><span class="icon-rec"></span>{{ tenant.first_name | capitalize }} {{ tenant.flast_name | upper }}</div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-6">
+                                                {% if is_current_url('edl', {'status': 'termine'}) %}
+                                                    <a href="{{ url_for('edl_pdf', {'uid': elem.inventory.uid}) }}" class="btn-icon">
+                                                        <span class="icon-file"></span>
+                                                        <span class="tooltip">Voir le PDF</span>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ url_for('edl_update', {'id': elem.inventory.id}) }}" class="btn-icon">
+                                                        <span class="icon-compose"></span>
+                                                        <span class="tooltip">Modifier</span>
+                                                    </a>
+                                                    <button data-url="{{ url_for('edl_delete', {'id': elem.inventory.id}) }}" data-id="{{ elem.inventory.id }}" class="btn-icon btn-delete">
+                                                        <span class="icon-delete"></span>
+                                                        <span class="tooltip">Supprimer</span>
+                                                    </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         {% endfor %}
                     {% endfor %}

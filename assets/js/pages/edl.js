@@ -12,9 +12,12 @@ import SelectTenants    from "./components/edl/select-tenants";
 import AddBien          from "./components/edl/add-bien";
 import AddTenant        from "./components/edl/add-tenant";
 import Search           from "./components/edl/search";
+import List             from "./components/edl/list";
 
 let view = document.getElementById("view")
 if(view) console.log(JSON.parse(view.dataset.donnees));
+
+List.resizeMonthList();
 
 //*****
 // Ouvrir les asides
