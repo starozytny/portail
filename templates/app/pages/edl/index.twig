@@ -43,10 +43,10 @@
                             <div class="list-month">
                                 <div class="title">
                                     <div>{{ year == "unknown" ? "Date indéfinie" : (month | monthLongStringFr) ~ " - " ~ year }}</div>
-                                    <div><span class="icon-minus"></span></div>
+                                    <div><span class="icon-{{ year == "unknown" or year == ("now" | date('Y')) ? "minus" : "plus" }}"></span></div>
                                 </div>
 
-                                <div class="items active">
+                                <div class="items {{ year == "unknown" or year == ("now" | date('Y')) ? "active" : "" }}">
                                     <div class="list-month-header">
                                         <div class="item">
                                             <div class="col-1">Date</div>
@@ -61,7 +61,7 @@
                                     {% set nbPages = ((item | length) / 10) | round(0, 'ceil') %}
 
                                     <ul class="pagination pagination-{{ year ~ month }}" data-id="{{ year ~ month }}">
-                                        {% if nbPages > 0 %}
+                                        {% if nbPages > 1 %}
                                             <li class="item-previous disabled"><span class="icon-minus"></span></li>
                                             <li class="item-break" style="display: none;">...</li>
                                             {% for i in 1..nbPages %}
