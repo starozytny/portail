@@ -1,3 +1,5 @@
+const List = require("./list");
+
 function searchBien() {
     let search = document.querySelector('.searchBien');
     if(search){
@@ -76,7 +78,58 @@ function searchTenant() {
     }
 }
 
+function searchEdl() {
+    let search = document.querySelector('.searchEdl');
+    if(search){
+        let elems = document.querySelectorAll('.list-month .items > .item');
+        search.addEventListener('input', function (e) {
+            let val = this.value.toLowerCase();
+            let resultsNone = document.querySelectorAll('.result-none');
+
+            resultsNone.forEach(r => { r.remove(); })
+
+            elems.forEach(elem => {
+                if(val === ""){
+                    elem.style.display = "flex";
+                }else{
+                    let display = false;
+                    elem.style.display = "none";
+
+                    let data = JSON.parse(elem.dataset.data);
+
+                    if(data.property.reference.startsWith(val)){
+                        display = true;
+                    }
+
+                    if(data.property.zipcode.startsWith(val)){
+                        display = true;
+                    }
+
+                    if(data.property.city.toLowerCase().startsWith(val)){
+                        display = true;
+                    }
+
+                    if(data.property.owner.toLowerCase().startsWith(val)){
+                        display = true;
+                    }
+
+                    if(data.property.addr1.toLowerCase().startsWith(val)){
+                        display = true;
+                    }
+
+                    if(display){
+                        elem.style.display = "flex";
+                    }else{
+                        List.hideItem(elem.dataset.id);
+                    }
+                }
+            })
+        })
+    }
+}
+
 module.exports = {
     searchBien,
-    searchTenant
+    searchTenant,
+    searchEdl
 }

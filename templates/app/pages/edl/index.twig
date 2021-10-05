@@ -26,6 +26,16 @@
                     Etat terminé
                 </a>
             </div>
+            <div class="toolbar">
+                <div class="line">
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'searchEdl',
+                        input_label: 'Rechercher un état des lieux',
+                        input_value: '',
+                        input_placeholder: 'Recherche par référence, code postal, ville, adresse ou propriétaire.'
+                    } %}
+                </div>
+            </div>
             <div class="list">
                 {% if data | length > 0 %}
                     {% for year, months in data | sort %}
@@ -49,7 +59,7 @@
                                     </div>
 
                                     {% for elem in item | sort((a,b) => a.inventory.date <=> b.inventory.date) %}
-                                        <div class="item item-{{ elem.inventory.id }}">
+                                        <div class="item item-{{ elem.inventory.id }}" data-id="{{ elem.inventory.id }}" data-data="{{ elem | json_encode }}">
                                             <div class="col-1">
                                                 {% if elem.inventory.date != 0 %}
                                                     <div>
@@ -64,8 +74,8 @@
                                                 {% endif %}
                                             </div>
                                             <div class="col-2">
-                                                <div>{{ session.user[0] }}</div>
-                                                <div class="sub">{{ session.user[2] }} {{ session.user[3] | upper }}</div>
+                                                <div>{{ elem.inventory.user.username }}</div>
+                                                <div class="sub">{{ elem.inventory.user.first_name }} {{ elem.inventory.user.last_name | upper }}</div>
                                             </div>
                                             <div class="col-3">
                                                 <div class="role-type type-{{ elem.inventory.type }}">

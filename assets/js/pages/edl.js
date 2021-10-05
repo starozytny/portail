@@ -53,6 +53,7 @@ if(structure){
 //*****
 Search.searchBien();
 Search.searchTenant();
+Search.searchEdl();
 
 //*****
 // Submit form
@@ -143,8 +144,6 @@ if(form){
                     }, 1000);
                 })
                 .catch(function (error) {
-                    console.log(error.response)
-                    console.log(error.response.data)
                     Validateur.loader(false);
                     Validateur.handleErrors(error, formClass);
                 })
@@ -168,25 +167,9 @@ if(btnsDelete){
                     if (result.isConfirmed) {
                         axios.delete(btnDelete.dataset.url, {})
                             .then(function (response) {
-                                let item = document.querySelector('.item-' + btnDelete.dataset.id);
-                                if(item){
-                                    let parentItem = item.parentElement;
-                                    item.remove();
+                                toastr.info(response.data);
 
-                                    if(parentItem.children.length === 2){
-                                        let parentParentItem = parentItem.parentElement;
-                                        parentItem.remove();
-
-                                        if(parentParentItem.children.length === 0){
-                                            parentParentItem.insertAdjacentHTML('beforeend', '' +
-                                                '<div class="alert alert-default">' +
-                                                '   Aucun état des lieux enregistré.' +
-                                                '</div>');
-                                        }
-                                    }
-
-                                    toastr.info(response.data);
-                                }
+                                List.removeItem(btnDelete.dataset.id);
                             })
                             .catch(function (error) {
                                 Validateur.handleErrors(error)

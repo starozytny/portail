@@ -61,11 +61,19 @@ class AppController
      */
     public function edl(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $users    = $this->apiService->callApi('users');
         $elements = $this->apiService->callApi('inventories/full/list/' . ($args['status'] == "en-cours" ? 0 : 2));
 
         $data = [];
 
         foreach ($elements as $elem) {
+
+            foreach($users as $user){
+                if($user->id == $elem->inventory->user_id){
+                    $elem->inventory->user = $user;
+                }
+            }
+
             $inventoryDate = $elem->inventory->date;
             if($inventoryDate == "0"){
                 if(!isset($data['unknown'])){
