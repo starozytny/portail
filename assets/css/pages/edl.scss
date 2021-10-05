@@ -86,7 +86,7 @@
 
       & > div{
 
-        &:not(.tenant-title){
+        &:not(.tenant-title):not(.details){
           @include flex(row, center, flex-start);
         }
 
@@ -114,6 +114,21 @@
           width: 60px;
         }
       }
+    }
+
+    .details{
+      display: none;
+
+      &.active{
+        display: flex;
+      }
+    }
+
+    .tenant-details{
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      margin-left: 12px;
     }
   }
 }

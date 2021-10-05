@@ -18,6 +18,7 @@ let view = document.getElementById("view")
 if(view) console.log(JSON.parse(view.dataset.donnees));
 
 List.resizeMonthList();
+List.details();
 
 //*****
 // Ouvrir les asides

@@ -19,6 +19,32 @@ function resizeMonthList () {
     })
 }
 
+function details () {
+    let btns = document.querySelectorAll('.btn-details');
+    btns.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            let icon = btn.children[0];
+            let details = document.querySelectorAll('.item-' + btn.dataset.id + ' .details');
+
+            if(btn.classList.contains('active')){
+                btn.classList.remove('active');
+                icon.classList.remove('icon-hide');
+                icon.classList.add('icon-show');
+                details.forEach(d => {
+                    d.classList.remove('active');
+                })
+            }else{
+                btn.classList.add('active');
+                icon.classList.remove('icon-show');
+                icon.classList.add('icon-hide');
+                details.forEach(d => {
+                    d.classList.add('active');
+                })
+            }
+        })
+    })
+}
+
 function removeItem (id) {
     let item = document.querySelector('.item-' + id);
     if(item){
@@ -77,5 +103,6 @@ function hideItem (id) {
 module.exports = {
     resizeMonthList,
     removeItem,
-    hideItem
+    hideItem,
+    details
 }

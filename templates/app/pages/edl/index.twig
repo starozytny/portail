@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div id="view" data-donnees="{{ donnees }}"></div>
+    <div id="view" data-donnees="{{ "{}" }}"></div>
 
     <div class="main-content">
         <div class="edl-list">
@@ -85,22 +85,60 @@
                                             <div class="col-4">
                                                 <div style="margin-bottom: 4px;"><u>Référence</u> : {{ elem.property.reference }}</div>
                                                 <div>Adresse : {{ elem.property.addr1 }}</div>
-                                                {% if elem.property.type %}
-                                                    <div>Type : {{ elem.property.type }}</div>
-                                                {% endif %}
+                                                {% if elem.property.addr2 %}<div class="sub details">Adresse 2 : {{ elem.property.addr2 }}</div>{% endif %}
+                                                {% if elem.property.addr3 %}<div class="sub details">Adresse 3 : {{ elem.property.addr3 }}</div>{% endif %}
+                                                {% if elem.property.type %}<div>Type : {{ elem.property.type }}</div>{% endif %}
+                                                {% if elem.property.building %}<div class="sub details">Bâtiment : {{ elem.property.building }}</div>{% endif %}
                                                 {% if elem.property.owner %}
                                                     <div>Propriétaire : {{ elem.property.owner }}</div>
+                                                {% endif %}
+                                                {% if elem.property.surface > "0" %}
+                                                    <div class="sub details">{{ elem.property.surface }}m²</div>
+                                                {% endif %}
+                                                {% if elem.property.room %}
+                                                    <div class="sub details">{{ elem.property.room }} {{ elem.property.room > 1 ? "pièces" : "piece" }}</div>
+                                                {% endif %}
+                                                {% if elem.property.surface != "0" %}
+                                                    <div class="sub details">{{ elem.property.floor }} {{ elem.property.room > 1 ? "ème étage" : "er étage" }}</div>
+                                                {% endif %}
+                                                {% if elem.property.door %}
+                                                    <div class="sub details">Porte : {{ elem.property.door }}</div>
+                                                {% endif %}
+                                                {% if elem.property.is_furnished %}
+                                                    <div class="sub details">Meublé</div>
                                                 {% endif %}
                                             </div>
                                             <div class="col-5">
                                                 {% if elem.tenants | length > 0 %}
                                                     <div class="tenant-title"><u>Locataires</u> : </div>
                                                     {% for tenant in elem.tenants %}
-                                                        <div><span class="icon-rec"></span>{{ tenant.first_name | capitalize }} {{ tenant.flast_name | upper }}</div>
+                                                        <div>
+                                                            <span class="icon-rec"></span>
+                                                            {{ tenant.first_name | capitalize }} {{ tenant.flast_name | upper }}
+                                                        </div>
+                                                        <div class="details tenant-details">
+                                                            <div class="sub"><u>Référence</u> : {{ tenant.reference }}</div>
+                                                            {% if tenant.addr1 %}<div class="sub">Adresse : {{ tenant.addr1 }}</div>{% endif %}
+                                                            {% if tenant.addr2 %}<div class="sub">Adresse 2 : {{ tenant.addr1 }}</div>{% endif %}
+                                                            {% if tenant.addr3 %}<div class="sub">Adresse 3 : {{ tenant.addr1 }}</div>{% endif %}
+                                                            {% if tenant.zipcode or tenant.city %}
+                                                                <div class="sub">
+                                                                    {% if tenant.zipcode %}<span>{{ tenant.zipcode }}</span>{% endif %}
+                                                                    {% if tenant.zipcode and tenant.city %},{% endif %}
+                                                                    {% if tenant.city %}<span>{{ tenant.city }}</span>{% endif %}
+                                                                </div>
+                                                            {% endif %}
+                                                            {% if tenant.email %}<div class="sub">{{ tenant.email }}</div>{% endif %}
+                                                            {% if tenant.phone %}<div class="sub">{{ tenant.phone }}</div>{% endif %}
+                                                        </div>
                                                     {% endfor %}
                                                 {% endif %}
                                             </div>
                                             <div class="col-6">
+                                                <button class="btn-icon btn-details" data-id="{{ elem.inventory.id }}">
+                                                    <span class="icon-show"></span>
+                                                    <span class="tooltip">Détails</span>
+                                                </button>
                                                 {% if is_current_url('edl', {'status': 'termine'}) %}
                                                     <a href="{{ url_for('edl_pdf', {'uid': elem.inventory.uid}) }}" class="btn-icon">
                                                         <span class="icon-file"></span>
