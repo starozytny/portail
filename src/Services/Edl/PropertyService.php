@@ -43,7 +43,6 @@ class PropertyService
 
         if(!$alreadyCreated){
             $res = $this->createProperty($bienCreate);
-
             if($res['code'] == 0){
                 return $res;
             }

@@ -1,6 +1,8 @@
 <?php
 
 // Should be set to 0 in production
+use App\Command\TransfertCommand;
+
 error_reporting(E_ALL);
 
 // Should be set to '0' in production
@@ -50,7 +52,7 @@ $settings['twig'] = [
 $settings['db'] = [
     'driver' => 'pdo_mysql',
     'host' => 'localhost',
-    'dbname' => 'portail',
+    'dbname' => 'portail_old',
     'user' => 'root',
     'password' => '',
     'charset' => 'utf8mb4',
@@ -72,6 +74,10 @@ $settings['db'] = [
 $settings['session'] = [
     'name' => 'portailfokus',
     'cache_expire' => 0,
+];
+
+$settings['commands'] = [
+    TransfertCommand::class,
 ];
 
 return $settings;

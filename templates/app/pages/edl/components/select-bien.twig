@@ -31,12 +31,12 @@
                                     <div>{{ elem.addr3 }}</div>
                                     <div class="sub">{{ elem.zipcode }}, {{ elem.city }}</div>
                                     {% if elem.building %}<div>Bâtiment : {{ elem.building }}</div>{% endif %}
-                                    {% if elem.type %}<div>Type : {{ elem.type }}</div>{% endif %}
                                 </div>
                                 <div class="ref">Ref : {{ elem.reference }}</div>
                             </div>
                         </div>
                         <div class="card-body">
+                            {% if elem.type %}<div>Type : {{ elem.type }}</div>{% endif %}
                             {% include "app/pages/edl/components/property-props.twig" with {property: elem} %}
                         </div>
                     </div>
