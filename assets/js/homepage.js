@@ -31,6 +31,8 @@ if(calendarEl){
                     extendedProps: {
                         start: addZero(start.getHours()) + "h" + addZero(start.getMinutes()),
                         type: parseInt(el.inventory.type) === 0 ? "Sortant" : "Entrant",
+                        addr2: el.property.addr2,
+                        addr3: el.property.addr3,
                         where: el.property.zipcode + ', ' + el.property.city,
                     },
                     classNames: parseInt(el.inventory.type) === 0 ? "sortant" : "entrant"
@@ -59,6 +61,8 @@ if(calendarEl){
 
                 bloc.insertAdjacentHTML('beforeend', '<div class="title">'+ info.event.extendedProps.start + " - " + info.event.extendedProps.type +'</div>')
                 bloc.insertAdjacentHTML('beforeend', '<div class="sub">' + info.event.title + '</div>')
+                bloc.insertAdjacentHTML('beforeend', '<div class="sub">' + info.event.extendedProps.addr2 + '</div>')
+                bloc.insertAdjacentHTML('beforeend', '<div class="sub">' + info.event.extendedProps.addr3 + '</div>')
                 bloc.insertAdjacentHTML('beforeend', '<div class="sub">'+ info.event.extendedProps.where +'</div>')
             },
         });
