@@ -16,6 +16,7 @@ class PropertyService
 
     public function extractBienFromFormEdl($bienId, $bienCreate): array
     {
+        $lastInventoryUid = ['lastInventoryUid' => null];
         if($bienCreate != "") {
             $res = $this->extractBienFromJs($bienCreate);
             if($res['code'] == 0){
@@ -23,16 +24,20 @@ class PropertyService
             }
 
             $bienId = $res['data'];
+            $lastInventoryUid = ['lastInventoryUid' => $res['lastInventoryUid']];
+        }else{
+            $property = $this->apiService->callApi('properties/' . $bienId);
+            $lastInventoryUid = ['lastInventoryUid' => $property->last_inventory_uid];
         }
 
-        return $this->getPropertyUid($bienId);
+        return array_merge($this->getPropertyUid($bienId), $lastInventoryUid);
     }
 
     public function extractBienFromJs($bienCreate): array
     {
         $bienCreate = json_decode($bienCreate);
 
-        $bienId = null; $alreadyCreated = false;
+        $bienId = null; $alreadyCreated = false; $lastInventoryUid = null;
         $properties = $this->apiService->callApi('properties');
         foreach($properties as $property){
             if($property->reference == $bienCreate->reference){
@@ -52,6 +57,7 @@ class PropertyService
             foreach($properties as $property){
                 if($property->reference == $bienCreate->reference){
                     $bienId = $property->id;
+                    $lastInventoryUid = $property->last_inventory_uid;
                 }
             }
         }
@@ -65,7 +71,8 @@ class PropertyService
 
         return [
             'code' => 1,
-            'data' => $bienId
+            'data' => $bienId,
+            'lastInventoryUid' => $lastInventoryUid
         ];
     }
 

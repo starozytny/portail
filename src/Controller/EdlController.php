@@ -98,6 +98,9 @@ class EdlController
             return ['code' => 0,'errors' => $res['message']];
         }
         $propertyUid = $res['data'];
+        if($structure == 2){
+            $model = $res['lastInventoryUid'];
+        }
 
         //send to api
         $dataToSend = [
