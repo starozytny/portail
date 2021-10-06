@@ -136,7 +136,6 @@ function comeback () {
 module.exports = {
     resizeMonthList,
     removeItem,
-    hideItem,
     details,
     initPagination,
     pagination,

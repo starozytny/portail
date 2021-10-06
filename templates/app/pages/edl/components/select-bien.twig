@@ -5,7 +5,10 @@
     <div class="aside-content">
         <div class="aside-title">
             <span class="title">Sélectionner un bien</span>
-            <span class="icon-cancel btn-select-bien"></span>
+            <div class="btn btn-outline-default btn-select-bien">
+                <span class="icon-cancel "></span>
+                <span>Fermer</span>
+            </div>
         </div>
         <div class="list list-select list-select-bien">
             <div class="toolbar">
@@ -18,31 +21,32 @@
                     } %}
                 </div>
             </div>
-            {% if properties | length > 0 %}
-                {% for elem in properties %}
-                    <div class="card {{ isDefined and edl.property.id == elem.id ? "active" : "" }}"
-                         data-id="{{ elem.id }}" data-bien="{{ elem | json_encode }}"
-                    >
-                        <div class="card-header">
-                            <div class="title">
-                                <div class="address">
-                                    <div>{{ elem.addr1 }}</div>
-                                    <div>{{ elem.addr2 }}</div>
-                                    <div>{{ elem.addr3 }}</div>
-                                    <div class="sub">{{ elem.zipcode }}, {{ elem.city }}</div>
-                                    {% if elem.building %}<div>Bâtiment : {{ elem.building }}</div>{% endif %}
+            <div class="cards">
+                {% if properties | length > 0 %}
+                    {% for elem in properties | sort((a,b) => a.reference <=> b.reference) %}
+                        <div class="card {{ isDefined and edl.property.id == elem.id ? "active" : "" }}"
+                             data-id="{{ elem.id }}" data-bien="{{ elem | json_encode }}"
+                        >
+                            <div class="card-header">
+                                <div class="title">
+                                    <div class="address">
+                                        <div>{{ elem.addr1 }}</div>
+                                        <div>{{ elem.addr2 }}</div>
+                                        <div>{{ elem.addr3 }}</div>
+                                        <div class="sub">{{ elem.zipcode }}, {{ elem.city }}</div>
+                                    </div>
+                                    <div class="ref">Ref : {{ elem.reference }}</div>
                                 </div>
-                                <div class="ref">Ref : {{ elem.reference }}</div>
+                            </div>
+                            <div class="card-body">
+                                {% include "app/pages/edl/components/property-props.twig" with {property: elem} %}
                             </div>
                         </div>
-                        <div class="card-body">
-                            {% include "app/pages/edl/components/property-props.twig" with {property: elem} %}
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div>Il n'y a aucun bien enregistré.</div>
-            {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div>Il n'y a aucun bien enregistré.</div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

@@ -105,6 +105,16 @@
                     </div>
                 </div>
                 <div class="card-body">
+                        <div class="building sub details">
+                            {% if edl.property.building %}
+                                Bâtiment : {{ edl.property.building }}
+                            {% endif %}
+                        </div>
+                        <div class="typeBien sub details">
+                            {% if edl.property.type %}
+                                Type : {{ edl.property.type }}
+                            {% endif %}
+                        </div>
                         <div class="owner sub details">{{ edl.property.owner != "" ? "Propriétaire : " ~ edl.property.owner : "Pas de propriétaire renseigné" }}</div>
                         <div class="surface sub details">
                             {% if edl.property.surface > "0" %}

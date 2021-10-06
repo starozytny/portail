@@ -3,7 +3,10 @@
     <div class="aside-content">
         <div class="aside-title">
             <span class="title">Ajouter un locataire</span>
-            <span class="icon-cancel btn-add-tenant"></span>
+            <div class="btn btn-outline-default btn-add-tenant">
+                <span class="icon-cancel "></span>
+                <span>Fermer</span>
+            </div>
         </div>
         <div class="list list-tenant-bien">
             <form class="tenant-form" data-url="{{ url_for('tenant_check') }}" method="POST">

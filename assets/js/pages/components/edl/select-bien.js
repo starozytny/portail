@@ -14,6 +14,7 @@ function selectBien() {
     let selectedZip = document.querySelector('.selected-bien .zipcode');
     let selectedCit = document.querySelector('.selected-bien .city');
     let selectedRef = document.querySelector('.selected-bien .ref');
+    let selectedBui = document.querySelector('.selected-bien .building');
     let selectedTyp = document.querySelector('.selected-bien .typeBien');
     let selectedOwn = document.querySelector('.selected-bien .owner');
     let selectedSur = document.querySelector('.selected-bien .surface');
@@ -61,6 +62,7 @@ function selectBien() {
             selectedZip.innerHTML = "";
             selectedCit.innerHTML = "";
             selectedRef.innerHTML = "";
+            selectedBui.innerHTML = "";
             selectedTyp.innerHTML = "";
             selectedOwn.innerHTML = "";
             selectedSur.innerHTML = "";

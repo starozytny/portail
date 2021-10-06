@@ -1,5 +1,11 @@
 @import "../../../vars/vars";
 
+.aside-title{
+  .title + .btn{
+    font-size: 16px;
+  }
+}
+
 .selected, .list-select{
   .card{
     border: 1px solid var(--fond);
@@ -54,6 +60,51 @@
 
     .card-body{
       padding: 12px;
+    }
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .aside-select-bien, .aside-select-tenants{
+    width: 75%;
+
+    .list-select{
+      .cards{
+        @include flex(row, stretch, space-between);
+        flex-wrap: wrap;
+      }
+
+      .card{
+        width: calc(50% - 12px);
+
+        .card-header{
+          .title{
+            min-height: 75px;
+          }
+        }
+      }
+    }
+  }
+}
+
+//                      __   _  __    ___   ___    __
+//                     | _| / |/ /_  / _ \ / _ \  |_ |
+//    _____ _____ _____| |  | | '_ \| | | | | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
+//                     | |  |_|\___/ \___/ \___/   | |
+//                     |__|                       |__|
+@media (min-width: 1600px){
+  .aside-select-bien, .aside-select-tenants{
+    .list-select{
+      .card{
+        width: calc(33% - 12px);
+      }
     }
   }
 }
