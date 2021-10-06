@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div id="view" data-donnees="{{ "{}" }}"></div>
+    <div id="view" data-donnees="{{ donnees }}"></div>
 
     <div class="main-content">
         <div class="edl-list">
@@ -92,6 +92,16 @@
                                                 <div class="col-2">
                                                     <div>{{ elem.inventory.user.username }}</div>
                                                     <div class="sub">{{ elem.inventory.user.first_name }} {{ elem.inventory.user.last_name | upper }}</div>
+                                                    <div class="sub details" style="margin-top: 8px">
+                                                        Structure :
+                                                        {% if elem.inventory.input == "0" %}
+                                                            EDL vierge
+                                                        {% elseif elem.inventory.input > "0" %}
+                                                            EDL précédent
+                                                        {% else %}
+                                                            Modèle {{ elem.inventory.model.name }}
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
                                                 <div class="col-3">
                                                     <div class="role-type type-{{ elem.inventory.type }}">

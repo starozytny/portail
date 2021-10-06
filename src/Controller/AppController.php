@@ -62,6 +62,7 @@ class AppController
     public function edl(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $users    = $this->apiService->callApi('users');
+        $models    = $this->apiService->callApi('models');
         $elements = $this->apiService->callApi('inventories/full/list/' . ($args['status'] == "en-cours" ? 0 : 2));
 
         $data = [];
@@ -71,6 +72,15 @@ class AppController
             foreach($users as $user){
                 if($user->id == $elem->inventory->user_id){
                     $elem->inventory->user = $user;
+                }
+            }
+
+            $input = $elem->inventory->input;
+            if((int) $input < 0){
+                foreach($models as $model){
+                    if($model->id == abs($input)){
+                        $elem->inventory->model = $model;
+                    }
                 }
             }
 
