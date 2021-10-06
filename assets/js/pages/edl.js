@@ -69,7 +69,13 @@ if(form){
     let structure = document.querySelector(formClass + ' #structure').value;
     let modelInput = document.querySelector('.input-model');
     if(structure === "1"){
-        modelInput.classList.add('active')
+        modelInput.classList.add('active');
+    }
+    if(structure === "2"){
+        let optionStructure = document.querySelector('.input-structure option[value="2"]');
+        if(optionStructure){
+            optionStructure.style.display = "block"
+        }
     }
 
     form.addEventListener('submit', function (e) {

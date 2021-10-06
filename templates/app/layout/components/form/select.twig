@@ -6,7 +6,10 @@
             <option value=""></option>
         {% endif %}
         {% for choice in input_choices %}
-            <option value="{{ choice.value }}" {{ choice.value == input_value ? "selected='selected'" : "" }}>{{ choice.label }}</option>
+            <option value="{{ choice.value }}" {{ choice.value == input_value ? "selected='selected'" : "" }}
+                    style="{{ choice.display is defined and choice.display == false ? "display: none;" : "" }}">
+                {{ choice.label }}
+            </option>
         {% endfor %}
     </select>
 

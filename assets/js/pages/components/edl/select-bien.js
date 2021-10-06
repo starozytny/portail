@@ -37,7 +37,15 @@ function selectBien() {
 
                 actions.classList.remove('active');
 
-                Selected.addBienSelected(JSON.parse(btn.dataset.bien), "server")
+                let bien = JSON.parse(btn.dataset.bien);
+                Selected.addBienSelected(bien, "server");
+
+                if(bien.last_inventory_uid !== "0"){
+                    let optionStructure = document.querySelector('.input-structure option[value="2"]');
+                    if(optionStructure){
+                        optionStructure.style.display = "block"
+                    }
+                }
             }
 
             Aside.closeAside('.aside-select-bien');
@@ -70,7 +78,14 @@ function selectBien() {
             selectedFlo.innerHTML = "";
             selectedDoo.innerHTML = "";
             selectedFur.innerHTML = "";
-        })
+        });
+
+        let structure = document.querySelector('#structure');
+        let optionStructure = document.querySelector('.input-structure option[value="2"]');
+        if(optionStructure){
+            optionStructure.style.display = "none";
+            structure.value = 0
+        }
     }
 }
 
