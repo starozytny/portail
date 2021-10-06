@@ -1,0 +1,13 @@
+{% set nbPages = ((item | length) / 10) | round(0, 'ceil') %}
+
+{% if nbPages > 1 %}
+    <ul class="pagination pagination-{{ year ~ month }}" data-id="{{ year ~ month }}">
+        <li class="item-previous disabled"><span class="icon-arrow-left"></span></li>
+        <li class="item-break" style="display: none;">...</li>
+        {% for i in 1..nbPages %}
+            <li class="item-pagination {{ i == 1 ? "active" : "" }}" data-page="{{ i }}">{{ i }}</li>
+        {% endfor %}
+        <li class="item-break" style="display: none;">...</li>
+        <li class="item-next disabled"> <span class="icon-arrow-right"></span></li>
+    </ul>
+{% endif %}

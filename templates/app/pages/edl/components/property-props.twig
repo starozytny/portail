@@ -1,3 +1,5 @@
+{% if property.type %}<div class="typeBien sub details">Type : {{ property.type }}</div>{% endif %}
+
 {% if less is not defined %}
     <div class="owner sub details">{{ property.owner != "" ? "Propriétaire : " ~ property.owner : "Pas de propriétaire renseigné" }}</div>
 {% endif %}

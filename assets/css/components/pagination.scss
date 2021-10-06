@@ -1,7 +1,9 @@
 .pagination{
-  @include flex(row, center, center);
+  @include flex(row, center, flex-end);
   list-style: none;
-  padding-left: 0;
+  margin: 0;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--fond);
 }
 
 .pagination > li.disabled{
@@ -44,4 +46,16 @@
 .input-page{
   max-width: 136px;
   margin: 0 auto;
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .pagination{
+    padding: 12px 16px;
+  }
 }

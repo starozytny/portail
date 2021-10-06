@@ -99,6 +99,10 @@ function hideItem (id) {
     }
 }
 
+function initPagination () {
+
+}
+
 function pagination () {
     let paginations = document.querySelectorAll('.pagination');
     if(paginations.length > 0){
@@ -138,5 +142,6 @@ module.exports = {
     removeItem,
     hideItem,
     details,
+    initPagination,
     pagination
 }

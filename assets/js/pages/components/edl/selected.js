@@ -7,6 +7,7 @@ function addBienSelected (bien, from) {
     let selectedZip = document.querySelector('.selected-bien .zipcode');
     let selectedCit = document.querySelector('.selected-bien .city');
     let selectedRef = document.querySelector('.selected-bien .ref');
+    let selectedTyp = document.querySelector('.selected-bien .typeBien');
     let selectedOwn = document.querySelector('.selected-bien .owner');
     let selectedSur = document.querySelector('.selected-bien .surface');
     let selectedRoo = document.querySelector('.selected-bien .room');
@@ -22,6 +23,7 @@ function addBienSelected (bien, from) {
     selectedZip.innerHTML = bien.zipcode;
     selectedCit.innerHTML = bien.city;
     selectedRef.innerHTML = bien.reference;
+    selectedTyp.innerHTML = bien.type ? "Type : " + bien.type : "";
     selectedOwn.innerHTML = bien.owner ? "Propriétaire : " + bien.owner : "Pas de propriétaire renseigné";
     selectedSur.innerHTML = parseFloat(bien.surface) > 0 ? bien.surface + "m²" : "";
     selectedRoo.innerHTML = parseInt(bien.room) ? bien.room + " pièce" + (parseInt(bien.room) > 1 ? "s" : "") : "";

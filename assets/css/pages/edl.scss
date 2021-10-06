@@ -3,6 +3,11 @@
 @import "split/edl/aside";
 @import "split/edl/form";
 
+.inventories + .pagination{
+  border-bottom: none;
+  padding-top: 0;
+}
+
 .edl-list{
   .toolbar{
     margin-bottom: 24px;

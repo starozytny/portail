@@ -47,6 +47,8 @@
                                 </div>
 
                                 <div class="items {{ year == "unknown" or year == ("now" | date('Y')) ? "active" : "" }}">
+                                    {% include "app/pages/edl/components/pagination.twig" %}
+
                                     <div class="list-month-header">
                                         <div class="item">
                                             <div class="col-1">Date</div>
@@ -57,20 +59,6 @@
                                             <div class="col-6">Actions</div>
                                         </div>
                                     </div>
-
-                                    {% set nbPages = ((item | length) / 10) | round(0, 'ceil') %}
-
-                                    <ul class="pagination pagination-{{ year ~ month }}" data-id="{{ year ~ month }}">
-                                        {% if nbPages > 1 %}
-                                            <li class="item-previous disabled"><span class="icon-minus"></span></li>
-                                            <li class="item-break" style="display: none;">...</li>
-                                            {% for i in 1..nbPages %}
-                                                <li class="item-pagination {{ i == 1 ? "active" : "" }}" data-page="{{ i }}">{{ i }}</li>
-                                            {% endfor %}
-                                            <li class="item-break" style="display: none;">...</li>
-                                            <li class="item-next disabled"> <span class="icon-plus"></span></li>
-                                        {% endif %}
-                                    </ul>
 
                                     <div class="inventories inventories-{{ year ~ month }}">
                                         {% set i = 1 %}
@@ -117,7 +105,6 @@
                                                         <div>{{ elem.property.addr3 }}</div>
                                                         <div>{{ elem.property.zipcode }} {{ elem.property.zipcode and elem.property.city ? "," : "" }} {{ elem.property.city }}</div>
                                                     </div>
-                                                    {% if elem.property.type %}<div>Type : {{ elem.property.type }}</div>{% endif %}
                                                     {% if elem.property.owner %}
                                                         <div>Propriétaire : {{ elem.property.owner }}</div>
                                                     {% endif %}
