@@ -29,14 +29,15 @@ function updateValuesFromServer(input, tenantId) {
 
         // if not find this id value, add to values
         if(!find){
-            toastr.info('Locataire ajouté.')
+            toastr.info('Locataire ajouté.');
             values.push(tenantId);
         }else{
             // if find, remove active this
-            toastr.error('Locataire enlevé.')
+            toastr.error('Locataire enlevé.');
             btn.classList.remove('active');
         }
     }else{
+        toastr.info('Locataire ajouté.');
         values.push(tenantId);
     }
 

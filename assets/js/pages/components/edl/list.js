@@ -51,16 +51,9 @@ function removeItem (id) {
         let parentItem = item.parentElement;
         item.remove();
 
-        if(parentItem.children.length === 2){
-            let parentParentItem = parentItem.parentElement;
-            parentItem.remove();
-
-            if(parentParentItem.children.length === 0){
-                parentParentItem.insertAdjacentHTML('beforeend', '' +
-                    '<div class="alert alert-default">' +
-                    '   Aucun état des lieux enregistré.' +
-                    '</div>');
-            }
+        if(parentItem.children.length === 0){
+            let toDelete = parentItem.parentElement.parentElement;
+            toDelete.remove();
         }
     }
 }
