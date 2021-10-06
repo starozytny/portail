@@ -81,7 +81,7 @@ function searchTenant() {
 function searchEdl() {
     let search = document.querySelector('.searchEdl');
     if(search){
-        let elems = document.querySelectorAll('.list-month .items > .item');
+        let elems = document.querySelectorAll('.list-month .inventories > .item');
         search.addEventListener('input', function (e) {
             let val = this.value.toLowerCase();
             let resultsNone = document.querySelectorAll('.result-none');
@@ -120,10 +120,51 @@ function searchEdl() {
                     if(display){
                         elem.style.display = "flex";
                     }else{
-                        List.hideItem(elem.dataset.id);
+                        elem.style.display = "none";
                     }
                 }
             })
+
+            let lists = document.querySelectorAll('.list-month');
+            lists.forEach(list => {
+                let id = list.dataset.id;
+
+                let inventories = document.querySelector('.inventories-' + id);
+                let atLeastOne = false;
+                Array.from(inventories.children).forEach(item => {
+                    if(item.style.display === "flex"){
+                        atLeastOne = true;
+                    }
+                })
+
+                if(!atLeastOne){
+                    let isExiste = false
+                    Array.from(inventories.children).forEach(item => {
+                        if(item.classList.contains('result-none')){
+                            isExiste = true;
+                        }
+                    })
+
+                    if(!isExiste){
+                        inventories.insertAdjacentHTML('beforeend', '' +
+                            '<div class="result-none alert alert-default">' +
+                            '   Pour ce mois-ci, aucun résultat pour la recherche en cours.' +
+                            '</div>');
+                    }
+                }else{
+                    let items = document.querySelector('.list-month-' + id + " .items");
+                    items.classList.add('active');
+                }
+            })
+
+            let listItems = document.querySelectorAll('.list-month .items');
+            let paginations = document.querySelectorAll('.pagination')
+            if(val === ""){
+                paginations.forEach(pagination => { pagination.style.display = "flex"; });
+                listItems.forEach(items => { items.classList.remove('active'); })
+            }else{
+                paginations.forEach(pagination => { pagination.style.display = "none"; })
+            }
         })
     }
 }

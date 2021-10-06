@@ -65,40 +65,6 @@ function removeItem (id) {
     }
 }
 
-function hideItem (id) {
-    let item = document.querySelector('.item-' + id);
-    if(item){
-        let parentItem = item.parentElement;
-        item.style.display = "none";
-
-        let atLeastOne = false;
-        Array.from(parentItem.children).forEach(pI => {
-            if(pI.classList.contains('item')){
-                if(pI.style.display === "flex"){
-                    atLeastOne = true;
-                }
-            }
-        })
-
-        if(!atLeastOne){
-            let parentParentItem = parentItem.parentElement;
-            let isExiste = false
-            Array.from(parentParentItem.children).forEach(ppI => {
-                if(ppI.classList.contains('result-none')){
-                    isExiste = true;
-                }
-            })
-
-            if(!isExiste){
-                parentParentItem.insertAdjacentHTML('beforeend', '' +
-                    '<div class="result-none alert alert-default">' +
-                    '   Pour ce mois-ci, aucun résultat pour la recherche en cours.' +
-                    '</div>');
-            }
-        }
-    }
-}
-
 function initPagination () {
     let id = localStorage.getItem('edlPagination');
     if(id){
