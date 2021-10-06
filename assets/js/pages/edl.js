@@ -21,6 +21,7 @@ List.resizeMonthList();
 List.details();
 List.initPagination();
 List.pagination();
+List.comeback();
 
 //*****
 // Ouvrir les asides

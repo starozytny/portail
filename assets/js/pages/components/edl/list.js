@@ -100,26 +100,24 @@ function hideItem (id) {
 }
 
 function initPagination () {
-    // let paginations = document.querySelectorAll('.pagination');
-    // if (paginations.length > 0) {
-    //     paginations.forEach(pagination => {
-    //         let id = pagination.dataset.id;
-    //
-    //         let btnsPage = document.querySelectorAll('.pagination-' + id + " .item-pagination");
-    //
-    //         if(btnsPage.length > 5){
-    //             let i = 0;
-    //             btnsPage.forEach(btnPage => {
-    //                 if(i > 5){
-    //                     btnPage.style.display = "none";
-    //                 }
-    //                 i++;
-    //             });
-    //
-    //
-    //         }
-    //     })
-    // }
+    let id = localStorage.getItem('edlPagination');
+    if(id){
+        let item = document.querySelector('.item-' + id);
+        if(item){
+            let idPagination = item.dataset.pagination;
+
+            let btnsPage = document.querySelectorAll('.pagination-' + idPagination + " .item-pagination");
+            let btn = document.querySelector('.pagination-' + idPagination + ' .item-pagination[data-page="'+item.dataset.page+'"]')
+            if(btn){
+                setActivePagination(btnsPage, btn, idPagination);
+
+                let items = document.querySelector('.list-month-' + idPagination + " .items")
+                items.classList.add('active');
+
+                localStorage.setItem('edlPagination', null)
+            }
+        }
+    }
 }
 
 function pagination () {
@@ -133,27 +131,40 @@ function pagination () {
             btnsPage.forEach(btn => {
 
                 btn.addEventListener('click', function (e) {
-                    let items = document.querySelectorAll('.inventories-' + id + " .item");
-
-                    btnsPage.forEach(b => {
-                        b.classList.remove('active');
-                    })
-                    btn.classList.add('active');
-
-                    items.forEach(item => {
-                        if(item.dataset.page === btn.dataset.page){
-                            item.style.display = "flex";
-                        }else{
-                            item.style.display = "none";
-                        }
-                    })
+                    setActivePagination(btnsPage, btn, id);
                 })
             })
-
-
         })
     }
+}
 
+function setActivePagination(btnsPage, btn, id) {
+    let items = document.querySelectorAll('.inventories-' + id + " .item");
+
+    btnsPage.forEach(b => {
+        b.classList.remove('active');
+    })
+    btn.classList.add('active');
+
+    items.forEach(item => {
+        if(item.dataset.page === btn.dataset.page){
+            item.style.display = "flex";
+        }else{
+            item.style.display = "none";
+        }
+    })
+}
+
+function comeback () {
+    let btn = document.querySelector('.comeback');
+    if(btn){
+        btn.addEventListener("click", function (e) {
+            let id = btn.dataset.id;
+            localStorage.setItem('edlPagination', id);
+
+            location.href = btn.dataset.url;
+        })
+    }
 }
 
 module.exports = {
@@ -162,5 +173,6 @@ module.exports = {
     hideItem,
     details,
     initPagination,
-    pagination
+    pagination,
+    comeback
 }

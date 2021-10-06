@@ -40,7 +40,7 @@
                 {% if data | length > 0 %}
                     {% for year, months in data | sort %}
                         {% for month, item in months | sort %}
-                            <div class="list-month">
+                            <div class="list-month list-month-{{ year ~ month }}" data-id="{{ year ~ month }}">
                                 <div class="title">
                                     <div>{{ year == "unknown" ? "Date indéfinie" : (month | monthLongStringFr) ~ " - " ~ year }}</div>
                                     <div><span class="icon-{{ year == "unknown" or year == ("now" | date('Y')) ? "minus" : "plus" }}"></span></div>
@@ -72,6 +72,7 @@
                                             {% set i = i+1 %}
                                             <div class="item item-{{ elem.inventory.id }}"
                                                  style="{{ page != 1 ? "display: none;" : "" }}"
+                                                 data-pagination="{{ year ~ month }}"
                                                  data-page="{{ page }}"
                                                  data-id="{{ elem.inventory.id }}"
                                                  data-data="{{ elem | json_encode }}">
