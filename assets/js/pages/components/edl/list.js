@@ -100,7 +100,26 @@ function hideItem (id) {
 }
 
 function initPagination () {
-
+    // let paginations = document.querySelectorAll('.pagination');
+    // if (paginations.length > 0) {
+    //     paginations.forEach(pagination => {
+    //         let id = pagination.dataset.id;
+    //
+    //         let btnsPage = document.querySelectorAll('.pagination-' + id + " .item-pagination");
+    //
+    //         if(btnsPage.length > 5){
+    //             let i = 0;
+    //             btnsPage.forEach(btnPage => {
+    //                 if(i > 5){
+    //                     btnPage.style.display = "none";
+    //                 }
+    //                 i++;
+    //             });
+    //
+    //
+    //         }
+    //     })
+    // }
 }
 
 function pagination () {
