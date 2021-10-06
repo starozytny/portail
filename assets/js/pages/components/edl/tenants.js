@@ -37,7 +37,6 @@ function updateValuesFromServer(input, tenantId) {
             btn.classList.remove('active');
         }
     }else{
-        toastr.info('Locataire ajouté.')
         values.push(tenantId);
     }
 

@@ -1,6 +1,6 @@
 {% set isDefined = edl is defined %}
 
-<form class="edl-form" data-from="{{ from }}" data-url="{{ url_edl_form }}" method="POST">
+<form class="edl-form" data-from="{{ from }}" data-id="{{ isDefined ? edl.inventory.id : "" }}" data-url="{{ url_edl_form }}" method="POST">
     <div class="error-form">
         <div class="alert alert-danger">
             <span class="icon-warning"></span>
@@ -32,7 +32,7 @@
         {% include 'app/layout/components/form/select.twig' with {
             input_name: 'structure',
             input_label: 'Structure',
-            input_value: isDefined and edl.inventory.input != 0 ? 1 : 0,
+            input_value: isDefined and edl.inventory.input != 0 ? (edl.inventory.input < 0 ? 1 : 2) : 0,
             input_required: true,
             input_choices: structures
         } %}
@@ -60,7 +60,7 @@
         {% include 'app/layout/components/form/select.twig' with {
             input_name: 'model',
             input_label: 'Modèle',
-            input_value: isDefined and edl.inventory.input != "0" ? edl.inventory.input : "",
+            input_value: isDefined and edl.inventory.input != 0 ? edl.inventory.input : "",
             input_choices: models,
             input_void: true
         } %} {# var models come from controller #}

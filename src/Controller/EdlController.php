@@ -292,7 +292,7 @@ class EdlController
 
         if($data){
             foreach($data as $elem){
-                array_push($objs, ['value' => 10 . $elem->id, 'label' =>  $elem->name]);
+                array_push($objs, ['value' => "-" . $elem->id, 'label' =>  $elem->name]);
             }
         }
 

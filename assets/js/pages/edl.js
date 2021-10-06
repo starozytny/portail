@@ -65,6 +65,13 @@ Search.searchEdl();
 let formClass = ".edl-form";
 let form = document.querySelector(formClass);
 if(form){
+
+    let structure = document.querySelector(formClass + ' #structure').value;
+    let modelInput = document.querySelector('.input-model');
+    if(structure === "1"){
+        modelInput.classList.add('active')
+    }
+
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -142,7 +149,12 @@ if(form){
             axios({method: method, url: form.dataset.url, data: formData})
                 .then(function (response) {
                     toastr.info((form.dataset.from === "create" ? "Etat des lieux ajouté" : "Données mises à jour") +
-                        "! La page va se rafraichir dans quelques instants.")
+                        "! La page va se rafraichir dans quelques instants.");
+
+                    if(form.dataset.from !== "create"){
+                        localStorage.setItem('edlPagination', form.dataset.id);
+                    }
+
                     setTimeout(function () {
                         location.href = response.data;
                     }, 1000);
