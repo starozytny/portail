@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 import { Alert }      from "@dashboardComponents/Tools/Alert";
-import {PropertiesItem} from "./Propertiestem";
+
+import { PropertiesItem } from "./Propertiestem";
 
 export class PropertiesList extends Component {
     render () {

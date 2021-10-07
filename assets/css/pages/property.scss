@@ -1,3 +1,23 @@
 @import "../vars/vars";
 
 @import "../components/table";
+
+.owner {
+  margin-bottom: 8px;
+  @include fontSemibold();
+  font-size: 15px;
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .items-default{
+    .infos{
+      align-items: flex-start;
+    }
+  }
+}

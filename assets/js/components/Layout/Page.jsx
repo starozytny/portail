@@ -204,7 +204,7 @@ export class Layout extends Component {
 
     render () {
         const { onContentList, onContentCreate, onContentUpdate, onContentRead, onContentCustomOne, onContentCustomTwo } = this.props;
-        const { loadPageError, context, loadData, data, currentData, element, sessionName, filters } = this.state;
+        const { perPage, loadPageError, context, loadData, data, currentData, element, sessionName, filters } = this.state;
 
         let content, havePagination = false;
         switch (context){
@@ -234,7 +234,7 @@ export class Layout extends Component {
         }
 
         return <>
-            <Page ref={this.page} haveLoadPageError={loadPageError} sessionName={sessionName}
+            <Page ref={this.page} haveLoadPageError={loadPageError} sessionName={sessionName} perPage={perPage}
                   havePagination={havePagination} taille={data && data.length} data={data} onUpdate={this.handleUpdateData}
             >
                 {content}

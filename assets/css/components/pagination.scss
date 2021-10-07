@@ -1,16 +1,22 @@
+@import "../vars/vars";
+
 .pagination{
   @include flex(row, center, center);
   list-style: none;
-  padding: 12px 4px;
+  padding-left: 0;
 }
 
 .pagination > li.disabled{
   color: var(--grey);
 
-  &:hover{
-    background-color: transparent;
-    color: var(--grey);
+  & > a{
     cursor: not-allowed;
+    outline-color: transparent;
+
+    &:hover{
+      background-color: transparent;
+      color: var(--grey);
+    }
   }
 }
 
@@ -27,7 +33,7 @@
   }
 }
 
-.pagination > li{
+.pagination > li > a{
   @include flex(row, center, center);
   border-radius: 3px;
   cursor: pointer;
@@ -44,16 +50,4 @@
 .input-page{
   max-width: 136px;
   margin: 0 auto;
-}
-
-//                      __   _ ____  ___   ___    __
-//                     | _| / |___ \( _ ) / _ \  |_ |
-//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
-//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
-//                     | |  |_|_____\___/ \___/   | |
-//                     |__|                      |__|
-@media (min-width:1280px) {
-  .pagination{
-    padding: 12px 16px;
-  }
 }
