@@ -11,11 +11,6 @@ export class PropertiesItem extends Component {
                 <div className="item-body">
                     <div className="infos infos-col-4">
                         <div className="col-1">
-                            <div className="name">
-                                <span>{elem.reference}</span>
-                            </div>
-                        </div>
-                        <div className="col-2">
                             <div className="owner">{elem.owner}</div>
                             <div className="fullAddress">
                                 <div>{elem.addr1}</div>
@@ -24,6 +19,13 @@ export class PropertiesItem extends Component {
                             </div>
                             <div>{elem.zipcode}{elem.zipcode && elem.city && ","} {elem.city}</div>
                         </div>
+
+                        <div className="col-2">
+                            <div className="name">
+                                <span>{elem.reference}</span>
+                            </div>
+                        </div>
+
                         <div className="col-3">
                             {elem.type && <div className="sub">Type : {elem.type}</div>}
                             {elem.building && <div className="sub">Bâtiment : {elem.building}</div>}

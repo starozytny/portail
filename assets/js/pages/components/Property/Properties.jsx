@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import { Layout }        from "@dashboardComponents/Layout/Page";
+import { Layout }         from "@dashboardComponents/Layout/Page";
+
 import { PropertiesList } from "./PropertiesList";
 
 export class Properties extends Component {

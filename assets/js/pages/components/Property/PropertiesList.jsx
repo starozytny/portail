@@ -16,8 +16,8 @@ export class PropertiesList extends Component {
                             <div className="item-content">
                                 <div className="item-body">
                                     <div className="infos infos-col-4">
-                                        <div className="col-1">Référence</div>
-                                        <div className="col-2">Adresse</div>
+                                        <div className="col-1">Adresse</div>
+                                        <div className="col-2">Référence</div>
                                         <div className="col-3">Détails</div>
                                         <div className="col-4 actions">Actions</div>
                                     </div>
