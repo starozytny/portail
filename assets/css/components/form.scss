@@ -3,6 +3,7 @@
 .form{
   background-color: var(--alpha);
   border-radius: 4px;
+  padding: 12px;
 
   form{
     & > .alert{
@@ -27,6 +28,11 @@
 
 .form-success.true{
   display: block;
+}
+
+.form-rgpd{
+  font-size: 14px;
+  color: var(--grey2);
 }
 
 .line.line-critere{
@@ -101,17 +107,13 @@ input, textarea, select{
   width: calc(100% - 20px);
   outline: none;
 
-  &:focus-visible{
-    outline: var(--grey) auto 1px;
-  }
-
   &:focus{
     border: 1px solid var(--grey2);
   }
 }
 
 select{
-  padding: 10.4px 10px;
+  padding: 6.5px 10px;
   width: 100%;
 }
 
@@ -121,7 +123,7 @@ select{
 
 .switcher-items{
 
-  input[type='checkbox'], input[type='radio'] {
+  input[type='checkbox'] {
     display: none;
   }
 
@@ -201,7 +203,7 @@ select{
 
   &.checked > label{
     border: 1px solid var(--primary);
-    background-color: var(--alpha);
+    background-color: var(--apha);
     color: var(--primary);
     opacity: 1;
 
@@ -228,20 +230,6 @@ select{
   input{
     display: none;
   }
-
-  input:checked{
-    & + label{
-      border: 1px solid var(--primary);
-      background-color: var(--alpha);
-      color: var(--primary);
-      opacity: 1;
-
-      &:hover{
-        background-color: var(--fond);
-        border-style: dashed;
-      }
-    }
-  }
 }
 
 .radiobox-item{
@@ -252,19 +240,11 @@ select{
       border-style: solid;
     }
   }
+}
 
+.radiobox-item{
   label{
     border-radius: 20px;
-  }
-
-  input:checked{
-    & + label{
-      &:hover{
-        background-color: var(--alpha);
-        border-color: var(--primary);
-        border-style: solid;
-      }
-    }
   }
 }
 // **************************************
@@ -510,4 +490,15 @@ select{
     }
   }
 
+}
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .form {
+    padding: 24px;
+  }
 }

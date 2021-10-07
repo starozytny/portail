@@ -137,7 +137,7 @@ export function ClassiqueStructure({identifiant, content, errors, label, classFo
         <div className={classForm + 'form-group' + (error ? " form-group-error" : "")}>
             <label htmlFor={identifiant}>{label}</label>
             {content}
-            <div className="error">{error ? <><span className='icon-error'/>{error}</> : null}</div>
+            <div className="error">{error ? <><span className='icon-warning'/>{error}</> : null}</div>
         </div>
     )
 }

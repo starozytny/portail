@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import { Layout }         from "@dashboardComponents/Layout/Page";
 
-import { PropertiesList } from "./PropertiesList";
+import { PropertiesList }     from "./PropertiesList";
+import { PropertyFormulaire } from "./PropertyForm";
 
 function searchFunction(dataImmuable, search){
     let newData = [];
@@ -37,6 +38,8 @@ export class Properties extends Component {
         this.handleSearch = this.handleSearch.bind(this);
 
         this.handleContentList = this.handleContentList.bind(this);
+        this.handleContentCreate = this.handleContentCreate.bind(this);
+        this.handleContentUpdate = this.handleContentUpdate.bind(this);
     }
 
     handleGetData = (self) => { self.handleSetDataPagination(this.props.donnees); }
@@ -51,11 +54,19 @@ export class Properties extends Component {
                             data={currentData} />
     }
 
+    handleContentCreate = (changeContext) => {
+        return <PropertyFormulaire type="create" onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+    }
+
+    handleContentUpdate = (changeContext, element) => {
+        return <PropertyFormulaire type="update" element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+    }
 
     render () {
         return <>
             <Layout ref={this.layout} {...this.state} onGetData={this.handleGetData}
-                    onContentList={this.handleContentList}/>
+                    onContentList={this.handleContentList}
+                    onContentCreate={this.handleContentCreate} onContentUpdate={this.handleContentUpdate}/>
         </>
     }
 }

@@ -8,13 +8,13 @@ import { PropertiesItem } from "./Propertiestem";
 
 export class PropertiesList extends Component {
     render () {
-        const { data, onSearch } = this.props;
+        const { data, onChangeContext, onSearch } = this.props;
 
         return <>
             <div>
                 <div className="toolbar">
                     <div className="item create">
-                        <Button>Ajouter un bien</Button>
+                        <Button onClick={() => onChangeContext("create")}>Ajouter un bien</Button>
                     </div>
                     <div className="item filter-search">
                         <Search onSearch={onSearch} />
