@@ -14,6 +14,7 @@ module.exports = {
         'edl': ['./assets/js/pages/edl.js', './assets/css/pages/edl.scss'],
         'user': ['./assets/js/pages/user.js', './assets/css/pages/user.scss'],
         'security': ['./assets/js/pages/security.js', './assets/css/pages/security.scss'],
+        'property': ['./assets/js/pages/property.js', './assets/css/pages/property.scss'],
     },
     output: {
         path: path.resolve(__dirname, 'public/assets'),

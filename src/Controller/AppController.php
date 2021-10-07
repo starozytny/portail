@@ -150,4 +150,24 @@ class AppController
         $response->getBody()->write(fread($stream, (int)fstat($stream)['size']));
         return $response;
     }
+
+    /**
+     * Route pour la liste des biens
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function property(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $data = $this->apiService->callApi('properties');
+
+        return $this->twig->render($response, 'app/pages/property/index.twig', [
+            'data' => $data
+        ]);
+    }
 }
