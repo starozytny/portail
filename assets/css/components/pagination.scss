@@ -1,9 +1,7 @@
 .pagination{
-  @include flex(row, center, flex-end);
+  @include flex(row, center, center);
   list-style: none;
-  margin: 0;
   padding: 12px 4px;
-  border-bottom: 1px solid var(--fond);
 }
 
 .pagination > li.disabled{

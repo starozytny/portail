@@ -83,8 +83,8 @@ export class Pagination extends Component {
 
         let content = <>
             <ReactPaginate
-                previousLabel={<span className="icon-left-arrow" />}
-                nextLabel={<span className="icon-right-arrow" />}
+                previousLabel={<span className="icon-arrow-left" />}
+                nextLabel={<span className="icon-arrow-right" />}
                 breakLabel={'...'}
                 breakClassName={'break-me'}
                 pageCount={pageCount}
