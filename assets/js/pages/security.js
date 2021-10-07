@@ -3,8 +3,8 @@ import '../../css/pages/security.scss';
 import axios from 'axios';
 import toastr from 'toastr';
 
-import Aside from '../components/aside';
-import Validateur from '../components/validateur';
+import Aside from '../components/functions/aside';
+import Validateur from '../components/functions/validateur';
 
 //*****
 // Voir/Cacher le mot de passe

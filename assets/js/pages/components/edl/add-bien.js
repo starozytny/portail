@@ -1,8 +1,8 @@
 const axios         = require("axios");
 const toastr        = require("toastr");
 
-const Validateur    = require("../../../components/validateur");
-const Aside         = require("../../../components/aside");
+const Validateur    = require("../../../components/function/validateur");
+const Aside         = require("../../../components/function/aside");
 const Selected          = require("./selected");
 
 function addBien() {

@@ -3,10 +3,10 @@ import '../../css/pages/edl.scss';
 import axios            from "axios";
 import toastr           from "toastr";
 import Swal             from "sweetalert2";
-import SwalOptions      from "../components/swalOptions";
+import SwalOptions      from "../components/functions/swalOptions";
 
-import Aside            from "../components/aside";
-import Validateur       from "../components/validateur";
+import Aside            from "../components/functions/aside";
+import Validateur       from "../components/functions/validateur";
 import SelectBien       from "./components/edl/select-bien";
 import SelectTenants    from "./components/edl/select-tenants";
 import AddBien          from "./components/edl/add-bien";

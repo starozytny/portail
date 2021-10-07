@@ -164,7 +164,14 @@ class AppController
      */
     public function property(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $data = $this->apiService->callApi('properties');
+        $properties = $this->apiService->callApi('properties');
+
+        $data = [];
+        foreach($properties as $property){
+            if($property->is_imported == "0"){
+                array_push($data, $property);
+            }
+        }
 
         return $this->twig->render($response, 'app/pages/property/index.twig', [
             'data' => $data

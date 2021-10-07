@@ -1,4 +1,4 @@
-const Aside = require("../../../components/aside");
+const Aside = require("../../../components/functions/aside");
 const Selected  = require("./selected");
 
 function selectBien() {

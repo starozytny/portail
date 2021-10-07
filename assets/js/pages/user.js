@@ -4,9 +4,9 @@ import axios    from "axios";
 import toastr   from "toastr";
 import Swal     from "sweetalert2";
 
-import Aside        from "../components/aside";
-import Validateur   from "../components/validateur";
-import SwalOptions  from "../components/swalOptions";
+import Aside        from "../components/functions/aside";
+import Validateur   from "../components/functions/validateur";
+import SwalOptions  from "../components/functions/swalOptions";
 
 //*****
 // Ouvrir l'aside add user

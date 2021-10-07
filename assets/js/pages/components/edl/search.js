@@ -1,5 +1,3 @@
-const List = require("./list");
-
 function searchBien() {
     let search = document.querySelector('.searchBien');
     if(search){
