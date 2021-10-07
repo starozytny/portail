@@ -12,8 +12,8 @@ function searchFunction(dataImmuable, search){
         if(v.reference.toLowerCase().startsWith(search)
             || v.owner.toLowerCase().startsWith(search)
             || v.addr1.toLowerCase().startsWith(search)
-            || v.zipcode.toLowerCase().startsWith(search)
             || v.city.toLowerCase().startsWith(search)
+            || v.zipcode.toLowerCase().startsWith(search)
         ){
             return v;
         }
@@ -55,11 +55,11 @@ export class Properties extends Component {
     }
 
     handleContentCreate = (changeContext) => {
-        return <PropertyFormulaire type="create" onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <PropertyFormulaire oriUrl={this.props.oriUrl} type="create" onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <PropertyFormulaire type="update" element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <PropertyFormulaire oriUrl={this.props.oriUrl} type="update" element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     render () {

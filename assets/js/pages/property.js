@@ -6,5 +6,5 @@ import { Properties } from "./components/Property/Properties";
 
 let el = document.getElementById('properties');
 if(el){
-    render(<Properties {...el.dataset} />, el);
+    render(<Properties {...el.dataset} oriUrl={"/espace-client/property"}/>, el);
 }
