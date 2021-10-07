@@ -105,12 +105,12 @@ class ApiService
                 $pos = strrpos($e->getMessage(), 'response:') + 10;
                 return [
                     'code' => 0,
-                    'message' => substr($e->getMessage(), $pos)
+                    'data' => substr($e->getMessage(), $pos)
                 ];
             }
             return [
                 'code' => 0,
-                'message' => "[APE001] Une erreur est survenu. Veuillez contacter le support. " . $e->getMessage()
+                'data' => "[APE001] Une erreur est survenu. Veuillez contacter le support. " . $e->getMessage()
             ];
         }
     }

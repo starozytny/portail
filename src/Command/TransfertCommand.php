@@ -103,7 +103,7 @@ final class TransfertCommand extends Command
 
                 $bien = $this->getDataBien($data);
 
-                $this->propertyService->extractBienFromJs(json_encode($bien));
+                $this->propertyService->createProperty(json_encode($bien));
             }
 
             $i++;
@@ -170,7 +170,7 @@ final class TransfertCommand extends Command
                 $property = $this->oldRepository->findOneByUidProperty($data->property_uid);
                 $property = json_decode(json_encode($property));
                 $bien = $this->getDataBien($property);
-                $this->propertyService->extractBienFromJs(json_encode($bien));
+                $this->propertyService->createProperty(json_encode($bien));
 
                 $uid = null;
                 $properties = $this->apiService->callApi('properties');

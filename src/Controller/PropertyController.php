@@ -20,19 +20,41 @@ class PropertyController
         $this->propertyService = $propertyService;
     }
 
-    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    private function submitForm($request, $type): array
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $data = json_decode($request->getBody());
 
         $res = $this->propertyService->validateData($data);
+        if($res['code'] == 0){
+            return $res;
+        }
+
+        $obj = json_encode($res['data']);
+
+        if($type == "create"){
+            $res = $this->propertyService->createProperty($obj);
+        }else{
+            $res = $this->propertyService->updateProperty($obj);
+        }
+
+       return $res;
+    }
+
+    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $res = $this->submitForm($request, "create");
         if($res['code'] == 0){
             $response->getBody()->write($res['data']);
             return $response->withStatus(400);
         }
 
-        $res = $this->propertyService->extractBienFromJs(json_encode($res['data']));
+        $response->getBody()->write($res['data']);
+        return $response->withStatus(200);
+    }
+
+    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $res = $this->submitForm($request, "update");
         if($res['code'] == 0){
             $response->getBody()->write($res['message']);
             return $response->withStatus(400);

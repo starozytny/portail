@@ -95,7 +95,7 @@ class EdlController
 
         $res = $this->propertyService->extractBienFromFormEdl($bienId, $bienCreate);
         if($res['code'] == 0){
-            return ['code' => 0,'errors' => $res['message']];
+            return ['code' => 0,'errors' => $res['data']];
         }
         $propertyUid = $res['data'];
         if($structure == 2){
@@ -119,7 +119,7 @@ class EdlController
 
         $res = $this->apiService->callApiWithErrors($url, $method, false, $dataToSend);
         if($res['code'] == 0){
-            return ['code' => 0,'errors' => $res['message']];
+            return ['code' => 0,'errors' => $res['data']];
         }
 
         //redirect to edl list
