@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
 
+import { Button }     from "@dashboardComponents/Tools/Button";
 import { Alert }      from "@dashboardComponents/Tools/Alert";
+import { Search }     from "@dashboardComponents/Layout/Search";
 
 import { PropertiesItem } from "./Propertiestem";
 
 export class PropertiesList extends Component {
     render () {
-        const { data } = this.props;
+        const { data, onSearch } = this.props;
 
         return <>
             <div>
+                <div className="toolbar">
+                    <div className="item create">
+                        <Button>Ajouter un bien</Button>
+                    </div>
+                    <div className="item filter-search">
+                        <Search onSearch={onSearch} />
+                    </div>
+                </div>
+
                 <div className="items-table">
                     <div className="items items-default items-contact">
                         <div className="item item-header">

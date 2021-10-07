@@ -1,13 +1,14 @@
-@import "../vars/vars";
+.toolbar{
+  .filter-search{
+    width: 100%;
 
-@import "../components/table";
-@import "../components/toolbar";
-@import "../components/toolbar-create-search";
-
-.owner {
-  margin-bottom: 8px;
-  @include fontSemibold();
-  font-size: 15px;
+    .search{
+      width: 100%;
+    }
+    input[type="search"]{
+      border-radius: 4px;
+    }
+  }
 }
 
 //                      __   _____ __    ___    __
@@ -17,9 +18,12 @@
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
-  .items-default{
-    .infos{
-      align-items: flex-start;
+  .toolbar{
+    .create{
+      width: 170px;
+    }
+    .filter-search{
+      width: calc(100% - 170px - 24px);
     }
   }
 }
