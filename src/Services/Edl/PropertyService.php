@@ -3,20 +3,97 @@
 namespace App\Services\Edl;
 
 use App\Services\ApiService;
+use App\Services\SanitizeData;
+use App\Services\Validateur;
 
 class PropertyService
 {
     private $apiService;
+    private $sanitizeData;
+    private $validateur;
 
-    public function __construct(ApiService $apiService)
+    public function __construct(ApiService $apiService, SanitizeData $sanitizeData, Validateur $validateur)
     {
 
         $this->apiService = $apiService;
+        $this->sanitizeData = $sanitizeData;
+        $this->validateur = $validateur;
+    }
+
+    public function validateData($data): array
+    {
+        $typeBien       = $this->sanitizeData->clean($data->typeBien);
+        $reference      = $this->sanitizeData->clean($data->reference);
+        $owner          = $this->sanitizeData->clean($data->owner);
+        $building       = $this->sanitizeData->clean($data->building);
+        $addr1          = $this->sanitizeData->clean($data->addr1);
+        $addr2          = $this->sanitizeData->clean($data->addr2);
+        $addr3          = $this->sanitizeData->clean($data->addr3);
+        $surface        = $this->sanitizeData->clean($data->surface);
+        $rooms          = $this->sanitizeData->clean($data->rooms);
+        $floor          = $this->sanitizeData->clean($data->floor);
+        $door           = $this->sanitizeData->clean($data->door);
+        $city           = $this->sanitizeData->clean($data->city);
+        $zipcode        = $this->sanitizeData->clean($data->zipcode);
+        $isFurnished    = $this->sanitizeData->clean($data->isFurnished);
+
+        // validation des données
+        $paramsToValidate = [
+            ['type' => 'text', 'name' => 'reference',    'value' => $reference],
+            ['type' => 'text', 'name' => 'addr1',        'value' => $addr1],
+            ['type' => 'text', 'name' => 'city',         'value' => $city],
+            ['type' => 'text', 'name' => 'zipcode',      'value' => $zipcode],
+            ['type' => 'length', 'min' => 0, 'max' => 10, 'id' => 'reference',  'value'=> $reference],
+            ['type' => 'length', 'min' => 0, 'max' => 64, 'id' => 'addr1',      'value'=> $addr1],
+            ['type' => 'length', 'min' => 0, 'max' => 64, 'id' => 'addr2',      'value'=> $addr2],
+            ['type' => 'length', 'min' => 0, 'max' => 64, 'id' => 'addr2',      'value'=> $addr2],
+            ['type' => 'length', 'min' => 0, 'max' => 10, 'id' => 'zipcode',    'value'=> $zipcode],
+            ['type' => 'length', 'min' => 0, 'max' => 64, 'id' => 'city',       'value'=> $city],
+            ['type' => 'length', 'min' => 0, 'max' => 20, 'id' => 'door',       'value'=> $door],
+            ['type' => 'length', 'min' => 0, 'max' => 20, 'id' => 'floor',      'value'=> $floor],
+            ['type' => 'length', 'min' => 0, 'max' => 20, 'id' => 'typeBien',   'value'=> $typeBien],
+            ['type' => 'length', 'min' => 0, 'max' => 40, 'id' => 'building',   'value'=> $building],
+            ['type' => 'length', 'min' => 0, 'max' => 32, 'id' => 'owner',      'value'=> $owner],
+        ];
+        $errors = $this->validateur->validate($paramsToValidate);
+        if(count($errors) > 0){
+            return [ 'code' => 0, 'data' => json_encode($errors) ];
+        }
+
+        $properties = $this->apiService->callApi('properties');
+        foreach($properties as $property){
+            if($property->reference == $reference){
+                return [ 'code' => 0, 'data' => json_encode([['name' => 'reference', 'message' => "Ce bien existe déjà."]]) ];
+            }
+
+            if($property->addr1 == $addr1 && $property->city == $city && $property->zipcode == $city && $property->is_furnished == $isFurnished){
+                return [ 'code' => 0, 'data' => json_encode([['name' => 'addr1', 'message' => "Ce bien existe déjà."]]) ];
+            }
+        }
+
+        return [
+            'code' => 1,
+            'data' => [
+                'typeBien' => $typeBien,
+                'reference' => $reference,
+                'owner' => $owner,
+                'building' => $building,
+                'addr1' => $addr1,
+                'addr2' => $addr2,
+                'addr3' => $addr3,
+                'surface' => $surface,
+                'rooms' => $rooms,
+                'floor' => $floor,
+                'door' => $door,
+                'city' => $city,
+                'zipcode' => $zipcode,
+                'isFurnished' => $isFurnished
+            ]
+        ];
     }
 
     public function extractBienFromFormEdl($bienId, $bienCreate): array
     {
-        $lastInventoryUid = ['lastInventoryUid' => null];
         if($bienCreate != "") {
             $res = $this->extractBienFromJs($bienCreate);
             if($res['code'] == 0){
@@ -100,14 +177,14 @@ class PropertyService
             'addr3'         => $data->addr3,
             'zipcode'       => $data->zipcode,
             'city'          => $data->city,
-            'rooms'         => $data->room,
+            'rooms'         => (int) $data->rooms,
             'type'          => $data->typeBien,
             'floor'         => $data->floor,
-            'surface'       => $data->surface,
+            'surface'       => (float) $data->surface,
             'door'          => $data->door,
             'building'      => $data->building,
             'owner'         => $data->owner,
-            'is_furnished'  => $data->isFurnished,
+            'is_furnished'  => (int) $data->isFurnished,
         ]);
     }
 }

@@ -22,7 +22,7 @@ function addBien() {
             let addr2           = document.querySelector(formClass + ' .addr2').value;
             let addr3           = document.querySelector(formClass + ' .addr3').value;
             let surface         = document.querySelector(formClass + ' .surface').value;
-            let room            = document.querySelector(formClass + ' .room').value;
+            let rooms            = document.querySelector(formClass + ' .rooms').value;
             let floor           = document.querySelector(formClass + ' .floor').value;
             let door            = document.querySelector(formClass + ' .door').value;
             let city            = document.querySelector(formClass + ' .city').value;
@@ -63,7 +63,7 @@ function addBien() {
                     addr2: addr2,
                     addr3: addr3,
                     surface: surface,
-                    room: room,
+                    rooms: rooms,
                     floor: floor,
                     door: door,
                     city: city,

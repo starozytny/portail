@@ -4,7 +4,7 @@ import { Button }     from "@dashboardComponents/Tools/Button";
 import { Alert }      from "@dashboardComponents/Tools/Alert";
 import { Search }     from "@dashboardComponents/Layout/Search";
 
-import { PropertiesItem } from "./Propertiestem";
+import { PropertiesItem } from "./PropertiesItem";
 
 export class PropertiesList extends Component {
     render () {

@@ -32,14 +32,14 @@ export function PropertyFormulaire ({ type, onChangeContext, onUpdateList, eleme
         addr3={element ? element.addr3 : ""}
         zipcode={element ? element.zipcode : ""}
         city={element ? element.city : ""}
-        type={element ? element.type : ""}
+        typeBien={element ? element.type : ""}
         owner={element ? element.owner : ""}
         building={element ? element.building : ""}
         surface={element ? element.surface : ""}
         rooms={element ? element.rooms : ""}
         floor={element ? element.floor : ""}
         door={element ? element.door : ""}
-        isFurnished={element ? element.is_furnished : 0}
+        isFurnished={element ? parseInt(element.is_furnished) : 0}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         messageSuccess={msg}
@@ -59,14 +59,14 @@ export class PropertyForm extends Component {
             addr3: props.addr3,
             zipcode: props.zipcode,
             city: props.city,
-            type: props.type,
+            typeBien: props.typeBien,
             owner: props.owner,
             building: props.building,
             surface: props.surface,
             rooms: props.rooms,
             floor: props.floor,
             door: props.door,
-            isFurnished: props.is_furnished,
+            isFurnished: props.isFurnished,
             errors: [],
             success: false
         }
@@ -81,7 +81,7 @@ export class PropertyForm extends Component {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { reference, addr1, addr2, addr3, zipcode, city, type, owner, building, floor, door } = this.state;
+        const { reference, addr1, addr2, addr3, zipcode, city, typeBien, owner, building, floor, door, isFurnished } = this.state;
 
         this.setState({ success: false})
         let method = "POST";
@@ -91,6 +91,7 @@ export class PropertyForm extends Component {
             {type: "text",   id: 'addr1',       value: addr1},
             {type: "text",   id: 'city',        value: city},
             {type: "text",   id: 'zipcode',     value: zipcode},
+            {type: "text",   id: 'isFurnished', value: isFurnished},
             {type: "length", id: 'reference',   value: reference,   min: 0, max: 10},
             {type: "length", id: 'addr1',       value: addr1,       min: 0, max: 64},
             {type: "length", id: 'addr2',       value: addr2,       min: 0, max: 64},
@@ -99,7 +100,7 @@ export class PropertyForm extends Component {
             {type: "length", id: 'city',        value: city,        min: 0, max: 64},
             {type: "length", id: 'door',        value: door,        min: 0, max: 20},
             {type: "length", id: 'floor',       value: floor,       min: 0, max: 20},
-            {type: "length", id: 'type',        value: type,        min: 0, max: 20},
+            {type: "length", id: 'typeBien',    value: typeBien,    min: 0, max: 20},
             {type: "length", id: 'building',    value: building,    min: 0, max: 40},
             {type: "length", id: 'owner',       value: owner,       min: 0, max: 32},
         ];
@@ -116,9 +117,12 @@ export class PropertyForm extends Component {
             axios({ method: method, url: url, data: this.state})
                 .then(function (response) {
                     let data = response.data;
-                    location.reload();
+                    console.log(data)
+                    // location.reload();
                 })
                 .catch(function (error) {
+                    console.log(error)
+                    console.log(error.response)
                     Formulaire.displayErrors(self, error);
                 })
                 .then(() => {
@@ -130,7 +134,7 @@ export class PropertyForm extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, success, reference, addr1, addr2, addr3, zipcode, city, type, owner, building,
+        const { errors, success, reference, addr1, addr2, addr3, zipcode, city, typeBien, owner, building,
             floor, door, rooms, surface, isFurnished } = this.state;
 
         let radioboxItems = [
@@ -163,7 +167,7 @@ export class PropertyForm extends Component {
                 </div>
 
                 <div className="line line-3">
-                    <Input valeur={type} identifiant="type" errors={errors} onChange={this.handleChange} >Type de bien</Input>
+                    <Input valeur={typeBien} identifiant="typeBien" errors={errors} onChange={this.handleChange} >Type de bien</Input>
                     <Input valeur={owner} identifiant="owner" errors={errors} onChange={this.handleChange} >Propriétaire</Input>
                     <div className="form-group"/>
                 </div>
@@ -175,11 +179,10 @@ export class PropertyForm extends Component {
                     <Input valeur={surface} identifiant="surface" errors={errors} onChange={this.handleChange} type="number">Surface m²</Input>
                     <Input valeur={rooms} identifiant="rooms" errors={errors} onChange={this.handleChange} type="number">Nombre de pièces</Input>
                     <Radiobox items={radioboxItems} identifiant="isFurnished" valeur={isFurnished} errors={errors} onChange={this.handleChange}>Le bien est ?</Radiobox>
-
                 </div>
 
                 <div className="line line-3">
-                    <Input valeur={floor} identifiant="floor" errors={errors} onChange={this.handleChange} type="number">Etage</Input>
+                    <Input valeur={floor} identifiant="floor" errors={errors} onChange={this.handleChange}>Etage</Input>
                     <Input valeur={door} identifiant="door" errors={errors} onChange={this.handleChange} >Porte</Input>
                     <div className="form-group"/>
                 </div>

@@ -40,7 +40,8 @@ return function (App $app) {
         $group->post('/utilisateur', [UserController::class, 'create'])->setName('user_create');
 
         $group->get('/biens', [AppController::class, 'property'])->setName('property_index');
-        $group->post('/property', [PropertyController::class, 'check'])->setName('property_check');
+        $group->post('/property', [PropertyController::class, 'create'])->setName('property_create');
+        $group->post('/property-check', [PropertyController::class, 'check'])->setName('property_check');
 
         $group->post('/tenant', [TenantController::class, 'check'])->setName('tenant_check');
 

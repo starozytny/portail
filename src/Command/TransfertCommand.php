@@ -119,7 +119,7 @@ final class TransfertCommand extends Command
             'addr3'         => $this->sanitizeData->cleanForPost($data->addr3),
             'zipcode'       => $this->sanitizeData->cleanForPost($data->zipcode),
             'city'          => $this->sanitizeData->cleanForPost($data->city),
-            'room'          => (int) $data->rooms,
+            'rooms'         => (int) $data->rooms,
             'typeBien'      => $this->sanitizeData->cleanForPost($data->type),
             'floor'         => $this->sanitizeData->cleanForPost($data->floor),
             'surface'       => (float) $data->surface,
