@@ -45,19 +45,6 @@ Aside.manageAside('.btn-add-tenant', '.aside-add-tenant');
 SelectTenants.selectTenants();
 AddTenant.addTenant();
 
-let structure = document.querySelector('#structure');
-if(structure){
-    let inputModel = document.querySelector('.input-model');
-
-    structure.addEventListener('change', function (e) {
-        if(structure.value === "1") { //etablir structure
-            inputModel.classList.add('active');
-        }else{
-            inputModel.classList.remove('active');
-        }
-    })
-}
-
 //*****
 // Search functions
 //*****

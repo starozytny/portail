@@ -155,15 +155,15 @@ export class EdlForm extends Component {
             { value: 0, label: 'Sortant', identifiant: 'sortant' }
         ]
 
-        let structures = [
-            { value: 0, label: 'EDL Vierge',    identifiant: 'edl-vierge' },
-            { value: 2, label: 'EDL Précédent', identifiant: 'edl-precedent' },
-        ]
+        let structures = [{ value: 0, label: 'EDL Vierge',    identifiant: 'edl-vierge' }]
 
         if(models.length > 0){
             structures = [...structures, {value: 1, label: 'Etablir structure', identifiant: 'etablir-structure'}]
         }
 
+        if(property && property.last_inventory_uid !== ""){
+            structures = [...structures, {value: 2, label: 'EDL Précédent', identifiant: 'edl-precedent'}]
+        }
 
         let asideBienContent = null, asideTenantsContent = null;
         if(asideBienType === "select"){
