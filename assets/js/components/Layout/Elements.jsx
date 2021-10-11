@@ -14,7 +14,7 @@ export class FormLayout extends Component{
             </div>
 
             <div className="form">
-                <h2>{children}</h2>
+                {children && <h2>{children}</h2>}
                 {form}
             </div>
         </div>

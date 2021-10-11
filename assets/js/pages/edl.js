@@ -7,12 +7,21 @@ import SwalOptions      from "../components/functions/swalOptions";
 
 import Aside            from "../components/functions/aside";
 import Validateur       from "../components/functions/validateur";
-import SelectBien       from "./components/edl/select-bien";
-import SelectTenants    from "./components/edl/select-tenants";
-import AddBien          from "./components/edl/add-bien";
-import AddTenant        from "./components/edl/add-tenant";
-import Search           from "./components/edl/search";
-import List             from "./components/edl/list";
+import SelectBien       from "./components/Edl/select-bien";
+import SelectTenants    from "./components/Edl/select-tenants";
+import AddBien          from "./components/Edl/add-bien";
+import AddTenant        from "./components/Edl/add-tenant";
+import Search           from "./components/Edl/search";
+import List             from "./components/Edl/list";
+
+import React from "react";
+import { render } from "react-dom";
+import { EdlFormulaire } from "./components/Edl/EdlForm";
+
+let el = document.getElementById('edl-create');
+if(el){
+    render(<EdlFormulaire {...el.dataset} type="create" oriUrl={"/espace-client/edl"}/>, el);
+}
 
 let view = document.getElementById("view")
 if(view) console.log(JSON.parse(view.dataset.donnees));
