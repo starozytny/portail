@@ -60,11 +60,13 @@ export class EdlForm extends Component {
             property: props.property,
             errors: [],
             success: false,
-            asideBienType: "select"
+            asideBienType: "select",
+            asideTenantsType: "select"
         }
 
         this.asideBien = React.createRef();
         this.asideBienSelect = React.createRef();
+        this.asideTenants = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -72,6 +74,8 @@ export class EdlForm extends Component {
 
         this.handleOpenAsideBien = this.handleOpenAsideBien.bind(this);
         this.handleSetProperty = this.handleSetProperty.bind(this);
+
+        this.handleOpenAsideTenants = this.handleOpenAsideTenants.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
@@ -89,6 +93,12 @@ export class EdlForm extends Component {
         if(property === null && this.asideBienSelect.current){
             this.asideBienSelect.current.handleSetElement(null);
         }
+    }
+
+    handleOpenAsideTenants = (type) => {
+        this.setState({ asideTenantsType: type })
+        let title = type === "select" ? "Sélectionner un/des locataire(s)" : "Ajouter un locataire";
+        this.asideTenants.current.handleOpen(title)
     }
 
     handleSubmit = (e) => {
@@ -138,7 +148,7 @@ export class EdlForm extends Component {
 
     render () {
         const { context, users, models, properties, propertyUrl } = this.props;
-        const { errors, success, attribution, structure, startDate, type, model, asideBienType, property } = this.state;
+        const { errors, success, attribution, structure, startDate, type, model, asideBienType, property, asideTenantsType, tenants } = this.state;
 
         let radioboxItems = [
             { value: 1, label: 'Entrant', identifiant: 'entrant' },
@@ -155,7 +165,7 @@ export class EdlForm extends Component {
         }
 
 
-        let asideBienContent = null;
+        let asideBienContent = null, asideTenantsContent = null;
         if(asideBienType === "select"){
             asideBienContent = <PropertySelect ref={this.asideBienSelect} refAside={this.asideBien}
                                                onSetProperty={this.handleSetProperty} properties={properties}/>
@@ -195,6 +205,22 @@ export class EdlForm extends Component {
                     </div>
                 </div>
 
+                <div className="line line-select-or-add">
+                    <div className="form-group input-tenants">
+                        <label>Locataire(s)</label>
+                        <div className="actions-tenants select-or-add">
+                            <Button outline={true} type="default"
+                                    onClick={() => this.handleOpenAsideTenants("select")}>Sélectionner un/des locataire(s)</Button>
+                            <Button outline={true} type="default"
+                                    onClick={() => this.handleOpenAsideTenants("create")}>Ajouter un/des locataire(s)</Button>
+                        </div>
+                        <div className="error">
+                            <span className='icon-warning'/>
+                            Veuillez sélectionner ou ajouter un/des locataire(s).
+                        </div>
+                    </div>
+                </div>
+
                 <div className="line line-3">
                     <Select items={users} identifiant="attribution" valeur={attribution} errors={errors} onChange={this.handleChange}>Attribution</Select>
                     <Select items={structures} identifiant="structure" valeur={structure} errors={errors} onChange={this.handleChange}>Structure</Select>
@@ -220,6 +246,7 @@ export class EdlForm extends Component {
                 </div>
             </form>
             <Aside ref={this.asideBien} content={asideBienContent}/>
+            <Aside ref={this.asideTenants} content={asideTenantsContent}/>
         </>
     }
 }
