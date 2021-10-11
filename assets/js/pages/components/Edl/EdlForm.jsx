@@ -10,7 +10,7 @@ import { Button }              from "@dashboardComponents/Tools/Button";
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 
-export function EdlFormulaire ({ type, element, oriUrl, users, currentUser })
+export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, models })
 {
     let url = oriUrl;
     let msg = "Vous avez ajouté un nouveau état des lieux !"
@@ -25,8 +25,10 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser })
     let form = <EdlForm
         context={type}
         users={users}
+        models={models}
         url={url}
         attribution={element ? element.inventory.user_id : currentUser}
+        structure={(element && parseInt(element.inventory.input) !== 0) ? (parseInt(element.inventory.input) < 0 ? 1 : 2) : 0}
         messageSuccess={msg}
     />
 
@@ -39,6 +41,7 @@ export class EdlForm extends Component {
 
         this.state = {
             attribution: props.attribution,
+            structure: props.structure,
             errors: [],
             success: false
         }
@@ -53,13 +56,14 @@ export class EdlForm extends Component {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { attribution } = this.state;
+        const { attribution, structure } = this.state;
 
         this.setState({ success: false, errors: []})
         let method = context === "create" ? "POST" : "PUT";
 
         let paramsToValidate = [
-            {type: "text",   id: 'attribution',   value: attribution},
+            {type: "text",   id: 'attribution',     value: attribution},
+            {type: "text",   id: 'structure',       value: structure},
         ];
 
         // validate global
@@ -89,21 +93,34 @@ export class EdlForm extends Component {
     }
 
     render () {
-        const { context, users } = this.props;
-        const { errors, success, attribution } = this.state;
+        const { context, users, models } = this.props;
+        const { errors, success, attribution, structure } = this.state;
+
+
+        let structures = [
+            { value: 0, label: 'EDL Vierge',    identifiant: 'edl-vierge' },
+            { value: 2, label: 'EDL Précédent', identifiant: 'edl-precedent' },
+        ]
+
+        if(JSON.parse(models).length > 0){
+            structures = [...structures, {value: 1, label: 'Etablir structure', identifiant: 'etablir-structure'}]
+        }
 
         return <>
             <form onSubmit={this.handleSubmit}>
 
                 {success !== false && <Alert type="info">{success}</Alert>}
 
-                <div className="line">
+                <div className="line line-3">
                     <Select items={JSON.parse(users)} identifiant="attribution" valeur={attribution} errors={errors} onChange={this.handleChange}>Attribution</Select>
+                    <Select items={structures} identifiant="structure" valeur={structure} errors={errors} onChange={this.handleChange}>Structure</Select>
                 </div>
 
                 <div className="line">
                     <div className="form-button">
-                        <Button isSubmit={true}>{context === "create" ? "Ajouter cet état des lieux" : 'Modifier cet état des lieux'}</Button>
+                        <Button isSubmit={true} type={context === "create" ? "primary" : "warning"}>
+                            {context === "create" ? "Ajouter cet état des lieux" : 'Modifier cet état des lieux'}
+                        </Button>
                     </div>
                 </div>
             </form>
