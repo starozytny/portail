@@ -17,7 +17,7 @@ import { TenantItem, TenantsSelect } from "./TenantsSelect";
 import { PropertyFormulaire }        from "../Property/PropertyForm";
 import { TenantFormulaire }          from "../Tenant/TenantForm";
 
-export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, models, properties, tenants, propertyUrl, tenantUrl })
+export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, models, properties, tenants, propertyUrl, tenantUrl, paginationId })
 {
     let url = oriUrl;
     let msg = "Vous avez ajouté un nouveau état des lieux !"
@@ -46,6 +46,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         property={element ? element.property : ""}
         tenants={element ? element.tenants : []}
         messageSuccess={msg}
+        paginationId={paginationId}
     />
 
     return <div className="form">{form}</div>
@@ -132,7 +133,7 @@ export class EdlForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { context, url, messageSuccess } = this.props;
+        const { context, url, messageSuccess, paginationId } = this.props;
         const { attribution, structure, type, model, property, tenants, startDate } = this.state;
 
         this.setState({ success: false, errors: []})
@@ -169,16 +170,15 @@ export class EdlForm extends Component {
                 property: property,
                 tenants: tenants,
             }
-            console.log(data);
             axios({ method: method, url: url, data: data})
                 .then(function (response) {
                     let data = response.data;
                     toastr.info((context === "create" ? "Etat des lieux ajouté" : "Données mises à jour") +
                         "! La page va se rafraichir dans quelques instants.");
 
-                    // if(form.dataset.from !== "create"){
-                    //     localStorage.setItem('edlPagination', form.dataset.id);
-                    // }
+                    if(paginationId){
+                        localStorage.setItem('edlPagination', paginationId);
+                    }
 
                     setTimeout(function () {
                         location.href = response.data;
@@ -187,10 +187,8 @@ export class EdlForm extends Component {
                 .catch(function (error) {
                     console.log(error)
                     console.log(error.response)
-                    Formulaire.displayErrors(self, error);
-                })
-                .then(() => {
                     Formulaire.loader(false);
+                    Formulaire.displayErrors(self, error);
                 })
             ;
         }

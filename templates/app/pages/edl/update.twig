@@ -24,6 +24,7 @@
              data-properties="{{ properties | json_encode }}"
              data-tenants="{{ tenants | json_encode }}"
              data-element="{{ edl | json_encode }}"
+             data-pagination-id="{{ edl.inventory.id }}"
         ></div>
     </div>
 {% endblock %}
