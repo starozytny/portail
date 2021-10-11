@@ -12,9 +12,10 @@ import { Aside }               from "@dashboardComponents/Tools/Aside";
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 
-import { BienItem, PropertySelect } from "./PropertySelect";
-import {TenantItem, TenantsSelect} from "./TenantsSelect";
-import { PropertyFormulaire } from "../Property/PropertyForm";
+import { BienItem, PropertySelect }  from "./PropertySelect";
+import { TenantItem, TenantsSelect } from "./TenantsSelect";
+import { PropertyFormulaire }        from "../Property/PropertyForm";
+import { TenantFormulaire }          from "../Tenant/TenantForm";
 
 export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, models, properties, tenants, propertyUrl, tenantUrl })
 {
@@ -28,15 +29,13 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         msg = "La mise à jour s'est réalisé avec succès !";
     }
 
-    console.log(element)
-
     let form = <EdlForm
         context={type}
         propertyUrl={propertyUrl}
         tenantUrl={tenantUrl}
         users={JSON.parse(users)}
         models={JSON.parse(models)}
-        properties={JSON.parse(properties)}
+        allProperties={JSON.parse(properties)}
         allTenants={JSON.parse(tenants)}
         url={url}
         attribution={element ? element.inventory.user_id : currentUser}
@@ -83,6 +82,7 @@ export class EdlForm extends Component {
         this.handleSetProperty = this.handleSetProperty.bind(this);
 
         this.handleOpenAsideTenants = this.handleOpenAsideTenants.bind(this);
+        this.handleSetTenant = this.handleSetTenant.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
@@ -108,8 +108,25 @@ export class EdlForm extends Component {
         this.asideTenants.current.handleOpen(title)
     }
 
-    handleSetTenants = (tenants) => {
-        this.setState({ tenants });
+    handleSetTenant = (elem) => {
+        const { tenants } = this.state;
+
+        let newElements = [];
+        if(tenants.includes(elem)){
+            newElements = tenants.filter(el => {
+                return el.reference !== elem.reference
+            });
+        }else{
+            newElements = tenants
+            newElements.push(elem);
+        }
+
+        this.setState({ tenants: newElements });
+        if(this.asideTenantsSelect.current){
+            this.asideTenantsSelect.current.handleSetTenants(newElements);
+        }
+
+        return newElements;
     }
 
     handleSubmit = (e) => {
@@ -158,7 +175,7 @@ export class EdlForm extends Component {
     }
 
     render () {
-        const { context, users, models, allProperties, propertyUrl, allTenants } = this.props;
+        const { context, users, models, allProperties, propertyUrl, allTenants, tenantUrl } = this.props;
         const { errors, success, attribution, structure, startDate, type, model, asideBienType, property, asideTenantsType, tenants } = this.state;
 
         let radioboxItems = [
@@ -181,18 +198,14 @@ export class EdlForm extends Component {
             asideBienContent = <PropertySelect ref={this.asideBienSelect} refAside={this.asideBien}
                                                onSetProperty={this.handleSetProperty} properties={allProperties}/>
         }else{
-            asideBienContent = <PropertyFormulaire refAside={this.asideBien} element={property}
-                                                   oriUrl={propertyUrl} type="check" onSetProperty={this.handleSetProperty} />
+            asideBienContent = <PropertyFormulaire refAside={this.asideBien} oriUrl={propertyUrl} type="check" onSetProperty={this.handleSetProperty} />
         }
-
-        console.log(tenants)
 
         if(asideTenantsType === "select"){
             asideTenantsContent = <TenantsSelect ref={this.asideTenantsSelect} refAside={this.asideTenants} elements={tenants}
-                                               onSetTenants={this.handleSetTenants} tenants={allTenants}/>
+                                                 onSetTenant={this.handleSetTenant} tenants={allTenants}/>
         }else{
-            asideTenantsContent = <PropertyFormulaire refAside={this.asideBien} element={property}
-                                                   oriUrl={propertyUrl} type="check" onSetProperty={this.handleSetProperty} />
+            asideTenantsContent = <TenantFormulaire refAside={this.asideTenants} oriUrl={tenantUrl} type="check" onSetTenant={this.handleSetTenant} />
         }
 
         return <>
@@ -240,7 +253,7 @@ export class EdlForm extends Component {
                                 return <div className="card active" key={index}>
                                     <div className="btn-remove">
                                         <div className="from" />
-                                        <ButtonIcon icon="cancel" onClick={() => this.handleSetProperty(null)}>Déselectionner ce locataire</ButtonIcon>
+                                        <ButtonIcon icon="cancel" onClick={() => this.handleSetTenant(elem)}>Déselectionner ce locataire</ButtonIcon>
                                     </div>
                                     <TenantItem elem={elem} />
                                 </div>

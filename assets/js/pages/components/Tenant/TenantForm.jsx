@@ -11,8 +11,9 @@ import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
-export function TenantFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl})
+export function TenantFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, onSetTenant, refAside })
 {
+    let full = true;
     let title = "Ajouter un locataire";
     let url = oriUrl;
     let msg = "Vous avez ajouté un nouveau locataire !"
@@ -21,6 +22,11 @@ export function TenantFormulaire ({ type, onChangeContext, onUpdateList, element
         title = "Modifier " + element.reference;
         url = oriUrl + "/" + element.id;
         msg = "La mise à jour s'est réalisé avec succès !";
+    }
+
+    if(type === "check"){
+        full = false;
+        url = oriUrl + "-check";
     }
 
     let form = <TenantForm
@@ -38,10 +44,12 @@ export function TenantFormulaire ({ type, onChangeContext, onUpdateList, element
         email={element ? element.email : ""}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
+        onSetTenant={onSetTenant}
+        refAside={refAside}
         messageSuccess={msg}
     />
 
-    return <FormLayout onChangeContext={onChangeContext} form={form}>{title}</FormLayout>
+    return <FormLayout full={full} onChangeContext={onChangeContext} form={form}>{title}</FormLayout>
 }
 
 export class TenantForm extends Component {
@@ -76,7 +84,7 @@ export class TenantForm extends Component {
         const { reference, addr1, addr2, addr3, zipcode, city, lastname, firstname, phone, email } = this.state;
 
         this.setState({ success: false, errors: []})
-        let method = context === "create" ? "POST" : "PUT";
+        let method = context !== "update" ? "POST" : "PUT";
 
         let paramsToValidate = [
             {type: "text",   id: 'reference',   value: reference},
@@ -106,7 +114,13 @@ export class TenantForm extends Component {
             axios({ method: method, url: url, data: this.state})
                 .then(function (response) {
                     let data = response.data;
-                    location.reload();
+                    if(context !== "check"){
+                        location.reload();
+                    }else{
+                        console.log(data)
+                        self.props.onSetTenant(data);
+                        self.props.refAside.current.handleClose();
+                    }
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -165,7 +179,7 @@ export class TenantForm extends Component {
 
                 <div className="line">
                     <div className="form-button">
-                        <Button isSubmit={true}>{context === "create" ? "Ajouter ce locataire" : 'Modifier ce locataire'}</Button>
+                        <Button isSubmit={true}>{context !== "update" ? "Ajouter ce locataire" : 'Modifier ce locataire'}</Button>
                     </div>
                 </div>
             </form>

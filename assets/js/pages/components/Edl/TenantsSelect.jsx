@@ -4,30 +4,23 @@ import Sort from "@dashboardComponents/functions/sort";
 
 export class TenantsSelect extends Component {
     constructor(props) {
-        super();
+        super(props);
 
         this.state = {
-            elements: []
+            elements: props.elements
         }
 
         this.handleClick = this.handleClick.bind(this);
+        this.handleSetTenants = this.handleSetTenants.bind(this);
     }
 
     handleClick = (elem) => {
-        const { elements } = this.state;
-
-        let newElements = [];
-        if(elements.includes(elem)){
-            newElements = elements.filter(el => {
-                return el.id !== elem.id
-            });
-        }else{
-            newElements = elements
-            newElements.push(elem);
-        }
-
+        let newElements = this.props.onSetTenant(elem);
         this.setState({ elements: newElements });
-        this.props.onSetTenants(newElements);
+    }
+
+    handleSetTenants = (tenants) => {
+        this.setState({ elements: tenants })
     }
 
     render () {
