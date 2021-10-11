@@ -41,6 +41,7 @@ return function (App $app) {
 
         $group->get('/biens', [AppController::class, 'property'])->setName('property_index');
         $group->post('/property', [PropertyController::class, 'create'])->setName('property_create');
+        $group->put('/property/{id}', [PropertyController::class, 'update'])->setName('property_update');
         $group->post('/property-check', [PropertyController::class, 'check'])->setName('property_check');
 
         $group->post('/tenant', [TenantController::class, 'check'])->setName('tenant_check');

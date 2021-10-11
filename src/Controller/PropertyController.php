@@ -20,11 +20,11 @@ class PropertyController
         $this->propertyService = $propertyService;
     }
 
-    private function submitForm($request, $type): array
+    private function submitForm($request, $type, $id): array
     {
         $data = json_decode($request->getBody());
 
-        $res = $this->propertyService->validateData($data);
+        $res = $this->propertyService->validateData($data, $id);
         if($res['code'] == 0){
             return $res;
         }
@@ -34,7 +34,7 @@ class PropertyController
         if($type == "create"){
             $res = $this->propertyService->createProperty($obj);
         }else{
-            $res = $this->propertyService->updateProperty($obj);
+            $res = $this->propertyService->updateProperty($obj, $id);
         }
 
        return $res;
@@ -42,25 +42,29 @@ class PropertyController
 
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $res = $this->submitForm($request, "create");
+        $response->withHeader('Content-Type', 'application/json');
+
+        $res = $this->submitForm($request, "create", null);
         if($res['code'] == 0){
             $response->getBody()->write($res['data']);
             return $response->withStatus(400);
         }
 
-        $response->getBody()->write($res['data']);
+        $response->getBody()->write(json_encode($res['data']));
         return $response->withStatus(200);
     }
 
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $res = $this->submitForm($request, "update");
+        $response->withHeader('Content-Type', 'application/json');
+
+        $res = $this->submitForm($request, "update", $args["id"]);
         if($res['code'] == 0){
-            $response->getBody()->write($res['message']);
+            $response->getBody()->write($res['data']);
             return $response->withStatus(400);
         }
 
-        $response->getBody()->write($res['data']);
+        $response->getBody()->write(json_encode($res['data']));
         return $response->withStatus(200);
     }
 
@@ -70,7 +74,7 @@ class PropertyController
 
         $data = json_decode($request->getBody());
 
-        $res = $this->propertyService->validateData($data);
+        $res = $this->propertyService->validateData($data, null);
         if($res['code'] == 0){
             $response->getBody()->write($res['data']);
             return $response->withStatus(400);

@@ -84,7 +84,7 @@ export class PropertyForm extends Component {
         const { reference, addr1, addr2, addr3, zipcode, city, typeBien, owner, building, floor, door, isFurnished } = this.state;
 
         this.setState({ success: false})
-        let method = "POST";
+        let method = context === "create" ? "POST" : "PUT";
 
         let paramsToValidate = [
             {type: "text",   id: 'reference',   value: reference},
@@ -117,8 +117,7 @@ export class PropertyForm extends Component {
             axios({ method: method, url: url, data: this.state})
                 .then(function (response) {
                     let data = response.data;
-                    console.log(data)
-                    // location.reload();
+                    location.reload();
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -148,7 +147,7 @@ export class PropertyForm extends Component {
                 {success !== false && <Alert type="info">{success}</Alert>}
 
                 <div className="line">
-                    <Input valeur={reference} identifiant="reference" errors={errors} onChange={this.handleChange} >Référence *</Input>
+                    <Input valeur={reference} identifiant="reference" errors={errors} onChange={this.handleChange} >Référence * (10 caractères max)</Input>
                 </div>
 
                 <div className="line" />

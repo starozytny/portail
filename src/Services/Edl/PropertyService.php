@@ -20,9 +20,8 @@ class PropertyService
         $this->validateur = $validateur;
     }
 
-    public function validateData($data): array
+    public function validateData($data, $id): array
     {
-        $id             = $data->id;
         $typeBien       = $this->sanitizeData->clean($data->typeBien);
         $reference      = $this->sanitizeData->clean($data->reference);
         $owner          = $this->sanitizeData->clean($data->owner);
@@ -171,9 +170,10 @@ class PropertyService
         ];
     }
 
-    public function updateProperty($data): array
+    public function updateProperty($data, $id): array
     {
-        return $this->apiService->callApiWithErrors('edit_property/' . $data->id, 'POST', false, $this->getDataToSend($data));
+        $bien = json_decode($data);
+        return $this->apiService->callApiWithErrors('edit_property/' . $id, 'PUT', false, $this->getDataToSend($bien));
     }
 
     private function getDataToSend($data): array

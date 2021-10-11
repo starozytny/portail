@@ -9,7 +9,7 @@ export class FormLayout extends Component{
         return <div>
             <div className="toolbar">
                 <div className="item">
-                    <Button outline={true} icon="arrow-left" type="primary" onClick={() => onChangeContext("list")}>Retour à la liste</Button>
+                    <Button outline={true} icon="arrow-left" type="default" onClick={() => onChangeContext("list")}>Retour à la liste</Button>
                 </div>
             </div>
 
