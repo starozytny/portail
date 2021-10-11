@@ -13,9 +13,10 @@ import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 
 import { BienItem, PropertySelect } from "./PropertySelect";
-import {PropertyFormulaire} from "../Property/PropertyForm";
+import {TenantItem, TenantsSelect} from "./TenantsSelect";
+import { PropertyFormulaire } from "../Property/PropertyForm";
 
-export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, models, properties, propertyUrl, tenantUrl })
+export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, models, properties, tenants, propertyUrl, tenantUrl })
 {
     let url = oriUrl;
     let msg = "Vous avez ajouté un nouveau état des lieux !"
@@ -27,6 +28,8 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         msg = "La mise à jour s'est réalisé avec succès !";
     }
 
+    console.log(element)
+
     let form = <EdlForm
         context={type}
         propertyUrl={propertyUrl}
@@ -34,6 +37,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         users={JSON.parse(users)}
         models={JSON.parse(models)}
         properties={JSON.parse(properties)}
+        allTenants={JSON.parse(tenants)}
         url={url}
         attribution={element ? element.inventory.user_id : currentUser}
         structure={(element && parseInt(element.inventory.input) !== 0) ? (parseInt(element.inventory.input) < 0 ? 1 : 2) : 0}
@@ -41,6 +45,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         type={element ? element.inventory.type : 1}
         model={(element && parseInt(element.inventory.input) !== 0) ? parseInt(element.inventory.input) : ""}
         property={element ? element.property : null}
+        tenants={element ? element.tenants : []}
         messageSuccess={msg}
     />
 
@@ -58,6 +63,7 @@ export class EdlForm extends Component {
             type: props.type,
             model: props.model,
             property: props.property,
+            tenants: props.tenants,
             errors: [],
             success: false,
             asideBienType: "select",
@@ -67,6 +73,7 @@ export class EdlForm extends Component {
         this.asideBien = React.createRef();
         this.asideBienSelect = React.createRef();
         this.asideTenants = React.createRef();
+        this.asideTenantsSelect = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -99,6 +106,10 @@ export class EdlForm extends Component {
         this.setState({ asideTenantsType: type })
         let title = type === "select" ? "Sélectionner un/des locataire(s)" : "Ajouter un locataire";
         this.asideTenants.current.handleOpen(title)
+    }
+
+    handleSetTenants = (tenants) => {
+        this.setState({ tenants });
     }
 
     handleSubmit = (e) => {
@@ -147,7 +158,7 @@ export class EdlForm extends Component {
     }
 
     render () {
-        const { context, users, models, properties, propertyUrl } = this.props;
+        const { context, users, models, allProperties, propertyUrl, allTenants } = this.props;
         const { errors, success, attribution, structure, startDate, type, model, asideBienType, property, asideTenantsType, tenants } = this.state;
 
         let radioboxItems = [
@@ -168,9 +179,19 @@ export class EdlForm extends Component {
         let asideBienContent = null, asideTenantsContent = null;
         if(asideBienType === "select"){
             asideBienContent = <PropertySelect ref={this.asideBienSelect} refAside={this.asideBien}
-                                               onSetProperty={this.handleSetProperty} properties={properties}/>
+                                               onSetProperty={this.handleSetProperty} properties={allProperties}/>
         }else{
             asideBienContent = <PropertyFormulaire refAside={this.asideBien} element={property}
+                                                   oriUrl={propertyUrl} type="check" onSetProperty={this.handleSetProperty} />
+        }
+
+        console.log(tenants)
+
+        if(asideTenantsType === "select"){
+            asideTenantsContent = <TenantsSelect ref={this.asideTenantsSelect} refAside={this.asideTenants} elements={tenants}
+                                               onSetTenants={this.handleSetTenants} tenants={allTenants}/>
+        }else{
+            asideTenantsContent = <PropertyFormulaire refAside={this.asideBien} element={property}
                                                    oriUrl={propertyUrl} type="check" onSetProperty={this.handleSetProperty} />
         }
 
@@ -214,6 +235,17 @@ export class EdlForm extends Component {
                             <Button outline={true} type="default"
                                     onClick={() => this.handleOpenAsideTenants("create")}>Ajouter un/des locataire(s)</Button>
                         </div>
+                        {tenants.length !== 0 && <div className="selected selected-tenants active">
+                            {tenants.map((elem, index) => {
+                                return <div className="card active" key={index}>
+                                    <div className="btn-remove">
+                                        <div className="from" />
+                                        <ButtonIcon icon="cancel" onClick={() => this.handleSetProperty(null)}>Déselectionner ce locataire</ButtonIcon>
+                                    </div>
+                                    <TenantItem elem={elem} />
+                                </div>
+                            })}
+                        </div>}
                         <div className="error">
                             <span className='icon-warning'/>
                             Veuillez sélectionner ou ajouter un/des locataire(s).

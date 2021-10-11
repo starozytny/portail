@@ -57,6 +57,10 @@
     .card-body{
       @include flex(row, flex-start, space-between);
       padding: 12px;
+
+      & > div:last-child{
+        text-align: right;
+      }
     }
   }
 }
