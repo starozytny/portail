@@ -21,52 +21,18 @@
       }
     }
   }
-}
-
-.edl-form{
-  background-color: var(--alpha);
-  box-shadow: 0 0 8px var(--greyShadow);
-  border: 1px solid var(--fond);
-  border-radius: 4px;
-
-  padding: 24px 12px;
-
-  .error-form{
-    display: none;
-
-    .active{
-      display: block;
-      margin-bottom: 24px;
-    }
-  }
 
   .line-select-or-add{
     margin-bottom: 48px;
   }
 
   .select-or-add{
-    display: none;
-
-    &.active{
-      display: block;
-    }
-
-    & > div{
+    & > button{
       width: calc(100% - 50px);
 
       &:not(:last-child){
         margin-bottom: 12px;
       }
-    }
-  }
-
-  .input-model{
-    opacity: 0;
-    z-index: -1;
-
-    &.active{
-      opacity: 1;
-      z-index: 1;
     }
   }
 
@@ -145,11 +111,9 @@
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
-  .edl-form{
-    padding: 24px;
-
+  #edl-form{
     .select-or-add{
-      & > div{
+      & > button{
         width: auto;
 
         &:not(:last-child){

@@ -132,6 +132,19 @@ export class EdlForm extends Component {
 
                 {success !== false && <Alert type="info">{success}</Alert>}
 
+                <div className="line line-select-or-add">
+                    <div className="form-group input-bien">
+                        <label>Bien</label>
+                        <div className="actions-bien select-or-add">
+                            <Button outline={true} type="default">Sélectionner un bien</Button>
+                            <Button outline={true} type="default">Ajouter un bien</Button>
+                        </div>
+                        <div className="error">
+                            <span className='icon-warning'/>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="line line-3">
                     <Select items={JSON.parse(users)} identifiant="attribution" valeur={attribution} errors={errors} onChange={this.handleChange}>Attribution</Select>
                     <Select items={structures} identifiant="structure" valeur={structure} errors={errors} onChange={this.handleChange}>Structure</Select>

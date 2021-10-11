@@ -24,11 +24,6 @@
              data-element="{{ edl | json_encode }}"
         ></div>
 
-        {% include 'app/pages/edl/components/form.twig' with {
-            edl: edl,
-            url_edl_form: url_for('edl_update', {'id': edl.inventory.id}),
-            from: "update"
-        }%}
     </div>
 
     {{ parent() }}

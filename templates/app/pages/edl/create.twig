@@ -16,11 +16,6 @@
              data-current-user="{{ session.user[7] }}"
              data-models="{{ models | json_encode }}"
         ></div>
-
-        {% include 'app/pages/edl/components/form.twig' with {
-            url_edl_form: url_for('edl_create'),
-            from: "create"
-        }%}
     </div>
 
     {{ parent() }}
