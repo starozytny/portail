@@ -33,6 +33,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         attribution={element ? element.inventory.user_id : currentUser}
         structure={(element && parseInt(element.inventory.input) !== 0) ? (parseInt(element.inventory.input) < 0 ? 1 : 2) : 0}
         startDate={element ? new Date(parseInt(element.inventory.date) * 1000) : ""}
+        type={element ? element.inventory.type : 1}
         messageSuccess={msg}
     />
 
@@ -47,6 +48,7 @@ export class EdlForm extends Component {
             attribution: props.attribution,
             structure: props.structure,
             startDate: props.startDate,
+            type: props.type,
             errors: [],
             success: false
         }
@@ -65,7 +67,7 @@ export class EdlForm extends Component {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { attribution, structure } = this.state;
+        const { attribution, structure, type } = this.state;
 
         this.setState({ success: false, errors: []})
         let method = context === "create" ? "POST" : "PUT";
@@ -73,6 +75,7 @@ export class EdlForm extends Component {
         let paramsToValidate = [
             {type: "text",   id: 'attribution',     value: attribution},
             {type: "text",   id: 'structure',       value: structure},
+            {type: "text",   id: 'type',            value: type},
         ];
 
         // validate global
@@ -103,8 +106,12 @@ export class EdlForm extends Component {
 
     render () {
         const { context, users, models } = this.props;
-        const { errors, success, attribution, structure, startDate } = this.state;
+        const { errors, success, attribution, structure, startDate, type } = this.state;
 
+        let radioboxItems = [
+            { value: 1, label: 'Entrant', identifiant: 'entrant' },
+            { value: 0, label: 'Sortant', identifiant: 'sortant' }
+        ]
 
         let structures = [
             { value: 0, label: 'EDL Vierge',    identifiant: 'edl-vierge' },
@@ -126,6 +133,12 @@ export class EdlForm extends Component {
                     <DateTimePick identifiant="startDate" valeur={startDate} errors={errors} onChange={this.handleChangeDateStartDate} minDate={new Date()}>
                         Prévu le (facultatif)
                     </DateTimePick>
+                </div>
+
+                <div className="line line-3">
+                    <Radiobox items={radioboxItems} identifiant="type" valeur={type} errors={errors} onChange={this.handleChange}>Type d'état des lieux</Radiobox>
+                    <div className="form-group" />
+                    <div className="form-group" />
                 </div>
 
                 <div className="line">
