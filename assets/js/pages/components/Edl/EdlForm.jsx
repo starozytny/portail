@@ -34,6 +34,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         structure={(element && parseInt(element.inventory.input) !== 0) ? (parseInt(element.inventory.input) < 0 ? 1 : 2) : 0}
         startDate={element ? new Date(parseInt(element.inventory.date) * 1000) : ""}
         type={element ? element.inventory.type : 1}
+        model={(element && parseInt(element.inventory.input) !== 0) ? parseInt(element.inventory.input) : ""}
         messageSuccess={msg}
     />
 
@@ -49,6 +50,7 @@ export class EdlForm extends Component {
             structure: props.structure,
             startDate: props.startDate,
             type: props.type,
+            model: props.model,
             errors: [],
             success: false
         }
@@ -67,7 +69,7 @@ export class EdlForm extends Component {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { attribution, structure, type } = this.state;
+        const { attribution, structure, type, model } = this.state;
 
         this.setState({ success: false, errors: []})
         let method = context === "create" ? "POST" : "PUT";
@@ -77,6 +79,9 @@ export class EdlForm extends Component {
             {type: "text",   id: 'structure',       value: structure},
             {type: "text",   id: 'type',            value: type},
         ];
+
+
+        //if structure = ? model
 
         // validate global
         let validate = Validateur.validateur(paramsToValidate)
@@ -106,7 +111,7 @@ export class EdlForm extends Component {
 
     render () {
         const { context, users, models } = this.props;
-        const { errors, success, attribution, structure, startDate, type } = this.state;
+        const { errors, success, attribution, structure, startDate, type, model } = this.state;
 
         let radioboxItems = [
             { value: 1, label: 'Entrant', identifiant: 'entrant' },
@@ -137,7 +142,9 @@ export class EdlForm extends Component {
 
                 <div className="line line-3">
                     <Radiobox items={radioboxItems} identifiant="type" valeur={type} errors={errors} onChange={this.handleChange}>Type d'état des lieux</Radiobox>
-                    <div className="form-group" />
+                    {parseInt(structure) === 1 ?
+                        <Select items={JSON.parse(models)} identifiant="model" valeur={model} errors={errors} onChange={this.handleChange}>Modèle</Select>
+                        : <div className="form-group" />}
                     <div className="form-group" />
                 </div>
 
