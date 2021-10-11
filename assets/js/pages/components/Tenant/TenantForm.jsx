@@ -75,7 +75,7 @@ export class TenantForm extends Component {
         const { context, url, messageSuccess } = this.props;
         const { reference, addr1, addr2, addr3, zipcode, city, lastname, firstname, phone, email } = this.state;
 
-        this.setState({ success: false})
+        this.setState({ success: false, errors: []})
         let method = context === "create" ? "POST" : "PUT";
 
         let paramsToValidate = [

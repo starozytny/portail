@@ -157,13 +157,13 @@ class TenantService
     public function createTenant($json): array
     {
         $obj = json_decode($json);
+        return $this->apiService->callApiWithErrors('add_tenant', 'POST', false, $this->getDataToSend($obj));
+    }
 
-        $res = $this->apiService->callApiWithErrors('add_tenant', 'POST', false, $this->getDataToSend($obj));
-        if($res['code'] == 0){
-            return $res;
-        }
-
-        return ['code' => 1];
+    public function updateTenant($data, $id): array
+    {
+        $obj = json_decode($data);
+        return $this->apiService->callApiWithErrors('edit_tenant/' . $id, 'PUT', false, $this->getDataToSend($obj));
     }
 
     public function deleteTenantFromArrayReference($references)

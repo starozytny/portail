@@ -83,7 +83,7 @@ export class PropertyForm extends Component {
         const { context, url, messageSuccess } = this.props;
         const { reference, addr1, addr2, addr3, zipcode, city, typeBien, owner, building, floor, door, isFurnished } = this.state;
 
-        this.setState({ success: false})
+        this.setState({ success: false, errors: []})
         let method = context === "create" ? "POST" : "PUT";
 
         let paramsToValidate = [

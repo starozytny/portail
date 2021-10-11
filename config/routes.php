@@ -47,6 +47,8 @@ return function (App $app) {
 
         $group->get('/locataires', [AppController::class, 'tenant'])->setName('tenant_index');
         $group->post('/tenant', [TenantController::class, 'create'])->setName('tenant_create');
+        $group->put('/tenant/{id}', [TenantController::class, 'update'])->setName('tenant_update');
+        $group->delete('/tenant/{id}', [TenantController::class, 'delete'])->setName('tenant_delete');
         $group->post('/tenant-check', [TenantController::class, 'check'])->setName('tenant_check');
 
     })->add(UserAuthMiddleware::class);
