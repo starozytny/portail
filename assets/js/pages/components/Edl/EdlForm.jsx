@@ -43,7 +43,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         startDate={element ? new Date(parseInt(element.inventory.date) * 1000) : ""}
         type={element ? element.inventory.type : 1}
         model={(element && parseInt(element.inventory.input) !== 0) ? parseInt(element.inventory.input) : ""}
-        property={element ? element.property : null}
+        property={element ? element.property : ""}
         tenants={element ? element.tenants : []}
         messageSuccess={msg}
     />
@@ -133,7 +133,7 @@ export class EdlForm extends Component {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { attribution, structure, type, model, property } = this.state;
+        const { attribution, structure, type, model, property, tenants, startDate } = this.state;
 
         this.setState({ success: false, errors: []})
         let method = context === "create" ? "POST" : "PUT";
@@ -143,34 +143,53 @@ export class EdlForm extends Component {
             {type: "text",   id: 'structure',       value: structure},
             {type: "text",   id: 'type',            value: type},
             {type: "text",   id: 'property',        value: property},
+            {type: "array",  id: 'tenants',         value: tenants},
         ];
 
+        if(structure === "1") { //établir structure = model set
+            paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'model', value: model}]];
+        }
 
-        //if structure = ? model
+        // console.log("Structure : " + structure)
+        // console.log("Model : " + model)
+        // console.log("Attribution : " + attribution)
+        // console.log("Date : " + new Date(startDate).getTime())
+        // console.log("Type : " + type)
+        // console.log("Bien : " + property)
+        // console.log("Tenants : " + tenants)
 
         // validate global
-        let validate = Validateur.validateur(paramsToValidate)
+        let validate = Validateur.validateur(paramsToValidate);
         if(!validate.code){
             toastr.warning("Veuillez vérifier les informations transmises.");
             this.setState({ errors: validate.errors });
         }else{
-            // Formulaire.loader(true);
-            // let self = this;
-            //
-            // axios({ method: method, url: url, data: this.state})
-            //     .then(function (response) {
-            //         let data = response.data;
-            //         location.reload();
-            //     })
-            //     .catch(function (error) {
-            //         console.log(error)
-            //         console.log(error.response)
-            //         Formulaire.displayErrors(self, error);
-            //     })
-            //     .then(() => {
-            //         Formulaire.loader(false);
-            //     })
-            // ;
+            Formulaire.loader(true);
+            let self = this;
+
+            axios({ method: method, url: url, data: this.state})
+                .then(function (response) {
+                    let data = response.data;
+                    toastr.info((context === "create" ? "Etat des lieux ajouté" : "Données mises à jour") +
+                        "! La page va se rafraichir dans quelques instants.");
+
+                    // if(form.dataset.from !== "create"){
+                    //     localStorage.setItem('edlPagination', form.dataset.id);
+                    // }
+
+                    setTimeout(function () {
+                        location.href = response.data;
+                    }, 1000);
+                })
+                .catch(function (error) {
+                    console.log(error)
+                    console.log(error.response)
+                    Formulaire.displayErrors(self, error);
+                })
+                .then(() => {
+                    Formulaire.loader(false);
+                })
+            ;
         }
     }
 
@@ -208,13 +227,25 @@ export class EdlForm extends Component {
             asideTenantsContent = <TenantFormulaire refAside={this.asideTenants} oriUrl={tenantUrl} type="check" onSetTenant={this.handleSetTenant} />
         }
 
+        let errorProperty = "", errorTenants = "";
+        if(errors.length !== 0){
+            errors.map(err => {
+                if(err.name === "property"){
+                    errorProperty = " form-group-error"
+                }
+                if(err.name === "tenants"){
+                    errorTenants = " form-group-error"
+                }
+            })
+        }
+
         return <>
             <form onSubmit={this.handleSubmit}>
 
                 {success !== false && <Alert type="info">{success}</Alert>}
 
                 <div className="line line-select-or-add">
-                    <div className="form-group input-bien">
+                    <div className={"form-group input-bien" + errorProperty}>
                         <label>Bien</label>
                         {property ? <div className="selected selected-bien active">
                                 <div className="card active">
@@ -240,7 +271,7 @@ export class EdlForm extends Component {
                 </div>
 
                 <div className="line line-select-or-add">
-                    <div className="form-group input-tenants">
+                    <div className={"form-group input-tenants" + errorTenants}>
                         <label>Locataire(s)</label>
                         <div className="actions-tenants select-or-add">
                             <Button outline={true} type="default"

@@ -1,8 +1,8 @@
-{% extends 'app/pages/edl/template_form.twig' %}
+{% extends 'app/pages/edl/template.twig' %}
 
 {% block title %}Ajouter un état des lieux {{ parent() }}{% endblock %}
 
-{% block edl_content %}
+{% block main_content %}
     <div class="page-title">
         <div class="page-title-container">
             <h1>Ajouter un état des lieux</h1>
@@ -19,6 +19,4 @@
              data-tenants="{{ tenants | json_encode }}"
         ></div>
     </div>
-
-    {{ parent() }}
 {% endblock %}

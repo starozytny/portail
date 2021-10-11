@@ -1,8 +1,8 @@
-{% extends 'app/pages/edl/template_form.twig' %}
+{% extends 'app/pages/edl/template.twig' %}
 
 {% block title %}Modifier un état des lieux {{ parent() }}{% endblock %}
 
-{% block edl_content %}
+{% block main_content %}
     <div class="page-title">
         <div class="comeback" data-id="{{ edl.inventory.id }}" data-url="{{ url_for('edl', {'status': 'en-cours'}) }}">
             <button class="btn btn-outline-default">
@@ -25,8 +25,5 @@
              data-tenants="{{ tenants | json_encode }}"
              data-element="{{ edl | json_encode }}"
         ></div>
-
     </div>
-
-    {{ parent() }}
 {% endblock %}
