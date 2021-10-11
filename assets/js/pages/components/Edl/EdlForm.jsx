@@ -15,8 +15,10 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser })
     let url = oriUrl;
     let msg = "Vous avez ajouté un nouveau état des lieux !"
 
+    element = element ? JSON.parse(element) : null;
+
     if(type === "update"){
-        url = oriUrl + "/" + element.id;
+        url = oriUrl + "/" + element.inventory.id;
         msg = "La mise à jour s'est réalisé avec succès !";
     }
 
@@ -24,7 +26,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser })
         context={type}
         users={users}
         url={url}
-        attribution={element ? element.user_id : currentUser}
+        attribution={element ? element.inventory.user_id : currentUser}
         messageSuccess={msg}
     />
 

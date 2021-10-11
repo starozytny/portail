@@ -16,6 +16,13 @@
     </div>
 
     <div class="main-content">
+        <div id="edl-form"
+             data-type="update"
+             data-users="{{ users | json_encode }}"
+             data-current-user="{{ session.user[7] }}"
+             data-element="{{ edl | json_encode }}"
+        ></div>
+
         {% include 'app/pages/edl/components/form.twig' with {
             edl: edl,
             url_edl_form: url_for('edl_update', {'id': edl.inventory.id}),

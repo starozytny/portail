@@ -18,9 +18,9 @@ import React from "react";
 import { render } from "react-dom";
 import { EdlFormulaire } from "./components/Edl/EdlForm";
 
-let el = document.getElementById('edl-create');
+let el = document.getElementById('edl-form');
 if(el){
-    render(<EdlFormulaire {...el.dataset} type="create" oriUrl={"/espace-client/edl"}/>, el);
+    render(<EdlFormulaire {...el.dataset} oriUrl={"/espace-client/edl"}/>, el);
 }
 
 let view = document.getElementById("view")

@@ -10,7 +10,11 @@
     </div>
 
     <div class="main-content">
-        <div id="edl-create" data-users="{{ users | json_encode }}" data-current-user="{{ session.user[7] }}"></div>
+        <div id="edl-form"
+             data-type="create"
+             data-users="{{ users | json_encode }}"
+             data-current-user="{{ session.user[7] }}"
+        ></div>
 
         {% include 'app/pages/edl/components/form.twig' with {
             url_edl_form: url_for('edl_create'),
