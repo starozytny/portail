@@ -33,6 +33,7 @@ class TenantController
         $obj = json_encode($res['data']);
 
         if($type == "create"){
+            $obj = json_decode($obj);
             $res = $this->tenantService->createTenant($obj);
         }else{
             $res = $this->tenantService->updateTenant($obj, $id);

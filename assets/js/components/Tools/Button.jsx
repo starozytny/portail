@@ -24,7 +24,7 @@ export function Button(props){
     const { icon, type="primary", isSubmit=false, outline=false, children, onClick, element="button", target="_self" } = props;
 
     if(element === "button"){
-        return <button className={`btn btn-${outline ? "outline-" : ""}${type}`} type={isSubmit ? "submit" : ""} onClick={onClick}>
+        return <button className={`btn btn-${outline ? "outline-" : ""}${type}`} type={isSubmit ? "submit" : "button"} onClick={onClick}>
             {icon && <span className={`icon-${icon}`} />}
             <span>{children}</span>
         </button>

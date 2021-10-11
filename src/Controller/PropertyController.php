@@ -33,6 +33,7 @@ class PropertyController
         $obj = json_encode($res['data']);
 
         if($type == "create"){
+            $obj = json_decode($obj);
             $res = $this->propertyService->createProperty($obj);
         }else{
             $res = $this->propertyService->updateProperty($obj, $id);

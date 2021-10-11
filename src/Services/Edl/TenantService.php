@@ -95,69 +95,9 @@ class TenantService
         return ['code' => 1];
     }
 
-    public function extractTenantsFromFormEdl($tenants, $tenantsCreate): array
-    {
-        $allTenants = $this->apiService->callApi('tenants');
-
-        $tenantsArray = [];
-        if($tenantsCreate != ""){
-            $tab = explode('#', $tenantsCreate);
-
-            $fail = false; $failsReturn = null;
-            foreach($tab as $tenantObject){
-                if(!$fail){
-
-                    $obj = json_decode($tenantObject);
-
-                    $alreadyCreated = false;
-                    foreach($allTenants as $oriTenant){
-                        if($oriTenant->reference == $obj->reference){
-                            $alreadyCreated = true;
-                        }
-                    }
-
-                    if(!$alreadyCreated){
-                        $res = $this->createTenant($tenantObject);
-
-                        if($res['code'] == 0){
-                            $fail = true;
-                            $failsReturn = $res;
-                        }else{
-                            array_push($tenantsArray, $obj->reference);
-                        }
-                    }else{
-                        array_push($tenantsArray, $obj->reference);
-                    }
-                }
-            }
-
-            if($fail){
-                $this->deleteTenantFromArrayReference($tenantsArray);
-
-                return $failsReturn;
-            }
-        }
-        if($tenants != ""){
-            $tenants = explode(',', $tenants);
-            foreach($tenants as $tenantId){
-                foreach($allTenants as $oriTenant){
-                    if($oriTenant->id == $tenantId){
-                        array_push($tenantsArray, $oriTenant->reference);
-                    }
-                }
-            }
-        }
-
-        return [
-            'code' => 1,
-            'data' => $tenantsArray
-        ];
-    }
-
     public function createTenant($json): array
     {
-        $obj = json_decode($json);
-        return $this->apiService->callApiWithErrors('add_tenant', 'POST', false, $this->getDataToSend($obj));
+        return $this->apiService->callApiWithErrors('add_tenant', 'POST', false, $this->getDataToSend($json));
     }
 
     public function updateTenant($data, $id): array

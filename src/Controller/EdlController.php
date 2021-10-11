@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
+use App\Services\Data\DataService;
 use App\Services\Edl\PropertyService;
 use App\Services\Edl\TenantService;
 use App\Services\Validateur;
@@ -23,9 +24,10 @@ class EdlController
     private $propertyService;
     private $tenantService;
     private $session;
+    private $dataService;
 
     public function __construct(Twig $twig, ApiService $apiService, Validateur $validateur, SessionInterface $session,
-                                PropertyService $propertyService, TenantService $tenantService)
+                                PropertyService $propertyService, TenantService $tenantService, DataService $dataService)
     {
         $this->twig = $twig;
         $this->apiService = $apiService;
@@ -33,6 +35,7 @@ class EdlController
         $this->propertyService = $propertyService;
         $this->tenantService = $tenantService;
         $this->session = $session;
+        $this->dataService = $dataService;
     }
 
     /**
@@ -53,53 +56,51 @@ class EdlController
         $attribution    = $data->attribution;
         $startDate      = $data->startDate;
         $type           = $data->type;
-        $bienId         = $data->bien;
-        $bienCreate     = $data->bienCreate;
+        $property       = $data->property;
         $tenants        = $data->tenants;
-        $tenantsCreate  = $data->tenantsCreate;
 
         // validation des données
         $paramsToValidate = [
             ['type' => 'text', 'name' => 'structure',    'value' => $structure],
             ['type' => 'text', 'name' => 'attribution',  'value' => $attribution],
-            ['type' => 'text', 'name' => 'type',         'value' => $type]
+            ['type' => 'text', 'name' => 'type',         'value' => $type],
+            ['type' => 'text', 'name' => 'property',     'value' => $property],
+            ['type' => 'text', 'name' => 'tenants',      'value' => $tenants]
         ];
         if($structure == 1) { //etablir structure = model required
             array_push($paramsToValidate, ['type' => 'text', 'name' => 'model', 'value' => $model]);
         }
         $errors = $this->validateur->validate($paramsToValidate);
-        if($bienId == "" && $bienCreate == ""){
-            array_push($errors, [
-                'name' => 'bien',
-                'message' => 'Veuillez sélectionner ou ajouter un bien'
-            ]);
-        }
-        if($tenants == "" && $tenantsCreate == ""){
-            array_push($errors, [
-                'name' => 'tenants',
-                'message' => 'Veuillez sélectionner ou ajouter un locataire'
-            ]);
-        }
-
         if(count($errors) > 0){
             return ['code' => 0,'errors' => json_encode($errors)];
         }
 
         // extract tenants before property
         // if tenants from create fails, delete them
-        $res = $this->tenantService->extractTenantsFromFormEdl($tenants, $tenantsCreate);
-        if($res['code'] == 0){
-            return ['code' => 0,'errors' => $res['message']];
+        $tenantsArray = [];
+        foreach($tenants as $tenant){
+            if(!isset($tenant->id)){
+                $this->tenantService->createTenant($tenant);
+            }
+            array_push($tenantsArray, $tenant->reference);
         }
-        $tenantsArray = $res['data'];
 
-        $res = $this->propertyService->extractBienFromFormEdl($bienId, $bienCreate);
-        if($res['code'] == 0){
-            return ['code' => 0,'errors' => $res['data']];
+        if(!isset($property->id)){
+            $res = $this->propertyService->createProperty($property);
+            if($res['code'] == 0){
+                return $res;
+            }
+
+            $propertyUid = $this->propertyService->getPropertyUid($res['data']); //bienId
+            $lastInventoryUid = $res['lastInventoryUid'];
+        }else{
+            $property = $this->apiService->callApi('properties/' . $property->id);
+            $propertyUid = $property->uid;
+            $lastInventoryUid = $property->last_inventory_uid;
         }
-        $propertyUid = $res['data'];
+
         if($structure == 2){
-            $model = $res['lastInventoryUid'];
+            $model = $lastInventoryUid;
         }
 
         //send to api
@@ -147,8 +148,7 @@ class EdlController
             $res = $this->submitForm(null, $request, $data, 'add_inventory/');
 
             if($res['code'] != 1){
-                $response->getBody()->write($res['errors']);
-                return $response->withStatus(400);
+                return $this->dataService->returnError($response, $res['errors']);
             }
 
             $response->getBody()->write($res['data']);
@@ -182,16 +182,14 @@ class EdlController
 
             $existe = $this->apiService->callApi('inventories/' . $args['id']);
             if($existe == false){
-                $response->getBody()->write("[EU001] Une erreur est survenu. Veuillez contacter le support.");
-                return $response->withStatus(400);
+                return $this->dataService->returnError($response, "[EU001] Une erreur est survenu. Veuillez contacter le support.");
             }
 
             $data = json_decode($request->getBody());
-            $res = $this->submitForm($existe, $request, $data, 'edit_inventory/' . $args['id']);
 
+            $res = $this->submitForm($existe, $request, $data, 'edit_inventory/' . $args['id']);
             if($res['code'] != 1){
-                $response->getBody()->write($res['errors']);
-                return $response->withStatus(400);
+                return $this->dataService->returnError($response, $res['errors']);
             }
 
             $response->getBody()->write($res['data']);

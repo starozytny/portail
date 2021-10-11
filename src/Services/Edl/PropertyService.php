@@ -119,33 +119,15 @@ class PropertyService
         ];
     }
 
-    public function extractBienFromFormEdl($bienId, $bienCreate): array
-    {
-        if($bienCreate != "") {
-            $res = $this->createProperty($bienCreate);
-            if($res['code'] == 0){
-                return $res;
-            }
-
-            $bienId = $res['data'];
-            $lastInventoryUid = ['lastInventoryUid' => $res['lastInventoryUid']];
-        }else{
-            $property = $this->apiService->callApi('properties/' . $bienId);
-            $lastInventoryUid = ['lastInventoryUid' => $property->last_inventory_uid];
-        }
-
-        return array_merge($this->getPropertyUid($bienId), $lastInventoryUid);
-    }
-
     public function createProperty($json): array
     {
-        $bien = json_decode($json);
-
         $bienId = null; $lastInventoryUid = null;
-        $res = $this->apiService->callApiWithErrors('add_property', 'POST', false, $this->getDataToSend($bien));
+        $res = $this->apiService->callApiWithErrors('add_property', 'POST', false, $this->getDataToSend($json));
         if($res['code'] == 0){
             return $res;
         }
+
+        $bien = json_decode($json);
 
         //get id created
         $properties = $this->apiService->callApi('properties');

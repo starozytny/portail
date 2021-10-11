@@ -39,7 +39,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         allTenants={JSON.parse(tenants)}
         url={url}
         attribution={element ? element.inventory.user_id : currentUser}
-        structure={(element && parseInt(element.inventory.input) !== 0) ? (parseInt(element.inventory.input) < 0 ? 1 : 2) : 0}
+        structure={(element && parseInt(element.inventory.input) !== 0) ? (parseInt(element.inventory.input) < 0 ? "1" : "2") : "0"}
         startDate={element ? new Date(parseInt(element.inventory.date) * 1000) : ""}
         type={element ? element.inventory.type : 1}
         model={(element && parseInt(element.inventory.input) !== 0) ? parseInt(element.inventory.input) : ""}
@@ -150,14 +150,6 @@ export class EdlForm extends Component {
             paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'model', value: model}]];
         }
 
-        // console.log("Structure : " + structure)
-        // console.log("Model : " + model)
-        // console.log("Attribution : " + attribution)
-        // console.log("Date : " + new Date(startDate).getTime())
-        // console.log("Type : " + type)
-        // console.log("Bien : " + property)
-        // console.log("Tenants : " + tenants)
-
         // validate global
         let validate = Validateur.validateur(paramsToValidate);
         if(!validate.code){
@@ -167,7 +159,18 @@ export class EdlForm extends Component {
             Formulaire.loader(true);
             let self = this;
 
-            axios({ method: method, url: url, data: this.state})
+            let date = startDate !== "" ? new Date(startDate).getTime() + "" : 0;
+            let data = {
+                attribution: attribution,
+                structure: structure,
+                startDate: date !== 0 ? date.substring(0, date.length - 3) : 0,
+                type: type,
+                model: model,
+                property: property,
+                tenants: tenants,
+            }
+            console.log(data);
+            axios({ method: method, url: url, data: data})
                 .then(function (response) {
                     let data = response.data;
                     toastr.info((context === "create" ? "Etat des lieux ajouté" : "Données mises à jour") +
