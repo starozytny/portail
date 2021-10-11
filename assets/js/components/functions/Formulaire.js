@@ -67,9 +67,9 @@ function updateDataPagination(self, sorter, newContext, context, data, element, 
 }
 
 function displayErrors(self, error, message="Veuillez vérifier les informations transmises."){
-    if(error.response.data && Array.isArray(error.response.data.data)){
+    if(error.response.data && Array.isArray(error.response.data)){
         toastr.error(message);
-        self.setState({ errors: error.response.data.data });
+        self.setState({ errors: error.response.data });
     }else{
         if(error.response.data.message){
             toastr.error(error.response.data.message)

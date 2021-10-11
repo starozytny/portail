@@ -96,6 +96,7 @@ class ApiService
                 'auth' =>  [$username, $password],
                 'json' => $json
             ]);
+
             return [
                 'code' => 1,
                 'data' => $decodeResponseToJson ? json_decode($response->getBody()) : $response->getBody()

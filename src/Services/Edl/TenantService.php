@@ -23,7 +23,7 @@ class TenantService
     public function validateData($data, $id): array
     {
 
-        $reference  = $this->sanitizeData->clean($data->reference);
+        $reference  = $this->sanitizeData->clean(mb_strtoupper($data->reference));
         $lastname   = $this->sanitizeData->clean($data->lastname);
         $firstname  = $this->sanitizeData->clean($data->firstname);
         $phone      = $this->sanitizeData->clean($data->phone);
@@ -57,7 +57,7 @@ class TenantService
 
         $errors = $this->notExiste($id, $reference, $lastname, $firstname, $addr1);
         if($errors['code'] == 0){
-            return [ 'code' => 0, 'data' => json_encode($errors) ];
+            return [ 'code' => 0, 'data' => json_encode($errors['data']) ];
         }
 
         return [
@@ -82,7 +82,7 @@ class TenantService
         $objs = $this->apiService->callApi('tenants');
         foreach($objs as $obj){
             if($obj->id != $id) {
-                if ($obj->reference == $reference) {
+                if ($obj->reference == mb_strtoupper($reference)) {
                     return ['code' => 0, 'data' => [['name' => 'reference', 'message' => "Ce locataire existe déjà."]]];
                 }
 

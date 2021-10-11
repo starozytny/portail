@@ -50,7 +50,6 @@ class TenantController
             return $response->withStatus(400);
         }
 
-        $response->getBody()->write("ok");
         return $response->withStatus(200);
     }
 
@@ -64,7 +63,6 @@ class TenantController
             return $response->withStatus(400);
         }
 
-        $response->getBody()->write(json_encode($res['data']));
         return $response->withStatus(200);
     }
 
@@ -78,7 +76,6 @@ class TenantController
             return $response->withStatus(400);
         }
 
-        $response->getBody()->write("ok");
         return $response->withStatus(200);
     }
 

@@ -62,7 +62,7 @@ class PropertyService
 
         $errors = $this->notExiste($id, $reference, $addr1, $city, $zipcode, $isFurnished);
         if($errors['code'] == 0){
-            return [ 'code' => 0, 'data' => json_encode($errors) ];
+            return [ 'code' => 0, 'data' => json_encode($errors['data']) ];
         }
 
         return [
