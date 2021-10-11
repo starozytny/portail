@@ -134,8 +134,8 @@ export class TenantForm extends Component {
                 </div>
 
                 <div className="line line-2">
-                    <Input valeur={lastname} identifiant="lastname" errors={errors} onChange={this.handleChange} >Nom</Input>
-                    <Input valeur={firstname} identifiant="firstname" errors={errors} onChange={this.handleChange} >Prénom</Input>
+                    <Input valeur={lastname} identifiant="lastname" errors={errors} onChange={this.handleChange} >Nom *</Input>
+                    <Input valeur={firstname} identifiant="firstname" errors={errors} onChange={this.handleChange} >Prénom *</Input>
                 </div>
 
                 <div className="line" />

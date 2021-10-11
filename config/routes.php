@@ -46,7 +46,8 @@ return function (App $app) {
         $group->post('/property-check', [PropertyController::class, 'check'])->setName('property_check');
 
         $group->get('/locataires', [AppController::class, 'tenant'])->setName('tenant_index');
-        $group->post('/tenant', [TenantController::class, 'check'])->setName('tenant_check');
+        $group->post('/tenant', [TenantController::class, 'create'])->setName('tenant_create');
+        $group->post('/tenant-check', [TenantController::class, 'check'])->setName('tenant_check');
 
     })->add(UserAuthMiddleware::class);
 
