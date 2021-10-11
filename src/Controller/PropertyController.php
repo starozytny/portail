@@ -68,6 +68,20 @@ class PropertyController
         return $response->withStatus(200);
     }
 
+    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->withHeader('Content-Type', 'application/json');
+
+        $res = $this->apiService->callApiWithErrors('delete_property/' . $args['id'], 'DELETE', false);
+        if($res['code'] == 0){
+            $response->getBody()->write($res['data']);
+            return $response->withStatus(400);
+        }
+
+        $response->getBody()->write("ok");
+        return $response->withStatus(200);
+    }
+
     public function check(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $response->withHeader('Content-Type', 'application/json');

@@ -54,7 +54,9 @@ function updateData(self, sorter, newContext, context, data, element){
 function updateDataPagination(self, sorter, newContext, context, data, element, perPage=10){
     let nContext = (newContext !== null) ? newContext : context;
     let newData = UpdateList.update(nContext, data, element);
-    newData.sort(sorter)
+    if(sorter) {
+        newData.sort(sorter)
+    }
 
     self.setState({
         dataImmuable: newData,
