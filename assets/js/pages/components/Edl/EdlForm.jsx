@@ -86,7 +86,7 @@ export class EdlForm extends Component {
 
     handleSetProperty = (property) => {
         this.setState({ property });
-        if(property === null){
+        if(property === null && this.asideBienSelect.current){
             this.asideBienSelect.current.handleSetElement(null);
         }
     }

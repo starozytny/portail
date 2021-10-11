@@ -7,9 +7,7 @@ import SwalOptions      from "../components/functions/swalOptions";
 
 import Aside            from "../components/functions/aside";
 import Validateur       from "../components/functions/validateur";
-import SelectBien       from "./components/Edl/select-bien";
 import SelectTenants    from "./components/Edl/select-tenants";
-import AddBien          from "./components/Edl/add-bien";
 import AddTenant        from "./components/Edl/add-tenant";
 import Search           from "./components/Edl/search";
 import List             from "./components/Edl/list";
@@ -38,17 +36,13 @@ List.comeback();
 //*****
 // Ouvrir les asides
 //*****
-Aside.manageAside('.btn-select-bien', '.aside-select-bien');
 Aside.manageAside('.btn-select-tenants', '.aside-select-tenants');
-Aside.manageAside('.btn-add-bien', '.aside-add-bien');
 Aside.manageAside('.btn-add-tenant', '.aside-add-tenant');
 
 //*****
 // Selections
 //*****
-SelectBien.selectBien();
 SelectTenants.selectTenants();
-AddBien.addBien();
 AddTenant.addTenant();
 
 let structure = document.querySelector('#structure');
@@ -67,7 +61,6 @@ if(structure){
 //*****
 // Search functions
 //*****
-Search.searchBien();
 Search.searchTenant();
 Search.searchEdl();
 
