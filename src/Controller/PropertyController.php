@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
+use App\Services\Data\DataService;
 use App\Services\Edl\PropertyService;
 use App\Services\SanitizeData;
 use App\Services\Validateur;
@@ -11,13 +12,13 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class PropertyController
 {
-    private $apiService;
     private $propertyService;
+    private $dataService;
 
-    public function __construct(ApiService $apiService, PropertyService $propertyService)
+    public function __construct(PropertyService $propertyService, DataService $dataService)
     {
-        $this->apiService = $apiService;
         $this->propertyService = $propertyService;
+        $this->dataService = $dataService;
     }
 
     private function submitForm($request, $type, $id): array
@@ -46,8 +47,7 @@ class PropertyController
 
         $res = $this->submitForm($request, "create", null);
         if($res['code'] == 0){
-            $response->getBody()->write($res['data']);
-            return $response->withStatus(400);
+            return $this->dataService->returnError($response, $res['data']);
         }
 
         return $response->withStatus(200);
@@ -59,8 +59,7 @@ class PropertyController
 
         $res = $this->submitForm($request, "update", $args["id"]);
         if($res['code'] == 0){
-            $response->getBody()->write($res['data']);
-            return $response->withStatus(400);
+            return $this->dataService->returnError($response, $res['data']);
         }
 
         return $response->withStatus(200);
@@ -68,15 +67,7 @@ class PropertyController
 
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
-        $res = $this->apiService->callApiWithErrors('delete_property/' . $args['id'], 'DELETE', false);
-        if($res['code'] == 0){
-            $response->getBody()->write($res['data']);
-            return $response->withStatus(400);
-        }
-
-        return $response->withStatus(200);
+        return $this->dataService->delete($response, 'delete_property/' . $args['id']);
     }
 
     public function check(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -87,8 +78,7 @@ class PropertyController
 
         $res = $this->propertyService->validateData($data, null);
         if($res['code'] == 0){
-            $response->getBody()->write($res['data']);
-            return $response->withStatus(400);
+            return $this->dataService->returnError($response, $res['data']);
         }
 
         $dataToSend = $res['data'];
