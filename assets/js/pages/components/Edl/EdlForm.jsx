@@ -6,6 +6,7 @@ import toastr                  from "toastr";
 import { Radiobox, Select }    from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
 import { Button }              from "@dashboardComponents/Tools/Button";
+import { DateTimePick }        from "@dashboardComponents/Tools/DatePicker";
 
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
@@ -22,6 +23,8 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         msg = "La mise à jour s'est réalisé avec succès !";
     }
 
+    console.log(element)
+
     let form = <EdlForm
         context={type}
         users={users}
@@ -29,6 +32,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         url={url}
         attribution={element ? element.inventory.user_id : currentUser}
         structure={(element && parseInt(element.inventory.input) !== 0) ? (parseInt(element.inventory.input) < 0 ? 1 : 2) : 0}
+        startDate={element ? new Date(parseInt(element.inventory.date) * 1000) : ""}
         messageSuccess={msg}
     />
 
@@ -42,15 +46,20 @@ export class EdlForm extends Component {
         this.state = {
             attribution: props.attribution,
             structure: props.structure,
+            startDate: props.startDate,
             errors: [],
             success: false
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        this.handleChangeDateStartDate = this.handleChangeDateStartDate.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
+
+    handleChangeDateStartDate = (e) => { this.setState({ startDate: e }) }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -94,7 +103,7 @@ export class EdlForm extends Component {
 
     render () {
         const { context, users, models } = this.props;
-        const { errors, success, attribution, structure } = this.state;
+        const { errors, success, attribution, structure, startDate } = this.state;
 
 
         let structures = [
@@ -114,6 +123,9 @@ export class EdlForm extends Component {
                 <div className="line line-3">
                     <Select items={JSON.parse(users)} identifiant="attribution" valeur={attribution} errors={errors} onChange={this.handleChange}>Attribution</Select>
                     <Select items={structures} identifiant="structure" valeur={structure} errors={errors} onChange={this.handleChange}>Structure</Select>
+                    <DateTimePick identifiant="startDate" valeur={startDate} errors={errors} onChange={this.handleChangeDateStartDate} minDate={new Date()}>
+                        Prévu le (facultatif)
+                    </DateTimePick>
                 </div>
 
                 <div className="line">

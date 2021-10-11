@@ -117,6 +117,10 @@ function getTrilieanResponse(data, returnNull=true) {
     }
 }
 
+function addZeroForDate(elem) {
+    return elem <= 9 ? "0" + elem : elem;
+}
+
 module.exports = {
     sanitizeString,
     getPostalCodes,
@@ -126,5 +130,6 @@ module.exports = {
     toFormatPhone,
     toFormatCurrency,
     getTrilieanResponse,
-    setCityFromZipcode
+    setCityFromZipcode,
+    addZeroForDate
 }
