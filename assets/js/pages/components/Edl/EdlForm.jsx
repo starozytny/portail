@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 import axios                   from "axios";
 import toastr                  from "toastr";
 
-import { Radiobox, Input }     from "@dashboardComponents/Tools/Fields";
+import { Radiobox, Select }    from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
 import { Button }              from "@dashboardComponents/Tools/Button";
 
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 
-export function EdlFormulaire ({ type, element, oriUrl})
+export function EdlFormulaire ({ type, element, oriUrl, users, currentUser })
 {
     let url = oriUrl;
     let msg = "Vous avez ajouté un nouveau état des lieux !"
@@ -22,8 +22,9 @@ export function EdlFormulaire ({ type, element, oriUrl})
 
     let form = <EdlForm
         context={type}
+        users={users}
         url={url}
-        reference={element ? element.reference : ""}
+        attribution={element ? element.user_id : currentUser}
         messageSuccess={msg}
     />
 
@@ -35,7 +36,7 @@ export class EdlForm extends Component {
         super(props);
 
         this.state = {
-            reference: props.reference,
+            attribution: props.attribution,
             errors: [],
             success: false
         }
@@ -50,13 +51,13 @@ export class EdlForm extends Component {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { reference } = this.state;
+        const { attribution } = this.state;
 
         this.setState({ success: false, errors: []})
         let method = context === "create" ? "POST" : "PUT";
 
         let paramsToValidate = [
-            {type: "text",   id: 'reference',   value: reference},
+            {type: "text",   id: 'attribution',   value: attribution},
         ];
 
         // validate global
@@ -86,8 +87,8 @@ export class EdlForm extends Component {
     }
 
     render () {
-        const { context } = this.props;
-        const { errors, success, reference } = this.state;
+        const { context, users } = this.props;
+        const { errors, success, attribution } = this.state;
 
         return <>
             <form onSubmit={this.handleSubmit}>
@@ -95,7 +96,7 @@ export class EdlForm extends Component {
                 {success !== false && <Alert type="info">{success}</Alert>}
 
                 <div className="line">
-                    <Input valeur={reference} identifiant="reference" errors={errors} onChange={this.handleChange} >Référence</Input>
+                    <Select items={JSON.parse(users)} identifiant="attribution" valeur={attribution} errors={errors} onChange={this.handleChange}>Attribution</Select>
                 </div>
 
                 <div className="line">
