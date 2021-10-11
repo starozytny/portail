@@ -45,6 +45,7 @@ return function (App $app) {
         $group->delete('/property/{id}', [PropertyController::class, 'delete'])->setName('property_delete');
         $group->post('/property-check', [PropertyController::class, 'check'])->setName('property_check');
 
+        $group->get('/locataires', [AppController::class, 'tenant'])->setName('tenant_index');
         $group->post('/tenant', [TenantController::class, 'check'])->setName('tenant_check');
 
     })->add(UserAuthMiddleware::class);

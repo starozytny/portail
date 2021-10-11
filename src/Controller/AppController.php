@@ -164,16 +164,43 @@ class AppController
      */
     public function property(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $properties = $this->apiService->callApi('properties');
+        $objs = $this->apiService->callApi('properties');
 
         $data = [];
-        foreach($properties as $property){
-            if($property->is_imported == "0"){
-                array_push($data, $property);
+        foreach($objs as $obj){
+            if($obj->is_imported == "0"){
+                array_push($data, $obj);
             }
         }
 
         return $this->twig->render($response, 'app/pages/property/index.twig', [
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * Route pour la liste des locataires
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function tenant(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $objs = $this->apiService->callApi('tenants');
+
+        $data = [];
+        foreach($objs as $obj){
+            if($obj->is_imported == "0"){
+                array_push($data, $obj);
+            }
+        }
+
+        return $this->twig->render($response, 'app/pages/tenant/index.twig', [
             'data' => $data
         ]);
     }

@@ -15,6 +15,7 @@ module.exports = {
         'user': ['./assets/js/pages/user.js', './assets/css/pages/user.scss'],
         'security': ['./assets/js/pages/security.js', './assets/css/pages/security.scss'],
         'property': ['./assets/js/pages/property.js', './assets/css/pages/property.scss'],
+        'tenant': ['./assets/js/pages/tenant.js', './assets/css/pages/tenant.scss'],
     },
     output: {
         path: path.resolve(__dirname, 'public/assets'),

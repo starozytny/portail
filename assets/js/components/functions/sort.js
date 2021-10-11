@@ -14,6 +14,10 @@ function compareLastname(a, b){
     return comparison(a.lastname, b.lastname);
 }
 
+function compareLast_name(a, b){
+    return comparison(a.last_name, b.last_name);
+}
+
 function compareUsername(a, b){
     return comparison(a.username, b.username);
 }
@@ -36,6 +40,7 @@ module.exports = {
     comparison,
     compareUsername,
     compareLastname,
+    compareLast_name,
     compareFirstname,
     compareTitle,
     compareName,
