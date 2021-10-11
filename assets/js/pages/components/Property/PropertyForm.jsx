@@ -11,8 +11,9 @@ import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
-export function PropertyFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl})
+export function PropertyFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, onSetProperty, refAside })
 {
+    let full = true;
     let title = "Ajouter un bien";
     let url = oriUrl;
     let msg = "Vous avez ajouté un nouveau bien !"
@@ -21,6 +22,11 @@ export function PropertyFormulaire ({ type, onChangeContext, onUpdateList, eleme
         title = "Modifier " + element.reference;
         url = oriUrl + "/" + element.id;
         msg = "La mise à jour s'est réalisé avec succès !";
+    }
+
+    if(type === "check"){
+        full = false;
+        url = oriUrl + "-check";
     }
 
     let form = <PropertyForm
@@ -42,10 +48,12 @@ export function PropertyFormulaire ({ type, onChangeContext, onUpdateList, eleme
         isFurnished={element ? parseInt(element.is_furnished) : 0}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
+        onSetProperty={onSetProperty}
+        refAside={refAside}
         messageSuccess={msg}
     />
 
-    return <FormLayout onChangeContext={onChangeContext} form={form}>{title}</FormLayout>
+    return <FormLayout full={full} onChangeContext={onChangeContext} form={form}>{title}</FormLayout>
 }
 
 export class PropertyForm extends Component {
@@ -84,7 +92,7 @@ export class PropertyForm extends Component {
         const { reference, addr1, addr2, addr3, zipcode, city, typeBien, owner, building, floor, door, isFurnished } = this.state;
 
         this.setState({ success: false, errors: []})
-        let method = context === "create" ? "POST" : "PUT";
+        let method = context !== "update" ? "POST" : "PUT";
 
         let paramsToValidate = [
             {type: "text",   id: 'reference',   value: reference},
@@ -117,7 +125,12 @@ export class PropertyForm extends Component {
             axios({ method: method, url: url, data: this.state})
                 .then(function (response) {
                     let data = response.data;
-                    location.reload();
+                    if(context !== "check"){
+                        location.reload();
+                    }else{
+                        self.props.onSetProperty(data);
+                        self.props.refAside.current.handleClose();
+                    }
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -192,7 +205,7 @@ export class PropertyForm extends Component {
 
                 <div className="line">
                     <div className="form-button">
-                        <Button isSubmit={true}>{context === "create" ? "Ajouter ce bien" : 'Modifier ce bien'}</Button>
+                        <Button isSubmit={true}>{context !== "update" ? "Ajouter ce bien" : 'Modifier ce bien'}</Button>
                     </div>
                 </div>
             </form>

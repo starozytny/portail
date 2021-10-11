@@ -20,7 +20,10 @@ import { EdlFormulaire } from "./components/Edl/EdlForm";
 
 let el = document.getElementById('edl-form');
 if(el){
-    render(<EdlFormulaire {...el.dataset} oriUrl={"/espace-client/edl"}/>, el);
+    render(<EdlFormulaire {...el.dataset} oriUrl={"/espace-client/edl"}
+                          propertyUrl={"/espace-client/property"}
+                          tenantUrl={"/espace-client/tenant"}
+    />, el);
 }
 
 let view = document.getElementById("view")

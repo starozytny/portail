@@ -81,9 +81,7 @@ class PropertyController
             return $this->dataService->returnError($response, $res['data']);
         }
 
-        $dataToSend = $res['data'];
-
-        $response->getBody()->write(json_encode($dataToSend));
+        $response->getBody()->write(json_encode($res['data']));
         return $response->withStatus(200);
     }
 }

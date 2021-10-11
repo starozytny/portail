@@ -12,9 +12,10 @@ import { Aside }               from "@dashboardComponents/Tools/Aside";
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 
-import {BienItem, PropertySelect} from "./PropertySelect";
+import { BienItem, PropertySelect } from "./PropertySelect";
+import {PropertyFormulaire} from "../Property/PropertyForm";
 
-export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, models, properties })
+export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, models, properties, propertyUrl, tenantUrl })
 {
     let url = oriUrl;
     let msg = "Vous avez ajouté un nouveau état des lieux !"
@@ -28,6 +29,8 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
 
     let form = <EdlForm
         context={type}
+        propertyUrl={propertyUrl}
+        tenantUrl={tenantUrl}
         users={JSON.parse(users)}
         models={JSON.parse(models)}
         properties={JSON.parse(properties)}
@@ -134,7 +137,7 @@ export class EdlForm extends Component {
     }
 
     render () {
-        const { context, users, models, properties } = this.props;
+        const { context, users, models, properties, propertyUrl } = this.props;
         const { errors, success, attribution, structure, startDate, type, model, asideBienType, property } = this.state;
 
         let radioboxItems = [
@@ -157,7 +160,8 @@ export class EdlForm extends Component {
             asideBienContent = <PropertySelect ref={this.asideBienSelect} refAside={this.asideBien}
                                                onSetProperty={this.handleSetProperty} properties={properties}/>
         }else{
-            asideBienContent = <div>Create</div>
+            asideBienContent = <PropertyFormulaire refAside={this.asideBien} element={property}
+                                                   oriUrl={propertyUrl} type="check" onSetProperty={this.handleSetProperty} />
         }
 
         return <>

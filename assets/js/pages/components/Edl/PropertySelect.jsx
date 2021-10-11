@@ -75,7 +75,7 @@ export function BienItem ({ elem }) {
             </div>
             <div>
                 {parseFloat(elem.surface) > 0 && <div className="sub">{elem.surface} m²</div>}
-                {parseInt(elem.rooms) !== 0 && <div className="sub">{elem.rooms} {parseInt(elem.rooms) > 1 ? "pièces" : "pièce"}</div>}
+                {(parseInt(elem.rooms) !== 0 && elem.rooms !== "") && <div className="sub">{elem.rooms} {parseInt(elem.rooms) > 1 ? "pièces" : "pièce"}</div>}
                 {elem.floor !== "" && parseInt(elem.floor) !== 0 && <div className="sub">
                     {elem.floor} {parseInt(elem.floor )> 1 ? "étages" : "étage"}
                 </div>}
