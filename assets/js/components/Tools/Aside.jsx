@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Button} from "@dashboardComponents/Tools/Button";
 
 export class Aside extends Component {
     constructor (props) {
@@ -25,7 +26,7 @@ export class Aside extends Component {
             <div className="aside-content">
                 <div className="aside-title">
                     <span className="title">{title ? title : children}</span>
-                    <span className="icon-cancel" onClick={this.handleClose} />
+                    <Button outline={true} type="default" icon="cancel" onClick={this.handleClose}>Fermer</Button>
                 </div>
                 {content}
             </div>

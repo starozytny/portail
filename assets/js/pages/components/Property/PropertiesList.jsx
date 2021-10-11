@@ -22,7 +22,7 @@ export class PropertiesList extends Component {
                 </div>
 
                 <div className="items-table">
-                    <div className="items items-default items-contact">
+                    <div className="items items-default">
                         <div className="item item-header">
                             <div className="item-content">
                                 <div className="item-body">

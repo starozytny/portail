@@ -1,12 +1,8 @@
 @import "../../../vars/vars";
 
-.aside-title{
-  .title + .btn{
-    font-size: 16px;
-  }
-}
-
 .selected, .list-select{
+  width: 100%;
+
   .card{
     border: 1px solid var(--fond);
     margin-bottom: 24px;
@@ -59,6 +55,7 @@
     }
 
     .card-body{
+      @include flex(row, flex-start, space-between);
       padding: 12px;
     }
   }
@@ -71,22 +68,21 @@
 //                     | |  |_|\___/_____|  |_|    | |
 //                     |__|                       |__|
 @media (min-width: 1024px) {
-  .aside-select-bien, .aside-select-tenants{
+  .aside{
     width: 75%;
+  }
+  .list-select{
+    .cards{
+      @include flex(row, stretch, space-between);
+      flex-wrap: wrap;
+    }
 
-    .list-select{
-      .cards{
-        @include flex(row, stretch, space-between);
-        flex-wrap: wrap;
-      }
+    .card{
+      width: calc(50% - 12px);
 
-      .card{
-        width: calc(50% - 12px);
-
-        .card-header{
-          .title{
-            min-height: 75px;
-          }
+      .card-header{
+        .title{
+          min-height: 75px;
         }
       }
     }
@@ -99,12 +95,10 @@
 //   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
 //                     | |  |_|\___/ \___/ \___/   | |
 //                     |__|                       |__|
-@media (min-width: 1600px){
-  .aside-select-bien, .aside-select-tenants{
-    .list-select{
-      .card{
-        width: calc(33% - 12px);
-      }
+@media (min-width: 1600px) {
+  .list-select{
+    .card{
+      width: calc(33% - 12px);
     }
   }
 }

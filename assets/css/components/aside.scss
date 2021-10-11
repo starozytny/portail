@@ -1,5 +1,11 @@
 @import '../vars/vars.scss';
 
+.aside-title{
+  .title + .btn{
+    font-size: 16px;
+  }
+}
+
 .aside{
   position: fixed;
   top: 0; right: 0;

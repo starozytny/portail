@@ -26,6 +26,10 @@ function compareTitle(a, b){
     return comparison(a.title, b.title);
 }
 
+function compareReference(a, b){
+    return comparison(a.reference, b.reference);
+}
+
 function comparison (objA, objB){
     let comparison = 0;
     if (objA > objB) {
@@ -44,5 +48,6 @@ module.exports = {
     compareFirstname,
     compareTitle,
     compareName,
-    compareLabel
+    compareLabel,
+    compareReference
 }
