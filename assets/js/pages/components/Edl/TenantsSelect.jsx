@@ -2,16 +2,37 @@ import React, { Component } from "react";
 
 import Sort from "@dashboardComponents/functions/sort";
 
+import { Search } from "@dashboardComponents/Layout/Search";
+
+function searchFunction(dataImmuable, search){
+    let newData = [];
+    search = search.toLowerCase();
+    newData = dataImmuable.filter(function(v) {
+        if(v.reference.toLowerCase().startsWith(search)
+            || v.addr1.toLowerCase().startsWith(search)
+            || v.last_name.toLowerCase().startsWith(search)
+            || v.first_name.toLowerCase().startsWith(search)
+        ){
+            return v;
+        }
+    })
+
+    return newData;
+}
+
 export class TenantsSelect extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            elements: props.elements
+            elements: props.elements,
+            dataImmuable: props.tenants,
+            data: props.tenants
         }
 
         this.handleClick = this.handleClick.bind(this);
         this.handleSetTenants = this.handleSetTenants.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     handleClick = (elem) => {
@@ -23,14 +44,24 @@ export class TenantsSelect extends Component {
         this.setState({ elements: tenants })
     }
 
+    handleSearch = (search) => {
+        const { dataImmuable } = this.state;
+
+        if(search === "") {
+            this.setState({ data: dataImmuable });
+        }else{
+            let newData = searchFunction(dataImmuable, search);
+            this.setState({ data: newData });
+        }
+    }
+
     render () {
-        const { tenants } = this.props;
-        const { elements } = this.state;
+        const { elements, data } = this.state;
 
         let items = [];
-        if(tenants){
-            tenants.sort(Sort.compareReference)
-            tenants.forEach(elem => {
+        if(data){
+            data.sort(Sort.compareReference)
+            data.forEach(elem => {
                 let active = elements.includes(elem) ? " active" : ""
 
                 items.push(<div className={"card" + active} key={elem.id} onClick={() => this.handleClick(elem)}>
@@ -41,8 +72,8 @@ export class TenantsSelect extends Component {
 
         return <div className="list-select">
             <div className="toolbar">
-                <div className="line">
-                    <div>Search</div>
+                <div className="item filter-search">
+                    <Search onSearch={this.handleSearch} />
                 </div>
             </div>
             <div className="cards">
