@@ -12,8 +12,8 @@
 }
 
 .edl-list{
-  .toolbar{
-    margin-bottom: 24px;
+  .toolbar-filter{
+    @include flex(row, flex-start, space-between);
   }
 }
 
@@ -155,6 +155,29 @@
   }
 }
 
+.list-month{
+  .pagination{
+    border-bottom: 1px solid var(--fond);
+    padding-bottom: 12px;
+    justify-content: flex-end;
+    padding-right: 12px;
+  }
+
+  .item-pagination{
+    @include flex(row, center, center);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    min-width: 31px; min-height: 31px;
+    outline-color: var(--primaryShadow);
+
+    &:hover{
+      background-color: var(--primaryShadow);
+      color: var(--alpha);
+    }
+  }
+}
+
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
 //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
@@ -162,6 +185,16 @@
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
+  .edl-list{
+    .toolbar-filter{
+      justify-content: flex-start;
+
+      & > a + a{
+        display: inline-block;
+        margin-left: 12px;
+      }
+    }
+  }
   .list-month{
     .item{
       .col-1, .col-2, .col-3, .col-4, .col-5{
@@ -197,6 +230,11 @@
 //                     | |  |_|_____\___/ \___/   | |
 //                     |__|                      |__|
 @media (min-width:1280px) {
+  .list-month {
+    .pagination {
+      padding-right: 24px;
+    }
+  }
   .list-month{
     & > .title{
       padding: 24px;
