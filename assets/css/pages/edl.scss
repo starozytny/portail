@@ -107,6 +107,12 @@
       }
     }
 
+    .tenant{
+      & + .details{
+        margin-bottom: 12px;
+      }
+    }
+
     .tenant-title{
       margin-bottom: 4px;
     }

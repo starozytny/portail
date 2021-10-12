@@ -126,9 +126,9 @@
                                                     {% if elem.tenants | length > 0 %}
                                                         <div class="tenant-title"><u>Locataires</u> : </div>
                                                         {% for tenant in elem.tenants %}
-                                                            <div>
+                                                            <div class="tenant">
                                                                 <span class="icon-rec"></span>
-                                                                {{ tenant.first_name | capitalize }} {{ tenant.flast_name | upper }}
+                                                                {{ tenant.first_name | capitalize }} {{ tenant.last_name | upper }}
                                                             </div>
                                                             <div class="details tenant-details">
                                                                 <div class="sub"><u>Référence</u> : {{ tenant.reference }}</div>
