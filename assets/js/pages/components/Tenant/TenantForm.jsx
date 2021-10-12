@@ -6,10 +6,11 @@ import toastr                  from "toastr";
 import { Input }               from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
 import { Button }              from "@dashboardComponents/Tools/Button";
+import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
-import { FormLayout }          from "@dashboardComponents/Layout/Elements";
+import Sanitaze                from "@dashboardComponents/functions/sanitaze";
 
 export function TenantFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, onSetTenant, refAside })
 {
@@ -68,14 +69,24 @@ export class TenantForm extends Component {
             phone: props.phone,
             email: props.email,
             errors: [],
-            success: false
+            success: false,
+            arrayPostalCode: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChangePostalCodeCity = this.handleChangePostalCodeCity.bind(this);
     }
 
+    componentDidMount = () => { if(this.state.arrayPostalCode.length === 0) Sanitaze.getPostalCodes(this); }
+
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
+
+    handleChangePostalCodeCity = (e) => {
+        const { arrayPostalCode } = this.state;
+
+        Sanitaze.setCityFromZipcode(this, e, arrayPostalCode)
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -162,7 +173,7 @@ export class TenantForm extends Component {
                 </div>
 
                 <div className="line line-3">
-                    <Input valeur={zipcode} identifiant="zipcode" errors={errors} onChange={this.handleChange} >Code postal</Input>
+                    <Input valeur={zipcode} identifiant="zipcode" errors={errors} onChange={this.handleChangePostalCodeCity} type="number">Code postal</Input>
                     <Input valeur={city} identifiant="city" errors={errors} onChange={this.handleChange} >Ville</Input>
                     <div className="form-group"/>
                 </div>
