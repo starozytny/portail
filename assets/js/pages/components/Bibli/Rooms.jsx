@@ -4,7 +4,8 @@ import { Layout }   from "@dashboardComponents/Layout/Page";
 
 import Sort         from "@dashboardComponents/functions/sort";
 
-import { List }     from "./Rooms/List";
+import { List }           from "./Rooms/List";
+import { RoomFormulaire } from "./Rooms/Form";
 
 const URL_DELETE_ELEMENT = 'api_users_delete';
 const MSG_DELETE_ELEMENT = 'Supprimer cette pièce ?';
@@ -65,6 +66,8 @@ export class Rooms extends Component {
         this.handleGetFilters = this.handleGetFilters.bind(this);
 
         this.handleContentList = this.handleContentList.bind(this);
+        this.handleContentCreate = this.handleContentCreate.bind(this);
+        this.handleContentUpdate = this.handleContentUpdate.bind(this);
     }
 
     handleGetData = (self) => { self.handleSetDataPagination(JSON.stringify(this.props.data), SORTER); }
@@ -79,16 +82,26 @@ export class Rooms extends Component {
 
     handleSearch = (search) => { this.layout.current.handleSearch(search, searchFunction, true, filterFunction); }
 
+    handleContentCreate = (changeContext) => {
+        return <RoomFormulaire type="create" onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+    }
+
+    handleContentUpdate = (changeContext, element) => {
+        return <RoomFormulaire type="update" element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+    }
+
     handleContentList = (currentData, changeContext, getFilters, filters) => {
         return <List data={currentData}
-                     onChangeContext={this.handleChangeContext}
+                     onChangeContext={changeContext}
                      onGetFilters={this.handleGetFilters}
                      onSearch={this.handleSearch}
+                     onDelete={this.handleDelete}
                      filters={filters} />
     }
 
     render () {
         return <Layout ref={this.layout} {...this.state} onGetData={this.handleGetData}
-                       onContentList={this.handleContentList} />
+                       onContentList={this.handleContentList}
+                       onContentCreate={this.handleContentCreate} onContentUpdate={this.handleContentUpdate} />
     }
 }

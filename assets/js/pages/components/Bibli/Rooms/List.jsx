@@ -20,9 +20,7 @@ export class List extends Component {
     }
 
     render () {
-        const { data, onChangeContext, onSearch, onGetFilters, filters } = this.props;
-
-        console.log(data)
+        const { data, onChangeContext, onSearch, onGetFilters, filters, onDelete } = this.props;
 
         let itemsFiltersLabelArray = ["Libre", "Natif ou utilisé"];
         let itemsFiltersIdArray = ["f-libre", "f-natif"];
@@ -70,8 +68,8 @@ export class List extends Component {
                                             {el.is_native === "1" || el.is_used === "1" ?
                                                 <div className="role">Natif ou utilisé</div>
                                                 : <>
-                                                    <ButtonIcon icon="compose">Modifier</ButtonIcon>
-                                                    <ButtonIcon icon="delete">Supprimer</ButtonIcon>
+                                                    <ButtonIcon icon="compose" onClick={() => onChangeContext('update', el)}>Modifier</ButtonIcon>
+                                                    <ButtonIcon icon="delete" onClick={() => onDelete(el)}>Supprimer</ButtonIcon>
                                                 </>}
 
                                         </div>
