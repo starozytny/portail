@@ -58,7 +58,7 @@ class ElementService
                 'category'  => $category,
                 'family'    => $family,
                 'gender'    => $gender,
-                'variants'  => $variants,
+                'variants'  => json_encode($variants),
             ]
         ];
     }
@@ -120,7 +120,7 @@ class ElementService
             'category'      => (int) $data->category,
             'family'        => (int) $data->family,
             'gender'        => $data->gender,
-            'variants'      => "",
+            'variants'      => $data->variants,
         ];
     }
 }

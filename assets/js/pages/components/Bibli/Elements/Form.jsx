@@ -96,8 +96,9 @@ export class ElementForm extends Component {
             axios({ method: method, url: url, data: this.state })
                 .then(function (response) {
                     let data = response.data;
+                    console.log(response);
                     toastr.info(messageSuccess);
-                    location.reload();
+                    // location.reload();
                 })
                 .catch(function (error) {
                     console.log(error)
