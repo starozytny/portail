@@ -2,6 +2,9 @@
 
 @import "split/edl/aside";
 @import "split/edl/form";
+@import "../components/table";
+@import "../components/toolbar";
+@import "../components/toolbar-create-search";
 
 .inventories + .pagination{
   border-bottom: none;
