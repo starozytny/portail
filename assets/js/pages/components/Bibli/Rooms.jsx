@@ -7,7 +7,6 @@ import Sort         from "@dashboardComponents/functions/sort";
 import { List }           from "./Rooms/List";
 import { RoomFormulaire } from "./Rooms/Form";
 
-const URL_DELETE_ELEMENT = 'api_users_delete';
 const MSG_DELETE_ELEMENT = 'Supprimer cette pièce ?';
 const SORTER = Sort.compareName;
 
@@ -75,7 +74,7 @@ export class Rooms extends Component {
     handleUpdateList = (element, newContext=null) => { this.layout.current.handleUpdateList(element, newContext, SORTER); }
 
     handleDelete = (element) => {
-        this.layout.current.handleDelete(this, element, "", MSG_DELETE_ELEMENT);
+        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, MSG_DELETE_ELEMENT);
     }
 
     handleGetFilters = (filters) => { this.layout.current.handleGetFilters(filters, filterFunction); }
@@ -83,11 +82,11 @@ export class Rooms extends Component {
     handleSearch = (search) => { this.layout.current.handleSearch(search, searchFunction, true, filterFunction); }
 
     handleContentCreate = (changeContext) => {
-        return <RoomFormulaire type="create" onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <RoomFormulaire type="create" oriUrl={this.props.oriUrl} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <RoomFormulaire type="update" element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <RoomFormulaire type="update" oriUrl={this.props.oriUrl} element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     handleContentList = (currentData, changeContext, getFilters, filters) => {

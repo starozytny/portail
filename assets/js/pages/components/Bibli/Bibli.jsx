@@ -5,6 +5,8 @@ import { Alert }  from "@dashboardComponents/Tools/Alert";
 
 import { Rooms }  from "./Rooms";
 
+const URL = "bibliotheque/";
+
 export class Bibli extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +29,7 @@ export class Bibli extends Component {
         let content;
         switch (context){
             case "rooms":
-                content = <Rooms data={dataImmuable.rooms}/>
+                content = <Rooms oriUrl={URL + "room"} data={dataImmuable.rooms}/>
                 break;
             default:
                 content = <Alert>Veuillez cliquer sur un bouton (ci-dessus) pour afficher une liste d'éléments.</Alert>

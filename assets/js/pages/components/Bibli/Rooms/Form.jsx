@@ -11,15 +11,15 @@ import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
-export function RoomFormulaire ({ type, onChangeContext, onUpdateList, element })
+export function RoomFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl })
 {
     let title = "Ajouter une pièce";
-    let url = "";
+    let url = oriUrl;
     let msg = "Félicitation ! Vous avez ajouté une nouvelle pièce !"
 
     if(type === "update"){
         title = "Modifier " + element.name;
-        url = "";
+        url = oriUrl + "/" + element.id;
         msg = "Félicitation ! La mise à jour s'est réalisée avec succès !";
     }
 
@@ -59,7 +59,8 @@ export class RoomForm extends Component {
         const { context, url, messageSuccess } = this.props;
         const { name } = this.state;
 
-        this.setState({ success: false})
+        let method = context === "create" ? "POST" : "PUT";
+        this.setState({ success: false, errors: []})
 
         let paramsToValidate = [
             {type: "text", id: 'name', value: name},
@@ -74,22 +75,15 @@ export class RoomForm extends Component {
             Formulaire.loader(true);
             let self = this;
 
-            axios({ method: "POST", url: url, data: this.state })
+            axios({ method: method, url: url, data: this.state })
                 .then(function (response) {
                     let data = response.data;
-                    self.props.onUpdateList(data);
-                    self.setState({ success: messageSuccess, errors: [] });
-                    if(context === "create"){
-                        self.setState( {
-                            name: ""
-                        })
-                    }
+                    toastr.info(messageSuccess);
+                    location.reload();
                 })
                 .catch(function (error) {
-                    Formulaire.displayErrors(self, error);
-                })
-                .then(() => {
                     Formulaire.loader(false);
+                    Formulaire.displayErrors(self, error);
                 })
             ;
         }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Controller\AppController;
+use App\Controller\Bibli\RoomController;
 use App\Controller\EdlController;
 use App\Controller\PropertyController;
 use App\Controller\SecurityController;
@@ -52,6 +53,10 @@ return function (App $app) {
         $group->post('/tenant-check', [TenantController::class, 'check'])->setName('tenant_check');
 
         $group->get('/bibliotheque', [AppController::class, 'bibli'])->setName('bibli_index');
+
+        $group->post('/bibliotheque/room', [RoomController::class, 'create'])->setName('bibli_room_create');
+        $group->put('/bibliotheque/room/{id}', [RoomController::class, 'update'])->setName('bibli_room_update');
+        $group->delete('/bibliotheque/room/{id}', [RoomController::class, 'delete'])->setName('bibli_room_delete');
 
     })->add(UserAuthMiddleware::class);
 
