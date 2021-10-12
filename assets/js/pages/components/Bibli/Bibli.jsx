@@ -8,6 +8,7 @@ import { Rooms }    from "./Rooms";
 import { Aspects }  from "./Aspects";
 import { Natures }  from "./Natures";
 import { Counters } from "./Counters";
+import { Elements } from "./Elements";
 
 const URL = "bibliotheque/";
 
@@ -32,6 +33,9 @@ export class Bibli extends Component {
 
         let content;
         switch (context){
+            case "elements":
+                content = <Elements oriUrl={URL + "nature"} data={dataImmuable.elements}/>
+                break;
             case "natures":
                 content = <Natures oriUrl={URL + "nature"} data={dataImmuable.natures}/>
                 break;
