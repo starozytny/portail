@@ -2,20 +2,20 @@ import React, { Component } from "react";
 
 import Sort         from "@dashboardComponents/functions/sort";
 
-import { PageTemplate }      from "./Template/PageTemplate";
-import { List }              from "./Counters/List";
-import { CounterFormulaire } from "./Counters/Form";
+import { PageTemplate }   from "./Template/PageTemplate";
+import { List }           from "./Natures/List";
+import { NatureFormulaire } from "./Natures/Form";
 
-const MSG_DELETE_ELEMENT = 'Supprimer ce compteur ?';
+const MSG_DELETE_ELEMENT = 'Supprimer ce aspect ?';
 const SORTER = Sort.compareName;
 
-export class Counters extends Component {
+export class Natures extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             perPage: 20,
-            sessionName: "counters.pagination"
+            sessionName: "natures.pagination"
         }
 
         this.pageTemplate = React.createRef();
@@ -26,11 +26,11 @@ export class Counters extends Component {
     }
 
     handleContentCreate = (changeContext) => {
-        return <CounterFormulaire type="create" oriUrl={this.props.oriUrl} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <NatureFormulaire type="create" oriUrl={this.props.oriUrl} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <CounterFormulaire type="update" oriUrl={this.props.oriUrl} element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <NatureFormulaire type="update" oriUrl={this.props.oriUrl} element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     handleContentList = (currentData, changeContext, getFilters, filters) => {

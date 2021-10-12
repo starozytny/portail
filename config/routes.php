@@ -1,8 +1,10 @@
 <?php
 
 use App\Controller\AppController;
+use App\Controller\Bibli\AspectController;
 use App\Controller\Bibli\CounterController;
 use App\Controller\Bibli\KeyController;
+use App\Controller\Bibli\NatureController;
 use App\Controller\Bibli\RoomController;
 use App\Controller\EdlController;
 use App\Controller\PropertyController;
@@ -67,6 +69,14 @@ return function (App $app) {
         $group->post('/bibliotheque/key', [KeyController::class, 'create'])->setName('bibli_key_create');
         $group->put('/bibliotheque/key/{id}', [KeyController::class, 'update'])->setName('bibli_key_update');
         $group->delete('/bibliotheque/key/{id}', [KeyController::class, 'delete'])->setName('bibli_key_delete');
+
+        $group->post('/bibliotheque/aspect', [AspectController::class, 'create'])->setName('bibli_aspect_create');
+        $group->put('/bibliotheque/aspect/{id}', [AspectController::class, 'update'])->setName('bibli_aspect_update');
+        $group->delete('/bibliotheque/aspect/{id}', [AspectController::class, 'delete'])->setName('bibli_aspect_delete');
+
+        $group->post('/bibliotheque/nature', [NatureController::class, 'create'])->setName('bibli_nature_create');
+        $group->put('/bibliotheque/nature/{id}', [NatureController::class, 'update'])->setName('bibli_nature_update');
+        $group->delete('/bibliotheque/nature/{id}', [NatureController::class, 'delete'])->setName('bibli_nature_delete');
 
     })->add(UserAuthMiddleware::class);
 

@@ -3,9 +3,11 @@ import React, { Component } from "react";
 import { Button } from "@dashboardComponents/Tools/Button";
 import { Alert }  from "@dashboardComponents/Tools/Alert";
 
-import { Rooms }    from "./Rooms";
-import { Counters } from "./Counters";
 import { Keys }     from "./Keys";
+import { Rooms }    from "./Rooms";
+import { Aspects }  from "./Aspects";
+import { Natures }  from "./Natures";
+import { Counters } from "./Counters";
 
 const URL = "bibliotheque/";
 
@@ -30,6 +32,12 @@ export class Bibli extends Component {
 
         let content;
         switch (context){
+            case "natures":
+                content = <Natures oriUrl={URL + "nature"} data={dataImmuable.natures}/>
+                break;
+            case "aspects":
+                content = <Aspects oriUrl={URL + "aspect"} data={dataImmuable.aspects}/>
+                break;
             case "keys":
                 content = <Keys oriUrl={URL + "key"} data={dataImmuable.keys}/>
                 break;
@@ -48,9 +56,9 @@ export class Bibli extends Component {
             {value: "rooms",    label: "Pièces"},
             {value: "keys",     label: "Clés"},
             {value: "counters", label: "Compteurs"},
-            {value: "elements", label: "Elements"},
             {value: "natures",  label: "Natures"},
             {value: "aspects",  label: "Aspects"},
+            {value: "elements", label: "Elements"},
         ]
 
         return <>

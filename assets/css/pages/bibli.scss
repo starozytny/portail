@@ -29,7 +29,7 @@
     }
   }
 
-  .toolbar-rooms{
+  .toolbar-rooms, .toolbar-aspects{
     .filter-search{
       width: calc(100% - 172px - 24px);
     }
@@ -44,6 +44,12 @@
   .toolbar-keys{
     .filter-search{
       width: calc(100% - 154px - 24px);
+    }
+  }
+
+  .toolbar-natures{
+    .filter-search{
+      width: calc(100% - 179px - 24px);
     }
   }
 }
