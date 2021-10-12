@@ -207,6 +207,10 @@ class AppController
 
     public function bibli(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return $this->twig->render($response, 'app/pages/bibli/index.twig');
+        $objs = $this->apiService->callApi('library');
+
+        return $this->twig->render($response, 'app/pages/bibli/index.twig', [
+            'data' => $objs
+        ]);
     }
 }
