@@ -3,7 +3,8 @@ import React, { Component } from "react";
 import { Button } from "@dashboardComponents/Tools/Button";
 import { Alert }  from "@dashboardComponents/Tools/Alert";
 
-import { Rooms }  from "./Rooms";
+import { Rooms }    from "./Rooms";
+import { Counters } from "./Counters";
 
 const URL = "bibliotheque/";
 
@@ -28,6 +29,9 @@ export class Bibli extends Component {
 
         let content;
         switch (context){
+            case "counters":
+                content = <Counters oriUrl={URL + "counter"} data={dataImmuable.counters}/>
+                break;
             case "rooms":
                 content = <Rooms oriUrl={URL + "room"} data={dataImmuable.rooms}/>
                 break;

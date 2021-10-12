@@ -31,9 +31,9 @@ export class List extends Component {
         ]
 
         return <>
-            <div className="toolbar toolbar-rooms">
+            <div className="toolbar toolbar-counters">
                 <div className="item create">
-                    <Button onClick={() => onChangeContext("create")}>Ajouter une pièce</Button>
+                    <Button onClick={() => onChangeContext("create")}>Ajouter un compteur</Button>
                 </div>
                 <div className="item filter-search">
                     <Filter ref={this.filter} items={itemsFilter} onGetFilters={onGetFilters} />
@@ -63,6 +63,7 @@ export class List extends Component {
                                             <div className="name">
                                                 <span>{Sanitaze.capitalize(el.name)}</span>
                                             </div>
+                                            <div className="sub">{el.unit}</div>
                                         </div>
                                         <div className="col-2 actions">
                                             {el.is_native === "1" || el.is_used === "1" ?

@@ -29,9 +29,15 @@
     }
   }
 
-  .toolbar{
+  .toolbar-rooms{
     .filter-search{
       width: calc(100% - 172px - 24px);
+    }
+  }
+
+  .toolbar-counters{
+    .filter-search{
+      width: calc(100% - 192px - 24px);
     }
   }
 }

@@ -36,7 +36,7 @@ class RoomController
         if($type == "create"){
             $res = $this->apiService->callApiWithErrors('library/add_room/', 'POST', false, $dataToSend);
         }else{
-            $res = $this->apiService->callApiWithErrors('library/edit_room/' . $id, 'PUT', false, $dataToSend);
+            $res = $this->apiService->callApiWithErrors('library/edit_room/' . $id, 'POST', false, $dataToSend);
         }
 
        return $res;
