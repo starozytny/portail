@@ -11,11 +11,11 @@ import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
-export function CounterFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl })
+export function KeyFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl })
 {
-    let title = "Ajouter un compteur";
+    let title = "Ajouter une clé";
     let url = oriUrl;
-    let msg = "Félicitation ! Vous avez ajouté un nouveau compteur !"
+    let msg = "Félicitation ! Vous avez ajouté une nouvelle clé !"
 
     if(type === "update"){
         title = "Modifier " + element.name;
@@ -23,11 +23,10 @@ export function CounterFormulaire ({ type, onChangeContext, onUpdateList, elemen
         msg = "Félicitation ! La mise à jour s'est réalisée avec succès !";
     }
 
-    let form = <CounterForm
+    let form = <KeyForm
         context={type}
         url={url}
         name={element ? element.name : ""}
-        unit={element ? element.unit : ""}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         messageSuccess={msg}
@@ -36,13 +35,12 @@ export function CounterFormulaire ({ type, onChangeContext, onUpdateList, elemen
     return <FormLayout onChangeContext={onChangeContext} form={form}>{title}</FormLayout>
 }
 
-export class CounterForm extends Component {
+export class KeyForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             name: props.name,
-            unit: props.unit,
             errors: [],
             success: false
         }
@@ -59,14 +57,13 @@ export class CounterForm extends Component {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { name, unit } = this.state;
+        const { name } = this.state;
 
         let method = context === "create" ? "POST" : "PUT";
         this.setState({ success: false, errors: []})
 
         let paramsToValidate = [
             {type: "text", id: 'name', value: name},
-            {type: "text", id: 'unit', value: unit},
         ];
 
         // validate global
@@ -94,20 +91,19 @@ export class CounterForm extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, success, name, unit } = this.state;
+        const { errors, success, name } = this.state;
 
         return <>
             <form onSubmit={this.handleSubmit}>
 
                 {success !== false && <Alert type="info">{success}</Alert>}
 
-                <div className="line line-2">
+                <div className="line">
                     <Input valeur={name} identifiant="name" errors={errors} onChange={this.handleChange} >Intitulé</Input>
-                    <Input valeur={unit} identifiant="unit" errors={errors} onChange={this.handleChange} >Unité</Input>
                 </div>
                 <div className="line">
                     <div className="form-button">
-                        <Button isSubmit={true}>{context === "create" ? "Ajouter ce compteur" : 'Modifier ce compteur'}</Button>
+                        <Button isSubmit={true}>{context === "create" ? "Ajouter cette clé" : 'Modifier cette clé'}</Button>
                     </div>
                 </div>
             </form>

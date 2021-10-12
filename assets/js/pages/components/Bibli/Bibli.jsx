@@ -5,6 +5,7 @@ import { Alert }  from "@dashboardComponents/Tools/Alert";
 
 import { Rooms }    from "./Rooms";
 import { Counters } from "./Counters";
+import { Keys }     from "./Keys";
 
 const URL = "bibliotheque/";
 
@@ -29,6 +30,9 @@ export class Bibli extends Component {
 
         let content;
         switch (context){
+            case "keys":
+                content = <Keys oriUrl={URL + "key"} data={dataImmuable.keys}/>
+                break;
             case "counters":
                 content = <Counters oriUrl={URL + "counter"} data={dataImmuable.counters}/>
                 break;
