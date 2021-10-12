@@ -1,60 +1,94 @@
 import React, { Component } from "react";
 
-import { Page }         from "@dashboardComponents/Layout/Page";
+import { Layout }   from "@dashboardComponents/Layout/Page";
 
-import Sort             from "@dashboardComponents/functions/sort";
+import Sort         from "@dashboardComponents/functions/sort";
 
-import { List }         from "./Rooms/List";
-import { LoaderElement } from "@dashboardComponents/Layout/Loader";
+import { List }     from "./Rooms/List";
 
+const URL_DELETE_ELEMENT = 'api_users_delete';
+const MSG_DELETE_ELEMENT = 'Supprimer cette pièce ?';
 const SORTER = Sort.compareName;
+
+function searchFunction(dataImmuable, search){
+    let newData = [];
+    search = search.toLowerCase();
+    newData = dataImmuable.filter(function(v) {
+        if(v.name.toLowerCase().startsWith(search)){
+            return v;
+        }
+    })
+
+    return newData;
+}
+
+function filterFunction(dataImmuable, filters){
+    let newData = [];
+    if(filters.length === 0) {
+        newData = dataImmuable
+    }else{
+        dataImmuable.forEach(el => {
+            filters.forEach(filter => {
+                if(filter === 0){
+                    if(el.is_native === "0" && el.is_used === "0"){
+                        newData.filter(elem => elem.id !== el.id)
+                        newData.push(el);
+                    }
+                }else{
+                    if(el.is_native === "1" || el.is_used === "1"){
+                        newData.filter(elem => elem.id !== el.id)
+                        newData.push(el);
+                    }
+                }
+            })
+        })
+    }
+
+    return newData;
+}
 
 export class Rooms extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            context: "list",
-            loadData: true,
             perPage: 20,
             sessionName: "rooms.pagination"
         }
 
-        this.page = React.createRef();
+        this.layout = React.createRef();
 
-        this.handleUpdateData = this.handleUpdateData.bind(this);
+        this.handleGetData = this.handleGetData.bind(this);
+        this.handleUpdateList = this.handleUpdateList.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleGetFilters = this.handleGetFilters.bind(this);
+
+        this.handleContentList = this.handleContentList.bind(this);
     }
 
-    componentDidMount = () => {
-        const { data } = this.props;
-        const { perPage } = this.state;
+    handleGetData = (self) => { self.handleSetDataPagination(JSON.stringify(this.props.data), SORTER); }
 
-        data.sort(SORTER)
-        this.setState({ dataImmuable: data, data: data, currentData: data.slice(0, perPage), loadData: false });
+    handleUpdateList = (element, newContext=null) => { this.layout.current.handleUpdateList(element, newContext, SORTER); }
+
+    handleDelete = (element) => {
+        this.layout.current.handleDelete(this, element, "", MSG_DELETE_ELEMENT);
     }
 
-    handleUpdateData = (data) => { this.setState({ currentData: data })  }
+    handleGetFilters = (filters) => { this.layout.current.handleGetFilters(filters, filterFunction); }
+
+    handleSearch = (search) => { this.layout.current.handleSearch(search, searchFunction, true, filterFunction); }
+
+    handleContentList = (currentData, changeContext, getFilters, filters) => {
+        return <List data={currentData}
+                     onChangeContext={this.handleChangeContext}
+                     onGetFilters={this.handleGetFilters}
+                     onSearch={this.handleSearch}
+                     filters={filters} />
+    }
 
     render () {
-        const { context, data, currentData, sessionName, loadData, perPage } = this.state;
-
-        console.log(data)
-
-        let content, havePagination = false;
-        switch (context){
-            case "create":
-                content = <div>Create</div>
-                break;
-            default:
-                havePagination = true;
-                content = loadData ? <LoaderElement /> : <List data={currentData} />
-                break;
-        }
-
-        return <Page ref={this.page} haveLoadPageError={false} sessionName={sessionName} perPage={perPage}
-                     havePagination={havePagination} taille={data && data.length} data={data} onUpdate={this.handleUpdateData}
-        >
-            {content}
-        </Page>
+        return <Layout ref={this.layout} {...this.state} onGetData={this.handleGetData}
+                       onContentList={this.handleContentList} />
     }
 }

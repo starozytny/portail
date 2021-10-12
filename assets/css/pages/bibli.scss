@@ -2,8 +2,10 @@
 
 @import "../components/table";
 @import "../components/toolbar";
+@import "../components/filter";
+@import "../components/dropdown";
 
-.toolbar{
+.toolbar-menu{
   .item{
     margin-bottom: 12px;
 
@@ -20,10 +22,16 @@
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
-  .toolbar{
+  .toolbar-menu{
     .item{
       margin-bottom: 0;
       margin-right: 12px;
+    }
+  }
+
+  .toolbar{
+    .filter-search{
+      width: calc(100% - 172px - 24px);
     }
   }
 }

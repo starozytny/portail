@@ -44,7 +44,7 @@ export class Bibli extends Component {
         ]
 
         return <>
-            <div className="toolbar">
+            <div className="toolbar toolbar-menu">
                 {menu.map((item, index) => {
                     let active = item.value === context;
                     return <div className="item" key={index}>
