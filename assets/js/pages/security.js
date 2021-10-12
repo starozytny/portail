@@ -6,6 +6,15 @@ import toastr from 'toastr';
 import Aside from '../components/functions/aside';
 import Validateur from '../components/functions/validateur';
 
+import React from "react";
+import { render } from "react-dom";
+import { Reinit } from "./components/Security/Reinit";
+
+let el = document.getElementById("reinit");
+if(el){
+    render(<Reinit {...el.dataset} />, el)
+}
+
 //*****
 // Voir/Cacher le mot de passe
 //*****

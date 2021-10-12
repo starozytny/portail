@@ -3,11 +3,15 @@
 {% block title %}Réinitialisation de mot de passe{% endblock %}
 
 {% block main_content %}
-    <h1>Lien expiré</h1>
-    <p>
-        Ce lien de réinitialisation de mot de passe a expiré. Veuillez recommencer la procédure. <br><br>
-    </p>
-    <div class="exceptions-actions">
-        <a href="{{ url_for('homepage') }}" class="btn btn-color0">Revenir à la page de connexion</a>
-    </div>
+    {% if error is defined %}
+        <h1>Lien expiré</h1>
+        <p>
+            Ce lien de réinitialisation de mot de passe a expiré. Veuillez recommencer la procédure. <br><br>
+        </p>
+        <div class="exceptions-actions">
+            <a href="{{ url_for('homepage') }}" class="btn btn-color0">Revenir à la page de connexion</a>
+        </div>
+    {% else %}
+        <div id="reinit"></div>
+    {% endif %}
 {% endblock %}
