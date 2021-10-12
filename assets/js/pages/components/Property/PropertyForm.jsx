@@ -22,7 +22,7 @@ export function PropertyFormulaire ({ type, onChangeContext, onUpdateList, eleme
     if(type === "update"){
         title = "Modifier " + element.reference;
         url = oriUrl + "/" + element.id;
-        msg = "La mise à jour s'est réalisé avec succès !";
+        msg = "La mise à jour s'est réalisée avec succès !";
     }
 
     if(type === "check"){
@@ -138,18 +138,16 @@ export class PropertyForm extends Component {
                     let data = response.data;
                     if(context !== "check"){
                         location.reload();
+                        toastr.info(messageSuccess);
                     }else{
+                        Formulaire.loader(false);
                         self.props.onSetProperty(data);
                         self.props.refAside.current.handleClose();
                     }
                 })
                 .catch(function (error) {
-                    console.log(error)
-                    console.log(error.response)
-                    Formulaire.displayErrors(self, error);
-                })
-                .then(() => {
                     Formulaire.loader(false);
+                    Formulaire.displayErrors(self, error);
                 })
             ;
         }

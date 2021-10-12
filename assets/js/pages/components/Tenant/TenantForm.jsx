@@ -22,7 +22,7 @@ export function TenantFormulaire ({ type, onChangeContext, onUpdateList, element
     if(type === "update"){
         title = "Modifier " + element.reference;
         url = oriUrl + "/" + element.id;
-        msg = "La mise à jour s'est réalisé avec succès !";
+        msg = "La mise à jour s'est réalisée avec succès !";
     }
 
     if(type === "check"){
@@ -126,20 +126,17 @@ export class TenantForm extends Component {
                 .then(function (response) {
                     let data = response.data;
                     if(context !== "check"){
+                        toastr.info(messageSuccess);
                         location.reload();
                     }else{
-                        console.log(data)
+                        Formulaire.loader(false);
                         self.props.onSetTenant(data);
                         self.props.refAside.current.handleClose();
                     }
                 })
                 .catch(function (error) {
-                    console.log(error)
-                    console.log(error.response)
-                    Formulaire.displayErrors(self, error);
-                })
-                .then(() => {
                     Formulaire.loader(false);
+                    Formulaire.displayErrors(self, error);
                 })
             ;
         }
