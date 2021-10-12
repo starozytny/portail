@@ -1,55 +1,60 @@
 import React, { Component } from "react";
 
-import { ButtonIcon }   from "@dashboardComponents/Tools/Button";
+import { Page }         from "@dashboardComponents/Layout/Page";
 
-import Sanitaze         from "@dashboardComponents/functions/sanitaze";
+import Sort             from "@dashboardComponents/functions/sort";
+
+import { List }         from "./Rooms/List";
+import { LoaderElement } from "@dashboardComponents/Layout/Loader";
+
+const SORTER = Sort.compareName;
 
 export class Rooms extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            context: "list",
+            loadData: true,
+            perPage: 20,
+            sessionName: "rooms.pagination"
+        }
+
+        this.page = React.createRef();
+
+        this.handleUpdateData = this.handleUpdateData.bind(this);
     }
 
-    render () {
+    componentDidMount = () => {
         const { data } = this.props;
+        const { perPage } = this.state;
+
+        data.sort(SORTER)
+        this.setState({ dataImmuable: data, data: data, currentData: data.slice(0, perPage), loadData: false });
+    }
+
+    handleUpdateData = (data) => { this.setState({ currentData: data })  }
+
+    render () {
+        const { context, data, currentData, sessionName, loadData, perPage } = this.state;
 
         console.log(data)
 
-        return <>
-            <div className="item item-header">
-                <div className="item-content">
-                    <div className="item-body">
-                        <div className="infos infos-col-2">
-                            <div className="col-1">Intitulé</div>
-                            <div className="col-2 actions">Actions</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {data.map(el => {
-                return (<div className="item" key={el.id}>
-                    <div className="item-content">
-                        <div className="item-body">
-                            <div className="infos infos-col-2">
-                                <div className="col-1">
-                                    <div className="name">
-                                        <span>{Sanitaze.capitalize(el.name)}</span>
-                                    </div>
-                                </div>
-                                <div className="col-2 actions">
-                                    {el.is_native === "1" || el.is_used === "1" ?
-                                        <div className="role">Natif ou utilisé</div>
-                                        : <>
-                                            <ButtonIcon icon="pencil">Modifier</ButtonIcon>
-                                            <ButtonIcon icon="trash">Supprimer</ButtonIcon>
-                                        </>}
+        let content, havePagination = false;
+        switch (context){
+            case "create":
+                content = <div>Create</div>
+                break;
+            default:
+                havePagination = true;
+                content = loadData ? <LoaderElement /> : <List data={currentData} />
+                break;
+        }
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>)
-            })}
-        </>
+        return <Page ref={this.page} haveLoadPageError={false} sessionName={sessionName} perPage={perPage}
+                     havePagination={havePagination} taille={data && data.length} data={data} onUpdate={this.handleUpdateData}
+        >
+            {content}
+        </Page>
     }
 }
