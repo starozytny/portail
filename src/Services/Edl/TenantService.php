@@ -82,11 +82,14 @@ class TenantService
         $objs = $this->apiService->callApi('tenants');
         foreach($objs as $obj){
             if($obj->id != $id) {
-                if ($obj->reference == mb_strtoupper($reference)) {
+                if (mb_strtoupper($obj->reference) == mb_strtoupper($reference)) {
                     return ['code' => 0, 'data' => [['name' => 'reference', 'message' => "Ce locataire existe déjà."]]];
                 }
 
-                if ($obj->addr1 == $addr1 && $obj->last_name == $lastname && $obj->first_name == $firstname) {
+                if (mb_strtoupper($obj->addr1) == mb_strtoupper($addr1) &&
+                    mb_strtoupper($obj->last_name) == mb_strtoupper($lastname) &&
+                    mb_strtoupper($obj->first_name) == mb_strtoupper($firstname)
+                ) {
                     return ['code' => 0, 'data' => [['name' => 'lastname', 'message' => "Ce locataire existe déjà."]]];
                 }
             }

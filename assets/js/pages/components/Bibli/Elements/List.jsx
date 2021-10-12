@@ -56,7 +56,7 @@ export class List extends Component {
                                 </div>
                             </div>
                             <div className="col-3">
-                                {JSON.parse(el.variants).map((va, index) => {
+                                {el.variants !== "" && JSON.parse(el.variants).map((va, index) => {
                                     return <div className="sub" key={index}>{Sanitaze.capitalize(va)}</div>
                                 })}
                             </div>

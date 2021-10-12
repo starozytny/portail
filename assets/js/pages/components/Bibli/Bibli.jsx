@@ -34,7 +34,7 @@ export class Bibli extends Component {
         let content;
         switch (context){
             case "elements":
-                content = <Elements oriUrl={URL + "nature"} data={dataImmuable.elements}
+                content = <Elements oriUrl={URL + "element"} data={dataImmuable.elements}
                                     categories={dataImmuable.categories}
                                     natures={dataImmuable.natures}
                                     elemsNatures={dataImmuable.element_natures}

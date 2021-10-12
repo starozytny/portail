@@ -3,6 +3,7 @@
 use App\Controller\AppController;
 use App\Controller\Bibli\AspectController;
 use App\Controller\Bibli\CounterController;
+use App\Controller\Bibli\ElementController;
 use App\Controller\Bibli\KeyController;
 use App\Controller\Bibli\NatureController;
 use App\Controller\Bibli\RoomController;
@@ -77,6 +78,10 @@ return function (App $app) {
         $group->post('/bibliotheque/nature', [NatureController::class, 'create'])->setName('bibli_nature_create');
         $group->put('/bibliotheque/nature/{id}', [NatureController::class, 'update'])->setName('bibli_nature_update');
         $group->delete('/bibliotheque/nature/{id}', [NatureController::class, 'delete'])->setName('bibli_nature_delete');
+
+        $group->post('/bibliotheque/element', [ElementController::class, 'create'])->setName('bibli_element_create');
+        $group->put('/bibliotheque/element/{id}', [ElementController::class, 'update'])->setName('bibli_element_update');
+        $group->delete('/bibliotheque/element/{id}', [ElementController::class, 'delete'])->setName('bibli_element_delete');
 
     })->add(UserAuthMiddleware::class);
 

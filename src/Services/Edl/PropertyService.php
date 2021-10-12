@@ -23,7 +23,7 @@ class PropertyService
     public function validateData($data, $id): array
     {
         $typeBien       = $this->sanitizeData->clean($data->typeBien);
-        $reference      = $this->sanitizeData->clean($data->reference);
+        $reference      = $this->sanitizeData->clean(mb_strtoupper($data->reference));
         $owner          = $this->sanitizeData->clean($data->owner);
         $building       = $this->sanitizeData->clean($data->building);
         $addr1          = $this->sanitizeData->clean($data->addr1);
@@ -91,11 +91,15 @@ class PropertyService
         $properties = $this->apiService->callApi('properties');
         foreach($properties as $property){
             if($property->id != $id) {
-                if ($property->reference == $reference) {
+                if (mb_strtoupper($property->reference) == mb_strtoupper($reference)) {
                     return ['code' => 0, 'data' => [['name' => 'reference', 'message' => "Ce bien existe déjà."]]];
                 }
 
-                if ($property->addr1 == $addr1 && $property->city == $city && $property->zipcode == $zipcode && $property->is_furnished == $isFurnished) {
+                if (mb_strtoupper($property->addr1) == mb_strtoupper($addr1) &&
+                    mb_strtoupper($property->city) == mb_strtoupper($city) &&
+                    mb_strtoupper($property->zipcode) == mb_strtoupper($zipcode) &&
+                    mb_strtoupper($property->is_furnished) == mb_strtoupper($isFurnished)
+                ) {
                     return ['code' => 0, 'data' => [['name' => 'addr1', 'message' => "Ce bien existe déjà."]]];
                 }
             }

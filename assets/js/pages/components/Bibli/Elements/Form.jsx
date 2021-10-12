@@ -28,11 +28,11 @@ export function ElementFormulaire ({ type, onChangeContext, onUpdateList, elemen
         context={type}
         url={url}
         name={element ? element.name : ""}
-        gender={element ? element.gender.substr(0,1) : ""}
-        orthog={element ? element.gender.substr(1) : ""}
+        gender={(element && element.gender.substr(0,1) === "f") ? 1 : 0}
+        orthog={(element && element.gender.substr(1) === "p") ? 1 : 0}
         category={element ? parseInt(element.category) : 1}
         family={element ? parseInt(element.family) : 0}
-        variants={element ? JSON.parse(element.variants) : []}
+        variants={(element && element.variants !== "") ? JSON.parse(element.variants) : []}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         messageSuccess={msg}
@@ -97,9 +97,11 @@ export class ElementForm extends Component {
                 .then(function (response) {
                     let data = response.data;
                     toastr.info(messageSuccess);
-                    // location.reload();
+                    location.reload();
                 })
                 .catch(function (error) {
+                    console.log(error)
+                    console.log(error.response)
                     Formulaire.loader(false);
                     Formulaire.displayErrors(self, error);
                 })
