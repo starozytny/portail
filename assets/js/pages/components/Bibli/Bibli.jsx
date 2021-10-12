@@ -10,7 +10,7 @@ export class Bibli extends Component {
         super(props);
 
         this.state = {
-            context: null,
+            context: "rooms",
             dataImmuable: JSON.parse(props.donnees)
         }
 
@@ -27,7 +27,7 @@ export class Bibli extends Component {
         let content;
         switch (context){
             case "rooms":
-                content = <Rooms />
+                content = <Rooms data={dataImmuable.rooms}/>
                 break;
             default:
                 content = <Alert>Veuillez cliquer sur un bouton (ci-dessus) pour afficher une liste d'éléments.</Alert>
@@ -45,9 +45,9 @@ export class Bibli extends Component {
 
         return <>
             <div className="toolbar">
-                {menu.map(item => {
+                {menu.map((item, index) => {
                     let active = item.value === context;
-                    return <div className="item">
+                    return <div className="item" key={index}>
                         <Button outline={!active} type={active ? "color0" : "default"} onClick={() => this.handleChangeContext(item.value)}>{item.label}</Button>
                     </div>
                 })}

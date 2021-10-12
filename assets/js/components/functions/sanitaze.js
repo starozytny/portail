@@ -121,6 +121,16 @@ function addZeroForDate(elem) {
     return elem <= 9 ? "0" + elem : elem;
 }
 
+function capitalize(elem) {
+    if(elem.length !== 0){
+        let first = elem.substr(0, 1);
+        elem = elem.substr(1);
+        elem = first.toUpperCase() + elem;
+    }
+
+    return elem;
+}
+
 module.exports = {
     sanitizeString,
     getPostalCodes,
@@ -131,5 +141,6 @@ module.exports = {
     toFormatCurrency,
     getTrilieanResponse,
     setCityFromZipcode,
-    addZeroForDate
+    addZeroForDate,
+    capitalize
 }
