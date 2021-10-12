@@ -1,0 +1,25 @@
+{% extends 'app/layout/layout.twig' %}
+
+{% block title %}Bibliothèque {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% webpack_entry_css 'bibli' %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="page-title">
+        <div class="page-title-container">
+            <h1>Bibliothèque</h1>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% webpack_entry_js 'bibli' %}
+{% endblock %}

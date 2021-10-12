@@ -204,4 +204,9 @@ class AppController
             'data' => $data
         ]);
     }
+
+    public function bibli(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        return $this->twig->render($response, 'app/pages/bibli/index.twig');
+    }
 }

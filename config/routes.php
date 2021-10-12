@@ -51,6 +51,8 @@ return function (App $app) {
         $group->delete('/tenant/{id}', [TenantController::class, 'delete'])->setName('tenant_delete');
         $group->post('/tenant-check', [TenantController::class, 'check'])->setName('tenant_check');
 
+        $group->get('/bibliotheque', [AppController::class, 'bibli'])->setName('bibli_index');
+
     })->add(UserAuthMiddleware::class);
 
 };
