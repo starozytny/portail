@@ -17,7 +17,7 @@ export class Bibli extends Component {
         super(props);
 
         this.state = {
-            context: "rooms",
+            context: "elements",
             dataImmuable: JSON.parse(props.donnees)
         }
 
@@ -34,7 +34,11 @@ export class Bibli extends Component {
         let content;
         switch (context){
             case "elements":
-                content = <Elements oriUrl={URL + "nature"} data={dataImmuable.elements}/>
+                content = <Elements oriUrl={URL + "nature"} data={dataImmuable.elements}
+                                    categories={dataImmuable.categories}
+                                    natures={dataImmuable.natures}
+                                    elemsNatures={dataImmuable.element_natures}
+                            />
                 break;
             case "natures":
                 content = <Natures oriUrl={URL + "nature"} data={dataImmuable.natures}/>

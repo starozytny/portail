@@ -39,6 +39,9 @@ export class Elements extends Component {
                      onGetFilters={this.pageTemplate.current.handleGetFilters}
                      onSearch={this.pageTemplate.current.handleSearch}
                      onDelete={this.pageTemplate.current.handleDelete}
+                     categories={this.props.categories}
+                     natures={this.props.natures}
+                     elemsNatures={this.props.elemsNatures}
                      filters={filters} />
     }
 
