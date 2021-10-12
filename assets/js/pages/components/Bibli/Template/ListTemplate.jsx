@@ -18,7 +18,7 @@ export class ListTemplate extends Component {
     }
 
     render () {
-        const { data, onChangeContext, onSearch, onGetFilters, filters, onDelete, content, classToolbar, addName } = this.props;
+        const { onChangeContext, onSearch, onGetFilters, filters, content, classToolbar, addName } = this.props;
 
         let itemsFiltersLabelArray = ["Libre", "Natif ou utilisé"];
         let itemsFiltersIdArray = ["f-libre", "f-natif"];
