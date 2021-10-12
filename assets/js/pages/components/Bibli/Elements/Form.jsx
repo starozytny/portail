@@ -5,7 +5,7 @@ import toastr                  from "toastr";
 
 import {Input, Radiobox, Select} from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
-import { Button }              from "@dashboardComponents/Tools/Button";
+import {Button, ButtonIcon} from "@dashboardComponents/Tools/Button";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 import Validateur              from "@dashboardComponents/functions/validateur";
@@ -55,16 +55,41 @@ export class ElementForm extends Component {
             category: props.category,
             family: props.family,
             variants: props.variants,
+            variant: "",
             errors: [],
             success: false
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAddVariant = this.handleAddVariant.bind(this);
+        this.handleRemoveVariant = this.handleRemoveVariant.bind(this);
     }
 
     handleChange = (e) => {
         this.setState({[e.currentTarget.name]: e.currentTarget.value})
+    }
+
+    handleAddVariant = (e) => {
+        const { variants, variant } = this.state;
+
+        if(variant !== ""){
+            let newVariants = [];
+            if(!variants.includes(variant)){
+                newVariants = variants;
+                newVariants.push(variant);
+                // newVariants = variants.filter(v => { return v !== variant });
+
+                this.setState({ variants: newVariants });
+            }
+        }
+    }
+
+    handleRemoveVariant = (variant) => {
+        const { variants } = this.state;
+
+        let newVariants = variants.filter(v => { return v !== variant });
+        this.setState({ variants: newVariants });
     }
 
     handleSubmit = (e) => {
@@ -112,7 +137,7 @@ export class ElementForm extends Component {
 
     render () {
         const { context, categories } = this.props;
-        const { errors, success, name, gender, orthog, category, family, variants } = this.state;
+        const { errors, success, name, gender, orthog, category, family, variants, variant } = this.state;
 
         let categoriesChoices = [];
         categories.forEach(cat => {
@@ -156,9 +181,27 @@ export class ElementForm extends Component {
                     <div className="form-group" />
                 </div>
 
-                <div className="line">
-
+                <div className="line line-2">
+                    <Input valeur={variant} identifiant="variant" errors={errors} onChange={this.handleChange} >Variantes</Input>
+                    <div className="form-group add-variant">
+                        <label className="hide">Ajouter</label>
+                        <Button icon="plus" outline={true} type="default" onClick={this.handleAddVariant}>Ajouter la variante</Button>
+                    </div>
                 </div>
+
+                {variants.length !== 0 && <div className="line">
+                    <div className="form-group">
+                        <label htmlFor="listVariants">Liste des variantes ajoutées</label>
+                        <div className="list-variants">
+                            {variants.map((v, index) => {
+                                return <div className="item" key={index}>
+                                    <div>{v}</div>
+                                    <ButtonIcon icon="delete" onClick={() => this.handleRemoveVariant(v)}>Supprimer</ButtonIcon>
+                                </div>
+                            })}
+                        </div>
+                    </div>
+                </div>}
 
                 <div className="line">
                     <div className="form-button">

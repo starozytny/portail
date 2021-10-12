@@ -6,7 +6,7 @@ export function ButtonIcon(props){
     let divStyle = tooltipWidth ? { width: tooltipWidth + "px" } : null;
 
     if(element === "button"){
-        return <button className="btn-icon" onClick={onClick}>
+        return <button className="btn-icon" type="button" onClick={onClick}>
             <span className={`icon-${icon}`} />
             {text && <span>{text}</span>}
             {children && <span className="tooltip" style={divStyle}>{children}</span>}

@@ -51,7 +51,7 @@ export class List extends Component {
                             <div className="col-2">
                                 <div className="sub">
                                     {Sanitaze.capitalize(category)}
-                                    {category !== "" ? "/" : ""}
+                                    {category !== "" ? " / " : ""}
                                     {families[el.family]}
                                 </div>
                             </div>

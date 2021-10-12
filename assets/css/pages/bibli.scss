@@ -21,6 +21,26 @@
   margin-left: 4px;
 }
 
+.add-variant{
+  .btn{
+    padding: 7px 14px;
+  }
+}
+
+.list-variants{
+  width: 100%;
+  max-width: 414px;
+
+  .item{
+    @include flex(row, center, space-between);
+    margin-bottom: 8px;
+
+    &:not(:last-child){
+      border-bottom: 1px solid var(--fond);
+    }
+  }
+}
+
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
 //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
