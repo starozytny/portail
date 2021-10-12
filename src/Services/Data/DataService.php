@@ -20,11 +20,11 @@ class DataService
         return $response->withStatus($code);
     }
 
-    public function delete(ResponseInterface $response, $path): ResponseInterface
+    public function delete(ResponseInterface $response, $path, $method="DELETE"): ResponseInterface
     {
         $response->withHeader('Content-Type', 'application/json');
 
-        $res = $this->apiService->callApiWithErrors($path, 'DELETE', false);
+        $res = $this->apiService->callApiWithErrors($path, $method, false);
         if($res['code'] == 0){
             return $this->returnError($response, $res['data']);
         }

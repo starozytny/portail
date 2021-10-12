@@ -92,6 +92,8 @@ function deleteElement(self, element, url, showLoader = true, showFire = true)
             self.handleUpdateList(element, "delete");
         })
         .catch(function (error) {
+            console.log(error)
+            console.log(error.response)
             displayErrors(self, error, "Une erreur est survenue, veuillez contacter le support.")
         })
         .then(() => {

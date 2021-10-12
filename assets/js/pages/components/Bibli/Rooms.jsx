@@ -74,7 +74,7 @@ export class Rooms extends Component {
     handleUpdateList = (element, newContext=null) => { this.layout.current.handleUpdateList(element, newContext, SORTER); }
 
     handleDelete = (element) => {
-        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, MSG_DELETE_ELEMENT);
+        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, MSG_DELETE_ELEMENT, false, false);
     }
 
     handleGetFilters = (filters) => { this.layout.current.handleGetFilters(filters, filterFunction); }

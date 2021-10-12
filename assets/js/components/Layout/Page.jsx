@@ -189,8 +189,8 @@ export class Layout extends Component {
         return newData;
     }
 
-    handleDelete = (self, element, url, msg, text='Cette action est irréversible.') => {
-        Formulaire.axiosDeleteElement(self, element, url, msg, text);
+    handleDelete = (self, element, url, msg, text='Cette action est irréversible.', showLoader = true, showFire = true) => {
+        Formulaire.axiosDeleteElement(self, element, url, msg, text, showLoader, showFire);
     }
 
     handleDeleteGroup = (self, url, msg) => {
