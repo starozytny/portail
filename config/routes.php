@@ -1,6 +1,7 @@
 <?php
 
 use App\Controller\AppController;
+use App\Controller\Bibli\CounterController;
 use App\Controller\Bibli\RoomController;
 use App\Controller\EdlController;
 use App\Controller\PropertyController;
@@ -57,6 +58,10 @@ return function (App $app) {
         $group->post('/bibliotheque/room', [RoomController::class, 'create'])->setName('bibli_room_create');
         $group->put('/bibliotheque/room/{id}', [RoomController::class, 'update'])->setName('bibli_room_update');
         $group->delete('/bibliotheque/room/{id}', [RoomController::class, 'delete'])->setName('bibli_room_delete');
+
+        $group->post('/bibliotheque/counter', [CounterController::class, 'create'])->setName('bibli_counter_create');
+        $group->put('/bibliotheque/counter/{id}', [CounterController::class, 'update'])->setName('bibli_counter_update');
+        $group->delete('/bibliotheque/counter/{id}', [CounterController::class, 'delete'])->setName('bibli_counter_delete');
 
     })->add(UserAuthMiddleware::class);
 

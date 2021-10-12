@@ -15,7 +15,7 @@ export function CounterFormulaire ({ type, onChangeContext, onUpdateList, elemen
 {
     let title = "Ajouter un compteur";
     let url = oriUrl;
-    let msg = "Félicitation ! Vous avez ajouté une nouvelle pièce !"
+    let msg = "Félicitation ! Vous avez ajouté un nouveau compteur !"
 
     if(type === "update"){
         title = "Modifier " + element.name;
@@ -23,10 +23,11 @@ export function CounterFormulaire ({ type, onChangeContext, onUpdateList, elemen
         msg = "Félicitation ! La mise à jour s'est réalisée avec succès !";
     }
 
-    let form = <RoomForm
+    let form = <CounterForm
         context={type}
         url={url}
         name={element ? element.name : ""}
+        unit={element ? element.unit : ""}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         messageSuccess={msg}
@@ -41,6 +42,7 @@ export class CounterForm extends Component {
 
         this.state = {
             name: props.name,
+            unit: props.unit,
             errors: [],
             success: false
         }
@@ -57,13 +59,14 @@ export class CounterForm extends Component {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { name } = this.state;
+        const { name, unit } = this.state;
 
         let method = context === "create" ? "POST" : "PUT";
         this.setState({ success: false, errors: []})
 
         let paramsToValidate = [
             {type: "text", id: 'name', value: name},
+            {type: "text", id: 'unit', value: unit},
         ];
 
         // validate global
@@ -82,6 +85,8 @@ export class CounterForm extends Component {
                     location.reload();
                 })
                 .catch(function (error) {
+                    console.log(error)
+                    console.log(error.response)
                     Formulaire.loader(false);
                     Formulaire.displayErrors(self, error);
                 })
@@ -91,19 +96,20 @@ export class CounterForm extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, success, name } = this.state;
+        const { errors, success, name, unit } = this.state;
 
         return <>
             <form onSubmit={this.handleSubmit}>
 
                 {success !== false && <Alert type="info">{success}</Alert>}
 
-                <div className="line">
+                <div className="line line-2">
                     <Input valeur={name} identifiant="name" errors={errors} onChange={this.handleChange} >Intitulé</Input>
+                    <Input valeur={unit} identifiant="unit" errors={errors} onChange={this.handleChange} >Unité</Input>
                 </div>
                 <div className="line">
                     <div className="form-button">
-                        <Button isSubmit={true}>{context === "create" ? "Ajouter cette pièce" : 'Modifier cette pièce'}</Button>
+                        <Button isSubmit={true}>{context === "create" ? "Ajouter ce compteur" : 'Modifier ce compteur'}</Button>
                     </div>
                 </div>
             </form>
