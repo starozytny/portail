@@ -5,6 +5,46 @@
     {% webpack_entry_css 'security' %}
 {% endblock %}
 
+{% block body %}
+    <main class="login">
+        <div class="signIn">
+            <div class="illustration">
+                <div class="image">
+                    <img src="images/login-page.jpg" alt="Login page fokus logiciel etat des lieux marseille">
+                </div>
+            </div>
+            <div class="main-sign-in">
+                <header>
+                    <div class="header-container">
+                        <div class="header-name">
+                            <div class="fokus">
+                                <span class="txt-color1">Fokus</span>
+                                <span>Logiciel d'état des lieux</span>
+                            </div>
+                            <div class="profil">
+                                <div>
+                                    <a class="btn-icon" href="{{ url_for('login') }}">
+                                        <span class="icon-home"></span>
+                                        <span>Espace client</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="content">
+                    {% block main_content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% block aside %}{% endblock %}
+
+    {% include 'app/layout/components/footer.twig' %}
+{% endblock %}
+
 {% block javascripts %}
     {% webpack_entry_js 'app' %}
     {% webpack_entry_js 'security' %}
