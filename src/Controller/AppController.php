@@ -165,16 +165,8 @@ class AppController
     public function property(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $objs = $this->apiService->callApi('properties');
-
-        $data = [];
-        foreach($objs as $obj){
-            if($obj->is_imported == "0"){
-                array_push($data, $obj);
-            }
-        }
-
         return $this->twig->render($response, 'app/pages/property/index.twig', [
-            'data' => $data
+            'data' => $objs
         ]);
     }
 
@@ -192,16 +184,8 @@ class AppController
     public function tenant(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $objs = $this->apiService->callApi('tenants');
-
-        $data = [];
-        foreach($objs as $obj){
-            if($obj->is_imported == "0"){
-                array_push($data, $obj);
-            }
-        }
-
         return $this->twig->render($response, 'app/pages/tenant/index.twig', [
-            'data' => $data
+            'data' => $objs
         ]);
     }
 
