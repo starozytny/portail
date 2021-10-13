@@ -55,8 +55,12 @@
     width: calc(100% - 24px);
   }
 
-  .react-selectize.default.root-node{
+  .simple-select.react-selectize.default.root-node{
     width: 100%;
+
+    .react-selectize-control{
+      padding: 0;
+    }
 
     &:not(.open){
       .react-selectize-control{
