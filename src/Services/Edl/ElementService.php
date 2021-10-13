@@ -28,6 +28,7 @@ class ElementService
         $gender     = $this->sanitizeData->clean($data->gender);
         $orthog     = $this->sanitizeData->clean($data->orthog);
         $variants   = $data->variants;
+        $natures    = $data->nats;
 
         // validation des données
         $paramsToValidate = [
@@ -59,6 +60,7 @@ class ElementService
                 'family'    => $family,
                 'gender'    => $gender,
                 'variants'  => json_encode($variants),
+                'natures'   => $natures
             ]
         ];
     }
@@ -101,6 +103,8 @@ class ElementService
             ];
         }
 
+        $this->addNatures($obj, $id);
+
         return [
             'code' => 1,
             'data' => $id,
@@ -110,7 +114,18 @@ class ElementService
     public function updateElement($data, $id): array
     {
         $obj = json_decode($data);
-        return $this->apiService->callApiWithErrors('library/edit_element/' . $id, 'POST', false, $this->getDataToSend($obj));
+        $res = $this->apiService->callApiWithErrors('library/edit_element/' . $id, 'POST', false, $this->getDataToSend($obj));
+
+        $this->addNatures($obj, $id);
+
+        return $res;
+    }
+
+    private function addNatures($obj, $id)
+    {
+        if($obj->natures){
+            $this->apiService->callApiWithErrors('library/edit_natures/' . $id, 'POST', false, $obj->natures);
+        }
     }
 
     private function getDataToSend($data): array
