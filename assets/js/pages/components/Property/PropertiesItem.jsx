@@ -38,7 +38,7 @@ export class PropertiesItem extends Component {
                             {(elem.is_furnished && parseInt(elem.is_furnished) !== 0) && <div className="sub">Meublé</div>}
                         </div>
                         <div className="col-4 actions">
-                            {elem.is_imported === "0" && <>
+                            {elem.is_imported === "0" && elem.last_inventory_uid === "0" && <>
                                 <ButtonIcon icon="compose" onClick={() => onChangeContext('update', elem)}>Modifier</ButtonIcon>
                                 <ButtonIcon icon="delete" onClick={() => onDelete(elem)}>Supprimer</ButtonIcon>
                             </>}
