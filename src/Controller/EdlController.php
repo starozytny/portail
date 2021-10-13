@@ -121,6 +121,15 @@ class EdlController
 
         $res = $this->apiService->callApiWithErrors($url, $method, false, $dataToSend);
         if($res['code'] == 0){
+            if($res['status'] == 409){
+                $msg = "Vous avez atteint le maximum d'état des lieux pour ce bien.";
+                if($res['data'] == "Incoming inventory already exists for this property\n"){
+                    $msg = "Un état des lieux ENTRANT existe déjà pour ce bien.";
+                }else if($res['data'] == "Outgoing inventory already exists for this property\n"){
+                    $msg = "Un état des lieux SORTANT existe déjà pour ce bien.";
+                }
+                return ['code' => 0, 'data' => json_encode([['name' => 'type', 'message' => $msg]])];
+            }
             return $res;
         }
 

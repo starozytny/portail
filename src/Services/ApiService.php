@@ -106,6 +106,7 @@ class ApiService
                 $pos = strrpos($e->getMessage(), 'response:') + 10;
                 return [
                     'code' => 0,
+                    'status' => 409,
                     'data' => substr($e->getMessage(), $pos)
                 ];
             }
