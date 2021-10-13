@@ -181,27 +181,28 @@ export class ElementForm extends Component {
                     <div className="form-group" />
                 </div>
 
-                <div className="line line-2">
+                <div className="line" />
+
+                <div className="line line-3">
                     <Input valeur={variant} identifiant="variant" errors={errors} onChange={this.handleChange} >Variantes</Input>
                     <div className="form-group add-variant">
                         <label className="hide">Ajouter</label>
                         <Button icon="plus" outline={true} type="default" onClick={this.handleAddVariant}>Ajouter la variante</Button>
                     </div>
-                </div>
-
-                {variants.length !== 0 && <div className="line">
                     <div className="form-group">
-                        <label htmlFor="listVariants">Liste des variantes ajoutées</label>
-                        <div className="list-variants">
-                            {variants.map((v, index) => {
-                                return <div className="item" key={index}>
-                                    <div>{v}</div>
-                                    <ButtonIcon icon="delete" onClick={() => this.handleRemoveVariant(v)}>Supprimer</ButtonIcon>
-                                </div>
-                            })}
-                        </div>
+                        {variants.length !== 0 && <>
+                            <label htmlFor="listVariants">Liste des variantes ajoutées</label>
+                            <div className="list-variants">
+                                {variants.map((v, index) => {
+                                    return <div className="item" key={index}>
+                                        <div>{v}</div>
+                                        <ButtonIcon icon="delete" onClick={() => this.handleRemoveVariant(v)}>Supprimer</ButtonIcon>
+                                    </div>
+                                })}
+                            </div>
+                        </>}
                     </div>
-                </div>}
+                </div>
 
                 <div className="line">
                     <div className="form-button">
