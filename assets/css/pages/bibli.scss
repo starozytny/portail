@@ -5,6 +5,12 @@
 @import "../components/filter";
 @import "../components/dropdown";
 
+#bibli{
+  .main-content{
+    padding: 0;
+  }
+}
+
 .toolbar-menu{
   .item{
     margin-bottom: 12px;

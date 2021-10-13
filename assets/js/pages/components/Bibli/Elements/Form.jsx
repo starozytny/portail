@@ -204,6 +204,16 @@ export class ElementForm extends Component {
                     </div>
                 </div>
 
+                <div className="line line-4">
+                    <div className="form-group"/>
+                    <div className="form-group add-variant">
+                        <label className="hide">Associer</label>
+                        <Button icon="plus" outline={true} type="default" onClick={this.handleAddVariant}>Associer des natures</Button>
+                    </div>
+                    <div className="form-group"/>
+                    <div className="form-group"/>
+                </div>
+
                 <div className="line">
                     <div className="form-button">
                         <Button isSubmit={true}>{context === "create" ? "Ajouter cet élément" : 'Modifier cet élément'}</Button>

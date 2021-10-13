@@ -79,11 +79,7 @@ export class Bibli extends Component {
                 })}
 
             </div>
-            <div className="items-table">
-                <div className="items items-default">
-                    {content}
-                </div>
-            </div>
+            {content}
         </>
     }
 }
