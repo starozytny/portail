@@ -4,7 +4,21 @@ import { ButtonIcon }   from "@dashboardComponents/Tools/Button";
 
 export class TenantsItem extends Component {
     render () {
-        const { elem, onChangeContext, onDelete } = this.props
+        const { elem, onChangeContext, onDelete, inventories } = this.props
+
+        let canActions = true;
+        inventories.forEach(inventory => {
+            if(inventory.tenants !== ""){
+                JSON.parse(inventory.tenants).forEach(tenant => {
+                    if(tenant === elem.reference){
+                        canActions = false;
+                    }
+                })
+                if(elem.is_imported !== "0" ){
+                    canActions = false;
+                }
+            }
+        })
 
         return <div className="item">
             <div className="item-content">
@@ -26,10 +40,10 @@ export class TenantsItem extends Component {
                             <div>{elem.email}</div>
                         </div>
                         <div className="col-3 actions">
-                            {elem.is_imported === "0" && <>
+                            {canActions ? <>
                                 <ButtonIcon icon="compose" onClick={() => onChangeContext('update', elem)}>Modifier</ButtonIcon>
                                 <ButtonIcon icon="delete" onClick={() => onDelete(elem)}>Supprimer</ButtonIcon>
-                            </>}
+                            </> : <div className="role">Utilisé</div>}
                         </div>
                     </div>
                 </div>

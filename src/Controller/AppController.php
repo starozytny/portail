@@ -165,8 +165,10 @@ class AppController
     public function property(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $objs = $this->apiService->callApi('properties');
+        $inventories = $this->apiService->callApi('inventories/list');
         return $this->twig->render($response, 'app/pages/property/index.twig', [
-            'data' => $objs
+            'data' => $objs,
+            'inventories' => $inventories
         ]);
     }
 
@@ -184,15 +186,16 @@ class AppController
     public function tenant(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $objs = $this->apiService->callApi('tenants');
+        $inventories = $this->apiService->callApi('inventories/list');
         return $this->twig->render($response, 'app/pages/tenant/index.twig', [
-            'data' => $objs
+            'data' => $objs,
+            'inventories' => $inventories
         ]);
     }
 
     public function bibli(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $objs = $this->apiService->callApi('library');
-
         return $this->twig->render($response, 'app/pages/bibli/index.twig', [
             'data' => $objs
         ]);

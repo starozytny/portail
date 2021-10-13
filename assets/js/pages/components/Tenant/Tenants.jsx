@@ -58,6 +58,7 @@ export class Tenants extends Component {
         return <TenantsList onChangeContext={changeContext}
                             onSearch={this.handleSearch}
                             onDelete={this.handleDelete}
+                            inventories={JSON.parse(this.props.inventories)}
                             data={currentData} />
     }
 

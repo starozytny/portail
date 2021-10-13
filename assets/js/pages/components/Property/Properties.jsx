@@ -60,6 +60,7 @@ export class Properties extends Component {
         return <PropertiesList onChangeContext={changeContext}
                                onSearch={this.handleSearch}
                                onDelete={this.handleDelete}
+                               inventories={JSON.parse(this.props.inventories)}
                             data={currentData} />
     }
 
