@@ -144,16 +144,16 @@ class UserController
         //regeneration des variables en sessions
         if($formFrom == "main"){
             $user = [
-                $this->session->get('user')[0],
-                $this->session->get('user')[1],
+                $this->session->get('user')[0], //username
+                $this->session->get('user')[1], //password
                 $firstname,
                 $lastname,
-                $this->session->get('user')[4],
+                $this->session->get('user')[4], //crédits
                 $email,
                 $userTag,
-                $this->session->get('user')[7],
-                $this->session->get('user')[8],
-                $this->session->get('user')[9],
+                $this->session->get('user')[7], //id
+                $this->session->get('user')[8], //num_society
+                $this->session->get('user')[9], //rights
             ];
 
             $this->session->destroy();
@@ -178,13 +178,32 @@ class UserController
     {
         $response->withHeader('Content-Type', 'application/json');
 
-        $res = $this->apiService->callApi('delete_user/' . $args['id'], 'GET', false);
-        if($res == false){
-            $response->getBody()->write("[UD001] Une erreur est survenu. Veuillez contacter le support.");
-            return $response->withStatus(400);
+        $msg = "Vous n'avez pas le droit de supprimer cet utilisateur.";
+        if($this->session->get('user')[9] == "1"){
+
+            $inventories = $this->apiService->callApi('inventories/list');
+            $canDelete = true;
+            foreach($inventories as $inventory){
+                if($inventory->user_id == $args['id']){
+                    $canDelete = false;
+                }
+            }
+
+            if($canDelete){
+                $res = $this->apiService->callApi('delete_user/' . $args['id'], 'GET', false);
+                if($res == false){
+                    $response->getBody()->write("[UD001] Une erreur est survenu. Veuillez contacter le support.");
+                    return $response->withStatus(400);
+                }
+
+                $response->getBody()->write("Utilisateur supprimé.");
+                return $response->withStatus(200);
+            }else{
+                $msg = "Des états des lieux sont associés à cet utilisateur. Vous ne pouvez pas le supprimer.";
+            }
         }
 
-        $response->getBody()->write("Utilisateur supprimé.");
-        return $response->withStatus(200);
+        $response->getBody()->write($msg);
+        return $response->withStatus(400);
     }
 }
