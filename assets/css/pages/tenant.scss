@@ -16,4 +16,13 @@
       align-items: flex-start;
     }
   }
+
+  .toolbar {
+    .create{
+      width: 186px;
+    }
+    .filter-search{
+      width: calc(100% - 186px - 24px);
+    }
+  }
 }

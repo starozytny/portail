@@ -481,8 +481,11 @@ select{
   .form-button{
     @include flex(row, stretch, flex-start);
 
-    & > .btn, & > a.btn{
+    & > a.btn{
       width: auto;
+      margin-bottom: 0;
+    }
+    & > .btn{
       margin-bottom: 0;
     }
     & > *:not(:last-child){
