@@ -123,15 +123,13 @@ class PropertyService
         ];
     }
 
-    public function createProperty($json): array
+    public function createProperty($bien): array
     {
         $bienId = null; $lastInventoryUid = null;
-        $res = $this->apiService->callApiWithErrors('add_property', 'POST', false, $this->getDataToSend($json));
+        $res = $this->apiService->callApiWithErrors('add_property', 'POST', false, $this->getDataToSend($bien));
         if($res['code'] == 0){
             return $res;
         }
-
-        $bien = json_decode($json);
 
         //get id created
         $properties = $this->apiService->callApi('properties');

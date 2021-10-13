@@ -72,7 +72,7 @@ class EdlController
         }
         $errors = $this->validateur->validate($paramsToValidate);
         if(count($errors) > 0){
-            return ['code' => 0,'errors' => json_encode($errors)];
+            return ['code' => 0,'data' => json_encode($errors)];
         }
 
         // extract tenants before property
@@ -91,7 +91,8 @@ class EdlController
                 return $res;
             }
 
-            $propertyUid = $this->propertyService->getPropertyUid($res['data']); //bienId
+            $p = $this->propertyService->getPropertyUid($res['data']);
+            $propertyUid = $p['data']; //bienId
             $lastInventoryUid = $res['lastInventoryUid'];
         }else{
             $property = $this->apiService->callApi('properties/' . $property->id);
@@ -120,7 +121,7 @@ class EdlController
 
         $res = $this->apiService->callApiWithErrors($url, $method, false, $dataToSend);
         if($res['code'] == 0){
-            return ['code' => 0,'errors' => $res['data']];
+            return $res;
         }
 
         //redirect to edl list
@@ -148,7 +149,7 @@ class EdlController
             $res = $this->submitForm(null, $request, $data, 'add_inventory/');
 
             if($res['code'] != 1){
-                return $this->dataService->returnError($response, $res['errors']);
+                return $this->dataService->returnError($response, $res['data']);
             }
 
             $response->getBody()->write($res['data']);
@@ -189,7 +190,7 @@ class EdlController
 
             $res = $this->submitForm($existe, $request, $data, 'edit_inventory/' . $args['id']);
             if($res['code'] != 1){
-                return $this->dataService->returnError($response, $res['errors']);
+                return $this->dataService->returnError($response, $res['data']);
             }
 
             $response->getBody()->write($res['data']);
