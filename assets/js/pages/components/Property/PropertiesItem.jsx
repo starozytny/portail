@@ -11,13 +11,13 @@ export class PropertiesItem extends Component {
                 <div className="item-body">
                     <div className="infos infos-col-4">
                         <div className="col-1">
-                            <div className="owner">{elem.owner}</div>
                             <div className="fullAddress">
-                                <div>{elem.addr1}</div>
+                                <div className="semibold">{elem.addr1}</div>
                                 <div>{elem.addr2}</div>
                                 <div>{elem.addr3}</div>
                             </div>
                             <div>{elem.zipcode}{elem.zipcode && elem.city && ","} {elem.city}</div>
+                            <div className="owner">{elem.owner}</div>
                         </div>
 
                         <div className="col-2">

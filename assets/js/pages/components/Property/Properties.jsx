@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 
 import { Layout }         from "@dashboardComponents/Layout/Page";
+import Sort               from "@dashboardComponents/functions/sort";
 
 import { PropertiesList }     from "./PropertiesList";
 import { PropertyFormulaire } from "./PropertyForm";
+
+const SORTER = Sort.compareAddr1;
 
 function searchFunction(dataImmuable, search){
     let newData = [];
@@ -43,14 +46,14 @@ export class Properties extends Component {
         this.handleContentUpdate = this.handleContentUpdate.bind(this);
     }
 
-    handleGetData = (self) => { self.handleSetDataPagination(this.props.donnees); }
+    handleGetData = (self) => { self.handleSetDataPagination(this.props.donnees, SORTER); }
 
-    handleUpdateList = (element, newContext=null) => { this.layout.current.handleUpdateList(element, newContext); }
+    handleUpdateList = (element, newContext=null) => { this.layout.current.handleUpdateList(element, newContext, SORTER); }
 
     handleSearch = (search) => { this.layout.current.handleSearch(search, searchFunction); }
 
     handleDelete = (element) => {
-        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce bien ?");
+        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce bien ?", "", true, false);
     }
 
     handleContentList = (currentData, changeContext) => {

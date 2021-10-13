@@ -4,9 +4,12 @@
 @import "../components/toolbar";
 @import "../components/toolbar-create-search";
 
+.semibold{
+  @include fontSemibold
+}
+
 .owner {
-  margin-bottom: 8px;
-  @include fontSemibold();
+  margin-top: 12px;
   font-size: 15px;
 }
 

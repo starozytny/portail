@@ -129,8 +129,8 @@ export class Layout extends Component {
     }
 
     handleUpdateList = (element, newContext = null, sorter = null) => {
-        const { data, context, perPage } = this.state
-        Formulaire.updateDataPagination(this, sorter, newContext, context, data, element, perPage);
+        const { dataImmuable, data, currentData, context, perPage } = this.state
+        Formulaire.updateDataPagination(this, sorter, newContext, context, data, element, perPage, dataImmuable, currentData);
     }
 
     handleSetDataPagination = (donnees, sorter = null, nContext = "read", type = "id") => {

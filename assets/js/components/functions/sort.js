@@ -30,6 +30,10 @@ function compareReference(a, b){
     return comparison(a.reference.toLowerCase(), b.reference.toLowerCase());
 }
 
+function compareAddr1(a, b){
+    return comparison(a.addr1.toLowerCase(), b.addr1.toLowerCase());
+}
+
 function comparison (objA, objB){
     let comparison = 0;
     if (objA > objB) {
@@ -49,5 +53,6 @@ module.exports = {
     compareTitle,
     compareName,
     compareLabel,
-    compareReference
+    compareReference,
+    compareAddr1
 }
