@@ -6,11 +6,6 @@
     <div class="page-title">
         <div class="page-title-container">
             <h1>Etats des lieux</h1>
-            <div class="actions">
-                <a href="{{ url_for('edl_create') }}" class="btn btn-primary">
-                    <span>Ajouter un état des lieux</span>
-                </a>
-            </div>
         </div>
     </div>
 
@@ -27,6 +22,11 @@
                 </a>
             </div>
             <div class="toolbar">
+                <div class="item">
+                    <a href="{{ url_for('edl_create') }}" class="btn btn-primary">
+                        <span>Ajouter un état des lieux</span>
+                    </a>
+                </div>
                 <div class="line">
                     {% include 'app/layout/components/form/input.twig' with {
                         input_name: 'searchEdl',

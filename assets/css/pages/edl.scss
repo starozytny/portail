@@ -15,6 +15,16 @@
   .toolbar-filter{
     @include flex(row, flex-start, space-between);
   }
+
+  .toolbar-filter + .toolbar{
+    .item{
+      margin-bottom: 12px;
+
+      .btn{
+        width: calc(100% - 48px);
+      }
+    }
+  }
 }
 
 .list-month-header{
@@ -198,6 +208,29 @@
       & > a + a{
         display: inline-block;
         margin-left: 12px;
+      }
+    }
+
+    .toolbar-filter + .toolbar{
+      @include flex(row, stretch, flex-start);
+
+      .item:first-child{
+        width: 215px;
+        margin-right: 24px;
+        margin-bottom: 0;
+      }
+
+      .line{
+        width: calc(100% - 215px - 24px);
+        margin-bottom: 0;
+
+        label{
+          display: none;
+        }
+
+        input{
+          min-height: 24px;
+        }
       }
     }
   }
