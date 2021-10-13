@@ -50,7 +50,7 @@ final class TransfertCommand extends Command
 
 //            $this->createProperty();
 //            $this->createTenants();
-            $this->createInventory();
+//            $this->createInventory();
         }
 
         return 0;

@@ -23,8 +23,8 @@ class SanitizeData
     public function cleanForPost($value): string
     {
         $value = trim($value);
+        $value = addslashes($value);
         $value = str_replace('#', '-', $value);
-        $value = str_replace("'", "\'", $value);
         return htmlspecialchars($value);
     }
 }

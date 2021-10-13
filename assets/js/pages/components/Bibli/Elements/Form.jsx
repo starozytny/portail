@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import axios                   from "axios";
 import toastr                  from "toastr";
 
-import {Input, Radiobox, Select} from "@dashboardComponents/Tools/Fields";
+import {Input, Radiobox, Select, SelectReactSelectize} from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
 import {Button, ButtonIcon} from "@dashboardComponents/Tools/Button";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
@@ -17,11 +17,22 @@ export function ElementFormulaire ({ type, onChangeContext, onUpdateList, elemen
     let title = "Ajouter un élément";
     let url = oriUrl;
     let msg = "Félicitation ! Vous avez ajouté un nouveau élément !"
+    let nats = [];
 
     if(type === "update"){
         title = "Modifier " + element.name;
         url = oriUrl + "/" + element.id;
         msg = "Félicitation ! La mise à jour s'est réalisée avec succès !";
+
+        elemsNatures.forEach(elemNature => {
+            if(elemNature.element_id === element.id){
+                natures.forEach(nat => {
+                    if(elemNature.nature_id === nat.id){
+                        nats.push(nat.id)
+                    }
+                })
+            }
+        })
     }
 
     let form = <ElementForm
@@ -33,12 +44,12 @@ export function ElementFormulaire ({ type, onChangeContext, onUpdateList, elemen
         category={element ? parseInt(element.category) : 1}
         family={element ? parseInt(element.family) : 0}
         variants={(element && element.variants !== "") ? JSON.parse(element.variants) : []}
+        nats={nats}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         messageSuccess={msg}
         categories={categories}
         natures={natures}
-        elemsNatures={elemsNatures}
     />
 
     return <FormLayout onChangeContext={onChangeContext} form={form}>{title}</FormLayout>
@@ -56,6 +67,8 @@ export class ElementForm extends Component {
             family: props.family,
             variants: props.variants,
             variant: "",
+            nats: props.nats,
+            nature: "",
             errors: [],
             success: false
         }
@@ -64,13 +77,16 @@ export class ElementForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAddVariant = this.handleAddVariant.bind(this);
         this.handleRemoveVariant = this.handleRemoveVariant.bind(this);
+        this.handleChangeSelect = this.handleChangeSelect.bind(this);
+        this.handleAddNature = this.handleAddNature.bind(this);
+        this.handleRemoveNature = this.handleRemoveNature.bind(this);
     }
 
     handleChange = (e) => {
         this.setState({[e.currentTarget.name]: e.currentTarget.value})
     }
 
-    handleAddVariant = (e) => {
+    handleAddVariant = () => {
         const { variants, variant } = this.state;
 
         if(variant !== ""){
@@ -78,7 +94,6 @@ export class ElementForm extends Component {
             if(!variants.includes(variant)){
                 newVariants = variants;
                 newVariants.push(variant);
-                // newVariants = variants.filter(v => { return v !== variant });
 
                 this.setState({ variants: newVariants });
             }
@@ -90,6 +105,29 @@ export class ElementForm extends Component {
 
         let newVariants = variants.filter(v => { return v !== variant });
         this.setState({ variants: newVariants });
+    }
+
+    handleChangeSelect = (e) => { this.setState({ nature: e !== undefined ? e.value : "" }) }
+
+    handleAddNature = () => {
+        const { nats, nature } = this.state;
+
+        if(nature !== ""){
+            let newNatures = [];
+            if(!nats.includes(nature)){
+                newNatures = nats;
+                newNatures.push(nature);
+
+                this.setState({ nats: newNatures });
+            }
+        }
+    }
+
+    handleRemoveNature = (nature) => {
+        const { nats } = this.state;
+
+        let newNatures = nats.filter(v => { return v !== nature });
+        this.setState({ nats: newNatures });
     }
 
     handleSubmit = (e) => {
@@ -136,8 +174,8 @@ export class ElementForm extends Component {
     }
 
     render () {
-        const { context, categories } = this.props;
-        const { errors, success, name, gender, orthog, category, family, variants, variant } = this.state;
+        const { context, categories, natures } = this.props;
+        const { errors, success, name, gender, orthog, category, family, variants, variant, nats, nature } = this.state;
 
         let categoriesChoices = [];
         categories.forEach(cat => {
@@ -160,6 +198,11 @@ export class ElementForm extends Component {
             { value: 0, label: 'Singulier', identifiant: 'singulier' },
             { value: 1, label: 'Pluriel', identifiant: 'pluriel' }
         ]
+
+        let naturesChoices = [];
+        natures.forEach(nat => {
+            naturesChoices.push({ value: nat.id, label: Sanitaze.capitalize(nat.name), identifiant: 'nat-' + nat.id })
+        });
 
         return <>
             <form onSubmit={this.handleSubmit}>
@@ -204,14 +247,33 @@ export class ElementForm extends Component {
                     </div>
                 </div>
 
-                <div className="line line-4">
-                    <div className="form-group"/>
+                <div className="line line-3">
+                    <SelectReactSelectize items={naturesChoices} identifiant="nature" valeur={nature} errors={errors} onChange={this.handleChangeSelect}>Natures</SelectReactSelectize>
                     <div className="form-group add-variant">
-                        <label className="hide">Associer</label>
-                        <Button icon="plus" outline={true} type="default" onClick={this.handleAddVariant}>Associer des natures</Button>
+                        <label className="hide">Natures</label>
+                        <Button icon="plus" outline={true} type="default" onClick={this.handleAddNature}>Associer des natures</Button>
                     </div>
-                    <div className="form-group"/>
-                    <div className="form-group"/>
+                    <div className="form-group">
+                        {nats.length !== 0 && <>
+                            <label htmlFor="listVariants">Liste des natures associées</label>
+                            <div className="list-variants">
+                                {nats.map((n, index) => {
+
+                                    let nString = "";
+                                    natures.forEach(nat => {
+                                        if(nat.id === n){
+                                            nString = Sanitaze.capitalize(nat.name);
+                                        }
+                                    })
+
+                                    return <div className="item" key={index}>
+                                        <div>{nString}</div>
+                                        <ButtonIcon icon="delete" onClick={() => this.handleRemoveNature(n)}>Supprimer</ButtonIcon>
+                                    </div>
+                                })}
+                            </div>
+                        </>}
+                    </div>
                 </div>
 
                 <div className="line">
