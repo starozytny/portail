@@ -13,6 +13,10 @@
   overflow: hidden;
   z-index: -1;
 
+  .form{
+    padding: 0;
+  }
+
   &.true{
     z-index: 1600;
 
@@ -115,6 +119,10 @@
 @media (min-width:1280px) {
   .aside{
     width: 35%;
+
+    .form{
+      padding: 0;
+    }
   }
 }
 
