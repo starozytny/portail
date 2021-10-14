@@ -3,7 +3,7 @@
 {% block title %}Réinitialisation de mot de passe{% endblock %}
 
 {% block main_content %}
-    {% if error is defined %}
+    {% if errors == 1 %}
         <h1>Lien expiré</h1>
         <p>
             Ce lien de réinitialisation de mot de passe a expiré. Veuillez recommencer la procédure. <br><br>

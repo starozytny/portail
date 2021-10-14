@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Repository\PasswordRepository;
 use App\Services\ApiService;
 use App\Services\MailerService;
+use DateTime;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Odan\Session\SessionInterface;
+use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Routing\RouteContext;
@@ -19,13 +24,19 @@ final class SecurityController
     private $twig;
     private $apiService;
     private $mailerService;
+    private $passwordRepository;
+    private $connection;
 
-    public function __construct(SessionInterface $session, Twig $twig, ApiService $apiService, MailerService $mailerService)
+    public function __construct(SessionInterface $session, Twig $twig, ApiService $apiService,
+                                MailerService $mailerService, PasswordRepository $passwordRepository,
+                                Connection $connection)
     {
         $this->session = $session;
         $this->twig = $twig;
         $this->apiService = $apiService;
         $this->mailerService = $mailerService;
+        $this->passwordRepository = $passwordRepository;
+        $this->connection = $connection;
     }
 
     /**
@@ -95,6 +106,8 @@ final class SecurityController
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
+     * @throws Exception
+     * @throws \Exception
      */
     public function lostForm(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -113,8 +126,39 @@ final class SecurityController
                 return $response->withStatus(400);
             }
 
+            $user = $this->passwordRepository->findOneByUsername($username);
+
+            if($user){
+                $interval = date_diff(new DateTime($user['createdAt']), new DateTime());
+                if ($interval->y == 0 && $interval->m == 0 && $interval->d == 0 && $interval->h < 1) {
+                    $response->getBody()->write("Un mail de réinitialisation a déjà été envoyé, veuillez vérifier vos spams ou attendre quelques minutes.");
+                    return $response->withStatus(400);
+                }else{
+                    $this->connection->delete('password', ['id' => $user['id']]);
+                }
+            }
+
+            $createdAt = new DateTime();
+            $createdAt->setTimezone(new \DateTimeZone("Europe/Paris"));
+
+            $code = uniqid();
+            $token = bin2hex(random_bytes(32));
+
+            $values = [
+                'username' => $username,
+                'code' => $code,
+                'token' => $token,
+                'createdAt' => $createdAt
+            ];
+            $this->connection->insert('password', $values, [
+                PDO::PARAM_STR,
+                PDO::PARAM_STR,
+                PDO::PARAM_STR,
+                'datetime',
+            ]);
+
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            $url = $routeParser->fullUrlFor($request->getUri(), 'reinitPassword');
+            $url = $routeParser->fullUrlFor($request->getUri(), 'reinitPassword', ['token' => $token, 'code' => $code]);
 
             if($this->mailerService->sendMail(
                     'chanbora.chhun@outlook.fr',
@@ -140,14 +184,30 @@ final class SecurityController
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
+     * @param array $args
      * @return ResponseInterface
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws \Exception
      */
-    public function reinitPassword(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function reinitPassword(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return $this->twig->render($response, 'app/pages/security/reinit.twig');
+        $user = $this->passwordRepository->findOneByToken($args['token']);
+
+        $errors = 0;
+        if($user){
+            $interval = date_diff(new DateTime($user['createdAt']), new DateTime());
+            if ($interval->y == 0 && $interval->m == 0 && $interval->d == 0 && $interval->h > 1 || $args['code'] !== $user['code']) {
+                $errors = 1;
+            }
+        }else{
+            $errors = 1;
+        }
+
+        return $this->twig->render($response, 'app/pages/security/reinit.twig', [
+            'errors' => $errors
+        ]);
     }
 
     /**

@@ -207,8 +207,10 @@ function handleErrors(error, formClass=null, message="Veuillez vérifier les inf
         let messageError = error.response.data ? error.response.data : message;
         toastr.error(messageError);
 
-        errorForm.classList.add('active');
-        errorMsg.innerHTML = messageError;
+        if(errorForm){
+            errorForm.classList.add('active');
+            errorMsg.innerHTML = messageError;
+        }
     }
 }
 
