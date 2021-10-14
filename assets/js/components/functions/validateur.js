@@ -59,7 +59,7 @@ function validatePassword($value, $valueCheck){
 
     // return {'code': true};
 
-    if (/^(?=.{12,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\w).*$/.test($value)){
+    if (/^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\w).*$/.test($value)){
 
         if($value !== $valueCheck){
             return {
@@ -73,7 +73,7 @@ function validatePassword($value, $valueCheck){
     }else{
         return {
             'code': false,
-            'message': 'Le mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial et au moins 12 caractères.'
+            'message': 'Le mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial et au moins 8 caractères.'
         };
     }
 }

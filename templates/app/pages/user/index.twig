@@ -54,7 +54,7 @@
                     </a>
                 </div>
 
-                <div class="user-users">
+                <div id="users" class="user-users" data-donnees="{{ data | json_encode }}" data-current-user="{{ session.user | json_encode }}">
                     <div class="title">
                         <h2>Utilisateurs</h2>
                         <div class="actions">
@@ -73,7 +73,7 @@
                                 <div class="col-4">Actions</div>
                             </div>
                         </div>
-                        <div class="list-items">
+                        <div  class="list-items" >
                             {% if data | length > 0 %}
                                 {% for elem in data %}
                                     {% set isBLocked = elem.is_blocked == 0 %}
@@ -85,14 +85,9 @@
                                         </div>
                                         <div class="col-3">
                                             {{ elem.rights == 0 ? "<div class='role-blocked'>Utilisateur</div>" : "" }}
-{#                                            {{ isBLocked ? "<div class='role-blocked'>Bloqué</div>" : "" }}#}
                                         </div>
                                         <div class="col-4">
                                             {% if elem.id != session.user[7] %}
-{#                                                <button class="btn-icon">#}
-{#                                                    <span class="icon-{{ isBlocked ? "minus" : "block" }}"></span>#}
-{#                                                    <span class="tooltip">{{ isBLocked ? "Débloquer" : "Bloquer"}}</span>#}
-{#                                                </button>#}
                                                 <button class="btn-icon btn-edit-user"
                                                         data-id="{{ elem.id }}"
                                                         data-user="{{ elem | json_encode }}"

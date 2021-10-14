@@ -81,7 +81,7 @@ export class Reinit extends Component {
                                 <div className="password-rules">
                                     <p>Règles de création de mot de passe :</p>
                                     <ul>
-                                        <li>Au moins 12 caractères</li>
+                                        <li>Au moins 8 caractères</li>
                                         <li>Au moins 1 minuscule</li>
                                         <li>Au moins 1 majuscule</li>
                                         <li>Au moins 1 chiffre</li>
