@@ -198,7 +198,12 @@ final class SecurityController
         $errors = 0;
         if($user){
             $interval = date_diff(new DateTime($user['createdAt']), new DateTime());
-            if ($interval->y == 0 && $interval->m == 0 && $interval->d == 0 && $interval->h > 1 || $args['code'] !== $user['code']) {
+
+            if ($interval->y == 0 && $interval->m == 0 && $interval->d == 0 && $interval->h >= 1) {
+                $errors = 1;
+            }
+
+            if($args['code'] !== $user['code']){
                 $errors = 1;
             }
         }else{
