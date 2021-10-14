@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 import axios            from "axios";
+import toastr           from "toastr";
 
 import { Input }        from "@dashboardComponents/Tools/Fields";
-import { Button }        from "@dashboardComponents/Tools/Button";
+import { Button }       from "@dashboardComponents/Tools/Button";
 import { Alert }        from "@dashboardComponents/Tools/Alert";
 import Validateur       from "@dashboardComponents/functions/validateur";
 import Formulaire       from "@dashboardComponents/functions/Formulaire";
@@ -28,7 +29,7 @@ export class Reinit extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { url, urlLogin } = this.props;
+        const { context, url, urlLogin } = this.props;
         const { password, passwordConfirm } = this.state;
 
         this.setState({ success: false})
@@ -44,18 +45,21 @@ export class Reinit extends Component {
         }else{
             Formulaire.loader(true);
             let self = this;
-            axios({ method: "POST", url: url, data: self.state })
+            axios({ method: "PUT", url: url, data: self.state })
                 .then(function (response) {
                     self.setState({  password: "", passwordConfirm: "", success: response.data.message, errors: [] });
-                    setTimeout(function (){
-                        window.location.href = urlLogin
-                    }, 5000)
+                    if(context === "reinit"){
+                        toastr.info('La page va se rafraichir dans quelques secondes.')
+                        setTimeout(function (){
+                            window.location.href = urlLogin
+                        }, 5000)
+                    }else{
+                        Formulaire.loader(false);
+                    }
                 })
                 .catch(function (error) {
-                    Formulaire.displayErrors(self, error);
-                })
-                .then(function (){
                     Formulaire.loader(false);
+                    Formulaire.displayErrors(self, error);
                 })
             ;
         }

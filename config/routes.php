@@ -22,6 +22,7 @@ return function (App $app) {
     $app->get('/logout', [SecurityController::class, 'logout'])->setName('logout');
     $app->post('/lost-password', [SecurityController::class, 'lostForm'])->setName('lostForm');
     $app->get('/reinitialiser-mot-de-passe/{token}-{code}', [SecurityController::class, 'reinitPassword'])->setName('reinitPassword');
+    $app->put('/update-password/{username}-{id}', [UserController::class, 'updatePassword'])->setName('updatePassword');
 
     $app->group('/legales', function (RouteCollectorProxy $group) {
         $group->get('/mentions-legales', [AppController::class, 'mentions'])->setName('mentions');

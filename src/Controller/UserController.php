@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Services\ApiService;
 use App\Services\SanitizeData;
 use App\Services\Validateur;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Odan\Session\SessionInterface;
+use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -15,13 +18,16 @@ class UserController
     private $session;
     private $validateur;
     private $sanitizeData;
+    private $connection;
 
-    public function __construct(SessionInterface $session, ApiService $apiService, Validateur $validateur, SanitizeData $sanitizeData)
+    public function __construct(SessionInterface $session, ApiService $apiService, Validateur $validateur,
+                                SanitizeData $sanitizeData, Connection $connection)
     {
         $this->apiService = $apiService;
         $this->session = $session;
         $this->validateur = $validateur;
         $this->sanitizeData = $sanitizeData;
+        $this->connection = $connection;
     }
 
     /**
@@ -207,6 +213,9 @@ class UserController
         return $response->withStatus(400);
     }
 
+    /**
+     * @throws Exception
+     */
     public function updatePassword(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody());
@@ -220,15 +229,24 @@ class UserController
             return $response->withStatus(400);
         }
 
-        $res = $this->apiService->callApi("edit_user_password/" . $args['id'], 'PUT', false, [
+        $res = $this->apiService->callApiWithoutAuth("edit_user_password/" . $args['username'] . "-" . $args['id'], 'PUT', false, [
             'password' => $password
         ]);
         if($res == false){
-            $response->getBody()->write("[UUPASS001] Une erreur est survenu. Veuillez contacter le support.");
+            $response->getBody()->write(json_encode(['message' => "[UUPASS001] Une erreur est survenu. Veuillez contacter le support."]));
             return $response->withStatus(400);
         }
 
-        $response->getBody()->write("Mot de passe mis à jour.");
+        $values = [
+            'code' => null,
+            'createdAt' => null
+        ];
+        $this->connection->update('password', $values, ['username' => $args['username']], [
+            PDO::PARAM_STR,
+            'datetime',
+        ]);
+
+        $response->getBody()->write(json_encode(['message' => "Mot de passe mis à jour."]));
         return $response->withStatus(200);
     }
 }

@@ -72,14 +72,17 @@ class ApiService
         }
     }
 
-    public function callApiWithoutAuth($path)
+    public function callApiWithoutAuth($path, $method="GET", $decodeResponseToJson=true, $json=[])
     {
         $client = new Client();
 
         try {
-            $response = $client->get($this->apiUrl . $path);
+            $response = $client->request($method,$this->apiUrl . $path, [
+                'json' => $json
+            ]);
             return $response->getBody();
         } catch (GuzzleException $e){
+            var_dump($e->getMessage());
             return false;
         }
     }

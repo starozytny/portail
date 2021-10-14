@@ -9,9 +9,9 @@
             Ce lien de réinitialisation de mot de passe a expiré. Veuillez recommencer la procédure. <br><br>
         </p>
         <div class="exceptions-actions">
-            <a href="{{ url_for('homepage') }}" class="btn btn-color0">Revenir à la page de connexion</a>
+            <a href="{{ url_for('login') }}" class="btn btn-color0">Revenir à la page de connexion</a>
         </div>
     {% else %}
-        <div id="reinit"></div>
+        <div id="reinit" data-context="reinit" data-url="{{ url_for('updatePassword', {'username': username, 'id': id}) }}" data-url-login="{{ url_for('login') }}"></div>
     {% endif %}
 {% endblock %}
