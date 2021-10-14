@@ -8,14 +8,10 @@ import Aside        from "../components/functions/aside";
 import Validateur   from "../components/functions/validateur";
 import SwalOptions  from "../components/functions/swalOptions";
 
-import React from "react";
-import { render } from "react-dom";
-import { Users } from "./components/User/Users";
-
-let el = document.getElementById('users');
-if(el){
-    render(<Users {...el.dataset} data-uril-ori={"/utilisateur"}/>, el);
-}
+//*****
+// Ouvrir l'aside add user
+//*****
+Aside.manageAside('.btn-add-user', '.aside-add-user');
 
 //*****
 // Ouvrir l'aside edit user and set data form
