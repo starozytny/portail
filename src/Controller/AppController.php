@@ -63,73 +63,45 @@ class AppController
     {
         $users    = $this->apiService->callApi('users');
         $models    = $this->apiService->callApi('models');
-        $properties    = $this->apiService->callApi('properties');
-        $tenants    = $this->apiService->callApi('tenants');
-        $elements = $this->apiService->callApi('inventories/list/' . ($args['status'] == "en-cours" ? 0 : 2));
+        $elements = $this->apiService->callApi('inventories/full/list/' . ($args['status'] == "en-cours" ? 0 : 2));
 
         $data = [];
 
         foreach ($elements as $elem) {
 
-            $element = [
-                'inventory' => "",
-                'property' => "",
-                'tenants' => ""
-            ];
-
-            $element = json_encode($element);
-            $element = json_decode($element);
-
-            $element->inventory = $elem;
-
             foreach($users as $user){
-                if($user->id == $elem->user_id){
-                    $element->inventory->user = $user;
+                if($user->id == $elem->inventory->user_id){
+                    $elem->inventory->user = $user;
                 }
             }
 
-            foreach($properties as $property){
-                if($elem->property_uid == $property->uid){
-                    $element->property = $property;
-                }
-            }
-
-            $element->tenants = [];
-            foreach(json_decode($elem->tenants) as $reference){
-                foreach($tenants as $tenant){
-                    if($reference == $tenant->reference){
-                        array_push($element->tenants, $tenant);
-                    }
-                }
-            }
-
-            $input = $elem->input;
+            $input = $elem->inventory->input;
             if((int) $input < 0){
                 foreach($models as $model){
                     if($model->id == abs($input)){
-                        $element->inventory->model = $model;
+                        $elem->inventory->model = $model;
                     }
                 }
             }
 
-            $inventoryDate = $elem->date;
+            $inventoryDate = $elem->inventory->date;
             if($inventoryDate == "0"){
                 if(!isset($data['unknown'])){
-                    $data['unknown'] = [ 'unknown' => [$element] ];
+                    $data['unknown'] = [ 'unknown' => [$elem] ];
                 }else{
-                    array_push($data['unknown']['unknown'], $element);
+                    array_push($data['unknown']['unknown'], $elem);
                 }
             }else{
                 $year = date('Y', $inventoryDate);
                 $month = date('m', $inventoryDate);
 
                 if(!isset($data[$year])){
-                    $data[$year] = [ $month => [$element] ];
+                    $data[$year] = [ $month => [$elem] ];
                 }else{
                     if(!isset($data[$year][$month])){
-                        $data[$year][$month] = [$element];
+                        $data[$year][$month] = [$elem];
                     }else{
-                        array_push($data[$year][$month], $element);
+                        array_push($data[$year][$month], $elem);
                     }
                 }
             }

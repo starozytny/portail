@@ -17,7 +17,7 @@ export class Bibli extends Component {
         super(props);
 
         this.state = {
-            context: "elements",
+            context: null,
             dataImmuable: JSON.parse(props.donnees)
         }
 
