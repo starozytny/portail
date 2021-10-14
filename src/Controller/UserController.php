@@ -102,7 +102,7 @@ class UserController
             ['type' => 'text', 'name' => $formFrom . '-lastname',     'value' => $lastname],
             ['type' => 'text', 'name' => $formFrom . '-email',        'value' => $email]
         ];
-        if($formFrom == "create"){
+        if($formFrom == "create" || $password != ""){
             array_push($paramsToValidate, ['type' => 'text', 'name' => $formFrom . '-password', 'value' => $password]);
         }
         $errors = $this->validateur->validate($paramsToValidate);
@@ -129,6 +129,15 @@ class UserController
                     $i++;
                     $userTag = $userTag . $i;
                 }
+            }
+        }
+
+        if($formFrom != "create" && $password != ""){
+            $res = $this->apiService->callApiWithoutAuth("edit_user_password/" . $username . "-" . $userId, 'PUT', false, [
+                'password' => $password
+            ]);
+            if($res == false){
+                return ['code' => 0, 'errors' => "[UU002] Une erreur est survenu. Veuillez contacter le support."];
             }
         }
 

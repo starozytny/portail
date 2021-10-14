@@ -96,7 +96,7 @@ if(forms){
 
             Validateur.hideErrors();
 
-            let method = "PUT";
+            let method = formId === "create" ? "POST" : "PUT";
             let formId = form.dataset.id;
             let formClass = "." + form.dataset.id;
 
@@ -106,7 +106,8 @@ if(forms){
             let lastname = document.querySelector(formClass + '-lastname').value;
             let email = document.querySelector(formClass + '-email').value;
             let userTag = document.querySelector(formClass + '-userTag').value;
-            let password = "";
+            let password = document.querySelector(formClass + '-password').value;
+            let passwordConfirm = document.querySelector(formClass + '-passwordConfirm').value;
 
             // validate data
             let paramsToValidate = [
@@ -114,11 +115,7 @@ if(forms){
                 {type: "text", id: formId + '-lastname', value: lastname},
                 {type: "email", id: formId + '-email', value: email}
             ];
-            if(formId === "create"){
-                method = "POST";
-                password = document.querySelector(formClass + '-password').value;
-                let passwordConfirm = document.querySelector(formClass + '-passwordConfirm').value;
-
+            if(formId === "create" || password !== ""){
                 paramsToValidate = [...paramsToValidate,
                     ...[{type: "password", id: formId + '-password', value: password, idCheck: formId + '-passwordConfirm', valueCheck: passwordConfirm}]
                 ];
@@ -158,6 +155,8 @@ if(forms){
                         }
                     })
                     .catch(function (error) {
+                        console.log(error)
+                        console.log(error.response)
                         Validateur.handleErrors(error)
                     })
                     .then(function () {
