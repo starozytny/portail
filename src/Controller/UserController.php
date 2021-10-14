@@ -206,4 +206,29 @@ class UserController
         $response->getBody()->write($msg);
         return $response->withStatus(400);
     }
+
+    public function updatePassword(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $data = json_decode($request->getBody());
+
+        $password = $data->password;
+        $passwordConfirm = $data->passwordConfirm;
+
+        // validation des données
+        if($password == "" && $password != $passwordConfirm){
+            $response->getBody()->write(json_encode([['name' => 'password', 'message' => "Veuillez vérifier votre saisie."]]));
+            return $response->withStatus(400);
+        }
+
+        $res = $this->apiService->callApi("edit_user_password/" . $args['id'], 'PUT', false, [
+            'password' => $password
+        ]);
+        if($res == false){
+            $response->getBody()->write("[UUPASS001] Une erreur est survenu. Veuillez contacter le support.");
+            return $response->withStatus(400);
+        }
+
+        $response->getBody()->write("Mot de passe mis à jour.");
+        return $response->withStatus(200);
+    }
 }
