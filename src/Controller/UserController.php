@@ -132,15 +132,6 @@ class UserController
             }
         }
 
-        if($formFrom != "create" && $password != ""){
-            $res = $this->apiService->callApiWithoutAuth("edit_user_password/" . $username . "-" . $userId, 'PUT', false, [
-                'password' => $password
-            ]);
-            if($res == false){
-                return ['code' => 0, 'errors' => "[UU002] Une erreur est survenu. Veuillez contacter le support."];
-            }
-        }
-
         //Appel API
         $dataToSend = [
             'id' => $userId, // for javascript edit
@@ -158,9 +149,11 @@ class UserController
 
         //regeneration des variables en sessions
         if($formFrom == "main"){
+            $sessionPassword = $password != "" ? $this->apiService->encryption($password) : $this->session->get('user')[1];
+
             $user = [
                 $this->session->get('user')[0], //username
-                $this->session->get('user')[1], //password
+                $sessionPassword, //password
                 $firstname,
                 $lastname,
                 $this->session->get('user')[4], //crédits
@@ -176,6 +169,15 @@ class UserController
             $this->session->regenerateId();
 
             $this->session->set('user', $user);
+        }
+
+        if($formFrom != "create" && $password != ""){
+            $res = $this->apiService->callApiWithoutAuth("edit_user_password/" . $username . "-" . $userId, 'PUT', false, [
+                'password' => $password
+            ]);
+            if($res == false){
+                return ['code' => 0, 'errors' => "[UU002] Une erreur est survenu. Veuillez contacter le support."];
+            }
         }
 
         return ['code' => 1, 'data' => $dataToSend];
