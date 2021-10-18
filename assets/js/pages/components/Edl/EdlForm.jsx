@@ -114,10 +114,12 @@ export class EdlForm extends Component {
 
         let newElements = [];
         if(tenants.includes(elem)){
+            toastr.warning('Locataire enlevé.')
             newElements = tenants.filter(el => {
                 return el.reference !== elem.reference
             });
         }else{
+            toastr.info('Locataire ajouté.')
             newElements = tenants
             newElements.push(elem);
         }
