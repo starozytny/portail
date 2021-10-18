@@ -60,12 +60,21 @@ export class ModeleForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAsideRooms = this.handleAsideRooms.bind(this);
+        this.handleAddElement = this.handleAddElement.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
 
     handleAsideRooms = () => {
         this.asideRooms.current.handleOpen();
+    }
+
+    handleAddElement = (room) => {
+        const { content } = this.state;
+
+        let newContent = content;
+        newContent.push({ id: room, elements: '[3, 4, 5, 6, 7, 8, 16, 17, 18]' })
+        this.setState({ content: newContent })
     }
 
     handleSubmit = (e) => {
@@ -109,7 +118,7 @@ export class ModeleForm extends Component {
         const { context, library } = this.props;
         const { errors, errorContent, success, name, content } = this.state;
 
-        let asideRooms = <SelectRoom content={content} data={library}/>
+        let asideRooms = <SelectRoom content={content} data={library} onAddElement={this.handleAddElement}/>
 
         return <>
             <form onSubmit={this.handleSubmit}>

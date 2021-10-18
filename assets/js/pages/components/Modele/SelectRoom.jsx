@@ -48,6 +48,7 @@ export class SelectRoom extends Component {
         newValues.push(parseInt(id));
 
         this.setState({ values: newValues });
+        this.props.onAddElement(parseInt(id));
     }
 
     handleRemove = (id) => {
