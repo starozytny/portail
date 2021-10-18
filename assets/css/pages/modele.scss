@@ -85,6 +85,8 @@
 }
 
 .item-room{
+  cursor: pointer;
+
   &.active{
     .elements{
       display: block;

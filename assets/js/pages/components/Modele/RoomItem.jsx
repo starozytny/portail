@@ -21,7 +21,7 @@ export class RoomItem extends Component {
         const { elem, library } = this.props;
         const { showDetails } = this.state;
 
-        return <div className={"item item-room" + (showDetails ? " active" : "")}>
+        return <div className={"item item-room" + (showDetails ? " active" : "")} onClick={this.handleShow}>
             <div className="item-content">
                 <div className="item-body">
                     <div className="infos infos-col-3">
