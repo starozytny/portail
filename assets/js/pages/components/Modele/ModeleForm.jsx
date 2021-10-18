@@ -5,14 +5,17 @@ import toastr                  from "toastr";
 
 import { Radiobox, Input }     from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
-import { Button }              from "@dashboardComponents/Tools/Button";
+import { Button, ButtonIcon }  from "@dashboardComponents/Tools/Button";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 import Sanitaze                from "@dashboardComponents/functions/sanitaze";
 
-export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, onSetProperty, refAside })
+import {Aside} from "@dashboardComponents/Tools/Aside";
+import {SelectRoom} from "./SelectRoom";
+
+export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, library })
 {
     let full = true;
     let title = "Ajouter un modèle";
@@ -29,8 +32,10 @@ export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element
         context={type}
         url={url}
         name={element ? element.name : ""}
+        content={element ? JSON.parse(element.content) : []}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
+        library={library}
         messageSuccess={msg}
     />
 
@@ -43,27 +48,37 @@ export class ModeleForm extends Component {
 
         this.state = {
             name: props.name,
+            content: props.content,
             errors: [],
             success: false,
+            errorContent: ""
         }
+
+        this.asideRooms = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAsideRooms = this.handleAsideRooms.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
+
+    handleAsideRooms = () => {
+        this.asideRooms.current.handleOpen();
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { name } = this.state;
+        const { name, content } = this.state;
 
         this.setState({ success: false, errors: []})
         let method = context !== "update" ? "POST" : "PUT";
 
         let paramsToValidate = [
             {type: "text",   id: 'name',   value: name},
+            {type: "array",   id: 'content',   value: content},
         ];
 
         // validate global
@@ -90,8 +105,10 @@ export class ModeleForm extends Component {
     }
 
     render () {
-        const { context } = this.props;
-        const { errors, success, name } = this.state;
+        const { context, library } = this.props;
+        const { errors, errorContent, success, name, content } = this.state;
+
+        let asideRooms = <SelectRoom content={content} data={library}/>
 
         return <>
             <form onSubmit={this.handleSubmit}>
@@ -102,13 +119,26 @@ export class ModeleForm extends Component {
                     <Input valeur={name} identifiant="name" errors={errors} onChange={this.handleChange} >Intitulé</Input>
                 </div>
 
+                <div className="line line-select-or-add">
+                    <div className={"form-group input-bien" + errorContent}>
+                        <label>Pièce(s)</label>
+                        <div className="actions-bien select-or-add">
+                            <Button outline={true} type="default" onClick={this.handleAsideRooms}>Sélectionner une/des pièce(s)</Button>
+                        </div>
+                        <div className="error">
+                            <span className='icon-warning'/>
+                            Veuillez ajouter au moins une pièce.
+                        </div>
+                    </div>
+                </div>
+
                 <div className="line">
                     <div className="form-button">
                         <Button isSubmit={true}>{context !== "update" ? "Ajouter ce modèle" : 'Modifier ce modèle'}</Button>
                     </div>
                 </div>
             </form>
-
+            <Aside ref={this.asideRooms} content={asideRooms} >Sélectionner une/des pièce(s)</Aside>
         </>
     }
 }

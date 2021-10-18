@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div id="modeles" data-donnees="{{ data | json_encode }}"></div>
+    <div id="modeles" data-donnees="{{ data | json_encode }}" data-library="{{ library | json_encode }}"></div>
 {% endblock %}
 
 {% block javascripts %}

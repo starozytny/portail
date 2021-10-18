@@ -59,11 +59,13 @@ export class Modeles extends Component {
     }
 
     handleContentCreate = (changeContext) => {
-        return <ModeleFormulaire oriUrl={this.props.oriUrl} type="create" onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <ModeleFormulaire oriUrl={this.props.oriUrl} library={JSON.parse(this.props.library)}
+                                 type="create" onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <ModeleFormulaire oriUrl={this.props.oriUrl} type="update" element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <ModeleFormulaire oriUrl={this.props.oriUrl} library={JSON.parse(this.props.library)}
+                                 type="update" element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     render () {

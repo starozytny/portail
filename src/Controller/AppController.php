@@ -203,8 +203,10 @@ class AppController
     public function modele(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $objs = $this->apiService->callApi('models');
+        $library = $this->apiService->callApi('library');
         return $this->twig->render($response, 'app/pages/modele/index.twig', [
-            'data' => $objs
+            'data' => $objs,
+            'library' => $library
         ]);
     }
 }
