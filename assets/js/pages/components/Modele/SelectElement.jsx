@@ -17,7 +17,7 @@ export class SelectElement extends Component {
 
         let categoriesChoices = [];
         data.categories.forEach(cat => {
-            categoriesChoices.push({ value: cat.id, label: Sanitaze.capitalize(cat.name), identifiant: 'cat-' + cat.id })
+            categoriesChoices.push({ value: cat.id, label: Sanitaze.capitalize(cat.name) + ' ('+ 0 +')', identifiant: 'cat-' + cat.id })
         });
 
         return <div className="select-elements">
