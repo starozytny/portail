@@ -140,6 +140,20 @@
   }
 }
 
+.select-elements{
+  .categories{
+    margin-bottom: 24px;
+
+    & > .btn{
+      width: 100%;
+    }
+
+    & > .btn:not(:last-child){
+      margin-bottom: 12px;
+    }
+  }
+}
+
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
 //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
@@ -154,6 +168,56 @@
 
     .filter-search{
       width: calc(100% - 176px - 24px);
+    }
+  }
+
+  .select-elements{
+    .categories{
+      @include flex(row, stretch, flex-start);
+      flex-wrap: wrap;
+      width: calc(100% + 12px);
+
+      & > .btn{
+        width: calc(50% - 12px);
+        margin-right: 12px;
+        margin-bottom: 12px;
+      }
+    }
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .aside:last-child{
+    width: 75%;
+  }
+
+  .select-elements{
+    .categories{
+      & > .btn{
+        width: calc(33% - 12px);
+      }
+    }
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .select-elements{
+    .categories{
+      & > .btn{
+        width: calc(20% - 12px);
+      }
     }
   }
 }

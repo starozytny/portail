@@ -41,7 +41,7 @@
   height: calc(100% - 50px);
   z-index: -1;
   transform: translateX(150%);
-  padding: 25px 10px;
+  padding: 24px 12px;
   overflow: auto;
   @include scrollbar();
 
@@ -58,7 +58,7 @@
   font-size: 22px;
   @include fontSemibold();
   @include flex(row, center, space-between);
-  margin-bottom: 25px;
+  margin-bottom: 24px;
 
   .icon-cancel{
     font-size: 14px;
@@ -124,16 +124,8 @@
       padding: 0;
     }
   }
-}
 
-//                      __   _  __    ___   ___    __
-//                     | _| / |/ /_  / _ \ / _ \  |_ |
-//    _____ _____ _____| |  | | '_ \| | | | | | |  | |_____ _____ _____
-//   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
-//                     | |  |_|\___/ \___/ \___/   | |
-//                     |__|                       |__|
-@media (min-width: 1600px){
   .aside-content{
-    padding: 25px;
+    padding: 24px;
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import toastr               from "toastr";
 
-import { ButtonIcon }       from "@dashboardComponents/Tools/Button";
+import { Button, ButtonIcon } from "@dashboardComponents/Tools/Button";
 
 import Sanitaze             from "@dashboardComponents/functions/sanitaze";
 
@@ -13,8 +13,19 @@ export class SelectElement extends Component {
     }
 
     render () {
+        const { data } = this.props;
 
-        return <>
+        let categoriesChoices = [];
+        data.categories.forEach(cat => {
+            categoriesChoices.push({ value: cat.id, label: Sanitaze.capitalize(cat.name), identifiant: 'cat-' + cat.id })
+        });
+
+        return <div className="select-elements">
+            <div className="categories">
+                {categoriesChoices.map(category => {
+                    return <Button key={category.value} type="default" outline={true}>{category.label}</Button>
+                })}
+            </div>
             <div className="items-table">
                 <div className="items items-default items-rooms">
                     <div className="item item-header">
@@ -30,6 +41,6 @@ export class SelectElement extends Component {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     }
 }

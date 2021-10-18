@@ -163,7 +163,7 @@ export class ModeleForm extends Component {
         const { errors, errorContent, success, name, content, element } = this.state;
 
         let asideRooms = <SelectRoom content={content} data={library} onAddRoom={this.handleAddRoom} onRemoveRoom={this.handleRemoveRoom}/>
-        let asideElements = <SelectElement element={element} />
+        let asideElements = <SelectElement data={library} element={element} />
 
         return <>
             <form onSubmit={this.handleSubmit}>
