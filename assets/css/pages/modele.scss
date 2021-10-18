@@ -28,7 +28,7 @@
 }
 
 .items-rooms{
-  .item{
+  .item:not(.item-header){
     opacity: 0.8;
 
     .actions{

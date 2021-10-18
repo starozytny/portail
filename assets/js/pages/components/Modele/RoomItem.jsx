@@ -33,8 +33,10 @@ export class RoomItem extends Component {
     }
 
     render () {
-        const { elem, library } = this.props;
+        const { elem, library, onAside } = this.props;
         const { showDetails } = this.state;
+
+        let name = getStringData(library.rooms, elem.id);
 
         return <div className={"item item-room" + (showDetails ? " active" : "")}>
             <div className="item-content">
@@ -42,13 +44,13 @@ export class RoomItem extends Component {
                     <div className="infos infos-col-3">
                         <div className="col-1" onClick={this.handleShow}>
                             <div className="name">
-                                {getStringData(library.rooms, elem.id)}
+                                {name}
                             </div>
                         </div>
                         <div className="col-2">
                             <Elements elements={JSON.parse(elem.elements)} library={library} onShow={this.handleShow}/>
                             <div className="edit-elements">
-                                <Button outline={true} icon="compose" type="default">Modifier</Button>
+                                <Button outline={true} icon="compose" type="default" onClick={() => onAside(elem, name.toLowerCase())}>Modifier</Button>
                             </div>
                         </div>
                         <div className="col-3 actions">

@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
 
-import axios                   from "axios";
-import toastr                  from "toastr";
+import toastr               from "toastr";
 
-import { Radiobox, Input }     from "@dashboardComponents/Tools/Fields";
-import { Alert }               from "@dashboardComponents/Tools/Alert";
-import { Button, ButtonIcon }  from "@dashboardComponents/Tools/Button";
-import { FormLayout }          from "@dashboardComponents/Layout/Elements";
-import { Selector }            from "@dashboardComponents/Layout/Selector";
+import { ButtonIcon }       from "@dashboardComponents/Tools/Button";
 
-import Validateur              from "@dashboardComponents/functions/validateur";
-import Formulaire              from "@dashboardComponents/functions/Formulaire";
-import Sanitaze                from "@dashboardComponents/functions/sanitaze";
+import Sanitaze             from "@dashboardComponents/functions/sanitaze";
 
 export class SelectRoom extends Component {
     constructor(props) {

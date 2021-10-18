@@ -16,6 +16,7 @@ import Sanitaze                from "@dashboardComponents/functions/sanitaze";
 import {Aside} from "@dashboardComponents/Tools/Aside";
 import {SelectRoom} from "./SelectRoom";
 import {RoomItem} from "./RoomItem";
+import {SelectElement} from "./SelectElement";
 
 export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, library })
 {
@@ -64,22 +65,27 @@ export class ModeleForm extends Component {
             content: props.content,
             errors: [],
             success: false,
-            errorContent: ""
+            errorContent: "",
+            element: null
         }
 
         this.asideRooms = React.createRef();
+        this.asideElements = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAsideRooms = this.handleAsideRooms.bind(this);
+        this.handleAsideElements = this.handleAsideElements.bind(this);
         this.handleAddRoom = this.handleAddRoom.bind(this);
         this.handleRemoveRoom = this.handleRemoveRoom.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
 
-    handleAsideRooms = () => {
-        this.asideRooms.current.handleOpen();
+    handleAsideRooms = () => { this.asideRooms.current.handleOpen(); }
+    handleAsideElements = (elem, name) => {
+        this.setState({ element: elem })
+        this.asideElements.current.handleOpen("Modifier " + name);
     }
 
     handleAddRoom = (room) => {
@@ -154,9 +160,10 @@ export class ModeleForm extends Component {
 
     render () {
         const { context, library } = this.props;
-        const { errors, errorContent, success, name, content } = this.state;
+        const { errors, errorContent, success, name, content, element } = this.state;
 
         let asideRooms = <SelectRoom content={content} data={library} onAddRoom={this.handleAddRoom} onRemoveRoom={this.handleRemoveRoom}/>
+        let asideElements = <SelectElement element={element} />
 
         return <>
             <form onSubmit={this.handleSubmit}>
@@ -195,7 +202,9 @@ export class ModeleForm extends Component {
                                 </div>
                             </div>
                             {content.map((elem, index) => {
-                                return <RoomItem elem={elem} library={library} key={index} onRemoveRoom={this.handleRemoveRoom}/>
+                                return <RoomItem elem={elem} library={library} key={index}
+                                                 onRemoveRoom={this.handleRemoveRoom}
+                                                 onAside={this.handleAsideElements}/>
                             })}
                         </div>
                     </div>
@@ -208,6 +217,7 @@ export class ModeleForm extends Component {
                 </div>
             </form>
             <Aside ref={this.asideRooms} content={asideRooms} >Sélectionner une/des pièce(s)</Aside>
+            <Aside ref={this.asideElements} content={asideElements} />
         </>
     }
 }
