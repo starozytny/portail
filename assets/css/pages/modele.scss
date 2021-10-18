@@ -86,8 +86,6 @@
 }
 
 .item-room{
-  cursor: pointer;
-
   &.active{
     .elements{
       display: block;
@@ -96,6 +94,14 @@
     .room-elements:not(:last-child){
       margin-bottom: 12px;
     }
+  }
+
+  .col-1{
+    padding: 8px 0;
+  }
+
+  .col-1, .col-2{
+    cursor: pointer;
   }
 
   .category{
