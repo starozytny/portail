@@ -14,6 +14,7 @@ import Sanitaze                from "@dashboardComponents/functions/sanitaze";
 
 import {Aside} from "@dashboardComponents/Tools/Aside";
 import {SelectRoom} from "./SelectRoom";
+import {RoomItem} from "./RoomItem";
 
 export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, library })
 {
@@ -133,6 +134,27 @@ export class ModeleForm extends Component {
                 </div>
 
                 <div className="line">
+                    <div className="items-table">
+                        <div className="items items-default">
+                            <div className="item item-header">
+                                <div className="item-content">
+                                    <div className="item-body">
+                                        <div className="infos infos-col-3">
+                                            <div className="col-1">Pièce</div>
+                                            <div className="col-2">Eléments</div>
+                                            <div className="col-3 actions">Actions</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {content.map((elem, index) => {
+                                return <RoomItem elem={elem} library={library} key={index}/>
+                            })}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="line">
                     <div className="form-button">
                         <Button isSubmit={true}>{context !== "update" ? "Ajouter ce modèle" : 'Modifier ce modèle'}</Button>
                     </div>
@@ -142,3 +164,4 @@ export class ModeleForm extends Component {
         </>
     }
 }
+

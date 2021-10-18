@@ -47,8 +47,6 @@ export class SelectRoom extends Component {
         let newValues = values;
         newValues.push(parseInt(id));
 
-        console.log("d")
-
         this.setState({ values: newValues });
     }
 
@@ -93,8 +91,6 @@ export class SelectRoom extends Component {
         const { data, content } = this.props;
         const { values } = this.state;
 
-        console.log(values)
-
         return <>
             <div className="items-table">
                 <div className="items items-default items-rooms">
@@ -120,7 +116,6 @@ export class SelectRoom extends Component {
                                 total++;
                             }
                         })
-
 
                         return (<div className={"item" + active} key={el.id}>
                             <div className="selector" onClick={() => this.handleAdd(el.id)}/>
