@@ -14,9 +14,7 @@
         </div>
     </div>
 
-    <div class="main-content">
-        <div id="tenants" data-donnees="{{ data | json_encode }}" data-inventories="{{ inventories | json_encode }}"></div>
-    </div>
+    <div id="tenants" data-donnees="{{ data | json_encode }}" data-inventories="{{ inventories | json_encode }}"></div>
 {% endblock %}
 
 {% block javascripts %}

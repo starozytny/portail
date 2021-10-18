@@ -2,5 +2,22 @@
 
 @import "../components/table";
 @import "../components/toolbar";
-@import "../components/filter";
-@import "../components/dropdown";
+@import "../components/toolbar-create-search";
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .toolbar{
+    .create{
+      width: 176px;
+    }
+
+    .filter-search{
+      width: calc(100% - 176px - 24px);
+    }
+  }
+}
