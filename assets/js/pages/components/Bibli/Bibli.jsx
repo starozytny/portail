@@ -66,7 +66,7 @@ export class Bibli extends Component {
             {value: "counters", label: "Compteurs"},
             {value: "natures",  label: "Natures"},
             {value: "aspects",  label: "Aspects"},
-            {value: "elements", label: "Elements"},
+            {value: "elements", label: "Eléments"},
         ]
 
         return <>

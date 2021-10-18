@@ -26,7 +26,7 @@ class NatureController
         $data = json_decode($request->getBody());
 
         if(!isset($data->name) && $data->name == ""){
-            return ['code' => 0, 'data' => [['name' => 'name', 'message' => "Ce champs est obligatoire."]]];
+            return ['code' => 0, 'data' => json_encode([['name' => 'name', 'message' => "Ce champs est obligatoire."]])];
         }
 
         $dataToSend = [
@@ -37,6 +37,10 @@ class NatureController
             $res = $this->apiService->callApiWithErrors('library/add_nature/', 'POST', false, $dataToSend);
         }else{
             $res = $this->apiService->callApiWithErrors('library/edit_nature/' . $id, 'POST', false, $dataToSend);
+        }
+
+        if($res['code'] == 0 && str_contains($res['data'], "already")){
+            return ['code' => 0, 'data' => json_encode([['name' => 'name', 'message' => "Cette nature existe déjà."]])];
         }
 
        return $res;

@@ -82,6 +82,8 @@ export class RoomForm extends Component {
                     location.reload();
                 })
                 .catch(function (error) {
+                    console.log(error)
+                    console.log(error.response)
                     Formulaire.loader(false);
                     Formulaire.displayErrors(self, error);
                 })

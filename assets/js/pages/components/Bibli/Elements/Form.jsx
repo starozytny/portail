@@ -227,7 +227,7 @@ export class ElementForm extends Component {
                 <div className="line" />
 
                 <div className="line line-3">
-                    <Input valeur={variant} identifiant="variant" errors={errors} onChange={this.handleChange} >Variantes</Input>
+                    <Input valeur={variant} identifiant="variant" errors={errors} onChange={this.handleChange} >Variantes (facultatif)</Input>
                     <div className="form-group add-variant">
                         <label className="hide">Ajouter</label>
                         <Button icon="plus" outline={true} type="default" onClick={this.handleAddVariant}>Ajouter la variante</Button>
@@ -248,7 +248,7 @@ export class ElementForm extends Component {
                 </div>
 
                 <div className="line line-3">
-                    <SelectReactSelectize items={naturesChoices} identifiant="nature" valeur={nature} errors={errors} onChange={this.handleChangeSelect}>Natures</SelectReactSelectize>
+                    <SelectReactSelectize items={naturesChoices} identifiant="nature" valeur={nature} errors={errors} onChange={this.handleChangeSelect}>Natures (facultatif)</SelectReactSelectize>
                     <div className="form-group add-variant">
                         <label className="hide">Natures</label>
                         <Button icon="plus" outline={true} type="default" onClick={this.handleAddNature}>Associer des natures</Button>
