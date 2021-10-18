@@ -5,7 +5,7 @@ import SwalOptions  from "@dashboardComponents/functions/swalOptions";
 
 import Sanitaze from "@dashboardComponents/functions/sanitaze";
 
-import { ButtonIcon } from "@dashboardComponents/Tools/Button";
+import { Button, ButtonIcon } from "@dashboardComponents/Tools/Button";
 
 export class RoomItem extends Component {
     constructor(props) {
@@ -45,12 +45,14 @@ export class RoomItem extends Component {
                                 {getStringData(library.rooms, elem.id)}
                             </div>
                         </div>
-                        <div className="col-2" onClick={this.handleShow}>
-                            <Elements elements={JSON.parse(elem.elements)} library={library}/>
+                        <div className="col-2">
+                            <Elements elements={JSON.parse(elem.elements)} library={library} onShow={this.handleShow}/>
+                            <div className="edit-elements">
+                                <Button outline={true} icon="compose" type="default">Modifier</Button>
+                            </div>
                         </div>
                         <div className="col-3 actions">
                             <ButtonIcon icon={showDetails ? "hide" : "show"} onClick={this.handleShow}>Détails</ButtonIcon>
-                            <ButtonIcon icon="compose">Modifier</ButtonIcon>
                             <ButtonIcon icon="delete" onClick={() => this.handleRemove(elem.uid)}>Supprimer</ButtonIcon>
                         </div>
                     </div>
@@ -60,7 +62,7 @@ export class RoomItem extends Component {
     }
 }
 
-function Elements ({ elements, library }) {
+function Elements ({ elements, library, onShow }) {
 
     let items = []; let noDuplicate = [];
 
@@ -90,7 +92,7 @@ function Elements ({ elements, library }) {
             </div>)
         })
 
-        data.push(<div className="room-elements" key={index}>
+        data.push(<div className="room-elements" key={index} onClick={onShow}>
             <div className="category">
                 <span className="icon-rec" />
                 <span>{item[0]}</span>

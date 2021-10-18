@@ -104,6 +104,19 @@
     cursor: pointer;
   }
 
+
+  .room-elements{
+    & + .edit-elements{
+      margin-top: 12px;
+    }
+  }
+
+  .edit-elements{
+    .btn{
+      padding: 6px 24px;
+    }
+  }
+
   .category{
     @include flex(row, center, flex-start);
 
