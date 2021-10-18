@@ -58,6 +58,8 @@ return function (App $app) {
         $group->delete('/tenant/{id}', [TenantController::class, 'delete'])->setName('tenant_delete');
         $group->post('/tenant-check', [TenantController::class, 'check'])->setName('tenant_check');
 
+        $group->get('/modeles', [AppController::class, 'modele'])->setName('modele_index');
+
         $group->get('/bibliotheque', [AppController::class, 'bibli'])->setName('bibli_index');
 
         $group->post('/bibliotheque/room', [RoomController::class, 'create'])->setName('bibli_room_create');

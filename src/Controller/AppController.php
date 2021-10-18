@@ -199,4 +199,12 @@ class AppController
             'data' => $objs
         ]);
     }
+
+    public function modele(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $objs = $this->apiService->callApi('models');
+        return $this->twig->render($response, 'app/pages/modele/index.twig', [
+            'data' => $objs
+        ]);
+    }
 }
