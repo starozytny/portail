@@ -45,6 +45,7 @@
     "react-paginate": "^7.1.3",
     "react-selectize": "^3.0.1",
     "sweetalert2": "^11.1.7",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "uid": "^2.0.0"
   }
 }

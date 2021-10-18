@@ -48,7 +48,7 @@ export class SelectRoom extends Component {
         newValues.push(parseInt(id));
 
         this.setState({ values: newValues });
-        this.props.onAddElement(parseInt(id));
+        this.props.onAddRoom(parseInt(id));
     }
 
     handleRemove = (id) => {
@@ -84,7 +84,8 @@ export class SelectRoom extends Component {
                     newValues.push(val);
                 }
             })
-            this.setState({ values: newValues })
+            this.setState({ values: newValues });
+            this.props.onRemoveRoom(false, parseInt(id));
         }
     }
 
@@ -124,8 +125,8 @@ export class SelectRoom extends Component {
                             <div className="item-content">
                                 <div className="item-body">
                                     <div className="infos infos-col-2">
-                                        <div className="col-1">
-                                            <div className="name" onClick={() => this.handleAdd(el.id)}>
+                                        <div className="col-1" onClick={() => this.handleAdd(el.id)}>
+                                            <div className="name">
                                                 <span>{Sanitaze.capitalize(el.name)}</span>
                                             </div>
                                         </div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import axios                   from "axios";
 import toastr                  from "toastr";
+import { uid }                 from "uid";
 
 import { Radiobox, Input }     from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
@@ -23,17 +24,28 @@ export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element
     let url = oriUrl;
     let msg = "Vous avez ajouté un nouveau modèle !"
 
+    let content = [];
+
     if(type === "update"){
         title = "Modifier " + element.name;
         url = oriUrl + "/" + element.id;
         msg = "La mise à jour s'est réalisée avec succès !";
+
+        content = [];
+        JSON.parse(element.content).forEach(item => {
+            content.push({
+                uid: uid(),
+                id: item.id,
+                elements: item.elements
+            })
+        })
     }
 
     let form = <ModeleForm
         context={type}
         url={url}
         name={element ? element.name : ""}
-        content={element ? JSON.parse(element.content) : []}
+        content={content}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         library={library}
@@ -60,7 +72,8 @@ export class ModeleForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAsideRooms = this.handleAsideRooms.bind(this);
-        this.handleAddElement = this.handleAddElement.bind(this);
+        this.handleAddRoom = this.handleAddRoom.bind(this);
+        this.handleRemoveRoom = this.handleRemoveRoom.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
@@ -69,11 +82,36 @@ export class ModeleForm extends Component {
         this.asideRooms.current.handleOpen();
     }
 
-    handleAddElement = (room) => {
+    handleAddRoom = (room) => {
         const { content } = this.state;
 
         let newContent = content;
-        newContent.push({ id: room, elements: '[3, 4, 5, 6, 7, 8, 16, 17, 18]' })
+        newContent.push({ uid: uid(), id: room, elements: '[3, 4, 5, 6, 7, 8, 16, 17, 18]' });
+        this.setState({ content: newContent })
+    }
+
+    handleRemoveRoom = (isUid=true, identifiant) => {
+        const { content } = this.state;
+
+        let newContent = [];
+        if(isUid){
+            newContent = content.filter(elem => {
+                return elem.uid !== identifiant;
+            })
+        }else{
+            let first = true; let canRemove = true;
+            content.forEach(elem => {
+                if(elem.id === identifiant){
+                    if(!first){
+                        newContent.push(elem)
+                    }
+                    first = false;
+                }else{
+                    newContent.push(elem);
+                }
+            })
+        }
+
         this.setState({ content: newContent })
     }
 
@@ -118,7 +156,7 @@ export class ModeleForm extends Component {
         const { context, library } = this.props;
         const { errors, errorContent, success, name, content } = this.state;
 
-        let asideRooms = <SelectRoom content={content} data={library} onAddElement={this.handleAddElement}/>
+        let asideRooms = <SelectRoom content={content} data={library} onAddRoom={this.handleAddRoom} onRemoveRoom={this.handleRemoveRoom}/>
 
         return <>
             <form onSubmit={this.handleSubmit}>
@@ -157,7 +195,7 @@ export class ModeleForm extends Component {
                                 </div>
                             </div>
                             {content.map((elem, index) => {
-                                return <RoomItem elem={elem} library={library} key={index}/>
+                                return <RoomItem elem={elem} library={library} key={index} onRemoveRoom={this.handleRemoveRoom}/>
                             })}
                         </div>
                     </div>

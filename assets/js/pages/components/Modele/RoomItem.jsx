@@ -18,7 +18,7 @@ export class RoomItem extends Component {
     handleShow = () => { this.setState({ showDetails: !this.state.showDetails }) }
 
     render () {
-        const { elem, library } = this.props;
+        const { elem, library, onRemoveRoom } = this.props;
         const { showDetails } = this.state;
 
         return <div className={"item item-room" + (showDetails ? " active" : "")} onClick={this.handleShow}>
@@ -36,7 +36,7 @@ export class RoomItem extends Component {
                         <div className="col-3 actions">
                             <ButtonIcon icon={showDetails ? "hide" : "show"} onClick={this.handleShow}>Détails</ButtonIcon>
                             <ButtonIcon icon="compose">Modifier</ButtonIcon>
-                            <ButtonIcon icon="delete">Supprimer</ButtonIcon>
+                            <ButtonIcon icon="delete" onClick={() => onRemoveRoom(elem.uid)}>Supprimer</ButtonIcon>
                         </div>
                     </div>
                 </div>
