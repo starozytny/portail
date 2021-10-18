@@ -75,7 +75,7 @@ export class PropertySelect extends Component {
         return <div className="list-select">
             <div className="toolbar">
                 <div className="item filter-search">
-                    <Search onSearch={this.handleSearch} />
+                    <Search onSearch={this.handleSearch} placeholder="Recherche par référence, adresse, code postal, ville ou propriétaire..."/>
                 </div>
             </div>
             <div className="cards">

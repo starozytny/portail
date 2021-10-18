@@ -8,8 +8,9 @@
   padding: 4px 8px;
   border-radius: 4px;
   opacity: 0;
-  z-index: -1;
+  z-index: -100;
   transition: all 0.4s ease-in-out;
+  display: none;
 }
 
 .btn, .btn-icon,
@@ -50,9 +51,11 @@ button.swal2-cancel.swal2-styled{
   position: relative;
   padding: 8px;
   opacity: 0.7;
+  z-index: 5;
 
   &:hover{
     .tooltip{
+      display: block;
       opacity: 1;
       z-index: 1;
     }
