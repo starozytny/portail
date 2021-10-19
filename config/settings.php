@@ -14,7 +14,7 @@ $settings = [];
 
 require __DIR__ . '/config.php';
 
-$settings['public'] = $_SERVER['DOCUMENT_ROOT'];
+$settings['public'] = $_SERVER['DOCUMENT_ROOT'] . '/public';
 
 // Path settings
 $settings['root'] = dirname(__DIR__);

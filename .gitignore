@@ -40,3 +40,5 @@ winpty.exe.stackdump
 /public/annonces/thumbs/*
 
 /config/config.php
+
+/public/error_log
