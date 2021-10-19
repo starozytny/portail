@@ -14,8 +14,8 @@ export class SelectRoom extends Component {
         super(props);
 
         this.state = {
-            dataImmuable: props.data.rooms,
-            data: props.data.rooms,
+            dataImmuable: props.library.rooms,
+            data: props.library.rooms,
             values: [],
         }
 

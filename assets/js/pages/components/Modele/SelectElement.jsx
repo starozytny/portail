@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { Button }               from "@dashboardComponents/Tools/Button";
 import { Alert }                from "@dashboardComponents/Tools/Alert";
+import { Search }               from "@dashboardComponents/Layout/Search";
 
 import Sanitaze                 from "@dashboardComponents/functions/sanitaze";
 import Sort                     from "@dashboardComponents/functions/sort";
@@ -9,9 +10,13 @@ import ElementsFunctions        from "@pages/functions/elements";
 
 export class SelectElement extends Component {
     constructor(props) {
-        super();
+        super(props);
+
+        console.log(props.library)
 
         this.state = {
+            dataImmuable: props.library.elements,
+            data: props.library.elements,
             categoryActive: null,
             room: null,
             elements: []
@@ -20,6 +25,7 @@ export class SelectElement extends Component {
         this.handleInitData = this.handleInitData.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleSetElements = this.handleSetElements.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     handleInitData = (room) => { this.setState({ room: room, elements: JSON.parse(room.elements) }) }
@@ -28,17 +34,28 @@ export class SelectElement extends Component {
 
     handleSetElements = (elements) => { this.setState({ elements: JSON.parse(elements) }) }
 
+    handleSearch = (search) => {
+        const { dataImmuable } = this.state;
+
+        if(search === "") {
+            this.setState({ data: dataImmuable });
+        }else{
+            let newData = ElementsFunctions.searchFunction(dataImmuable, search);
+            this.setState({ data: newData });
+        }
+    }
+
     render () {
-        const { data, onClickElement } = this.props;
-        const { categoryActive, room, elements } = this.state;
+        const { library, onClickElement } = this.props;
+        const { data, categoryActive, room, elements } = this.state;
 
         let categoriesChoices = [];
-        data.categories.forEach(cat => {
+        library.categories.forEach(cat => {
             let total = 0;
 
 
             elements.forEach(id => {
-                let item = ElementsFunctions.getStringElement(data, id);
+                let item = ElementsFunctions.getStringElement(library, id);
                 // item[0] == cat id
                 // item[1] == name element
                 if(item[0] === parseInt(cat.id)){
@@ -54,8 +71,8 @@ export class SelectElement extends Component {
         });
 
         let items = [];
-        data.elements.sort(Sort.compareName)
-        data.elements.forEach(el => {
+        data.sort(Sort.compareName)
+        data.forEach(el => {
 
             if(categoryActive === parseInt(el.category)){
 
@@ -97,6 +114,11 @@ export class SelectElement extends Component {
                 })}
             </div>
             {categoryActive ? <>
+                <div className="toolbar">
+                    <div className="item filter-search">
+                        <Search onSearch={this.handleSearch} />
+                    </div>
+                </div>
                 <div className="items-table">
                     <div className="items items-default items-rooms">
                         <div className="item item-header">

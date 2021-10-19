@@ -205,10 +205,10 @@ export class ModeleForm extends Component {
         const { context, library } = this.props;
         const { errors, errorContent, success, name, content } = this.state;
 
-        let asideRooms = <SelectRoom ref={this.selectRoom} content={content} data={library}
+        let asideRooms = <SelectRoom ref={this.selectRoom} content={content} library={library}
                                      onAddRoom={this.handleAddRoom}
                                      onRemoveRoom={this.handleRemoveRoom} />
-        let asideElements = <SelectElement ref={this.selectElements} data={library}
+        let asideElements = <SelectElement ref={this.selectElements} library={library}
                                            onClickElement={this.handleClickElement} />
 
         if(content.length !== 0){
