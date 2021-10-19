@@ -48,7 +48,6 @@ export class ModelesItem extends Component {
             })
 
             Object.entries(categories).forEach((item, index) => {
-                console.log(item)
 
                 let elements = [];
                 item[1].elements.forEach((el, index) => {
