@@ -163,7 +163,7 @@ export class ModeleForm extends Component {
         const { context, url, messageSuccess } = this.props;
         const { name, content } = this.state;
 
-        this.setState({ success: false, errors: []})
+        this.setState({ success: false, errors: [], errorContent: "" })
         let method = context !== "update" ? "POST" : "PUT";
 
         let paramsToValidate = [
@@ -175,7 +175,7 @@ export class ModeleForm extends Component {
         let validate = Validateur.validateur(paramsToValidate)
         if(!validate.code){
             toastr.warning("Veuillez vérifier les informations transmises.");
-            this.setState({ errors: validate.errors });
+            this.setState({ errors: validate.errors, errorContent: getErrorContent(validate.errors) });
         }else{
             Formulaire.loader(true);
             let self = this;
@@ -187,10 +187,11 @@ export class ModeleForm extends Component {
                     toastr.info(messageSuccess);
                 })
                 .catch(function (error) {
-                    console.log(error)
-                    console.log(error.response)
                     Formulaire.loader(false);
                     Formulaire.displayErrors(self, error);
+                    if(error.response.data && Array.isArray(error.response.data)){
+                        self.setState({ errorContent: getErrorContent(error.response.data) })
+                    }
                 })
             ;
         }
@@ -216,7 +217,7 @@ export class ModeleForm extends Component {
                 </div>
 
                 <div className="line line-select-or-add">
-                    <div className={"form-group input-bien" + errorContent}>
+                    <div className={"form-group input-bien " + errorContent}>
                         <label>Pièce(s)</label>
                         <div className="actions-bien select-or-add">
                             <Button outline={true} type="default" onClick={this.handleAsideRooms}>Sélectionner une/des pièce(s)</Button>
@@ -266,3 +267,13 @@ export class ModeleForm extends Component {
     }
 }
 
+function getErrorContent(errors) {
+    let errorContent = "";
+    errors.forEach(err => {
+        if(err.name === "content"){
+            errorContent = "form-group-error";
+        }
+    })
+
+    return errorContent;
+}
