@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Repository\PasswordRepository;
 use App\Services\ApiService;
 use App\Services\MailerService;
+use DateTime;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Odan\Session\SessionInterface;
+use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Routing\RouteContext;
@@ -19,13 +24,19 @@ final class SecurityController
     private $twig;
     private $apiService;
     private $mailerService;
+    private $passwordRepository;
+    private $connection;
 
-    public function __construct(SessionInterface $session, Twig $twig, ApiService $apiService, MailerService $mailerService)
+    public function __construct(SessionInterface $session, Twig $twig, ApiService $apiService,
+                                MailerService $mailerService, PasswordRepository $passwordRepository,
+                                Connection $connection)
     {
         $this->session = $session;
         $this->twig = $twig;
         $this->apiService = $apiService;
         $this->mailerService = $mailerService;
+        $this->passwordRepository = $passwordRepository;
+        $this->connection = $connection;
     }
 
     /**
@@ -95,11 +106,18 @@ final class SecurityController
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
+     * @throws Exception
+     * @throws \Exception
      */
     public function lostForm(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $response->withHeader('Content-Type', 'application/json');
         $error = [['name' => 'fusername', 'message' => 'Cet champ doit être renseigné.']];
+        $errorNeverLogin = [['name' => 'fusername', 'message' => 'Ce compte ne s\'est jamais connecté. Veuillez 
+                                                                    contacter le manager des comptes pour vous fournir 
+                                                                    votre mot de passe.']];
+        $errorAlreadySent = [['name' => 'fusername', 'message' => 'Un mail de réinitialisation a déjà été envoyé, 
+                                                                    veuillez vérifier vos spams ou courriers indésirables.']];
 
         $data = json_decode($request->getBody());
         $username = $data->username;
@@ -113,8 +131,37 @@ final class SecurityController
                 return $response->withStatus(400);
             }
 
+            $user = $this->passwordRepository->findOneByUsername($username);
+
+            if($user == false){
+                $response->getBody()->write(json_encode($errorNeverLogin));
+                return $response->withStatus(400);
+            }
+
+            if($user['createdAt']){
+                $interval = date_diff(new DateTime($user['createdAt']), new DateTime());
+                if ($interval->y == 0 && $interval->m == 0 && $interval->d == 0 && $interval->h < 1) {
+                    $response->getBody()->write(json_encode($errorAlreadySent));
+                    return $response->withStatus(400);
+                }
+            }
+
+            $createdAt = new DateTime();
+            $createdAt->setTimezone(new \DateTimeZone("Europe/Paris"));
+
+            $code = uniqid();
+
+            $values = [
+                'code' => $code,
+                'createdAt' => $createdAt
+            ];
+            $this->connection->update('password', $values, ['username' => $username], [
+                PDO::PARAM_STR,
+                'datetime',
+            ]);
+
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            $url = $routeParser->fullUrlFor($request->getUri(), 'reinitPassword');
+            $url = $routeParser->fullUrlFor($request->getUri(), 'reinitPassword', ['token' => $user['token'], 'code' => $code]);
 
             if($this->mailerService->sendMail(
                     'chanbora.chhun@outlook.fr',
@@ -140,14 +187,39 @@ final class SecurityController
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
+     * @param array $args
      * @return ResponseInterface
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws \Exception
      */
-    public function reinitPassword(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function reinitPassword(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return $this->twig->render($response, 'app/pages/security/reinit.twig');
+        $token = $args['token'];
+        $code = $args['code'];
+        $user = $this->passwordRepository->findOneByToken($token);
+
+        $errors = 0;
+        if($user){
+            $interval = date_diff(new DateTime($user['createdAt']), new DateTime());
+
+            if ($interval->y == 0 && $interval->m == 0 && $interval->d == 0 && $interval->h >= 1) {
+                $errors = 1;
+            }
+
+            if($code !== $user['code']){
+                $errors = 1;
+            }
+        }else{
+            $errors = 1;
+        }
+
+        return $this->twig->render($response, 'app/pages/security/reinit.twig', [
+            'errors' => $errors,
+            'username' => $user['username'],
+            'id' => $user['fokusId']
+        ]);
     }
 
     /**
@@ -157,6 +229,7 @@ final class SecurityController
      * @param $username
      * @param $password
      * @return string
+     * @throws Exception
      */
     private function loginCheck($request, $username, $password): string
     {
@@ -164,14 +237,16 @@ final class SecurityController
         $userData = $this->apiService->connect($username, $password);
         if(($userData != false)) {
             $user = [
-                $username,
+                $username, //0
                 $this->apiService->encryption($password),
                 $userData->first_name,
                 $userData->last_name,
                 $userData->society_data->credits,
-                $userData->email,
+                $userData->email, //5
                 $userData->user_tag,
-                $userData->id
+                $userData->id,
+                $userData->society_data->num_society,
+                $userData->rights //9
             ];
         }
 
@@ -186,6 +261,21 @@ final class SecurityController
             $this->session->regenerateId();
 
             $this->session->set('user', $user);
+
+            $currentUser = $this->passwordRepository->findOneByUsername($username);
+            if(!$currentUser){
+                $values = [
+                    'fokusId' => $userData->id,
+                    'username' => $username,
+                    'token' =>  bin2hex(random_bytes(32))
+                ];
+
+                $this->connection->insert('password', $values, [
+                    PDO::PARAM_INT,
+                    PDO::PARAM_STR,
+                    PDO::PARAM_STR,
+                ]);
+            }
 
             // Redirect to protected page
             $url = $routeParser->urlFor('homepage');

@@ -1,0 +1,51 @@
+@import "../../../vars/vars";
+
+.items-rooms{
+  .item:not(.item-header){
+    opacity: 0.8;
+
+    .actions{
+      opacity: 0.5;
+    }
+
+    &:hover{
+      .selector{
+        &:before{
+          background-color: var(--primaryShadow);
+        }
+      }
+    }
+
+    &.active{
+      opacity: 1;
+      background-color: var(--primaryNuance1);
+
+      .actions{
+        opacity: 1;
+      }
+
+      .selector{
+        &:before{
+          background-color: var(--primary);
+        }
+      }
+
+      &:hover{
+        .selector{
+          &:before{
+            background-color: var(--primary);
+          }
+        }
+      }
+    }
+
+    .col-1{
+      padding: 8px 0;
+      cursor: pointer;
+    }
+
+    .number{
+      padding: 8px;
+    }
+  }
+}

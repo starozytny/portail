@@ -57,9 +57,9 @@ function validatePassword($value, $valueCheck){
         };
     }
 
-    return {'code': true};
+    // return {'code': true};
 
-    if (/^(?=.{12,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\w).*$/.test($value)){
+    if (/^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\w).*$/.test($value)){
 
         if($value !== $valueCheck){
             return {
@@ -73,7 +73,7 @@ function validatePassword($value, $valueCheck){
     }else{
         return {
             'code': false,
-            'message': 'Le mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre, 1 caratère spécial et au moins 12 caractères.'
+            'message': 'Le mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial et au moins 8 caractères.'
         };
     }
 }
@@ -98,6 +98,17 @@ function validateAtLeastOne($value, $valueCheck) {
     return {'code': true};
 }
 
+function validateLength($value, min, max) {
+    if($value.length < min || $value.length > max){
+        return {
+            'code': false,
+            'message': 'Ce champ doit contenir entre ' + min + " et " + max + " caractères."
+        };
+    }
+
+    return {'code': true}
+}
+
 function switchCase(element){
     let validate;
     switch (element.type) {
@@ -118,6 +129,9 @@ function switchCase(element){
             break;
         case 'atLeastOne':
             validate = validateAtLeastOne(element.value, element.valueCheck);
+            break;
+        case 'length':
+            validate = validateLength(element.value, element.min, element.max);
             break;
         case 'date':
             validate = validateDate(element.value);
@@ -182,15 +196,20 @@ function hideErrors() {
     }
 }
 
-function handleErrors(error, message="Veuillez vérifier les informations transmises."){
+function handleErrors(error, formClass=null, message="Veuillez vérifier les informations transmises."){
     if(Array.isArray(error.response.data)){
         toastr.error(message);
         displayErrors(error.response.data);
     }else{
-        if(error.response.data){
-            toastr.error(error.response.data)
-        }else{
-            toastr.error(message);
+        let errorForm = document.querySelector(formClass + ' .error-form');
+        let errorMsg = document.querySelector(formClass + ' .error-form p');
+
+        let messageError = error.response.data ? error.response.data : message;
+        toastr.error(messageError);
+
+        if(errorForm){
+            errorForm.classList.add('active');
+            errorMsg.innerHTML = messageError;
         }
     }
 }

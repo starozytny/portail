@@ -1,0 +1,120 @@
+@import "../vars/vars";
+
+@import "../components/table";
+@import "../components/toolbar";
+@import "../components/toolbar-create-search";
+@import "./split/modele/aside-room";
+@import "./split/modele/list-item";
+@import "./split/modele/aside-elements";
+
+.selector{
+  position: relative;
+  cursor: pointer;
+  width: 12px; height: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--grey);
+  background-color: var(--alpha);
+  transition: all 0.2s ease-in-out;
+
+  &:before{
+    content: "";
+    position: absolute;
+    top: 1px; left: 1px;
+    display: block;
+    width: 9px; height: 10px;
+    border-radius: 4px;
+  }
+}
+
+.items-table{
+  border: 1px solid var(--fond);
+}
+
+.items-default{
+  .item-room{
+    .infos{
+      align-items: stretch;
+    }
+  }
+}
+
+.items-default{
+  .item-model{
+
+    .role{
+      margin: 5px 0;
+    }
+
+    &.true{
+      .details{
+        display: block;
+      }
+    }
+
+    .infos{
+      align-items: stretch;
+    }
+
+    .col-1, .col-2{
+      padding: 8px 0;
+      cursor: pointer;
+    }
+
+    .details{
+      display: none;
+
+      & > div{
+        margin-top: 8px;
+      }
+    }
+
+    .room{
+      @include flex(row, center, flex-start);
+
+      & > [class^="icon"]{
+        display: inline-block;
+        margin-right: 4px;
+        font-size: 8px;
+        color: var(--grey);
+      }
+    }
+
+    .categories{
+      opacity: 0.85;
+      margin-top: 2px;
+      margin-left: 24px;
+      font-size: 14px;
+
+      & > div:not(:last-child){
+        margin-bottom: 2px;
+      }
+
+      .elements{
+        display: none;
+        margin-left: 12px;
+
+        &.true{
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .toolbar{
+    .create{
+      width: 176px;
+    }
+
+    .filter-search{
+      width: calc(100% - 176px - 24px);
+    }
+  }
+}

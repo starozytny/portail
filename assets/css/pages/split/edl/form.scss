@@ -1,0 +1,167 @@
+@import "../../../vars/vars";
+
+#edl-form{
+  background-color: var(--alpha);
+  box-shadow: 0 0 8px var(--greyShadow);
+  border: 1px solid var(--fond);
+  border-radius: 4px;
+
+  .radiobox-item{
+    &.checked{
+      & > label{
+        border: 1px solid var(--grey);
+        color: var(--txt);
+        opacity: 1;
+      }
+      & > label[for="entrant"]{
+        background-color: var(--entrant);
+      }
+      & > label[for="sortant"]{
+        background-color: var(--sortant);
+      }
+    }
+  }
+
+  .line-select-or-add{
+    margin-bottom: 48px;
+  }
+
+  .select-or-add{
+    & > button{
+      width: calc(100% - 50px);
+
+      &:not(:last-child){
+        margin-bottom: 12px;
+      }
+    }
+  }
+
+  .form-button{
+    margin-top: 24px;
+  }
+}
+
+//main style selected in aside
+.selected{
+  display: none;
+
+  &.active{
+    display: block;
+  }
+
+  .card{
+    cursor: initial;
+    max-width: 414px;
+    margin-bottom: 0;
+
+    &:not(:last-child){
+      margin-bottom: 24px;
+    }
+
+    &.active{
+      &:hover{
+        opacity: 1;
+      }
+    }
+
+    .card-header{
+      .title{
+        border-radius: 0;
+      }
+    }
+  }
+
+  .btn-remove{
+    @include flex(row, flex-end, space-between);
+    padding: 12px;
+
+    .from{
+      font-size: 15px;
+      opacity: 0.8;
+    }
+
+    .btn-icon{
+      padding: 0;
+    }
+
+    .tooltip{
+      width: 120px;
+    }
+
+    [class^="icon-"]{
+      font-size: 17px;
+    }
+  }
+}
+
+.selected-tenants{
+  margin-top: 12px;
+
+  .btn-remove{
+    .tooltip{
+      width: 136px;
+    }
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  #edl-form{
+    .select-or-add{
+      & > button{
+        width: auto;
+
+        &:not(:last-child){
+          margin-bottom: 0;
+          margin-right: 12px;
+        }
+      }
+    }
+
+    .form-button{
+      justify-content: flex-end;
+
+      & > .btn{
+        width: 100%;
+      }
+    }
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .selected-tenants.active{
+    @include flex(row, flex-start, flex-start);
+    flex-wrap: wrap;
+    width: calc(100% + 24px);
+
+    .card{
+      width: calc(50% - 24px);
+      margin-right: 24px;
+    }
+  }
+}
+
+//                      __   _  __    ___   ___    __
+//                     | _| / |/ /_  / _ \ / _ \  |_ |
+//    _____ _____ _____| |  | | '_ \| | | | | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
+//                     | |  |_|\___/ \___/ \___/   | |
+//                     |__|                       |__|
+@media (min-width: 1600px){
+  .selected-tenants.active{
+    .card{
+      width: calc(33% - 26px);
+    }
+  }
+}

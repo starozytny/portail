@@ -3,8 +3,17 @@ import '../../css/pages/security.scss';
 import axios from 'axios';
 import toastr from 'toastr';
 
-import Aside from '../components/aside';
-import Validateur from '../components/validateur';
+import Aside from '../components/functions/aside';
+import Validateur from '../components/functions/validateur';
+
+import React from "react";
+import { render } from "react-dom";
+import { Reinit } from "./components/Security/Reinit";
+
+let el = document.getElementById("reinit");
+if(el){
+    render(<Reinit {...el.dataset} />, el)
+}
 
 //*****
 // Voir/Cacher le mot de passe
@@ -31,16 +40,7 @@ if(btnSeePassword){
 //*****
 // Ouvrir l'aside pour retrouver son mot de passe
 //*****
-let btnsLost = document.querySelectorAll('.btn-lost');
-if(btnsLost){
-    let aside = document.querySelector('.aside-lost');
-
-    let overlay = document.querySelector('.aside-overlay');
-    btnsLost.forEach(btnLost => {
-        btnLost.addEventListener('click', function (e) { Aside.openCloseAside(aside) })
-    })
-    overlay.addEventListener('click', function (e) { Aside.openCloseAside(aside) })
-}
+Aside.manageAside('.btn-lost', '.aside-lost');
 
 //*****
 // Formulaire pour retrouver son mot de passe oublié

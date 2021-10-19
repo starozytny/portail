@@ -1,0 +1,27 @@
+{% extends 'app/layout/layout.twig' %}
+
+{% block title %}Modèles {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% webpack_entry_css 'modele' %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="page-title">
+        <div class="page-title-container">
+            <h1>Modèles</h1>
+        </div>
+    </div>
+
+    <div id="modeles" data-donnees="{{ data | json_encode }}"
+                      data-library="{{ library | json_encode }}"
+                      data-inventories="{{ inventories | json_encode }}"
+                      data-rights="{{ session.user[9] }}"
+    ></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% webpack_entry_js 'modele' %}
+{% endblock %}

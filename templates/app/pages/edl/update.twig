@@ -1,0 +1,30 @@
+{% extends 'app/pages/edl/template.twig' %}
+
+{% block title %}Modifier un état des lieux {{ parent() }}{% endblock %}
+
+{% block main_content %}
+    <div class="page-title">
+        <div class="comeback" data-id="{{ edl.inventory.id }}" data-url="{{ url_for('edl', {'status': 'en-cours'}) }}">
+            <button class="btn btn-outline-default">
+                <span class="icon-arrow-left"></span>
+                <span>Retour à la liste</span>
+            </button>
+        </div>
+        <div class="page-title-container">
+            <h1>Modifier référence : {{ edl.property.reference }}</h1>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="edl-form"
+             data-type="update"
+             data-users="{{ users | json_encode }}"
+             data-current-user="{{ session.user[7] }}"
+             data-models="{{ models | json_encode }}"
+             data-properties="{{ properties | json_encode }}"
+             data-tenants="{{ tenants | json_encode }}"
+             data-element="{{ edl | json_encode }}"
+             data-pagination-id="{{ edl.inventory.id }}"
+        ></div>
+    </div>
+{% endblock %}

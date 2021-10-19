@@ -1,0 +1,125 @@
+@import "../../../vars/vars";
+
+.selected, .list-select{
+  width: 100%;
+
+  .card{
+    border: 1px solid var(--fond);
+    margin-bottom: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover{
+      border-color: var(--color0);
+    }
+
+    &.active{
+      border-color: var(--color0);
+
+      .card-header{
+        .title{
+          background-color: var(--color0);
+          color: var(--alpha);
+        }
+      }
+
+      &:hover{
+        opacity: 0.8;
+      }
+    }
+
+    .sub{
+      font-size: 15px;
+    }
+
+    .card-header{
+      .title{
+        @include flex(row, flex-start, space-between);
+        background-color: var(--fond);
+        border-radius: 3px 3px 0 0;
+        padding: 12px;
+
+        .sub{
+          margin-top: 4px;
+          opacity: 0.9;
+        }
+      }
+      .bold{
+        @include fontSemibold();
+      }
+    }
+
+    .fullAddress{
+      margin-bottom: 8px;
+    }
+
+    .card-body{
+      @include flex(row, flex-start, space-between);
+      padding: 12px;
+
+      & > div:last-child{
+        text-align: right;
+      }
+    }
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .list-select{
+    .toolbar{
+      .filter-search{
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .aside{
+    width: 75%;
+  }
+  .list-select{
+    .cards{
+      @include flex(row, stretch, space-between);
+      flex-wrap: wrap;
+    }
+
+    .card{
+      width: calc(50% - 12px);
+
+      .card-header{
+        .title{
+          min-height: 75px;
+        }
+      }
+    }
+  }
+}
+
+//                      __   _  __    ___   ___    __
+//                     | _| / |/ /_  / _ \ / _ \  |_ |
+//    _____ _____ _____| |  | | '_ \| | | | | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
+//                     | |  |_|\___/ \___/ \___/   | |
+//                     |__|                       |__|
+@media (min-width: 1600px) {
+  .list-select{
+    .card{
+      width: calc(33% - 12px);
+    }
+  }
+}

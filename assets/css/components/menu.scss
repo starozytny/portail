@@ -78,6 +78,8 @@
 //                     |__|                       |__|
 @media (min-width: 1024px) {
   .nav-header-logo{
+    padding: 30px 12px 12px 12px;
+
     .nav-header-logo-span {
       color: var(--alpha);
     }
@@ -122,7 +124,7 @@
     }
   }
   .nav-header-logo{
-    padding: 24px 32px;
+    padding: 40px 32px 12px 32px;
   }
   .nav-body{
     min-height: 84vh;

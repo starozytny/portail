@@ -51,6 +51,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-female:before {
+  content: "\e937";
+}
+.icon-male:before {
+  content: "\e938";
+}
+.icon-rec:before {
+  content: "\e936";
+}
 .icon-menu:before {
   content: "\e935";
 }

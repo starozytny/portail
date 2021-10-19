@@ -10,9 +10,14 @@ module.exports = {
     mode: "development",
     entry: {
         'app': ['./assets/js/app.js', './assets/css/app.scss'],
+        'homepage': ['./assets/js/homepage.js', './assets/css/homepage.scss'],
         'edl': ['./assets/js/pages/edl.js', './assets/css/pages/edl.scss'],
         'user': ['./assets/js/pages/user.js', './assets/css/pages/user.scss'],
         'security': ['./assets/js/pages/security.js', './assets/css/pages/security.scss'],
+        'property': ['./assets/js/pages/property.js', './assets/css/pages/property.scss'],
+        'tenant': ['./assets/js/pages/tenant.js', './assets/css/pages/tenant.scss'],
+        'bibli': ['./assets/js/pages/bibli.js', './assets/css/pages/bibli.scss'],
+        'modele': ['./assets/js/pages/modele.js', './assets/css/pages/modele.scss'],
     },
     output: {
         path: path.resolve(__dirname, 'public/assets'),
@@ -39,7 +44,26 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.?(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react']
+                    }
+                }
+            },
         ],
+    },
+    resolve: {
+        alias: {
+            '@publicFolder': path.resolve(__dirname, './public'),
+            '@dashboardComponents': path.resolve(__dirname, './assets/js/components'),
+            '@pages': path.resolve(__dirname, './assets/js/pages'),
+            '@nodeModulesFolder': path.resolve(__dirname, './node_modules'),
+        },
+        extensions: ['*', '.js', '.jsx'],
     },
     plugins: [
         new CleanWebpackPlugin(),
