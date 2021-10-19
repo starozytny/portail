@@ -16,7 +16,9 @@
 
     <div id="modeles" data-donnees="{{ data | json_encode }}"
                       data-library="{{ library | json_encode }}"
-                      data-inventories="{{ inventories | json_encode }}"></div>
+                      data-inventories="{{ inventories | json_encode }}"
+                      data-rights="{{ session.user[9] }}"
+    ></div>
 {% endblock %}
 
 {% block javascripts %}

@@ -4,7 +4,7 @@ import { ButtonIcon }   from "@dashboardComponents/Tools/Button";
 
 export class PropertiesItem extends Component {
     render () {
-        const { elem, onChangeContext, onDelete, inventories } = this.props
+        const { rights, elem, onChangeContext, onDelete, inventories } = this.props
 
         let canActions = true;
         inventories.forEach(inventory => {
@@ -45,10 +45,10 @@ export class PropertiesItem extends Component {
                             {(elem.is_furnished && parseInt(elem.is_furnished) !== 0) && <div className="sub">Meublé</div>}
                         </div>
                         <div className="col-4 actions">
-                            {canActions ? <>
+                            {canActions ? (parseInt(rights) === 1 ? <>
                                 <ButtonIcon icon="compose" onClick={() => onChangeContext('update', elem)}>Modifier</ButtonIcon>
                                 <ButtonIcon icon="delete" onClick={() => onDelete(elem)}>Supprimer</ButtonIcon>
-                            </> : <div className="role">Utilisé</div>}
+                            </> : <div className="role">Non autorisé</div>) : <div className="role">Utilisé</div>}
 
                         </div>
                     </div>

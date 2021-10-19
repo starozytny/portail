@@ -14,7 +14,10 @@
         </div>
     </div>
 
-    <div id="properties" data-donnees="{{ data | json_encode }}" data-inventories="{{ inventories | json_encode }}"></div>
+    <div id="properties" data-donnees="{{ data | json_encode }}"
+                         data-inventories="{{ inventories | json_encode }}"
+                         data-rights="{{ session.user[9] }}"
+    ></div>
 {% endblock %}
 
 {% block javascripts %}

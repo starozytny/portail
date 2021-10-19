@@ -61,6 +61,7 @@ export class Properties extends Component {
                                onSearch={this.handleSearch}
                                onDelete={this.handleDelete}
                                inventories={JSON.parse(this.props.inventories)}
+                               rights={this.props.rights}
                             data={currentData} />
     }
 

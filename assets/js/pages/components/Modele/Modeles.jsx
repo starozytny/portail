@@ -57,6 +57,7 @@ export class Modeles extends Component {
                             onDelete={this.handleDelete}
                             library={JSON.parse(this.props.library)}
                             inventories={JSON.parse(this.props.inventories)}
+                            rights={this.props.rights}
                             data={currentData} />
     }
 

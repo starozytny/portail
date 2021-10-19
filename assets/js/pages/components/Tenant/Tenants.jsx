@@ -59,6 +59,7 @@ export class Tenants extends Component {
                             onSearch={this.handleSearch}
                             onDelete={this.handleDelete}
                             inventories={JSON.parse(this.props.inventories)}
+                            rights={this.props.rights}
                             data={currentData} />
     }
 
