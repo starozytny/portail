@@ -71,6 +71,7 @@ export class ModeleForm extends Component {
 
         this.asideRooms = React.createRef();
         this.asideElements = React.createRef();
+        this.selectRoom = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -100,12 +101,16 @@ export class ModeleForm extends Component {
         const { content } = this.state;
 
         let newContent = [];
+        let id = identifiant; //for delete in SelectRoom
         if(isUid){
             newContent = content.filter(elem => {
+                if(elem.uid === identifiant){
+                    id = elem.id
+                }
                 return elem.uid !== identifiant;
             })
         }else{
-            let first = true; let canRemove = true;
+            let first = true;
             content.forEach(elem => {
                 if(elem.id === identifiant){
                     if(!first){
@@ -118,7 +123,8 @@ export class ModeleForm extends Component {
             })
         }
 
-        this.setState({ content: newContent })
+        this.setState({ content: newContent });
+        this.selectRoom.current.handleRemove(id, false)
     }
 
     handleSubmit = (e) => {
@@ -162,7 +168,9 @@ export class ModeleForm extends Component {
         const { context, library } = this.props;
         const { errors, errorContent, success, name, content, element } = this.state;
 
-        let asideRooms = <SelectRoom content={content} data={library} onAddRoom={this.handleAddRoom} onRemoveRoom={this.handleRemoveRoom}/>
+        let asideRooms = <SelectRoom ref={this.selectRoom} content={content} data={library}
+                                     onAddRoom={this.handleAddRoom}
+                                     onRemoveRoom={this.handleRemoveRoom}/>
         let asideElements = <SelectElement data={library} element={element} />
 
         return <>
@@ -187,7 +195,7 @@ export class ModeleForm extends Component {
                     </div>
                 </div>
 
-                <div className="line">
+                {content.length !== 0 && <div className="line">
                     <div className="items-table">
                         <div className="items items-default">
                             <div className="item item-header">
@@ -208,7 +216,8 @@ export class ModeleForm extends Component {
                             })}
                         </div>
                     </div>
-                </div>
+                </div>}
+
 
                 <div className="line">
                     <div className="form-button">

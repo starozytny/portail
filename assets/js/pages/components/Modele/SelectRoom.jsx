@@ -44,23 +44,25 @@ export class SelectRoom extends Component {
         this.props.onAddRoom(parseInt(id));
     }
 
-    handleRemove = (id) => {
+    handleRemove = (id, updateParent=true) => {
         const { content } = this.props;
         const { values } = this.state;
 
         let newValues = [];
         let find = null; let canRemove = true;
-        content.forEach(elem => {
-            if(elem.id === parseInt(id)){
-                if(!find){
-                    find = elem.elements;
-                }else{
-                    if(find !== elem.elements){
-                        canRemove = false;
+        if(updateParent){ // function no called by parent so check elements
+            content.forEach(elem => {
+                if(elem.id === parseInt(id)){
+                    if(!find){
+                        find = elem.elements;
+                    }else{
+                        if(find !== elem.elements){
+                            canRemove = false;
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
 
         if(!canRemove){
             toastr.danger("Impossible d'enlever cette pièce à partir de cette fenêtre car il existe dans ce modèle " +
@@ -78,7 +80,9 @@ export class SelectRoom extends Component {
                 }
             })
             this.setState({ values: newValues });
-            this.props.onRemoveRoom(false, parseInt(id));
+            if(updateParent){
+                this.props.onRemoveRoom(false, parseInt(id));
+            }
         }
     }
 
