@@ -171,7 +171,7 @@ export class ModeleForm extends Component {
         let asideRooms = <SelectRoom ref={this.selectRoom} content={content} data={library}
                                      onAddRoom={this.handleAddRoom}
                                      onRemoveRoom={this.handleRemoveRoom}/>
-        let asideElements = <SelectElement data={library} element={element} />
+        let asideElements = element ? <SelectElement data={library} element={element} /> : null
 
         return <>
             <form onSubmit={this.handleSubmit}>

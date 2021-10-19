@@ -3,9 +3,8 @@ import React, {Component} from "react";
 import Swal         from "sweetalert2";
 import SwalOptions  from "@dashboardComponents/functions/swalOptions";
 
-import Sanitaze from "@dashboardComponents/functions/sanitaze";
-
-import { Button, ButtonIcon } from "@dashboardComponents/Tools/Button";
+import { Button, ButtonIcon }   from "@dashboardComponents/Tools/Button";
+import ElementsFunctions        from "@pages/functions/elements";
 
 export class RoomItem extends Component {
     constructor(props) {
@@ -36,7 +35,7 @@ export class RoomItem extends Component {
         const { elem, library, onAside } = this.props;
         const { showDetails } = this.state;
 
-        let name = getStringData(library.rooms, elem.id);
+        let name = ElementsFunctions.getStringData(library.rooms, elem.id);
 
         return <div className={"item item-room" + (showDetails ? " active" : "")}>
             <div className="item-content">
@@ -68,11 +67,12 @@ function Elements ({ elements, library, onShow }) {
 
     let items = []; let noDuplicate = [];
 
-    elements.forEach((elem, index) => {
-        let item = getStringElement(library.elements, parseInt(elem));
+    //create tab by categories
+    elements.forEach(elem => {
+        let item = ElementsFunctions.getStringElement(library.elements, parseInt(elem));
 
         let category = item[0];
-        let nameCategory = getStringData(library.categories, category);
+        let nameCategory = ElementsFunctions.getStringData(library.categories, category);
         let nameElement = item[1];
 
         if(!noDuplicate.includes(category)){
@@ -84,9 +84,13 @@ function Elements ({ elements, library, onShow }) {
         }
     })
 
+    // display elements by categories
     let data = [];
     Object.entries(items).forEach((item, index) => {
         let elements = [];
+
+        //item[1] == nameElement
+        //item[0] == (int) id categorie
 
         item[1].forEach((elem, index) => {
             elements.push(<div key={index}>
@@ -106,29 +110,4 @@ function Elements ({ elements, library, onShow }) {
     })
 
     return <>{data}</>
-}
-
-function getStringElement(data, id)
-{
-    let item = ""; let cat = "";
-    data.forEach(el => {
-        if(parseInt(el.id) === id){
-            cat = Sanitaze.capitalize(el.category);
-            item = Sanitaze.capitalize(el.name);
-        }
-    })
-
-    return [parseInt(cat), item];
-}
-
-function getStringData(data, id)
-{
-    let item = "";
-    data.forEach(el => {
-        if(parseInt(el.id) === id){
-            item = Sanitaze.capitalize(el.name);
-        }
-    })
-
-    return item;
 }

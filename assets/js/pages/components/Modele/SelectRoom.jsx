@@ -87,7 +87,7 @@ export class SelectRoom extends Component {
     }
 
     render () {
-        const { data, content } = this.props;
+        const { data } = this.props;
         const { values } = this.state;
 
         return <>

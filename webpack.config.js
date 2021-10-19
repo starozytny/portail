@@ -60,6 +60,7 @@ module.exports = {
         alias: {
             '@publicFolder': path.resolve(__dirname, './public'),
             '@dashboardComponents': path.resolve(__dirname, './assets/js/components'),
+            '@pages': path.resolve(__dirname, './assets/js/pages'),
             '@nodeModulesFolder': path.resolve(__dirname, './node_modules'),
         },
         extensions: ['*', '.js', '.jsx'],

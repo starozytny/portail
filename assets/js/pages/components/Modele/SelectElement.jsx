@@ -13,7 +13,7 @@ export class SelectElement extends Component {
     }
 
     render () {
-        const { data } = this.props;
+        const { data, element } = this.props;
 
         let categoriesChoices = [];
         data.categories.forEach(cat => {
