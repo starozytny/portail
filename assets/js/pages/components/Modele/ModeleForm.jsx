@@ -12,6 +12,8 @@ import { Aside }         from "@dashboardComponents/Tools/Aside";
 
 import Validateur        from "@dashboardComponents/functions/validateur";
 import Formulaire        from "@dashboardComponents/functions/Formulaire";
+import Sort              from "@dashboardComponents/functions/sort";
+import ElementsFunctions from "@pages/functions/elements";
 
 import { SelectRoom }    from "./SelectRoom";
 import { RoomItem }      from "./RoomItem";
@@ -36,6 +38,7 @@ export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element
             content.push({
                 uid: uid(),
                 id: item.id,
+                name: ElementsFunctions.getStringData(library.rooms, item.id),
                 elements: item.elements
             })
         })
@@ -92,10 +95,11 @@ export class ModeleForm extends Component {
     }
 
     handleAddRoom = (room) => {
+        const { library } = this.props;
         const { content } = this.state;
 
         let newContent = content;
-        newContent.push({ uid: uid(), id: room, elements: '[3, 4, 5, 6, 7, 8, 16, 17, 18]' });
+        newContent.push({ uid: uid(), id: room, name: ElementsFunctions.getStringData(library.rooms, room), elements: '[3, 4, 5, 6, 7, 8, 16, 17, 18]' });
         this.setState({ content: newContent })
     }
 
@@ -206,6 +210,10 @@ export class ModeleForm extends Component {
                                      onRemoveRoom={this.handleRemoveRoom} />
         let asideElements = <SelectElement ref={this.selectElements} data={library}
                                            onClickElement={this.handleClickElement} />
+
+        if(content.length !== 0){
+            content.sort(Sort.compareName);
+        }
 
         return <>
             <form onSubmit={this.handleSubmit}>

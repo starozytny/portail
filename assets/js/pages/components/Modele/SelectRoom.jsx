@@ -3,21 +3,26 @@ import React, { Component } from 'react';
 import toastr               from "toastr";
 
 import { ButtonIcon }       from "@dashboardComponents/Tools/Button";
+import { Search }           from "@dashboardComponents/Layout/Search";
 
 import Sanitaze             from "@dashboardComponents/functions/sanitaze";
 import Sort                 from "@dashboardComponents/functions/sort";
+import ElementsFunctions    from "@pages/functions/elements";
 
 export class SelectRoom extends Component {
     constructor(props) {
-        super();
+        super(props);
 
         this.state = {
+            dataImmuable: props.data.rooms,
+            data: props.data.rooms,
             values: [],
         }
 
         this.handleSetData = this.handleSetData.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     componentDidMount = () => {
@@ -87,13 +92,28 @@ export class SelectRoom extends Component {
         }
     }
 
-    render () {
-        const { data } = this.props;
-        const { values } = this.state;
+    handleSearch = (search) => {
+        const { dataImmuable } = this.state;
 
-        data.rooms.sort(Sort.compareName);
+        if(search === "") {
+            this.setState({ data: dataImmuable });
+        }else{
+            let newData = ElementsFunctions.searchFunction(dataImmuable, search);
+            this.setState({ data: newData });
+        }
+    }
+
+    render () {
+        const { data, values } = this.state;
+
+        data.sort(Sort.compareName);
 
         return <>
+            <div className="toolbar">
+                <div className="item filter-search">
+                    <Search onSearch={this.handleSearch} />
+                </div>
+            </div>
             <div className="items-table">
                 <div className="items items-default items-rooms">
                     <div className="item item-header">
@@ -107,7 +127,7 @@ export class SelectRoom extends Component {
                             </div>
                         </div>
                     </div>
-                    {data.rooms.map(el => {
+                    {data.map(el => {
 
                         let active = "";
                         let total = 0;

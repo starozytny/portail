@@ -1,5 +1,17 @@
 const Sanitaze = require("@dashboardComponents/functions/sanitaze");
 
+function searchFunction(dataImmuable, search){
+    let newData = [];
+    search = search.toLowerCase();
+    newData = dataImmuable.filter(function(v) {
+        if(v.name.toLowerCase().startsWith(search)){
+            return v;
+        }
+    })
+
+    return newData;
+}
+
 function getStringElement(data, id)
 {
     let item = "", cat = 0, itemId = 0;
@@ -28,5 +40,6 @@ function getStringData(data, id)
 
 module.exports = {
     getStringElement,
-    getStringData
+    getStringData,
+    searchFunction
 }
