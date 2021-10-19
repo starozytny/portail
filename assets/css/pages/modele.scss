@@ -3,6 +3,9 @@
 @import "../components/table";
 @import "../components/toolbar";
 @import "../components/toolbar-create-search";
+@import "./split/modele/aside-room";
+@import "./split/modele/list-item";
+@import "./split/modele/aside-elements";
 
 .selector{
   position: relative;
@@ -27,129 +30,10 @@
   border: 1px solid var(--fond);
 }
 
-.items-rooms{
-  .item:not(.item-header){
-    opacity: 0.8;
-
-    .actions{
-      opacity: 0.5;
-    }
-
-    &:hover{
-      .selector{
-        &:before{
-          background-color: var(--primaryShadow);
-        }
-      }
-    }
-
-    &.active{
-      opacity: 1;
-      background-color: var(--primaryNuance1);
-
-      .actions{
-        opacity: 1;
-      }
-
-      .selector{
-        &:before{
-          background-color: var(--primary);
-        }
-      }
-
-      &:hover{
-        .selector{
-          &:before{
-            background-color: var(--primary);
-          }
-        }
-      }
-    }
-
-    .col-1{
-      padding: 8px 0;
-      cursor: pointer;
-    }
-
-    .number{
-      padding: 8px;
-    }
-  }
-}
-
 .items-default{
   .item-room{
     .infos{
       align-items: flex-start;
-    }
-  }
-}
-
-.item-room{
-  &.active{
-    .elements{
-      display: block;
-    }
-
-    .room-elements:not(:last-child){
-      margin-bottom: 12px;
-    }
-  }
-
-  .col-1{
-    padding: 8px 0;
-  }
-
-  .col-1, .col-2{
-    cursor: pointer;
-  }
-
-
-  .room-elements{
-    & + .edit-elements{
-      margin-top: 12px;
-    }
-  }
-
-  .edit-elements{
-    .btn{
-      padding: 6px 24px;
-    }
-  }
-
-  .category{
-    @include flex(row, center, flex-start);
-
-    & > [class^="icon"]{
-      display: inline-block;
-      margin-right: 4px;
-      font-size: 8px;
-      color: var(--grey);
-    }
-  }
-
-  .elements{
-    display: none;
-    opacity: 0.85;
-    margin-top: 8px;
-    margin-left: 24px;
-
-    & > div:not(:last-child){
-      margin-bottom: 2px;
-    }
-  }
-}
-
-.select-elements{
-  .categories{
-    margin-bottom: 24px;
-
-    & > .btn{
-      width: 100%;
-    }
-
-    & > .btn:not(:last-child){
-      margin-bottom: 12px;
     }
   }
 }
@@ -168,56 +52,6 @@
 
     .filter-search{
       width: calc(100% - 176px - 24px);
-    }
-  }
-
-  .select-elements{
-    .categories{
-      @include flex(row, stretch, flex-start);
-      flex-wrap: wrap;
-      width: calc(100% + 12px);
-
-      & > .btn{
-        width: calc(50% - 12px);
-        margin-right: 12px;
-        margin-bottom: 12px;
-      }
-    }
-  }
-}
-
-//                      __   _  ___ ____  _  _     __
-//                     | _| / |/ _ \___ \| || |   |_ |
-//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
-//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
-//                     | |  |_|\___/_____|  |_|    | |
-//                     |__|                       |__|
-@media (min-width: 1024px) {
-  .aside:last-child{
-    width: 80%;
-  }
-
-  .select-elements{
-    .categories{
-      & > .btn{
-        width: calc(33% - 12px);
-      }
-    }
-  }
-}
-
-//                      __   _ ____  ___   ___    __
-//                     | _| / |___ \( _ ) / _ \  |_ |
-//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
-//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
-//                     | |  |_|_____\___/ \___/   | |
-//                     |__|                      |__|
-@media (min-width:1280px) {
-  .select-elements{
-    .categories{
-      & > .btn{
-        width: calc(20% - 12px);
-      }
     }
   }
 }

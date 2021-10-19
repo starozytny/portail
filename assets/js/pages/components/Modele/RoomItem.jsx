@@ -69,7 +69,7 @@ function Elements ({ elements, library, onShow }) {
 
     //create tab by categories
     elements.forEach(elem => {
-        let item = ElementsFunctions.getStringElement(library.elements, parseInt(elem));
+        let item = ElementsFunctions.getStringElement(library, parseInt(elem));
 
         let category = item[0];
         let nameCategory = ElementsFunctions.getStringData(library.categories, category);
