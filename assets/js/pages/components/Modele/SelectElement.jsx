@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-import toastr                   from "toastr";
-
-import { Button, ButtonIcon }   from "@dashboardComponents/Tools/Button";
+import { Button }               from "@dashboardComponents/Tools/Button";
 import { Alert }                from "@dashboardComponents/Tools/Alert";
 
 import Sanitaze                 from "@dashboardComponents/functions/sanitaze";
@@ -14,19 +12,24 @@ export class SelectElement extends Component {
         super();
 
         this.state = {
-            categoryActive: null
+            categoryActive: null,
+            room: props.room ? props.room : null,
+            elements: props.room ? JSON.parse(props.room.elements) : []
         }
 
         this.handleClick = this.handleClick.bind(this);
+        this.handleSetElements = this.handleSetElements.bind(this);
     }
 
     handleClick = (categoryActive) => { this.setState({ categoryActive }) }
 
-    render () {
-        const { data, element } = this.props;
-        const { categoryActive } = this.state;
+    handleSetElements = (elements) => {
+        this.setState({ elements: JSON.parse(elements) })
+    }
 
-        let elements = JSON.parse(element.elements);
+    render () {
+        const { data, onClickElement } = this.props;
+        const { categoryActive, room, elements } = this.state;
 
         let categoriesChoices = [];
         data.categories.forEach(cat => {
@@ -62,7 +65,7 @@ export class SelectElement extends Component {
                     }
                 })
 
-                items.push(<div className={"item" + active} key={el.id}>
+                items.push(<div className={"item" + active} key={el.id} onClick={() => onClickElement(room.uid, parseInt(el.id))}>
                     <div className="selector" />
 
                     <div className="item-content">

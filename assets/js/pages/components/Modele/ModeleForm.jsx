@@ -66,12 +66,13 @@ export class ModeleForm extends Component {
             errors: [],
             success: false,
             errorContent: "",
-            element: null
+            room: null
         }
 
         this.asideRooms = React.createRef();
         this.asideElements = React.createRef();
         this.selectRoom = React.createRef();
+        this.selectElements = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -79,13 +80,14 @@ export class ModeleForm extends Component {
         this.handleAsideElements = this.handleAsideElements.bind(this);
         this.handleAddRoom = this.handleAddRoom.bind(this);
         this.handleRemoveRoom = this.handleRemoveRoom.bind(this);
+        this.handleClickElement = this.handleClickElement.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
 
     handleAsideRooms = () => { this.asideRooms.current.handleOpen(); }
-    handleAsideElements = (elem, name) => {
-        this.setState({ element: elem })
+    handleAsideElements = (room, name) => {
+        this.setState({ room: room })
         this.asideElements.current.handleOpen("Modifier " + name);
     }
 
@@ -127,6 +129,32 @@ export class ModeleForm extends Component {
         this.selectRoom.current.handleRemove(id, false)
     }
 
+    handleClickElement = (uid, id) => {
+        const { content } = this.state;
+
+        let newElements = "";
+        let newContent = [];
+        content.forEach(elem => {
+            if(elem.uid === uid){
+                let elements = JSON.parse(elem.elements);
+
+                if(elements.includes(id)){
+                    elements = elements.filter(el => { return el !== id });
+                }else{
+                    elements.push(id);
+                }
+
+                newElements = JSON.stringify(elements);
+                elem.elements = newElements;
+            }
+
+            newContent.push(elem);
+        })
+
+        this.setState({ content: newContent });
+        this.selectElements.current.handleSetElements(newElements);
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -166,12 +194,13 @@ export class ModeleForm extends Component {
 
     render () {
         const { context, library } = this.props;
-        const { errors, errorContent, success, name, content, element } = this.state;
+        const { errors, errorContent, success, name, content, room } = this.state;
 
         let asideRooms = <SelectRoom ref={this.selectRoom} content={content} data={library}
                                      onAddRoom={this.handleAddRoom}
-                                     onRemoveRoom={this.handleRemoveRoom}/>
-        let asideElements = element ? <SelectElement data={library} element={element} /> : null
+                                     onRemoveRoom={this.handleRemoveRoom} />
+        let asideElements = room ? <SelectElement ref={this.selectElements} data={library} room={room}
+                                                     onClickElement={this.handleClickElement} /> : null
 
         return <>
             <form onSubmit={this.handleSubmit}>
