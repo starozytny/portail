@@ -124,10 +124,14 @@
                         <div class="profil">
                             <span>{{ session.user[4] }} {{ session.user[4] > 1 ? 'crédits restants' : 'crédit restant' }}</span>
                             <div>
-                                <a class="btn-icon" href="{{ url_for('documentation') }}" target="_blank">
+                                <a class="btn-icon" href="{{ url_for('documentationPortail') }}" target="_blank">
                                     <span class="icon-help"></span>
-                                    <span class="tooltip">Besoin d'aide ?</span>
+                                    <span class="tooltip">Besoin d'aide portail ?</span>
                                 </a>
+{#                                <a class="btn-icon" href="{{ url_for('documentation') }}" target="_blank">#}
+{#                                    <span class="icon-help"></span>#}
+{#                                    <span class="tooltip">Besoin d'aide application ?</span>#}
+{#                                </a>#}
                                 <a class="btn-icon" href="{{ url_for('logout') }}">
                                     <span class="icon-logout"></span>
                                     <span class="tooltip">Se déconnecter</span>

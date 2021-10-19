@@ -158,6 +158,24 @@ class AppController
     }
 
     /**
+     * Route pour la documentation pdf portail
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
+    public function documentationPortail(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response = $response->withHeader('Content-Type', 'application/pdf');
+        $response = $response->withHeader('Content-Disposition', sprintf('inline; filename="%s"', "Documentation-portail.pdf"));
+
+        $stream = fopen($this->container->get('settings')['root'] . '/documents/Documentation-portail.pdf', 'r');
+        $response->getBody()->write(fread($stream, (int)fstat($stream)['size']));
+        return $response;
+    }
+
+    /**
      * Route pour la liste des biens
      *
      * @param ServerRequestInterface $request

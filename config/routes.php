@@ -35,6 +35,7 @@ return function (App $app) {
     $app->group('/espace-client', function (RouteCollectorProxy $group) {
         $group->get('', [AppController::class, 'homepage'])->setName('homepage');
         $group->get('/documentation', [AppController::class, 'documentation'])->setName('documentation');
+        $group->get('/documentation-portail', [AppController::class, 'documentationPortail'])->setName('documentationPortail');
 
         $group->get('/edls/{status}', [AppController::class, 'edl'])->setName('edl');
         $group->map(['GET', 'PUT'], '/edl/{id}', [EdlController::class, 'update'])->setName('edl_update');
