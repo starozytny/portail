@@ -204,9 +204,11 @@ class AppController
     {
         $objs = $this->apiService->callApi('models');
         $library = $this->apiService->callApi('library');
+        $inventories = $this->apiService->callApi('inventories/list');
         return $this->twig->render($response, 'app/pages/modele/index.twig', [
             'data' => $objs,
-            'library' => $library
+            'library' => $library,
+            'inventories' => $inventories
         ]);
     }
 }

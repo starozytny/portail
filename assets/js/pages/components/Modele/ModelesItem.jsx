@@ -21,7 +21,7 @@ export class ModelesItem extends Component {
     handleShowDeep = () => { this.setState({ showDetailsDeep: !this.state.showDetailsDeep }) }
 
     render () {
-        const { library, elem, onChangeContext, onDelete } = this.props;
+        const { inventories, library, elem, onChangeContext, onDelete } = this.props;
         const { showDetails, showDetailsDeep } = this.state;
 
         let content = JSON.parse(elem.content);
@@ -76,6 +76,13 @@ export class ModelesItem extends Component {
             </div>)
         })
 
+        let canActions = true;
+        inventories.forEach(inventory => {
+            if(Math.abs(parseInt(inventory.input)) === parseInt(elem.id)){
+                canActions = false;
+            }
+        })
+
 
         return <div className={"item item-model " + showDetails}>
             <div className="item-content">
@@ -96,8 +103,10 @@ export class ModelesItem extends Component {
 
                         <div className="col-3 actions">
                             <ButtonIcon icon="show" onClick={this.handleShow}>Details</ButtonIcon>
-                            <ButtonIcon icon="compose" onClick={() => onChangeContext('update', elem)}>Modifier</ButtonIcon>
-                            <ButtonIcon icon="delete" onClick={() => onDelete(elem)}>Supprimer</ButtonIcon>
+                            {canActions ? <>
+                                <ButtonIcon icon="compose" onClick={() => onChangeContext('update', elem)}>Modifier</ButtonIcon>
+                                <ButtonIcon icon="delete" onClick={() => onDelete(elem)}>Supprimer</ButtonIcon>
+                            </> : <div className="role">Utilisé</div>}
                         </div>
                     </div>
                 </div>

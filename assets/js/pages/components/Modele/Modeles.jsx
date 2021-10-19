@@ -56,6 +56,7 @@ export class Modeles extends Component {
                             onSearch={this.handleSearch}
                             onDelete={this.handleDelete}
                             library={JSON.parse(this.props.library)}
+                            inventories={JSON.parse(this.props.inventories)}
                             data={currentData} />
     }
 

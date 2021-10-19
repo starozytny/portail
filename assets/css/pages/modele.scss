@@ -41,6 +41,10 @@
 .items-default{
   .item-model{
 
+    .role{
+      margin: 5px 0;
+    }
+
     &.true{
       .details{
         display: block;
