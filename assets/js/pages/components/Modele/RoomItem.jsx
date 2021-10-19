@@ -55,7 +55,7 @@ export class RoomItem extends Component {
                         </div>
                         <div className="col-3 actions">
                             <ButtonIcon icon={showDetails ? "hide" : "show"} onClick={this.handleShow}>Détails</ButtonIcon>
-                            <ButtonIcon icon="delete" onClick={() => this.handleRemove(elem.uid)}>Supprimer</ButtonIcon>
+                            <ButtonIcon icon="delete" onClick={() => this.handleRemove(elem.uid)}>Enlever</ButtonIcon>
                         </div>
                     </div>
                 </div>

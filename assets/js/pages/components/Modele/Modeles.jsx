@@ -55,6 +55,7 @@ export class Modeles extends Component {
         return <ModelesList onChangeContext={changeContext}
                             onSearch={this.handleSearch}
                             onDelete={this.handleDelete}
+                            library={JSON.parse(this.props.library)}
                             data={currentData} />
     }
 

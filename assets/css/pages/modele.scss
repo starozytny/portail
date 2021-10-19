@@ -38,6 +38,65 @@
   }
 }
 
+.items-default{
+  .item-model{
+
+    &.true{
+      .details{
+        display: block;
+      }
+    }
+
+    .infos{
+      align-items: stretch;
+    }
+
+    .col-1, .col-2{
+      padding: 8px 0;
+      cursor: pointer;
+    }
+
+    .details{
+      display: none;
+
+      & > div{
+        margin-top: 8px;
+      }
+    }
+
+    .room{
+      @include flex(row, center, flex-start);
+
+      & > [class^="icon"]{
+        display: inline-block;
+        margin-right: 4px;
+        font-size: 8px;
+        color: var(--grey);
+      }
+    }
+
+    .categories{
+      opacity: 0.85;
+      margin-top: 2px;
+      margin-left: 24px;
+      font-size: 14px;
+
+      & > div:not(:last-child){
+        margin-bottom: 2px;
+      }
+
+      .elements{
+        display: none;
+        margin-left: 12px;
+
+        &.true{
+          display: block;
+        }
+      }
+    }
+  }
+}
+
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
 //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____

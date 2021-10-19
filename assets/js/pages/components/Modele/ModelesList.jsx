@@ -28,7 +28,7 @@ export class ModelesList extends Component {
                                 <div className="item-body">
                                     <div className="infos infos-col-3">
                                         <div className="col-1">Intitulé</div>
-                                        <div className="col-2">Eléments</div>
+                                        <div className="col-2">Contenu</div>
                                         <div className="col-3 actions">Actions</div>
                                     </div>
                                 </div>
