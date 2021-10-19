@@ -13,19 +13,20 @@ export class SelectElement extends Component {
 
         this.state = {
             categoryActive: null,
-            room: props.room ? props.room : null,
-            elements: props.room ? JSON.parse(props.room.elements) : []
+            room: null,
+            elements: []
         }
 
+        this.handleInitData = this.handleInitData.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleSetElements = this.handleSetElements.bind(this);
     }
 
+    handleInitData = (room) => { this.setState({ room: room, elements: JSON.parse(room.elements) }) }
+
     handleClick = (categoryActive) => { this.setState({ categoryActive }) }
 
-    handleSetElements = (elements) => {
-        this.setState({ elements: JSON.parse(elements) })
-    }
+    handleSetElements = (elements) => { this.setState({ elements: JSON.parse(elements) }) }
 
     render () {
         const { data, onClickElement } = this.props;

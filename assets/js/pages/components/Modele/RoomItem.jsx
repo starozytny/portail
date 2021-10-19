@@ -32,7 +32,7 @@ export class RoomItem extends Component {
     }
 
     render () {
-        const { elem, library, onAside } = this.props;
+        const { elem, library, onAside, onClickElement } = this.props;
         const { showDetails } = this.state;
 
         let name = ElementsFunctions.getStringData(library.rooms, elem.id);
@@ -47,7 +47,8 @@ export class RoomItem extends Component {
                             </div>
                         </div>
                         <div className="col-2">
-                            <Elements elements={JSON.parse(elem.elements)} library={library} onShow={this.handleShow}/>
+                            <Elements element={elem} elements={JSON.parse(elem.elements)} library={library}
+                                      onShow={this.handleShow} onClickElement={onClickElement}/>
                             <div className="edit-elements">
                                 <Button outline={true} icon="compose" type="default" onClick={() => onAside(elem, name.toLowerCase())}>Modifier</Button>
                             </div>
@@ -63,7 +64,7 @@ export class RoomItem extends Component {
     }
 }
 
-function Elements ({ elements, library, onShow }) {
+function Elements ({ element, elements, library, onShow, onClickElement }) {
 
     let items = []; let noDuplicate = [];
 
@@ -71,16 +72,27 @@ function Elements ({ elements, library, onShow }) {
     elements.forEach(elem => {
         let item = ElementsFunctions.getStringElement(library, parseInt(elem));
 
+        //item[0] == (int) id categorie
+        //item[1] == nameElement
+        //item[2] == (int) id element
+
         let category = item[0];
         let nameCategory = ElementsFunctions.getStringData(library.categories, category);
         let nameElement = item[1];
+        let idElement = item[2];
 
         if(!noDuplicate.includes(category)){
             noDuplicate.push(category);
 
-            items[nameCategory] = [nameElement]
+            items[nameCategory] = [{
+                id: idElement,
+                name: nameElement
+            }]
         }else{
-            items[nameCategory].push(nameElement)
+            items[nameCategory].push({
+                id: idElement,
+                name: nameElement
+            })
         }
     })
 
@@ -89,17 +101,18 @@ function Elements ({ elements, library, onShow }) {
     Object.entries(items).forEach((item, index) => {
         let elements = [];
 
-        //item[1] == nameElement
-        //item[0] == (int) id categorie
+        //item[0] == name category
+        //item[1] == elements with object {id & name}
 
         item[1].forEach((elem, index) => {
-            elements.push(<div key={index}>
-                - {elem}
+            elements.push(<div className="element" key={index}>
+                <div>- {elem.name}</div>
+                <div><ButtonIcon icon="delete" onClick={() => onClickElement(element.uid, elem.id)}>Enlever</ButtonIcon></div>
             </div>)
         })
 
-        data.push(<div className="room-elements" key={index} onClick={onShow}>
-            <div className="category">
+        data.push(<div className="room-elements" key={index}>
+            <div className="category" onClick={onShow}>
                 <span className="icon-rec" />
                 <span>{item[0]}</span>
             </div>

@@ -15,7 +15,7 @@
     padding: 8px 0;
   }
 
-  .col-1, .col-2{
+  .col-1, .col-2 > .room-elements > .category{
     cursor: pointer;
   }
 
@@ -23,6 +23,14 @@
   .room-elements{
     & + .edit-elements{
       margin-top: 12px;
+    }
+
+    .element{
+      @include flex(row, center, space-between);
+
+      .btn-icon{
+        padding: 0;
+      }
     }
   }
 

@@ -2,15 +2,16 @@ const Sanitaze = require("@dashboardComponents/functions/sanitaze");
 
 function getStringElement(data, id)
 {
-    let item = ""; let cat = "";
+    let item = "", cat = 0, itemId = 0;
     data.elements.forEach(el => {
         if(parseInt(el.id) === id){
-            cat = Sanitaze.capitalize(el.category);
+            cat = parseInt(el.category);
             item = Sanitaze.capitalize(el.name);
+            itemId = parseInt(el.id);
         }
     })
 
-    return [parseInt(cat), item, ];
+    return [cat, item, itemId];
 }
 
 function getStringData(data, id)

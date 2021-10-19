@@ -88,6 +88,7 @@ export class ModeleForm extends Component {
     handleAsideRooms = () => { this.asideRooms.current.handleOpen(); }
     handleAsideElements = (room, name) => {
         this.setState({ room: room })
+        this.selectElements.current.handleInitData(room);
         this.asideElements.current.handleOpen("Modifier " + name);
     }
 
@@ -152,7 +153,9 @@ export class ModeleForm extends Component {
         })
 
         this.setState({ content: newContent });
-        this.selectElements.current.handleSetElements(newElements);
+        if(this.selectElements.current){
+            this.selectElements.current.handleSetElements(newElements);
+        }
     }
 
     handleSubmit = (e) => {
@@ -199,8 +202,8 @@ export class ModeleForm extends Component {
         let asideRooms = <SelectRoom ref={this.selectRoom} content={content} data={library}
                                      onAddRoom={this.handleAddRoom}
                                      onRemoveRoom={this.handleRemoveRoom} />
-        let asideElements = room ? <SelectElement ref={this.selectElements} data={library} room={room}
-                                                     onClickElement={this.handleClickElement} /> : null
+        let asideElements = <SelectElement ref={this.selectElements} data={library}
+                                           onClickElement={this.handleClickElement} />
 
         return <>
             <form onSubmit={this.handleSubmit}>
@@ -241,7 +244,9 @@ export class ModeleForm extends Component {
                             {content.map((elem, index) => {
                                 return <RoomItem elem={elem} library={library} key={index}
                                                  onRemoveRoom={this.handleRemoveRoom}
-                                                 onAside={this.handleAsideElements}/>
+                                                 onAside={this.handleAsideElements}
+                                                 onClickElement={this.handleClickElement}
+                                />
                             })}
                         </div>
                     </div>
