@@ -23,11 +23,22 @@ class Validateur
     private function switchCase($elem)
     {
         switch ($elem['type']){
+            case 'array':
+                return $this->validateArray($elem['value']);
             case 'length':
                 return $this->validateLength($elem['value'], $elem['min'], $elem['max']);
             default:
                 return $this->validateText($elem['value']);
         }
+    }
+
+    private function validateArray($value)
+    {
+        if(count($value) <= 0){
+            return 'Ce champ doit être renseigné.';
+        }
+
+        return 1;
     }
 
     private function validateLength($value, $min, $max)

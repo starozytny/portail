@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 
-import axios                   from "axios";
-import toastr                  from "toastr";
-import { uid }                 from "uid";
+import axios             from "axios";
+import toastr            from "toastr";
+import { uid }           from "uid";
 
-import { Radiobox, Input }     from "@dashboardComponents/Tools/Fields";
-import { Alert }               from "@dashboardComponents/Tools/Alert";
-import { Button, ButtonIcon }  from "@dashboardComponents/Tools/Button";
-import { FormLayout }          from "@dashboardComponents/Layout/Elements";
+import { Input }         from "@dashboardComponents/Tools/Fields";
+import { Alert }         from "@dashboardComponents/Tools/Alert";
+import { Button }        from "@dashboardComponents/Tools/Button";
+import { FormLayout }    from "@dashboardComponents/Layout/Elements";
+import { Aside }         from "@dashboardComponents/Tools/Aside";
 
-import Validateur              from "@dashboardComponents/functions/validateur";
-import Formulaire              from "@dashboardComponents/functions/Formulaire";
-import Sanitaze                from "@dashboardComponents/functions/sanitaze";
+import Validateur        from "@dashboardComponents/functions/validateur";
+import Formulaire        from "@dashboardComponents/functions/Formulaire";
 
-import {Aside} from "@dashboardComponents/Tools/Aside";
-import {SelectRoom} from "./SelectRoom";
-import {RoomItem} from "./RoomItem";
-import {SelectElement} from "./SelectElement";
+import { SelectRoom }    from "./SelectRoom";
+import { RoomItem }      from "./RoomItem";
+import { SelectElement } from "./SelectElement";
 
 export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, library })
 {
@@ -188,6 +187,8 @@ export class ModeleForm extends Component {
                     toastr.info(messageSuccess);
                 })
                 .catch(function (error) {
+                    console.log(error)
+                    console.log(error.response)
                     Formulaire.loader(false);
                     Formulaire.displayErrors(self, error);
                 })
@@ -197,7 +198,7 @@ export class ModeleForm extends Component {
 
     render () {
         const { context, library } = this.props;
-        const { errors, errorContent, success, name, content, room } = this.state;
+        const { errors, errorContent, success, name, content } = this.state;
 
         let asideRooms = <SelectRoom ref={this.selectRoom} content={content} data={library}
                                      onAddRoom={this.handleAddRoom}

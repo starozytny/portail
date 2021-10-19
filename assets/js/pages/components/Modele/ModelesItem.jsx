@@ -57,7 +57,7 @@ export class ModelesItem extends Component {
                 })
 
                 categoriesContent.push(<div key={index}>
-                    <span>{item[0]} ({item[1].total > 0 ? ("+ " + item[1].total) : "0"})</span>
+                    <span>{item[0]} ({item[1].total > 0 ? ("+" + item[1].total) : "0"})</span>
                     <div className={"elements " + showDetailsDeep}>
                         {elements}
                     </div>

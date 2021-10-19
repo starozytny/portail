@@ -84,12 +84,16 @@ function Elements ({ element, elements, library, onShow, onClickElement }) {
         if(!noDuplicate.includes(category)){
             noDuplicate.push(category);
 
-            items[nameCategory] = [{
-                id: idElement,
-                name: nameElement
-            }]
+            items[nameCategory] = {
+                total: 1,
+                elements: [{
+                    id: idElement,
+                    name: nameElement
+                }]
+            }
         }else{
-            items[nameCategory].push({
+            items[nameCategory].total++;
+            items[nameCategory].elements.push({
                 id: idElement,
                 name: nameElement
             })
@@ -104,7 +108,7 @@ function Elements ({ element, elements, library, onShow, onClickElement }) {
         //item[0] == name category
         //item[1] == elements with object {id & name}
 
-        item[1].forEach((elem, index) => {
+        item[1].elements.forEach((elem, index) => {
             elements.push(<div className="element" key={index}>
                 <div>- {elem.name}</div>
                 <div><ButtonIcon icon="delete" onClick={() => onClickElement(element.uid, elem.id)}>Enlever</ButtonIcon></div>
@@ -114,7 +118,7 @@ function Elements ({ element, elements, library, onShow, onClickElement }) {
         data.push(<div className="room-elements" key={index}>
             <div className="category" onClick={onShow}>
                 <span className="icon-rec" />
-                <span>{item[0]}</span>
+                <span>{item[0]} ({item[1].total > 0 ? ("+" + item[1].total) : "0"})</span>
             </div>
             <div className="elements">
                 {elements}

@@ -5,13 +5,14 @@ import toastr               from "toastr";
 import { ButtonIcon }       from "@dashboardComponents/Tools/Button";
 
 import Sanitaze             from "@dashboardComponents/functions/sanitaze";
+import Sort                 from "@dashboardComponents/functions/sort";
 
 export class SelectRoom extends Component {
     constructor(props) {
         super();
 
         this.state = {
-            values: []
+            values: [],
         }
 
         this.handleSetData = this.handleSetData.bind(this);
@@ -65,8 +66,8 @@ export class SelectRoom extends Component {
         }
 
         if(!canRemove){
-            toastr.danger("Impossible d'enlever cette pièce à partir de cette fenêtre car il existe dans ce modèle " +
-                "le même type de pièce avec des caractéristiques différentes.")
+            toastr.error("Pour enlever cette pièce, veuillez utiliser l'interface précédente où se trouve la liste des pièces.");
+
         }else{
             let first = true;
             values.forEach(val => {
@@ -89,6 +90,8 @@ export class SelectRoom extends Component {
     render () {
         const { data } = this.props;
         const { values } = this.state;
+
+        data.rooms.sort(Sort.compareName);
 
         return <>
             <div className="items-table">

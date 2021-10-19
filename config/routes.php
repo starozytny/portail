@@ -8,6 +8,7 @@ use App\Controller\Bibli\KeyController;
 use App\Controller\Bibli\NatureController;
 use App\Controller\Bibli\RoomController;
 use App\Controller\EdlController;
+use App\Controller\ModelController;
 use App\Controller\PropertyController;
 use App\Controller\SecurityController;
 use App\Controller\TenantController;
@@ -59,6 +60,9 @@ return function (App $app) {
         $group->post('/tenant-check', [TenantController::class, 'check'])->setName('tenant_check');
 
         $group->get('/modeles', [AppController::class, 'modele'])->setName('modele_index');
+        $group->post('/modeles', [ModelController::class, 'create'])->setName('modele_create');
+        $group->put('/modeles/{id}', [ModelController::class, 'update'])->setName('modele_update');
+        $group->delete('/modeles/{id}', [ModelController::class, 'delete'])->setName('modele_delete');
 
         $group->get('/bibliotheque', [AppController::class, 'bibli'])->setName('bibli_index');
 
