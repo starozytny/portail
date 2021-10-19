@@ -5,6 +5,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {% webpack_entry_css 'property' %}
+    {% webpack_entry_css 'fontSize' %}
 {% endblock %}
 
 {% block main_content %}

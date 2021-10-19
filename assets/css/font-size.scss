@@ -1,0 +1,26 @@
+//                      __   _  __    ___   ___    __
+//                     | _| / |/ /_  / _ \ / _ \  |_ |
+//    _____ _____ _____| |  | | '_ \| | | | | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
+//                     | |  |_|\___/ \___/ \___/   | |
+//                     |__|                       |__|
+@media (min-width: 1600px){
+  body{
+    font-size: 17px;
+  }
+
+  input, textarea, select,
+  .form-group-error .error,
+  .line label,
+  .role-type,
+  .password-rules,
+  .alert p{
+    font-size: 15px;
+  }
+
+  .list-month .item .sub,
+  .list-month .item .col-4,
+  .list-month .item .col-5{
+    font-size: 16px;
+  }
+}

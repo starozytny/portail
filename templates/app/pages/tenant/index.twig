@@ -5,6 +5,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {% webpack_entry_css 'tenant' %}
+    {% webpack_entry_css 'fontSize' %}
 {% endblock %}
 
 {% block main_content %}

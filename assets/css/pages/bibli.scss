@@ -100,3 +100,37 @@
     }
   }
 }
+
+//                      __   _  __    ___   ___    __
+//                     | _| / |/ /_  / _ \ / _ \  |_ |
+//    _____ _____ _____| |  | | '_ \| | | | | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
+//                     | |  |_|\___/ \___/ \___/   | |
+//                     |__|                       |__|
+@media (min-width: 1600px){
+  .toolbar-rooms, .toolbar-aspects{
+    .filter-search{
+      width: calc(100% - 180px - 24px);
+    }
+  }
+  .toolbar-keys{
+    .filter-search{
+      width: calc(100% - 160px - 24px);
+    }
+  }
+  .toolbar-counters{
+    .filter-search{
+      width: calc(100% - 201px - 24px);
+    }
+  }
+  .toolbar-natures{
+    .filter-search{
+      width: calc(100% - 187px - 24px);
+    }
+  }
+  .toolbar-elements{
+    .filter-search{
+      width: calc(100% - 190px - 24px);
+    }
+  }
+}
