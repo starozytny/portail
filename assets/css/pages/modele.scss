@@ -28,6 +28,10 @@
 
 .items-table{
   border: 1px solid var(--fond);
+
+  & > .items > .item{
+    align-items: stretch;
+  }
 }
 
 .items-default{
@@ -56,7 +60,6 @@
     }
 
     .col-1, .col-2{
-      padding: 8px 0;
       cursor: pointer;
     }
 
@@ -115,6 +118,16 @@
 
     .filter-search{
       width: calc(100% - 176px - 24px);
+    }
+  }
+
+  .items-table{
+    & > .items > .item{
+      align-items: center;
+
+      .col-1, .col-2{
+        padding: 8px 0;
+      }
     }
   }
 }

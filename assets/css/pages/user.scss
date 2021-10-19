@@ -4,6 +4,12 @@ h2{
   @include fontBold();
 }
 
+.line{
+  .alert{
+    margin-bottom: 0;
+  }
+}
+
 .form-user .card, .user-downloads, .users-list{
   background-color: var(--alpha);
   border-radius: 4px;
