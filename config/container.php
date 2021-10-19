@@ -13,6 +13,7 @@ use Doctrine\DBAL\Configuration as DoctrineConfiguration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
@@ -166,5 +167,15 @@ return [
     BodyRendererInterface::class => function(ContainerInterface $container)
     {
         return new BodyRenderer($container->get(Twig::class)->getEnvironment());
+    },
+
+    Application::class => function (ContainerInterface $container) {
+        $application = new Application();
+
+        foreach ($container->get('settings')['commands'] as $class) {
+            $application->add($container->get($class));
+        }
+
+        return $application;
     },
 ];

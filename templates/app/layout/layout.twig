@@ -9,7 +9,7 @@
         <nav class="fixed">
             <div class="nav-header">
                 <div class="nav-header-logo">
-                    <span class=nav-header-logo-span>{{ session.user[2] }}</span>
+                    <span class=nav-header-logo-span>{{ session.user[2] }} {{ session.user[3] }}</span>
                 </div>
             </div>
             <div class="nav-mobile">
@@ -20,13 +20,15 @@
                 {
                     'path': url_for('homepage'),
                     'route': 'homepage',
+                    'route_args': {},
                     'icon': 'home',
                     'label': 'Accueil',
                     'name': 'espace-client'
                 },
                 {
-                    'path': url_for('edl'),
+                    'path': url_for('edl', {'status': 'en-cours'}),
                     'route': 'edl',
+                    'route_args': { 'status': 'en-cours' },
                     'icon': 'paste',
                     'label': 'Etats des lieux',
                     'name': 'edls'
@@ -34,19 +36,63 @@
                 {
                     'path': url_for('edl_create'),
                     'route': 'edl_create',
+                    'route_args': {},
                     'icon': 'plus',
                     'label': 'Ajouter un état des lieux',
                     'name': 'edl'
-                },{
+                },
+                {
+                    'path': url_for('property_index'),
+                    'route': 'property_index',
+                    'route_args': {},
+                    'icon': 'bookmark',
+                    'label': 'Liste des biens',
+                    'name': 'biens'
+                },
+                {
+                    'path': url_for('tenant_index'),
+                    'route': 'tenant_index',
+                    'route_args': {},
+                    'icon': 'bookmark',
+                    'label': 'Liste des locataires',
+                    'name': 'locataires'
+                },
+                {
+                    'path': url_for('bibli_index'),
+                    'route': 'bibli_index',
+                    'route_args': {},
+                    'icon': 'blocks',
+                    'label': 'Bibliothèque',
+                    'name': 'bibliotheque'
+                },
+                {
+                    'path': url_for('modele_index'),
+                    'route': 'modele_index',
+                    'route_args': {},
+                    'icon': 'copy',
+                    'label': 'Modèles',
+                    'name': 'modeles'
+                },
+                {
                     'path': url_for('user'),
                     'route': 'user',
+                    'route_args': {},
                     'icon': 'account',
                     'label': 'Mon compte',
                     'name': 'mon-compte'
                 },
                 {
+                    'path': url_for('documentation'),
+                    'route': 'documentation',
+                    'route_args': {},
+                    'icon': 'help',
+                    'label': 'Documentation',
+                    'name': 'documentation'
+                },
+                {
                     'path': url_for('logout'),
                     'route': 'logout',
+                    'route_args': {},
                     'icon': 'logout',
                     'label': 'Se déconnecter',
                     'name': 'logout'
@@ -56,7 +102,8 @@
                 <div class="items">
                     {% for item in menu %}
                         <div class="item">
-                            <a href="{{ item.path }}" class="{{ is_current_url(item.route) ? "active" : "" }}" data-name="{{ item.name }}">
+                            <a href="{{ item.path }}" class="{{ is_current_url(item.route, item.route_args) ? "active" : "" }}"
+                               data-name="{{ item.name }}" target="{{ item.route == 'documentation' ? "_blank" : "" }}">
                                 <span class="icon-{{ item.icon }}"></span>
                                 <span>{{ item.label }}</span>
                             </a>
@@ -77,7 +124,7 @@
                         <div class="profil">
                             <span>{{ session.user[4] }} {{ session.user[4] > 1 ? 'crédits restants' : 'crédit restant' }}</span>
                             <div>
-                                <a class="btn-icon" href="{{ url_for('logout') }}">
+                                <a class="btn-icon" href="{{ url_for('documentation') }}" target="_blank">
                                     <span class="icon-help"></span>
                                     <span class="tooltip">Besoin d'aide ?</span>
                                 </a>

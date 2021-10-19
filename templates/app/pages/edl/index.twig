@@ -6,97 +6,169 @@
     <div class="page-title">
         <div class="page-title-container">
             <h1>Etats des lieux</h1>
-            <div class="actions">
-                <a href="{{ url_for('edl_create') }}" class="btn btn-primary">
-                    <span>Ajouter un état des lieux</span>
-                </a>
-            </div>
         </div>
     </div>
 
+    <div id="view" data-donnees="{{ data | json_encode }}"></div>
+
     <div class="main-content">
         <div class="edl-list">
+            <div class="toolbar toolbar-filter">
+                <a href="{{ url_for('edl', {'status': 'en-cours'}) }}" class="btn {{ is_current_url('edl', {'status': 'en-cours'}) ? "btn-color0" : "btn-outline-default" }}">
+                    Etat en cours
+                </a>
+                <a href="{{ url_for('edl', {'status': 'termine'}) }}" class="btn {{ is_current_url('edl', {'status': 'termine'}) ? "btn-color0" : "btn-outline-default" }}">
+                    Etat terminé
+                </a>
+            </div>
+            <div class="toolbar">
+                <div class="item">
+                    <a href="{{ url_for('edl_create') }}" class="btn btn-primary">
+                        <span>Ajouter un état des lieux</span>
+                    </a>
+                </div>
+                <div class="line">
+                    {% include 'app/layout/components/form/input.twig' with {
+                        input_name: 'searchEdl',
+                        input_label: 'Rechercher un état des lieux',
+                        input_value: '',
+                        input_placeholder: 'Recherche par référence, code postal, ville, adresse ou propriétaire.'
+                    } %}
+                </div>
+            </div>
             <div class="list">
                 {% if data | length > 0 %}
-                    {% for year, months in data %}
-                        {% for month, item in months %}
-                            <div class="list-month">
-                                {% if year == "unknown" %}
-                                    <div class="title">Date indéfinie</div>
-                                {% else %}
-                                    <div class="title">{{ month | monthLongStringFr }} - {{ year }}</div>
-                                {% endif %}
-
-                                <div class="list-month-header">
-                                    <div class="item">
-                                        <div class="col-1">Date</div>
-                                        <div class="col-2">Attribution</div>
-                                        <div class="col-3">Type</div>
-                                        <div class="col-4">Bien</div>
-                                        <div class="col-5">Locataire(s)</div>
-                                        <div class="col-6">Actions</div>
-                                    </div>
+                    {% for year, months in data | sort %}
+                        {% for month, item in months | sort %}
+                            <div class="list-month list-month-{{ year ~ month }}" data-id="{{ year ~ month }}">
+                                <div class="title">
+                                    <div>{{ year == "unknown" ? "Date indéfinie" : (month | monthLongStringFr) ~ " - " ~ year }}</div>
+                                    <div><span class="icon-{{ year == "unknown" or year == ("now" | date('Y')) ? "minus" : "plus" }}"></span></div>
                                 </div>
 
+                                <div class="items {{ year == "unknown" or year == ("now" | date('Y')) ? "active" : "" }}">
+                                    {% include "app/pages/edl/components/pagination.twig" %}
 
-                                {% for elem in item %}
-                                    <div class="item">
-                                        <div class="col-1">
-                                            {% if elem.inventory.date != 0 %}
-                                                <div>
-                                                    {{ elem.inventory.date | date('D') | dayShortStringFr }}.
-                                                    {{ elem.inventory.date | date('d') }}
-                                                    {{ elem.inventory.date | date('n') | monthShortStringFr | lower }}.
-                                                    {{ elem.inventory.date | date('Y') }}
-                                                </div>
-                                                <div>{{ elem.inventory.date | date('H\\hi') }}</div>
-                                            {% else %}
-                                                <div>Date indéfinie</div>
-                                            {% endif %}
-                                        </div>
-                                        <div class="col-2">
-                                            <div>{{ session.user[0] }}</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="type type-{{ elem.inventory.type }}">
-                                                {{ elem.inventory.type == 0 ? "Sortant" : "Entrant"}}
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div>Adresse : {{ elem.property.addr1 }}</div>
-                                            <div>Type : {{ elem.property.type }}</div>
-                                            <div>{{ elem.property.owner ? "Propriétaire : " ~ elem.property.owner : "Pas de propriétaire" }}</div>
-                                        </div>
-                                        <div class="col-5">
-                                            {% if elem.tenants | length > 0 %}
-                                                <div class="tenant-title">Locataires : </div>
-                                                {% for tenant in elem.tenants %}
-                                                    <div>{{ tenant.first_name | capitalize }}</div>
-                                                    <div>{{ tenant.flast_name | upper }}</div>
-                                                {% endfor %}
-                                            {% endif %}
-                                        </div>
-                                        <div class="col-6">
-                                            <a href="" class="btn-icon">
-                                                <span class="icon-compose"></span>
-                                                <span class="tooltip">Modifier</span>
-                                            </a>
-                                            <a href="" class="btn-icon">
-                                                <span class="icon-delete"></span>
-                                                <span class="tooltip">Supprimer</span>
-                                            </a>
+                                    <div class="list-month-header">
+                                        <div class="item">
+                                            <div class="col-1">Date</div>
+                                            <div class="col-2">Attribution</div>
+                                            <div class="col-3">Type</div>
+                                            <div class="col-4">Bien</div>
+                                            <div class="col-5">Locataire(s)</div>
+                                            <div class="col-6">Actions</div>
                                         </div>
                                     </div>
-                                {% endfor %}
+
+                                    <div class="inventories inventories-{{ year ~ month }}">
+                                        {% set i = 1 %}
+                                        {% set page = 1 %}
+                                        {% for elem in item | sort((a,b) => a.inventory.date <=> b.inventory.date) %}
+                                            {% if i == 10 %}
+                                                {% set page = page + 1 %}
+                                                {% set i = 0 %}
+                                            {% endif %}
+
+                                            {% set i = i+1 %}
+                                            <div class="item item-{{ elem.inventory.id }}"
+                                                 style="{{ page != 1 ? "display: none;" : "" }}"
+                                                 data-pagination="{{ year ~ month }}"
+                                                 data-page="{{ page }}"
+                                                 data-id="{{ elem.inventory.id }}"
+                                                 data-data="{{ elem | json_encode }}">
+                                                <div class="col-1">
+                                                    {% if elem.inventory.date != 0 %}
+                                                        <div>
+                                                            {{ elem.inventory.date | date('D') | dayShortStringFr }}.
+                                                            {{ elem.inventory.date | date('d') }}
+                                                            {{ elem.inventory.date | date('n') | monthShortStringFr | lower }}.
+                                                            {{ elem.inventory.date | date('Y') }}
+                                                        </div>
+                                                        <div>{{ elem.inventory.date | date('H\\hi') }}</div>
+                                                    {% else %}
+                                                        <div>Date indéfinie</div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-2">
+                                                    <div>{{ elem.inventory.user.username }}</div>
+                                                    <div class="sub">{{ elem.inventory.user.first_name }} {{ elem.inventory.user.last_name | upper }}</div>
+                                                    <div class="sub details" style="margin-top: 8px">
+                                                        Structure :
+                                                        {% if elem.inventory.input == "0" %}
+                                                            EDL vierge
+                                                        {% elseif elem.inventory.input > "0" %}
+                                                            EDL précédent
+                                                        {% else %}
+                                                            Modèle {{ elem.inventory.model.name }}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="role-type type-{{ elem.inventory.type }}">
+                                                        {{ elem.inventory.type == 0 ? "Sortant" : "Entrant"}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div style="margin-bottom: 4px;"><u>Référence</u> : {{ elem.property.reference }}</div>
+                                                    <div class="fullAddress">
+                                                        <div>{{ elem.property.addr1 }}</div>
+                                                        <div>{{ elem.property.addr2 }}</div>
+                                                        <div>{{ elem.property.addr3 }}</div>
+                                                        <div>{{ elem.property.zipcode }} {{ elem.property.zipcode and elem.property.city ? "," : "" }} {{ elem.property.city }}</div>
+                                                    </div>
+                                                    {% if elem.property.owner %}
+                                                        <div>Propriétaire : {{ elem.property.owner }}</div>
+                                                    {% endif %}
+
+                                                    {% include "app/pages/edl/components/property-props.twig" with {property: elem.property, less: true} %}
+                                                </div>
+                                                <div class="col-5">
+                                                    {% if elem.tenants | length > 0 %}
+                                                        <div class="tenant-title"><u>Locataires</u> : </div>
+                                                        {% for tenant in elem.tenants %}
+                                                            <div class="tenant">
+                                                                <span class="icon-rec"></span>
+                                                                {{ tenant.first_name | capitalize }} {{ tenant.last_name | upper }}
+                                                            </div>
+                                                            <div class="details tenant-details">
+                                                                <div class="sub"><u>Référence</u> : {{ tenant.reference }}</div>
+                                                                {% include "app/pages/edl/components/tenant-props.twig" with {tenant: tenant} %}
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-6">
+                                                    <button class="btn-icon btn-details" data-id="{{ elem.inventory.id }}">
+                                                        <span class="icon-show"></span>
+                                                        <span class="tooltip">Détails</span>
+                                                    </button>
+                                                    {% if is_current_url('edl', {'status': 'termine'}) %}
+                                                        <a href="{{ url_for('edl_pdf', {'uid': elem.inventory.uid}) }}" class="btn-icon">
+                                                            <span class="icon-file"></span>
+                                                            <span class="tooltip">Voir le PDF</span>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{{ url_for('edl_update', {'id': elem.inventory.id}) }}" class="btn-icon">
+                                                            <span class="icon-compose"></span>
+                                                            <span class="tooltip">Modifier</span>
+                                                        </a>
+                                                        <button data-url="{{ url_for('edl_delete', {'id': elem.inventory.id}) }}" data-id="{{ elem.inventory.id }}" class="btn-icon btn-delete">
+                                                            <span class="icon-delete"></span>
+                                                            <span class="tooltip">Supprimer</span>
+                                                        </button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
                         {% endfor %}
                     {% endfor %}
                 {% else %}
-                    <div class="alert alert-default">Aucun état des lieux enregistré.</div>
+                    <div class="alert alert-default">Aucun état des lieux {{ is_current_url('edl', {'status': 'en-cours'}) ? "en cours" : "terminé"}} enregistré.</div>
                 {% endif %}
             </div>
         </div>
-
-        <div id="view" data-donnees="{{ donnees }}"></div>
     </div>
 {% endblock %}

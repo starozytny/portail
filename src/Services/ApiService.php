@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Odan\Session\SessionInterface;
@@ -53,7 +54,7 @@ class ApiService
         }
     }
 
-    public function callApi($path)
+    public function callApi($path, $method="GET", $decodeResponseToJson=true, $json=[])
     {
         $client = new Client();
 
@@ -61,22 +62,61 @@ class ApiService
         $password = $this->decryption();
 
         try {
-            $response = $client->get($this->apiUrl . $path , ['auth' =>  [$username, $password]]);
-            return json_decode($response->getBody());
+            $response = $client->request($method, $this->apiUrl . $path , [
+                'auth' =>  [$username, $password],
+                'json' => $json
+            ]);
+            return $decodeResponseToJson ? json_decode($response->getBody()) : $response->getBody();
         } catch (GuzzleException $e){
             return false;
         }
     }
 
-    public function callApiWithoutAuth($path)
+    public function callApiWithoutAuth($path, $method="GET", $decodeResponseToJson=true, $json=[])
     {
         $client = new Client();
 
         try {
-            $response = $client->get($this->apiUrl . $path);
+            $response = $client->request($method,$this->apiUrl . $path, [
+                'json' => $json
+            ]);
             return $response->getBody();
         } catch (GuzzleException $e){
+            var_dump($e->getMessage());
             return false;
+        }
+    }
+
+    public function callApiWithErrors($path, $method="GET", $decodeResponseToJson=true, $json=[]): array
+    {
+        $client = new Client();
+
+        $username = $this->session->get('user')[0];
+        $password = $this->decryption();
+
+        try {
+            $response = $client->request($method, $this->apiUrl . $path , [
+                'auth' =>  [$username, $password],
+                'json' => $json
+            ]);
+
+            return [
+                'code' => 1,
+                'data' => $decodeResponseToJson ? json_decode($response->getBody()) : $response->getBody()
+            ];
+        } catch (GuzzleException $e){
+            if($e->getCode() == 409){
+                $pos = strrpos($e->getMessage(), 'response:') + 10;
+                return [
+                    'code' => 0,
+                    'status' => 409,
+                    'data' => substr($e->getMessage(), $pos)
+                ];
+            }
+            return [
+                'code' => 0,
+                'data' => "[APE001] Une erreur est survenu. Veuillez contacter le support. " . $e->getMessage()
+            ];
         }
     }
 }

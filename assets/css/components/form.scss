@@ -30,6 +30,11 @@
   display: block;
 }
 
+.form-rgpd{
+  font-size: 14px;
+  color: var(--grey2);
+}
+
 .line.line-critere{
   position: absolute;
   width: 0;
@@ -50,8 +55,12 @@
     width: calc(100% - 24px);
   }
 
-  .react-selectize.default.root-node{
+  .simple-select.react-selectize.default.root-node{
     width: 100%;
+
+    .react-selectize-control{
+      padding: 0;
+    }
 
     &:not(.open){
       .react-selectize-control{
@@ -424,11 +433,9 @@ select{
   }
 }
 
-.form{
-  .password-rules{
-    font-size: 14px;
-    opacity: 0.7;
-  }
+.password-rules{
+  font-size: 14px;
+  opacity: 0.7;
 }
 
 
@@ -439,16 +446,18 @@ select{
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
-  .line.line-2{
+  .line.line-2, .line.line-4{
     flex-direction: row;
 
-    & > .form-group:first-child{
-      margin-right: 10px;
-      width: 50%;
+    & > .form-group {
+      width: calc(50% - 12px);
     }
-    & > .form-group:last-child{
-      margin-left: 10px;
-      width: 50%;
+
+    & > .form-group:nth-child(odd){
+      margin-right: 12px;
+    }
+    & > .form-group:nth-child(even){
+      margin-left: 12px;
     }
   }
 
@@ -463,11 +472,18 @@ select{
     }
   }
 
+  .line.line-4{
+    flex-wrap: wrap;
+  }
+
   .form-button{
     @include flex(row, stretch, flex-start);
 
-    & > .btn, & > a.btn{
+    & > a.btn{
       width: auto;
+      margin-bottom: 0;
+    }
+    & > .btn{
       margin-bottom: 0;
     }
     & > *:not(:last-child){
@@ -495,5 +511,23 @@ select{
 @media (min-width:1280px) {
   .form {
     padding: 24px;
+  }
+
+  .line.line-4{
+
+    & > .form-group {
+      width: 25%;
+    }
+
+    & > .form-group:not(:last-child){
+      margin-right: 12px;
+    }
+
+    & > .form-group:nth-child(odd){
+      margin-right: 0;
+    }
+    & > .form-group:nth-child(even){
+      margin-left: 0;
+    }
   }
 }

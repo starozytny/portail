@@ -1,0 +1,14 @@
+<div class="fullAddress">
+    {% if tenant.addr1 %}<div class="sub">{{ tenant.addr1 }}</div>{% endif %}
+    {% if tenant.addr2 %}<div class="sub">{{ tenant.addr2 }}</div>{% endif %}
+    {% if tenant.addr3 %}<div class="sub">{{ tenant.addr3 }}</div>{% endif %}
+    {% if tenant.zipcode or tenant.city %}
+        <div class="sub">
+            {% if tenant.zipcode %}<span>{{ tenant.zipcode }}</span>{% endif %}
+            {% if tenant.zipcode and tenant.city %},{% endif %}
+            {% if tenant.city %}<span>{{ tenant.city }}</span>{% endif %}
+        </div>
+    {% endif %}
+</div>
+{% if tenant.email %}<div class="sub">{{ tenant.email }}</div>{% endif %}
+{% if tenant.phone %}<div class="sub">{{ tenant.phone }}</div>{% endif %}

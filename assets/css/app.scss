@@ -16,6 +16,7 @@
 @import "components/aside";
 @import "components/toastr";
 @import "components/loader";
+@import "components/pagination";
 
 @import "pages/security";
 
@@ -68,6 +69,19 @@ main{
     color: var(--color1);
 }
 
+.comeback{
+    margin-bottom: 24px;
+}
+
+.fullAddress{
+    margin-bottom: 6px;
+}
+
+.hide{
+    opacity: 0;
+    z-index: -10;
+}
+
 //                      __   _  ___ ____  _  _     __
 //                     | _| / |/ _ \___ \| || |   |_ |
 //    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
@@ -89,7 +103,7 @@ main{
 //                     |__|                      |__|
 @media (min-width:1280px) {
     .main-content{
-        padding: 24px 32px;
+        padding: 0 32px 24px 32px;
     }
 }
 

@@ -17,37 +17,23 @@
     <div class="main-content">
         <div class="user-container">
             <div class="col-1">
-                <div class="user-form">
+                <div class="form-user">
                     <div class="card">
                         <div class="card-header">
-                            {{ session.user[2] | capitalize }} {{ session.user[3] | upper }}
+                            <span class="card-header-firstname">{{ session.user[2] | capitalize }}</span>
+                            <span class="card-header-lastname">{{ session.user[3] | upper }}</span>
                         </div>
                         <div class="card-body">
-                            <form method="POST">
-                                <div class="line">
-                                    {% include 'app/layout/components/form/input.twig' with {
-                                        input_name: 'firstname',
-                                        input_label: 'Prénom',
-                                        input_value: session.user[2],
-                                        input_required: true
-                                    } %}
-                                </div>
-                                <div class="line">
-                                    {% include 'app/layout/components/form/input.twig' with {
-                                        input_name: 'lastname',
-                                        input_label: 'Nom',
-                                        input_value: session.user[3],
-                                        input_required: true
-                                    } %}
-                                </div>
-                                <div class="line">
-                                    {% include 'app/layout/components/form/input.twig' with {
-                                        input_name: 'email',
-                                        input_label: 'Adresse e-mail',
-                                        input_value: session.user[5],
-                                        input_required: true
-                                    } %}
-                                </div>
+                            <form class="user-form" data-id="main" data-url="{{ url_for('user_update', {'id': session.user[7]}) }}" method="POST">
+                                {% include "app/pages/user/components/form.twig" with {
+                                    input_id: "main-",
+                                    username: session.user[0],
+                                    firstname: session.user[2],
+                                    lastname: session.user[3],
+                                    email: session.user[5],
+                                    password: "",
+                                    userTag: session.user[6],
+                                } %}
                                 <div class="form-button">
                                     <button type="submit" class="btn btn-warning">Modifier</button>
                                 </div>
@@ -63,66 +49,121 @@
                         <span class="icon-download"></span>
                         <span>Télécharger l'application mobile</span>
                     </a>
-                    <a href="" class="btn btn-outline-default">
+                    <a href="{{ url_for('documentation') }}" target="_blank" class="btn btn-outline-default">
                         <span class="icon-download"></span>
                         <span>Télécharger la documentation</span>
                     </a>
                 </div>
 
-                <div class="user-users">
-                    <div class="title">
-                        <h2>Utilisateurs</h2>
-                        <div class="actions">
-                            <a href="" class="btn btn-primary">
-                                <span>Ajouter un utilisateur</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="users-list">
-                        <div class="list-header">
-                            <div class="item">
-                                <div class="col-1">Identifiant</div>
-                                <div class="col-2">Utilisateur</div>
-                                <div class="col-3"></div>
-                                <div class="col-4">Actions</div>
+                {% if session.user[9] == 1 %}
+                    <div class="user-users">
+                        <div class="title">
+                            <h2>Utilisateurs</h2>
+                            <div class="actions">
+                                <button class="btn btn-primary btn-add-user">
+                                    <span>Ajouter un utilisateur</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="list-items">
-                            {% if data | length > 0 %}
-                                {% for elem in data %}
-                                    {% set isBLocked = elem.is_blocked == 0 %}
-                                    <div class="item">
-                                        <div class="col-1">{{ elem.username }}</div>
-                                        <div class="col-2">
-                                            <div>{{ elem.first_name | capitalize }} {{ elem.last_name | upper }}</div>
-                                            <div class="sub">{{ elem.user_tag }}</div>
+
+                        <div class="users-list">
+                            <div class="list-header">
+                                <div class="item">
+                                    <div class="col-1">Identifiant</div>
+                                    <div class="col-2">Utilisateur</div>
+                                    <div class="col-3"></div>
+                                    <div class="col-4">Actions</div>
+                                </div>
+                            </div>
+                            <div  class="list-items" >
+                                {% if data | length > 0 %}
+                                    {% for elem in data %}
+                                        {% set isBLocked = elem.is_blocked == 0 %}
+                                        <div class="item item-{{ elem.id }}">
+                                            <div class="col-1">{{ elem.username }}</div>
+                                            <div class="col-2">
+                                                <div>{{ elem.first_name | capitalize }} {{ elem.last_name | upper }}</div>
+                                                <div class="sub">{{ elem.user_tag }}</div>
+                                            </div>
+                                            <div class="col-3">
+                                                {{ elem.rights == 0 ? "<div class='role-blocked'>Utilisateur</div>" : "" }}
+                                            </div>
+                                            <div class="col-4">
+                                                {% if elem.id != session.user[7] %}
+                                                    <button class="btn-icon btn-edit-user"
+                                                            data-id="{{ elem.id }}"
+                                                            data-user="{{ elem | json_encode }}"
+                                                            data-url="{{ url_for('user_update', {'id': elem.id}) }}">
+                                                        <span class="icon-compose"></span>
+                                                        <span class="tooltip">Modifier</span>
+                                                    </button>
+                                                    <button class="btn-icon btn-delete" data-id="{{ elem.id }}" data-url="{{ url_for('user_delete', {'id': elem.id}) }}">
+                                                        <span class="icon-delete"></span>
+                                                        <span class="tooltip">Supprimer</span>
+                                                    </button>
+                                                {% endif %}
+                                            </div>
                                         </div>
-                                        <div class="col-3">
-                                            {{ isBLocked ? "<div class='role-blocked'>Bloqué</div>" : "" }}
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="" class="btn-icon">
-                                                <span class="icon-{{ isBlocked ? "minus" : "block" }}"></span>
-                                                <span class="tooltip">{{ isBLocked ? "Débloquer" : "Bloquer"}}</span>
-                                            </a>
-                                            <a href="" class="btn-icon">
-                                                <span class="icon-compose"></span>
-                                                <span class="tooltip">Modifier</span>
-                                            </a>
-                                            <a href="" class="btn-icon">
-                                                <span class="icon-delete"></span>
-                                                <span class="tooltip">Supprimer</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <div class="item">Aucun utilisateur enregistré.</div>
-                            {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="item">Aucun utilisateur enregistré.</div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class='aside aside-add-user'>
+        <div class="aside-overlay"></div>
+        <div class="aside-content">
+            <div class="aside-title">
+                <span class="title">Ajouter un utilisateur</span>
+                <span class="icon-cancel btn-add-user"></span>
+            </div>
+            <div class="form">
+                <form class="user-form" data-id="create" data-url="{{ url_for('user_create') }}" method="POST">
+                    {% include "app/pages/user/components/form.twig" with {
+                        input_id: "create-",
+                        username: "",
+                        firstname: "",
+                        lastname: "",
+                        email: "",
+                        password: "",
+                        userTag: "",
+                    } %}
+                    <div class="form-button">
+                        <button type="submit" class="btn btn-primary">Ajouter cet utilisateur</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class='aside aside-edit-user'>
+        <div class="aside-overlay"></div>
+        <div class="aside-content">
+            <div class="aside-title">
+                <span class="title"></span>
+                <span class="icon-cancel btn-edit-user-close"></span>
+            </div>
+            <div class="form">
+                <form class="user-form" data-id="edit" method="POST">
+                    {% include "app/pages/user/components/form.twig" with {
+                        input_id: "edit-",
+                        username: "",
+                        firstname: "",
+                        lastname: "",
+                        email: "",
+                        password: "",
+                        userTag: "",
+                    } %}
+                    <div class="form-button">
+                        <button type="submit" class="btn btn-warning">Modifier cet utilisateur</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

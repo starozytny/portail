@@ -1,6 +1,6 @@
 import '../css/app.scss';
 
-import toastr from 'toastr';
+import toastr           from 'toastr';
 
 toastr.options = {
     "closeButton": true,
@@ -18,5 +18,5 @@ toastr.options = {
     "hideEasing": "linear",
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut",
-    "escapeHtml": false,
+    "escapeHtml": false
 }
