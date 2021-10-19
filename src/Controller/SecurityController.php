@@ -237,16 +237,16 @@ final class SecurityController
         $userData = $this->apiService->connect($username, $password);
         if(($userData != false)) {
             $user = [
-                $username,
+                $username, //0
                 $this->apiService->encryption($password),
                 $userData->first_name,
                 $userData->last_name,
                 $userData->society_data->credits,
-                $userData->email,
+                $userData->email, //5
                 $userData->user_tag,
                 $userData->id,
                 $userData->society_data->num_society,
-                $userData->rights
+                $userData->rights //9
             ];
         }
 

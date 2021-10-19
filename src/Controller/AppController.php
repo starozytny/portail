@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
+use Odan\Session\SessionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,12 +17,14 @@ class AppController
     private $twig;
     private $apiService;
     private $container;
+    private $session;
 
-    public function __construct(ContainerInterface $container, Twig $twig, ApiService $apiService)
+    public function __construct(ContainerInterface $container, Twig $twig, ApiService $apiService, SessionInterface $session)
     {
         $this->twig = $twig;
         $this->apiService = $apiService;
         $this->container = $container;
+        $this->session = $session;
     }
 
     public function homepage(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -61,18 +64,22 @@ class AppController
      */
     public function edl(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $users    = $this->apiService->callApi('users');
+        $rights = $this->session->get('user')[9];
+        $users = $this->apiService->callApi($rights == 1 ? 'users' : 'login_data');
         $models    = $this->apiService->callApi('models');
         $elements = $this->apiService->callApi('inventories/full/list/' . ($args['status'] == "en-cours" ? 0 : 2));
 
         $data = [];
 
         foreach ($elements as $elem) {
-
-            foreach($users as $user){
-                if($user->id == $elem->inventory->user_id){
-                    $elem->inventory->user = $user;
+            if($rights == 1){
+                foreach($users as $user){
+                    if($user->id == $elem->inventory->user_id){
+                        $elem->inventory->user = $user;
+                    }
                 }
+            }else{
+                $elem->inventory->user = $users->user;
             }
 
             $input = $elem->inventory->input;
