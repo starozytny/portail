@@ -12,8 +12,6 @@ export class SelectElement extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props.library)
-
         this.state = {
             dataImmuable: props.library.elements,
             data: props.library.elements,

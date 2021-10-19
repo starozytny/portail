@@ -29,8 +29,6 @@ export class Bibli extends Component {
     render () {
         const { context, dataImmuable } = this.state;
 
-        console.log(dataImmuable)
-
         let content;
         switch (context){
             case "elements":
