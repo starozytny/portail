@@ -95,7 +95,7 @@ export class ElementForm extends Component {
                 newVariants = variants;
                 newVariants.push(variant);
 
-                this.setState({ variants: newVariants });
+                this.setState({ variants: newVariants, variant: "" });
             }
         }
     }
@@ -118,7 +118,7 @@ export class ElementForm extends Component {
                 newNatures = nats;
                 newNatures.push(nature);
 
-                this.setState({ nats: newNatures });
+                this.setState({ nats: newNatures, nature: "" });
             }
         }
     }
