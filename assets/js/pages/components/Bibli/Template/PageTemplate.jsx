@@ -20,7 +20,6 @@ export class PageTemplate extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleGetFilters = this.handleGetFilters.bind(this);
-
     }
 
     handleGetData = (self) => { self.handleSetDataPagination(JSON.stringify(this.props.data), this.props.sorter); }

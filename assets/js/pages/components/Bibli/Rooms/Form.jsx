@@ -6,10 +6,10 @@ import toastr                  from "toastr";
 import { Input }               from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
 import { Button }              from "@dashboardComponents/Tools/Button";
+import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
-import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 export function RoomFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl })
 {
@@ -20,7 +20,7 @@ export function RoomFormulaire ({ type, onChangeContext, onUpdateList, element, 
     if(type === "update"){
         title = "Modifier " + element.name;
         url = oriUrl + "/" + element.id;
-        msg = "Félicitation ! La mise à jour s'est réalisée avec succès !";
+        msg = "La mise à jour s'est réalisée avec succès !";
     }
 
     let form = <RoomForm
@@ -78,14 +78,18 @@ export class RoomForm extends Component {
             axios({ method: method, url: url, data: this.state })
                 .then(function (response) {
                     let data = response.data;
-                    toastr.info(messageSuccess);
-                    location.reload();
+                    self.props.onUpdateList(data);
+                    self.setState({
+                        name: "",
+                        success: messageSuccess,
+                        errors: []
+                    });
                 })
                 .catch(function (error) {
-                    console.log(error)
-                    console.log(error.response)
-                    Formulaire.loader(false);
                     Formulaire.displayErrors(self, error);
+                })
+                .then(() => {
+                    Formulaire.loader(false);
                 })
             ;
         }

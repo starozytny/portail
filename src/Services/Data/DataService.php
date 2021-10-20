@@ -20,6 +20,12 @@ class DataService
         return $response->withStatus($code);
     }
 
+    public function returnSuccess(ResponseInterface $response, $data, $toJson=false, $code=200): ResponseInterface
+    {
+        $response->getBody()->write($toJson ? json_encode($data) : $data);
+        return $response->withStatus($code);
+    }
+
     public function delete(ResponseInterface $response, $path, $method="DELETE", $msg = "Donnée supprimée avec succès !"): ResponseInterface
     {
         $response->withHeader('Content-Type', 'application/json');

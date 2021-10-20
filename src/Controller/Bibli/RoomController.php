@@ -29,8 +29,10 @@ class RoomController
             return ['code' => 0, 'data' => json_encode([['name' => 'name', 'message' => "Ce champs est obligatoire."]])];
         }
 
+        $name = $this->sanitizeData->clean($data->name);
+
         $dataToSend = [
-            'name' => $this->sanitizeData->clean($data->name)
+            'name' => $name
         ];
 
         if($type == "create"){
@@ -43,7 +45,20 @@ class RoomController
             return ['code' => 0, 'data' => json_encode([['name' => 'name', 'message' => "Cette pièce existe déjà."]])];
         }
 
-       return $res;
+        $objs = $this->apiService->callApiWithErrors('library/rooms');
+
+        $data = null;
+        foreach($objs['data'] as $obj){
+            if($obj->name == $name){
+                $data = $obj;
+            }
+        }
+
+        if($data == null){
+            return ['code' => 0, 'data' => "[RFORM001] Veuillez rafraichir la page manuellement."];
+        }
+
+       return ['code' => 1, 'data' => json_encode($data)];
     }
 
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -55,7 +70,7 @@ class RoomController
             return $this->dataService->returnError($response, $res['data']);
         }
 
-        return $response->withStatus(200);
+        return $this->dataService->returnSuccess($response, $res['data']);
     }
 
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -67,7 +82,7 @@ class RoomController
             return $this->dataService->returnError($response, $res['data']);
         }
 
-        return $response->withStatus(200);
+        return $this->dataService->returnSuccess($response, $res['data']);
     }
 
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
