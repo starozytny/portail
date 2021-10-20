@@ -40,6 +40,14 @@ class ElementController
        return $res;
     }
 
+    /**
+     * POST - route pour créer un élément
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->submitForm($request, "create", null);
@@ -47,6 +55,14 @@ class ElementController
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
+    /**
+     * PUT - route pour modifier un élément
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->submitForm($request, "update", $args["id"]);
@@ -54,6 +70,14 @@ class ElementController
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
+    /**
+     * DELETE - route pour supprimer un élément
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         return $this->dataService->delete($response, 'library/delete_element/' . $args['id'], "GET");

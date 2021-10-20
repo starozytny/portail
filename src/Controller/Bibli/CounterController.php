@@ -65,6 +65,14 @@ class CounterController
         return ['code' => 1, 'data' => json_encode($data)];
     }
 
+    /**
+     * POST - route pour créer un compteur
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->submitForm($request, "create", null);
@@ -72,6 +80,14 @@ class CounterController
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
+    /**
+     * PUT - route pour modifier un compteur
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->submitForm($request, "update", $args["id"]);
@@ -79,6 +95,14 @@ class CounterController
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
+    /**
+     * POST - route pour supprimer un compteur
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         return $this->dataService->delete($response, 'library/delete_counter/' . $args['id'], "GET");
