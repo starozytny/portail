@@ -42,23 +42,55 @@ class PropertyController
        return $res;
     }
 
+    /**
+     * POST - route pour créer un bien
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->submitForm($request, "create", null);
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
+    /**
+     * PUT - route pour modifier un bien
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->submitForm($request, "update", $args["id"]);
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
+    /**
+     * DELETE - route pour supprimer un bien
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         return $this->dataService->delete($response, 'delete_property/' . $args['id']);
     }
 
+    /**
+     * POST - route pour checker si un bien existe
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function check(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $data = json_decode($request->getBody());
