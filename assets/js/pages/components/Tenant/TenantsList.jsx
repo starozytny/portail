@@ -36,7 +36,7 @@ export class TenantsList extends Component {
                         </div>
                         {data && data.length !== 0 ? data.map(elem => {
                             return <TenantsItem {...this.props} elem={elem} key={elem.id} />
-                        }) : <Alert>Aucun résultat</Alert>}
+                        }) : <Alert>Aucun résultat.</Alert>}
                     </div>
                 </div>
             </div>
