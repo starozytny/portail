@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import axios                   from "axios";
 import toastr                  from "toastr";
 
-import {Input, Radiobox, Select, SelectReactSelectize} from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
-import {Button, ButtonIcon} from "@dashboardComponents/Tools/Button";
+import { Button, ButtonIcon }  from "@dashboardComponents/Tools/Button";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
+import { Input, Radiobox, Select, SelectReactSelectize } from "@dashboardComponents/Tools/Fields";
 
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
@@ -134,10 +134,10 @@ export class ElementForm extends Component {
         e.preventDefault();
 
         const { context, url, messageSuccess } = this.props;
-        const { name, gender, orthog, category, family, variants } = this.state;
+        const { name, gender, orthog, category, family } = this.state;
 
         let method = context === "create" ? "POST" : "PUT";
-        this.setState({ success: false, errors: []})
+        this.setState({ success: false, errors: [] })
 
         let paramsToValidate = [
             {type: "text", id: 'name', value: name},
@@ -156,18 +156,27 @@ export class ElementForm extends Component {
             Formulaire.loader(true);
             let self = this;
 
-            axios({ method: method, url: url, data: this.state })
+            axios({ method: method, url: url, data: self.state })
                 .then(function (response) {
                     let data = response.data;
-                    console.log(response);
-                    toastr.info(messageSuccess);
-                    // location.reload();
+                    self.props.onUpdateList(data);
+                    self.setState({
+                        name: "",
+                        gender: 0,
+                        orthog: 0,
+                        category: 1,
+                        family: 0,
+                        variants: [],
+                        nats: [],
+                        success: messageSuccess,
+                        errors: []
+                    });
                 })
                 .catch(function (error) {
-                    console.log(error)
-                    console.log(error.response)
-                    Formulaire.loader(false);
                     Formulaire.displayErrors(self, error);
+                })
+                .then(() => {
+                    Formulaire.loader(false);
                 })
             ;
         }
