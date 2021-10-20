@@ -50,7 +50,13 @@ export class TenantsSelect extends Component {
         if(data){
             data.sort(Sort.compareReference)
             data.forEach(elem => {
-                let active = elements.includes(elem) ? " active" : ""
+
+                let active = "";
+                elements.forEach(el => {
+                    if(el.uid === elem.uid){
+                        active = " active";
+                    }
+                })
 
                 items.push(<div className={"card" + active} key={elem.id} onClick={() => this.handleClick(elem)}>
                     <TenantItem elem={elem} />
