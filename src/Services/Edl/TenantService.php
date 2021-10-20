@@ -100,30 +100,35 @@ class TenantService
 
     public function createTenant($json): array
     {
-        return $this->apiService->callApiWithErrors('add_tenant', 'POST', false, $this->getDataToSend($json));
+        $this->apiService->callApiWithErrors('add_tenant', 'POST', false, $this->getDataToSend($json));
+
+        return $this->returnElement($json->reference);
     }
 
     public function updateTenant($data, $id): array
     {
         $obj = json_decode($data);
-        return $this->apiService->callApiWithErrors('edit_tenant/' . $id, 'PUT', false, $this->getDataToSend($obj));
+        $this->apiService->callApiWithErrors('edit_tenant/' . $id, 'PUT', false, $this->getDataToSend($obj));
+
+        return $this->returnElement($obj->reference);
     }
 
-    public function deleteTenantFromArrayReference($references)
+    private function returnElement($reference): array
     {
-        $tenants = $this->apiService->callApi('tenants');
-        $toDelete = [];
-        foreach($references as $reference){
-            foreach($tenants as $tenant){
-                if($tenant->reference == $reference){
-                    array_push($toDelete, $tenant->id);
-                }
+        $objs = $this->apiService->callApiWithErrors('tenants');
+
+        $data = null;
+        foreach($objs['data'] as $obj){
+            if($obj->reference == $reference){
+                $data = $obj;
             }
         }
 
-        foreach($toDelete as $item){
-            $this->apiService->callApi('delete_tenant/' . $item);
+        if($data == null){
+            return ['code' => 0, 'data' => "[TFORM001] Veuillez rafraichir la page manuellement."];
         }
+
+        return ['code' => 1, 'data' => json_encode($data)];
     }
 
     public function getDataToSend($data): array

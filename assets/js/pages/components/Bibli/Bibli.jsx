@@ -76,7 +76,6 @@ export class Bibli extends Component {
                         <Button outline={!active} type={active ? "color0" : "default"} onClick={() => this.handleChangeContext(item.value)}>{item.label}</Button>
                     </div>
                 })}
-
             </div>
             {content}
         </>

@@ -126,8 +126,24 @@ export class TenantForm extends Component {
                 .then(function (response) {
                     let data = response.data;
                     if(context !== "check"){
-                        toastr.info(messageSuccess);
-                        location.reload();
+                        console.log(data)
+                        self.props.onUpdateList(data);
+                        self.setState({ success: messageSuccess, errors: [] });
+
+                        if(context === "create"){
+                            self.setState({
+                                reference: "",
+                                addr1: "",
+                                addr2: "",
+                                addr3: "",
+                                zipcode: "",
+                                city: "",
+                                lastname: "",
+                                firstname: "",
+                                phone: "",
+                                email: "",
+                            });
+                        }
                     }else{
                         Formulaire.loader(false);
                         self.props.onSetTenant(data);
@@ -135,8 +151,12 @@ export class TenantForm extends Component {
                     }
                 })
                 .catch(function (error) {
-                    Formulaire.loader(false);
+                    console.log(error)
+                    console.log(error.response)
                     Formulaire.displayErrors(self, error);
+                })
+                .then(() => {
+                    Formulaire.loader(false);
                 })
             ;
         }
