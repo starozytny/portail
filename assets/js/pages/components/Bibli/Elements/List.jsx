@@ -35,6 +35,8 @@ export class List extends Component {
                 }
             })
 
+            let variants = el.variants !== "" ? JSON.parse(el.variants) : [];
+
             items.push(<div className="item" key={el.id}>
                 <div className="item-content">
                     <div className="item-body">
@@ -56,11 +58,13 @@ export class List extends Component {
                                 </div>
                             </div>
                             <div className="col-3">
-                                {el.variants !== "" && JSON.parse(el.variants).map((va, index) => {
+                                {variants.length !== 0 && <div className="title-col"><u>Variantes</u> :</div>}
+                                {variants.map((va, index) => {
                                     return <div className="sub" key={index}>{Sanitaze.capitalize(va)}</div>
                                 })}
                             </div>
                             <div className="col-4">
+                                {elemNatures.length !== 0 && <div className="title-col"><u>Natures</u> :</div>}
                                 {elemNatures.map((elem, index) => {
                                     return <div className="sub" key={index}>{Sanitaze.capitalize(elem)}</div>
                                 })}

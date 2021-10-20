@@ -99,6 +99,16 @@
       width: calc(100% - 182px - 24px);
     }
   }
+
+  .items-default{
+    .infos{
+      align-items: stretch;
+    }
+  }
+
+  .title-col{
+    display: none;
+  }
 }
 
 //                      __   _  __    ___   ___    __
