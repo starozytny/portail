@@ -26,7 +26,7 @@ class TenantService
         $reference  = $this->sanitizeData->clean(mb_strtoupper($data->reference));
         $lastname   = $this->sanitizeData->clean($data->lastname);
         $firstname  = $this->sanitizeData->clean($data->firstname);
-        $phone      = $this->sanitizeData->clean($data->phone);
+        $phone      = $this->sanitizeData->toFormatPhone($data->phone);
         $email      = $this->sanitizeData->clean($data->email);
         $addr1      = $this->sanitizeData->clean($data->addr1);
         $addr2      = $this->sanitizeData->clean($data->addr2);
