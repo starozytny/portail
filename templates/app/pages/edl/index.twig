@@ -113,7 +113,10 @@
                                                         <div>{{ elem.property.addr1 }}</div>
                                                         <div>{{ elem.property.addr2 }}</div>
                                                         <div>{{ elem.property.addr3 }}</div>
-                                                        <div>{{ elem.property.zipcode }} {{ elem.property.zipcode and elem.property.city ? "," : "" }} {{ elem.property.city }}</div>
+                                                        <div>
+                                                            {{ elem.property.zipcode }}{{ elem.property.zipcode and elem.property.city ? "," : "" }}
+                                                            {{ elem.property.city }}
+                                                        </div>
                                                     </div>
                                                     {% if elem.property.owner %}
                                                         <div>Propriétaire : {{ elem.property.owner }}</div>
