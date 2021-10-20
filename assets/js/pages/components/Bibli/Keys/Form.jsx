@@ -6,10 +6,10 @@ import toastr                  from "toastr";
 import { Input }               from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
 import { Button }              from "@dashboardComponents/Tools/Button";
+import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 import Validateur              from "@dashboardComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
-import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 export function KeyFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl })
 {
@@ -20,7 +20,7 @@ export function KeyFormulaire ({ type, onChangeContext, onUpdateList, element, o
     if(type === "update"){
         title = "Modifier " + element.name;
         url = oriUrl + "/" + element.id;
-        msg = "Félicitation ! La mise à jour s'est réalisée avec succès !";
+        msg = "La mise à jour s'est réalisée avec succès !";
     }
 
     let form = <KeyForm
