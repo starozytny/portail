@@ -160,17 +160,18 @@ export class ElementForm extends Component {
                 .then(function (response) {
                     let data = response.data;
                     self.props.onUpdateList(data);
-                    self.setState({
-                        name: "",
-                        gender: 0,
-                        orthog: 0,
-                        category: 1,
-                        family: 0,
-                        variants: [],
-                        nats: [],
-                        success: messageSuccess,
-                        errors: []
-                    });
+                    self.setState({ success: messageSuccess, errors: [] });
+                    if(context === "create"){
+                        self.setState({
+                            name: "",
+                            gender: 0,
+                            orthog: 0,
+                            category: 1,
+                            family: 0,
+                            variants: [],
+                            nats: []
+                        });
+                    }
                 })
                 .catch(function (error) {
                     Formulaire.displayErrors(self, error);

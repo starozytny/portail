@@ -25,11 +25,10 @@ function submitForm(self, context, url, messageSuccess, name) {
             .then(function (response) {
                 let data = response.data;
                 self.props.onUpdateList(data);
-                self.setState({
-                    name: "",
-                    success: messageSuccess,
-                    errors: []
-                });
+                self.setState({ success: messageSuccess, errors: [] });
+                if(context === "create"){
+                    self.setState({ name: "" });
+                }
             })
             .catch(function (error) {
                 console.log(error)

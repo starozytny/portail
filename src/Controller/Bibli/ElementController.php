@@ -42,26 +42,16 @@ class ElementController
 
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $res = $this->submitForm($request, "create", null);
-        if($res['code'] == 0){
-            return $this->dataService->returnError($response, $res['data']);
-        }
 
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $res = $this->submitForm($request, "update", $args["id"]);
-        if($res['code'] == 0){
-            return $this->dataService->returnError($response, $res['data']);
-        }
 
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface

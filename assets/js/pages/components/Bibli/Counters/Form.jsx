@@ -82,12 +82,10 @@ export class CounterForm extends Component {
                 .then(function (response) {
                     let data = response.data;
                     self.props.onUpdateList(data);
-                    self.setState({
-                        name: "",
-                        unit: "",
-                        success: messageSuccess,
-                        errors: []
-                    });
+                    self.setState({ success: messageSuccess, errors: [] });
+                    if(context === "create"){
+                        self.setState({ name: "", unit: "" });
+                    }
                 })
                 .catch(function (error) {
                     Formulaire.displayErrors(self, error);
