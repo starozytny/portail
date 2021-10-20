@@ -9,9 +9,8 @@
         </div>
     </div>
 
-    <div id="view" data-donnees="{{ data | json_encode }}"></div>
-
     <div class="main-content">
+{#        <div id="view" data-donnees="{{ data | json_encode }}"></div>#}
         <div class="edl-list">
             <div class="toolbar toolbar-filter">
                 <a href="{{ url_for('edl', {'status': 'en-cours'}) }}" class="btn {{ is_current_url('edl', {'status': 'en-cours'}) ? "btn-color0" : "btn-outline-default" }}">
@@ -114,7 +113,10 @@
                                                         <div>{{ elem.property.addr1 }}</div>
                                                         <div>{{ elem.property.addr2 }}</div>
                                                         <div>{{ elem.property.addr3 }}</div>
-                                                        <div>{{ elem.property.zipcode }} {{ elem.property.zipcode and elem.property.city ? "," : "" }} {{ elem.property.city }}</div>
+                                                        <div>
+                                                            {{ elem.property.zipcode }}{{ elem.property.zipcode and elem.property.city ? "," : "" }}
+                                                            {{ elem.property.city }}
+                                                        </div>
                                                     </div>
                                                     {% if elem.property.owner %}
                                                         <div>Propriétaire : {{ elem.property.owner }}</div>
@@ -166,7 +168,9 @@
                         {% endfor %}
                     {% endfor %}
                 {% else %}
-                    <div class="alert alert-default">Aucun état des lieux {{ is_current_url('edl', {'status': 'en-cours'}) ? "en cours" : "terminé"}} enregistré.</div>
+                    <div class="alert alert-default">
+                        <p>Aucun état des lieux {{ is_current_url('edl', {'status': 'en-cours'}) ? "en cours" : "terminé"}} enregistré.</p>
+                    </div>
                 {% endif %}
             </div>
         </div>

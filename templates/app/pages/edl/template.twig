@@ -3,6 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {% webpack_entry_css 'edl' %}
+    {% webpack_entry_css 'fontSize' %}
 {% endblock %}
 
 {% block javascripts %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\PasswordRepository;
 use App\Services\ApiService;
+use App\Services\Data\DataService;
 use App\Services\MailerService;
 use DateTime;
 use Doctrine\DBAL\Connection;
@@ -26,10 +27,11 @@ final class SecurityController
     private $mailerService;
     private $passwordRepository;
     private $connection;
+    private $dataService;
 
     public function __construct(SessionInterface $session, Twig $twig, ApiService $apiService,
                                 MailerService $mailerService, PasswordRepository $passwordRepository,
-                                Connection $connection)
+                                Connection $connection, DataService $dataService)
     {
         $this->session = $session;
         $this->twig = $twig;
@@ -37,10 +39,11 @@ final class SecurityController
         $this->mailerService = $mailerService;
         $this->passwordRepository = $passwordRepository;
         $this->connection = $connection;
+        $this->dataService = $dataService;
     }
 
     /**
-     * Route pour la view : connexion à l'espace client
+     * GET - Route pour la view : connexion à l'espace client
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -48,6 +51,7 @@ final class SecurityController
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws Exception
      */
     public function index(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -66,11 +70,12 @@ final class SecurityController
     }
 
     /**
-     * POST Route pour la soumission du formulaire de connexion
+     * POST - Route pour la soumission du formulaire de connexion
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
+     * @throws Exception
      */
     public function loginForm(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -84,7 +89,7 @@ final class SecurityController
     }
 
     /**
-     * Route pour se déconnecter
+     * GET - Route pour se déconnecter
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -101,7 +106,7 @@ final class SecurityController
     }
 
     /**
-     * Route pour envoyer un lien de réinitialisation de mot de passe
+     * POST - Route pour envoyer un lien de réinitialisation de mot de passe
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -127,22 +132,19 @@ final class SecurityController
             $email = $res->getContents();
 
             if($email == ""){
-                $response->getBody()->write(json_encode($error));
-                return $response->withStatus(400);
+                return $this->dataService->returnResponse(400, $response, $error, true);
             }
 
             $user = $this->passwordRepository->findOneByUsername($username);
 
             if($user == false){
-                $response->getBody()->write(json_encode($errorNeverLogin));
-                return $response->withStatus(400);
+                return $this->dataService->returnResponse(400, $response, $errorNeverLogin, true);
             }
 
             if($user['createdAt']){
                 $interval = date_diff(new DateTime($user['createdAt']), new DateTime());
                 if ($interval->y == 0 && $interval->m == 0 && $interval->d == 0 && $interval->h < 1) {
-                    $response->getBody()->write(json_encode($errorAlreadySent));
-                    return $response->withStatus(400);
+                    return $this->dataService->returnResponse(400, $response, $errorAlreadySent, true);
                 }
             }
 
@@ -170,20 +172,21 @@ final class SecurityController
                     'app/email/security/forget.twig',
                     ['username' => $username, 'url' => $url]) != true)
             {
-                $response->getBody()->write("Nous sommes désolé, le service d'envoi de mail est hors service pour le moment.");
-                return $response->withStatus(400);
+                return $this->dataService->returnResponse(400, $response,
+                    "Nous sommes désolé, le service d'envoi de mail est hors service pour le moment."
+                );
             }
 
-            $response->getBody()->write(sprintf("Le lien de réinitialisation de votre mot de passe a été envoyé à : %s", $this->getHiddenEmail($email)));
-            return $response->withStatus(200);
+            return $this->dataService->returnResponse(200, $response,
+                sprintf("Le lien de réinitialisation de votre mot de passe a été envoyé à : %s", $this->getHiddenEmail($email))
+            );
         }
 
-        $response->getBody()->write(json_encode($error));
-        return $response->withStatus(400);
+        return $this->dataService->returnResponse(400, $response, $error, true);
     }
 
     /**
-     * Route pour réinitialisation de mot de passe
+     * GET - Route pour réinitialisation de mot de passe
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response

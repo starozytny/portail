@@ -28,6 +28,10 @@
 
 .items-table{
   border: 1px solid var(--fond);
+
+  & > .items > .item{
+    align-items: stretch;
+  }
 }
 
 .items-default{
@@ -56,7 +60,6 @@
     }
 
     .col-1, .col-2{
-      padding: 8px 0;
       cursor: pointer;
     }
 
@@ -101,6 +104,15 @@
   }
 }
 
+.aside{
+  .toolbar{
+    .filter-search{
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+}
+
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
 //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
@@ -115,6 +127,33 @@
 
     .filter-search{
       width: calc(100% - 176px - 24px);
+    }
+  }
+
+  .items-table{
+    & > .items > .item{
+      align-items: center;
+
+      .col-1, .col-2{
+        padding: 8px 0;
+      }
+    }
+  }
+}
+
+//                      __   _  __    ___   ___    __
+//                     | _| / |/ /_  / _ \ / _ \  |_ |
+//    _____ _____ _____| |  | | '_ \| | | | | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
+//                     | |  |_|\___/ \___/ \___/   | |
+//                     |__|                       |__|
+@media (min-width: 1600px){
+  .toolbar {
+    .create{
+      width: 184px;
+    }
+    .filter-search{
+      width: calc(100% - 184px - 24px);
     }
   }
 }

@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import Sort         from "@dashboardComponents/functions/sort";
 
 import { PageTemplate }   from "./Template/PageTemplate";
-import { List }           from "./Natures/List";
-import { NatureFormulaire } from "./Natures/Form";
+import { ListGenerique }  from "@pages/components/Bibli/Template/ListGenerique";
+import { FormFormulaire } from "@pages/components/Bibli/Template/FormGenerique";
 
 const MSG_DELETE_ELEMENT = 'Supprimer ce aspect ?';
 const SORTER = Sort.compareName;
@@ -26,19 +26,23 @@ export class Natures extends Component {
     }
 
     handleContentCreate = (changeContext) => {
-        return <NatureFormulaire type="create" oriUrl={this.props.oriUrl} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <FormFormulaire type="create" oriUrl={this.props.oriUrl}
+                               addTxt="une nature" addMsgTxt="une nouvelle nature"
+                               onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <NatureFormulaire type="update" oriUrl={this.props.oriUrl} element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <FormFormulaire type="update" oriUrl={this.props.oriUrl} element={element}
+                               onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentList = (currentData, changeContext, getFilters, filters) => {
-        return <List data={currentData}
+        return <ListGenerique data={currentData}
                      onChangeContext={changeContext}
                      onGetFilters={this.pageTemplate.current.handleGetFilters}
                      onSearch={this.pageTemplate.current.handleSearch}
                      onDelete={this.pageTemplate.current.handleDelete}
+                     classToolbar="natures" addName="une nature"
                      filters={filters} />
     }
 

@@ -7,11 +7,13 @@ import { uid }           from "uid";
 import { Input }         from "@dashboardComponents/Tools/Fields";
 import { Alert }         from "@dashboardComponents/Tools/Alert";
 import { Button }        from "@dashboardComponents/Tools/Button";
-import { FormLayout }    from "@dashboardComponents/Layout/Elements";
 import { Aside }         from "@dashboardComponents/Tools/Aside";
+import { FormLayout }    from "@dashboardComponents/Layout/Elements";
 
 import Validateur        from "@dashboardComponents/functions/validateur";
 import Formulaire        from "@dashboardComponents/functions/Formulaire";
+import Sort              from "@dashboardComponents/functions/sort";
+import ElementsFunctions from "@pages/functions/elements";
 
 import { SelectRoom }    from "./SelectRoom";
 import { RoomItem }      from "./RoomItem";
@@ -36,6 +38,7 @@ export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element
             content.push({
                 uid: uid(),
                 id: item.id,
+                name: ElementsFunctions.getStringData(library.rooms, item.id),
                 elements: item.elements
             })
         })
@@ -92,10 +95,11 @@ export class ModeleForm extends Component {
     }
 
     handleAddRoom = (room) => {
+        const { library } = this.props;
         const { content } = this.state;
 
         let newContent = content;
-        newContent.push({ uid: uid(), id: room, elements: '[3, 4, 5, 6, 7, 8, 16, 17, 18]' });
+        newContent.push({ uid: uid(), id: room, name: ElementsFunctions.getStringData(library.rooms, room), elements: '[3, 4, 5, 6, 7, 8, 16, 17, 18]' });
         this.setState({ content: newContent })
     }
 
@@ -183,15 +187,25 @@ export class ModeleForm extends Component {
             axios({ method: method, url: url, data: this.state})
                 .then(function (response) {
                     let data = response.data;
-                    location.reload();
-                    toastr.info(messageSuccess);
+                    self.props.onUpdateList(data);
+                    self.setState({ success: messageSuccess, errors: [] });
+                    if(context === "create"){
+                        self.setState({
+                            name: "",
+                            content: [],
+                        });
+                    }
                 })
                 .catch(function (error) {
-                    Formulaire.loader(false);
+                    console.log(error)
+                    console.log(error.response)
                     Formulaire.displayErrors(self, error);
                     if(error.response.data && Array.isArray(error.response.data)){
                         self.setState({ errorContent: getErrorContent(error.response.data) })
                     }
+                })
+                .then(() => {
+                    Formulaire.loader(false);
                 })
             ;
         }
@@ -201,11 +215,15 @@ export class ModeleForm extends Component {
         const { context, library } = this.props;
         const { errors, errorContent, success, name, content } = this.state;
 
-        let asideRooms = <SelectRoom ref={this.selectRoom} content={content} data={library}
+        let asideRooms = <SelectRoom ref={this.selectRoom} content={content} library={library}
                                      onAddRoom={this.handleAddRoom}
                                      onRemoveRoom={this.handleRemoveRoom} />
-        let asideElements = <SelectElement ref={this.selectElements} data={library}
+        let asideElements = <SelectElement ref={this.selectElements} library={library}
                                            onClickElement={this.handleClickElement} />
+
+        if(content.length !== 0){
+            content.sort(Sort.compareName);
+        }
 
         return <>
             <form onSubmit={this.handleSubmit}>

@@ -40,7 +40,7 @@ export function EdlFormulaire ({ type, element, oriUrl, users, currentUser, mode
         url={url}
         attribution={element ? element.inventory.user_id : currentUser}
         structure={(element && parseInt(element.inventory.input) !== 0) ? (parseInt(element.inventory.input) < 0 ? "1" : "2") : "0"}
-        startDate={element ? new Date(parseInt(element.inventory.date) * 1000) : ""}
+        startDate={(element && parseInt(element.inventory.date) !== 0) ? new Date(parseInt(element.inventory.date) * 1000) : ""}
         type={element ? element.inventory.type : 1}
         model={(element && parseInt(element.inventory.input) !== 0) ? parseInt(element.inventory.input) : ""}
         property={element ? element.property : ""}
@@ -113,7 +113,15 @@ export class EdlForm extends Component {
         const { tenants } = this.state;
 
         let newElements = [];
-        if(tenants.includes(elem)){
+
+        let find =false;
+        tenants.forEach(el => {
+            if(el.uid === elem.uid){
+                find = true;
+            }
+        })
+
+        if(find){
             toastr.warning('Locataire enlevé.')
             newElements = tenants.filter(el => {
                 return el.reference !== elem.reference
@@ -135,7 +143,7 @@ export class EdlForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { context, url, messageSuccess, paginationId } = this.props;
+        const { context, url, paginationId } = this.props;
         const { attribution, structure, type, model, property, tenants, startDate } = this.state;
 
         this.setState({ success: false, errors: []})
@@ -211,7 +219,7 @@ export class EdlForm extends Component {
             structures = [...structures, {value: 1, label: 'Etablir structure', identifiant: 'etablir-structure'}]
         }
 
-        if(property && property.last_inventory_uid !== ""){
+        if(property && property.last_inventory_uid && property.last_inventory_uid !== "" && property.last_inventory_uid !== "0"){
             structures = [...structures, {value: 2, label: 'EDL Précédent', identifiant: 'edl-precedent'}]
         }
 
@@ -303,7 +311,8 @@ export class EdlForm extends Component {
                 <div className="line line-3">
                     <Select items={users} identifiant="attribution" valeur={attribution} errors={errors} onChange={this.handleChange}>Attribution</Select>
                     <Select items={structures} identifiant="structure" valeur={structure} errors={errors} onChange={this.handleChange}>Structure</Select>
-                    <DateTimePick identifiant="startDate" valeur={startDate} errors={errors} onChange={this.handleChangeDateStartDate} minDate={new Date()}>
+                    <DateTimePick identifiant="startDate" valeur={startDate} errors={errors} onChange={this.handleChangeDateStartDate}
+                                  minDate={new Date()} maxDate={new Date(2050, 1,1)}>
                         Prévu le (facultatif)
                     </DateTimePick>
                 </div>

@@ -2,26 +2,12 @@ import React, { Component } from 'react';
 
 import { Layout }         from "@dashboardComponents/Layout/Page";
 import Sort               from "@dashboardComponents/functions/sort";
+import SearchFunction     from "@pages/functions/search";
 
 import { TenantsList }     from "./TenantsList";
 import { TenantFormulaire } from "./TenantForm";
 
 const SORTER = Sort.compareLast_name;
-
-function searchFunction(dataImmuable, search){
-    let newData = [];
-    search = search.toLowerCase();
-    newData = dataImmuable.filter(function(v) {
-        if(v.reference.toLowerCase().startsWith(search)
-            || v.last_name.toLowerCase().startsWith(search)
-            || v.first_name.toLowerCase().startsWith(search)
-        ){
-            return v;
-        }
-    })
-
-    return newData;
-}
 
 export class Tenants extends Component {
     constructor(props) {
@@ -48,7 +34,7 @@ export class Tenants extends Component {
 
     handleUpdateList = (element, newContext=null) => { this.layout.current.handleUpdateList(element, newContext, SORTER); }
 
-    handleSearch = (search) => { this.layout.current.handleSearch(search, searchFunction); }
+    handleSearch = (search) => { this.layout.current.handleSearch(search, SearchFunction.searchTenant); }
 
     handleDelete = (element) => {
         this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce locataire ?", "", true, false);

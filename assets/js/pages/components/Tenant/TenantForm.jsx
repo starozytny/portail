@@ -126,17 +126,33 @@ export class TenantForm extends Component {
                 .then(function (response) {
                     let data = response.data;
                     if(context !== "check"){
-                        toastr.info(messageSuccess);
-                        location.reload();
+                        self.props.onUpdateList(data);
+                        self.setState({ success: messageSuccess, errors: [] });
+
+                        if(context === "create"){
+                            self.setState({
+                                reference: "",
+                                addr1: "",
+                                addr2: "",
+                                addr3: "",
+                                zipcode: "",
+                                city: "",
+                                lastname: "",
+                                firstname: "",
+                                phone: "",
+                                email: "",
+                            });
+                        }
                     }else{
-                        Formulaire.loader(false);
                         self.props.onSetTenant(data);
                         self.props.refAside.current.handleClose();
                     }
                 })
                 .catch(function (error) {
-                    Formulaire.loader(false);
                     Formulaire.displayErrors(self, error);
+                })
+                .then(() => {
+                    Formulaire.loader(false);
                 })
             ;
         }
@@ -160,6 +176,11 @@ export class TenantForm extends Component {
                     <Input valeur={firstname} identifiant="firstname" errors={errors} onChange={this.handleChange} >Prénom *</Input>
                 </div>
 
+                <div className="line line-2">
+                    <Input valeur={phone} identifiant="phone" errors={errors} onChange={this.handleChange} >Téléphone</Input>
+                    <Input valeur={email} identifiant="email" errors={errors} onChange={this.handleChange} type="email">Email</Input>
+                </div>
+
                 <div className="line" />
                 <div className="line" />
 
@@ -172,12 +193,6 @@ export class TenantForm extends Component {
                 <div className="line line-3">
                     <Input valeur={zipcode} identifiant="zipcode" errors={errors} onChange={this.handleChangePostalCodeCity} type="number">Code postal</Input>
                     <Input valeur={city} identifiant="city" errors={errors} onChange={this.handleChange} >Ville</Input>
-                    <div className="form-group"/>
-                </div>
-
-                <div className="line line-3">
-                    <Input valeur={phone} identifiant="phone" errors={errors} onChange={this.handleChange} >Téléphone</Input>
-                    <Input valeur={email} identifiant="email" errors={errors} onChange={this.handleChange} type="email">Email</Input>
                     <div className="form-group"/>
                 </div>
 

@@ -1,12 +1,9 @@
 <?php
 
 use App\Controller\AppController;
-use App\Controller\Bibli\AspectController;
+use App\Controller\Bibli\BibliController;
 use App\Controller\Bibli\CounterController;
 use App\Controller\Bibli\ElementController;
-use App\Controller\Bibli\KeyController;
-use App\Controller\Bibli\NatureController;
-use App\Controller\Bibli\RoomController;
 use App\Controller\EdlController;
 use App\Controller\ModelController;
 use App\Controller\PropertyController;
@@ -35,6 +32,7 @@ return function (App $app) {
     $app->group('/espace-client', function (RouteCollectorProxy $group) {
         $group->get('', [AppController::class, 'homepage'])->setName('homepage');
         $group->get('/documentation', [AppController::class, 'documentation'])->setName('documentation');
+        $group->get('/documentation-portail', [AppController::class, 'documentationPortail'])->setName('documentationPortail');
 
         $group->get('/edls/{status}', [AppController::class, 'edl'])->setName('edl');
         $group->map(['GET', 'PUT'], '/edl/{id}', [EdlController::class, 'update'])->setName('edl_update');
@@ -60,35 +58,23 @@ return function (App $app) {
         $group->post('/tenant-check', [TenantController::class, 'check'])->setName('tenant_check');
 
         $group->get('/modeles', [AppController::class, 'modele'])->setName('modele_index');
-        $group->post('/modeles', [ModelController::class, 'create'])->setName('modele_create');
-        $group->put('/modeles/{id}', [ModelController::class, 'update'])->setName('modele_update');
-        $group->delete('/modeles/{id}', [ModelController::class, 'delete'])->setName('modele_delete');
+        $group->post('/modeles', [ModelController::class, 'create']);
+        $group->put('/modeles/{id}', [ModelController::class, 'update']);
+        $group->delete('/modeles/{id}', [ModelController::class, 'delete']);
 
         $group->get('/bibliotheque', [AppController::class, 'bibli'])->setName('bibli_index');
 
-        $group->post('/bibliotheque/room', [RoomController::class, 'create'])->setName('bibli_room_create');
-        $group->put('/bibliotheque/room/{id}', [RoomController::class, 'update'])->setName('bibli_room_update');
-        $group->delete('/bibliotheque/room/{id}', [RoomController::class, 'delete'])->setName('bibli_room_delete');
+        $group->post('/bibliotheque/elements/{entity}', [BibliController::class, 'create']);
+        $group->put('/bibliotheque/elements/{entity}/{id}', [BibliController::class, 'update']);
+        $group->delete('/bibliotheque/elements/{entity}/{id}', [BibliController::class, 'delete']);
 
-        $group->post('/bibliotheque/counter', [CounterController::class, 'create'])->setName('bibli_counter_create');
-        $group->put('/bibliotheque/counter/{id}', [CounterController::class, 'update'])->setName('bibli_counter_update');
-        $group->delete('/bibliotheque/counter/{id}', [CounterController::class, 'delete'])->setName('bibli_counter_delete');
+        $group->post('/bibliotheque/counter', [CounterController::class, 'create']);
+        $group->put('/bibliotheque/counter/{id}', [CounterController::class, 'update']);
+        $group->delete('/bibliotheque/counter/{id}', [CounterController::class, 'delete']);
 
-        $group->post('/bibliotheque/key', [KeyController::class, 'create'])->setName('bibli_key_create');
-        $group->put('/bibliotheque/key/{id}', [KeyController::class, 'update'])->setName('bibli_key_update');
-        $group->delete('/bibliotheque/key/{id}', [KeyController::class, 'delete'])->setName('bibli_key_delete');
-
-        $group->post('/bibliotheque/aspect', [AspectController::class, 'create'])->setName('bibli_aspect_create');
-        $group->put('/bibliotheque/aspect/{id}', [AspectController::class, 'update'])->setName('bibli_aspect_update');
-        $group->delete('/bibliotheque/aspect/{id}', [AspectController::class, 'delete'])->setName('bibli_aspect_delete');
-
-        $group->post('/bibliotheque/nature', [NatureController::class, 'create'])->setName('bibli_nature_create');
-        $group->put('/bibliotheque/nature/{id}', [NatureController::class, 'update'])->setName('bibli_nature_update');
-        $group->delete('/bibliotheque/nature/{id}', [NatureController::class, 'delete'])->setName('bibli_nature_delete');
-
-        $group->post('/bibliotheque/element', [ElementController::class, 'create'])->setName('bibli_element_create');
-        $group->put('/bibliotheque/element/{id}', [ElementController::class, 'update'])->setName('bibli_element_update');
-        $group->delete('/bibliotheque/element/{id}', [ElementController::class, 'delete'])->setName('bibli_element_delete');
+        $group->post('/bibliotheque/element', [ElementController::class, 'create']);
+        $group->put('/bibliotheque/element/{id}', [ElementController::class, 'update']);
+        $group->delete('/bibliotheque/element/{id}', [ElementController::class, 'delete']);
 
     })->add(UserAuthMiddleware::class);
 

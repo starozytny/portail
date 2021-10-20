@@ -12,13 +12,15 @@
 }
 
 .edl-list{
+
   .toolbar-filter{
     @include flex(row, flex-start, space-between);
+    padding-bottom: 12px;
   }
 
   .toolbar-filter + .toolbar{
     .item{
-      margin-bottom: 12px;
+      margin-bottom: 24px;
 
       .btn{
         width: calc(100% - 48px);
@@ -204,6 +206,7 @@
   .edl-list{
     .toolbar-filter{
       justify-content: flex-start;
+      margin-bottom: 16px;
 
       & > a + a{
         display: inline-block;
@@ -322,6 +325,25 @@
       }
       .col-4, .col-5{
         opacity: 1;
+      }
+    }
+  }
+}
+//                      __   _  __    ___   ___    __
+//                     | _| / |/ /_  / _ \ / _ \  |_ |
+//    _____ _____ _____| |  | | '_ \| | | | | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | | (_) | |_| | |_| |  | |_____|_____|_____|
+//                     | |  |_|\___/ \___/ \___/   | |
+//                     |__|                       |__|
+@media (min-width: 1600px){
+  .edl-list{
+    .toolbar-filter + .toolbar{
+      .item:first-child{
+        width: 225px;
+      }
+
+      .line{
+        width: calc(100% - 225px - 24px);
       }
     }
   }

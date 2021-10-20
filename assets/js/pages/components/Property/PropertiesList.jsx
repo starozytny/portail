@@ -17,7 +17,7 @@ export class PropertiesList extends Component {
                         <Button onClick={() => onChangeContext("create")}>Ajouter un bien</Button>
                     </div>
                     <div className="item filter-search">
-                        <Search onSearch={onSearch} />
+                        <Search onSearch={onSearch} placeholder="Recherche par référence, adresse, code postal, ville ou propriétaire..."/>
                     </div>
                 </div>
 
@@ -37,7 +37,7 @@ export class PropertiesList extends Component {
                         </div>
                         {data && data.length !== 0 ? data.map(elem => {
                             return <PropertiesItem {...this.props} elem={elem} key={elem.id} />
-                        }) : <Alert>Aucun résultat</Alert>}
+                        }) : <Alert>Aucun résultat.</Alert>}
                     </div>
                 </div>
             </div>

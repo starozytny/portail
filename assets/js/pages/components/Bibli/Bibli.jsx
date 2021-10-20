@@ -10,7 +10,8 @@ import { Natures }  from "./Natures";
 import { Counters } from "./Counters";
 import { Elements } from "./Elements";
 
-const URL = "bibliotheque/";
+const URLParent = "bibliotheque/";
+const URL = "bibliotheque/elements/";
 
 export class Bibli extends Component {
     constructor(props) {
@@ -29,12 +30,10 @@ export class Bibli extends Component {
     render () {
         const { context, dataImmuable } = this.state;
 
-        console.log(dataImmuable)
-
         let content;
         switch (context){
             case "elements":
-                content = <Elements oriUrl={URL + "element"} data={dataImmuable.elements}
+                content = <Elements oriUrl={URLParent + "element"} data={dataImmuable.elements}
                                     categories={dataImmuable.categories}
                                     natures={dataImmuable.natures}
                                     elemsNatures={dataImmuable.element_natures}
@@ -50,7 +49,7 @@ export class Bibli extends Component {
                 content = <Keys oriUrl={URL + "key"} data={dataImmuable.keys}/>
                 break;
             case "counters":
-                content = <Counters oriUrl={URL + "counter"} data={dataImmuable.counters}/>
+                content = <Counters oriUrl={URLParent + "counter"} data={dataImmuable.counters}/>
                 break;
             case "rooms":
                 content = <Rooms oriUrl={URL + "room"} data={dataImmuable.rooms}/>
@@ -77,7 +76,6 @@ export class Bibli extends Component {
                         <Button outline={!active} type={active ? "color0" : "default"} onClick={() => this.handleChangeContext(item.value)}>{item.label}</Button>
                     </div>
                 })}
-
             </div>
             {content}
         </>

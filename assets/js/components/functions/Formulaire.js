@@ -53,20 +53,19 @@ function updateData(self, sorter, newContext, context, data, element){
 
 function updateDataPagination(self, sorter, newContext, context, data, element, perPage=10, dataImmuable, currentData){
     let nContext = (newContext !== null) ? newContext : context;
-    let retour = UpdateList.update(nContext, data, element, dataImmuable, currentData);
-    let newData = retour[0];
-    let newDataImmuable = retour[1];
-    let newCurrentData = retour[2];
+    // let newData = UpdateList.update(nContext, data, element);
+    let newDataImmuable = UpdateList.update(nContext, dataImmuable, element);
+    let newCurrentData = UpdateList.update(nContext, currentData, element);
 
     if(sorter) {
-        newData.sort(sorter)
+        // newData.sort(sorter)
         newDataImmuable.sort(sorter)
         newCurrentData.sort(sorter)
     }
 
     self.setState({
         dataImmuable: newDataImmuable,
-        data: newData,
+        data: newDataImmuable,
         currentData: newCurrentData,
         element: element
     })
@@ -93,13 +92,11 @@ function deleteElement(self, element, url, showLoader = true, showFire = true)
     axios.delete(url, {})
         .then(function (response) {
             if(showFire){
-                Swal.fire(response.data.message, '', 'success');
+                toastr.info(response.data.message);
             }
             self.handleUpdateList(element, "delete");
         })
         .catch(function (error) {
-            console.log(error)
-            console.log(error.response)
             displayErrors(self, error, "Une erreur est survenue, veuillez contacter le support.")
         })
         .then(() => {

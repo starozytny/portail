@@ -32,8 +32,10 @@ class CounterController
             return ['code' => 0, 'data' => json_encode([['name' => 'unit', 'message' => "Ce champs est obligatoire."]])];
         }
 
+        $name = $this->sanitizeData->clean($data->name);
+
         $dataToSend = [
-            'name' => $this->sanitizeData->clean($data->name),
+            'name' => $name,
             'unit' => $this->sanitizeData->clean($data->unit)
         ];
 
@@ -47,33 +49,58 @@ class CounterController
             return ['code' => 0, 'data' => json_encode([['name' => 'name', 'message' => "Ce compteur existe déjà."]])];
         }
 
-       return $res;
+        $objs = $this->apiService->callApiWithErrors('library/counters');
+
+        $data = null;
+        foreach($objs['data'] as $obj){
+            if($obj->name == $name){
+                $data = $obj;
+            }
+        }
+
+        if($data == null){
+            return ['code' => 0, 'data' => "[CFORM001] Veuillez rafraichir la page manuellement."];
+        }
+
+        return ['code' => 1, 'data' => json_encode($data)];
     }
 
+    /**
+     * POST - route pour créer un compteur
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $res = $this->submitForm($request, "create", null);
-        if($res['code'] == 0){
-            return $this->dataService->returnError($response, $res['data']);
-        }
-
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
+    /**
+     * PUT - route pour modifier un compteur
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $res = $this->submitForm($request, "update", $args["id"]);
-        if($res['code'] == 0){
-            return $this->dataService->returnError($response, $res['data']);
-        }
-
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
+    /**
+     * POST - route pour supprimer un compteur
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         return $this->dataService->delete($response, 'library/delete_counter/' . $args['id'], "GET");

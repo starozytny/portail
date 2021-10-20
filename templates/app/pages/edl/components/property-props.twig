@@ -1,22 +1,10 @@
+{% if less is not defined %}
+    <div class="owner sub details">Propriétaire : {{ property.owner != "" ? property.owner : "Non renseigné" }}</div>
+{% endif %}
+
 {% if property.building %}<div class="building sub details">Bâtiment : {{ property.building }}</div>{% endif %}
 
 {% if property.type %}<div class="typeBien sub details">Type : {{ property.type }}</div>{% endif %}
-
-{% if less is not defined %}
-    <div class="owner sub details">{{ property.owner != "" ? "Propriétaire : " ~ property.owner : "Pas de propriétaire renseigné" }}</div>
-{% endif %}
-
-{% if property.surface > "0" %}
-    <div class="surface sub details">{{ property.surface }}m²</div>
-{% endif %}
-
-{% if property.room %}
-    <div class="room sub details">{{ property.room }} {{ property.room > 1 ? "pièces" : "piece" }}</div>
-{% endif %}
-
-{% if property.floor != "0" %}
-    <div class="floor sub details">{{ property.floor }} {{ property.floor > 1 ? "ème étage" : "er étage" }}</div>
-{% endif %}
 
 {% if property.door %}
     <div class="door sub details">Porte : {{ property.door }}</div>
@@ -24,4 +12,16 @@
 
 {% if property.is_furnished %}
     <div class="is_furnished sub details">Meublé</div>
+{% endif %}
+
+{% if property.surface > "0" %}
+    <div class="surface sub details">{{ property.surface }} m²</div>
+{% endif %}
+
+{% if property.rooms %}
+    <div class="room sub details">{{ property.rooms }} {{ property.rooms > 1 ? "pièces" : "piece" }}</div>
+{% endif %}
+
+{% if property.floor != "0" %}
+    <div class="floor sub details">{{ property.floor }}{{ property.floor > 1 ? "ème étage" : "er étage" }}</div>
 {% endif %}

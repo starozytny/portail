@@ -5,6 +5,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {% webpack_entry_css 'modele' %}
+    {% webpack_entry_css 'fontSize' %}
 {% endblock %}
 
 {% block main_content %}
@@ -14,11 +15,13 @@
         </div>
     </div>
 
-    <div id="modeles" data-donnees="{{ data | json_encode }}"
-                      data-library="{{ library | json_encode }}"
-                      data-inventories="{{ inventories | json_encode }}"
-                      data-rights="{{ session.user[9] }}"
-    ></div>
+    <div>
+        <div id="modeles" data-donnees="{{ data | json_encode }}"
+             data-library="{{ library | json_encode }}"
+             data-inventories="{{ inventories | json_encode }}"
+             data-rights="{{ session.user[9] }}"
+        ></div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

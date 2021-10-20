@@ -1,6 +1,15 @@
 @import "vars/vars";
 
 #calendar{
+
+  .fc-toolbar{
+    flex-direction: column;
+
+    & > *{
+      margin-bottom: 12px;
+    }
+  }
+
   .fc-list-table {
     border-collapse:separate;
     border-spacing:0 12px;
@@ -63,6 +72,23 @@
       &:last-child{
         padding-bottom: 12px;
         border-bottom: 1px solid var(--grey);
+      }
+    }
+  }
+}
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  #calendar {
+    .fc-toolbar {
+      flex-direction: row;
+
+      & > * {
+        margin-bottom: 0;
       }
     }
   }

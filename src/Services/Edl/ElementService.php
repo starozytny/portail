@@ -105,20 +105,35 @@ class ElementService
 
         $this->addNatures($obj, $id);
 
-        return [
-            'code' => 1,
-            'data' => $id,
-        ];
+        return $this->returnElement($obj->name);
     }
 
     public function updateElement($data, $id): array
     {
         $obj = json_decode($data);
-        $res = $this->apiService->callApiWithErrors('library/edit_element/' . $id, 'POST', false, $this->getDataToSend($obj));
+        $this->apiService->callApiWithErrors('library/edit_element/' . $id, 'POST', false, $this->getDataToSend($obj));
 
         $this->addNatures($obj, $id);
 
-        return $res;
+        return $this->returnElement($obj->name);
+    }
+
+    private function returnElement($name): array
+    {
+        $objs = $this->apiService->callApiWithErrors('library/elements');
+
+        $data = null;
+        foreach($objs['data'] as $obj){
+            if($obj->name == $name){
+                $data = $obj;
+            }
+        }
+
+        if($data == null){
+            return ['code' => 0, 'data' => "[CFORM001] Veuillez rafraichir la page manuellement."];
+        }
+
+        return ['code' => 1, 'data' => json_encode($data)];
     }
 
     private function addNatures($obj, $id)

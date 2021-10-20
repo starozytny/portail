@@ -26,7 +26,7 @@ export class Elements extends Component {
     }
 
     handleContentCreate = (changeContext) => {
-        return <ElementFormulaire type="create" onChangeContext={changeContext} onUpdateList={this.handleUpdateList}
+        return <ElementFormulaire type="create" onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}
                                   oriUrl={this.props.oriUrl}
                                   categories={this.props.categories}
                                   natures={this.props.natures}
@@ -34,7 +34,7 @@ export class Elements extends Component {
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <ElementFormulaire type="update" element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}
+        return <ElementFormulaire type="update" element={element} onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}
                                   oriUrl={this.props.oriUrl}
                                   categories={this.props.categories}
                                   natures={this.props.natures}

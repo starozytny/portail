@@ -23,7 +23,7 @@
       padding: 24px 12px 12px 12px;
 
       &:hover{
-        background-color: var(--primaryNuance0);
+        background-color: var(--primaryNuance1);
       }
     }
 
@@ -97,6 +97,12 @@
 
     .item-content{
       transition: all 0.2s ease-in-out;
+    }
+  }
+
+  .item-header{
+    & + .alert{
+      margin-bottom: 0;
     }
   }
 

@@ -82,8 +82,8 @@
                     'name': 'mon-compte'
                 },
                 {
-                    'path': url_for('documentation'),
-                    'route': 'documentation',
+                    'path': url_for('documentationPortail'),
+                    'route': 'documentationPortail',
                     'route_args': {},
                     'icon': 'help',
                     'label': 'Documentation',
@@ -103,7 +103,7 @@
                     {% for item in menu %}
                         <div class="item">
                             <a href="{{ item.path }}" class="{{ is_current_url(item.route, item.route_args) ? "active" : "" }}"
-                               data-name="{{ item.name }}" target="{{ item.route == 'documentation' ? "_blank" : "" }}">
+                               data-name="{{ item.name }}" target="{{ item.route == 'documentationPortail' ? "_blank" : "" }}">
                                 <span class="icon-{{ item.icon }}"></span>
                                 <span>{{ item.label }}</span>
                             </a>
@@ -122,12 +122,16 @@
                             <span>Logiciel d'état des lieux</span>
                         </div>
                         <div class="profil">
-                            <span>{{ session.user[4] }} {{ session.user[4] > 1 ? 'crédits restants' : 'crédit restant' }}</span>
-                            <div>
-                                <a class="btn-icon" href="{{ url_for('documentation') }}" target="_blank">
+                            <span class="credits">{{ session.user[4] }} {{ session.user[4] > 1 ? 'crédits restants' : 'crédit restant' }}</span>
+                            <div class="header-menu">
+                                <a class="btn-icon" href="{{ url_for('documentationPortail') }}" target="_blank">
                                     <span class="icon-help"></span>
-                                    <span class="tooltip">Besoin d'aide ?</span>
+                                    <span class="tooltip">Besoin d'aide portail ?</span>
                                 </a>
+{#                                <a class="btn-icon" href="{{ url_for('documentation') }}" target="_blank">#}
+{#                                    <span class="icon-help"></span>#}
+{#                                    <span class="tooltip">Besoin d'aide application ?</span>#}
+{#                                </a>#}
                                 <a class="btn-icon" href="{{ url_for('logout') }}">
                                     <span class="icon-logout"></span>
                                     <span class="tooltip">Se déconnecter</span>

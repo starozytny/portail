@@ -8,7 +8,8 @@
 
   .radiobox-item{
     &.checked{
-      & > label{
+      & > label[for="sortant"],
+      & > label[for="entrant"],{
         border: 1px solid var(--grey);
         color: var(--txt);
         opacity: 1;
@@ -23,21 +24,17 @@
   }
 
   .line-select-or-add{
-    margin-bottom: 48px;
+    margin-bottom: 24px;
   }
 
   .select-or-add{
     & > button{
-      width: calc(100% - 50px);
+      width: 100%;
 
       &:not(:last-child){
         margin-bottom: 12px;
       }
     }
-  }
-
-  .form-button{
-    margin-top: 24px;
   }
 }
 
@@ -112,6 +109,10 @@
 //                     |__|                    |__|
 @media (min-width:768px) {
   #edl-form{
+    .line-select-or-add{
+      margin-bottom: 32px;
+    }
+
     .select-or-add{
       & > button{
         width: auto;
@@ -125,6 +126,7 @@
 
     .form-button{
       justify-content: flex-end;
+      margin-top: 12px;
 
       & > .btn{
         width: 100%;

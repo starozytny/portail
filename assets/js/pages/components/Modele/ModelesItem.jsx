@@ -102,7 +102,7 @@ export class ModelesItem extends Component {
                         </div>
 
                         <div className="col-3 actions">
-                            <ButtonIcon icon="show" onClick={this.handleShow}>Details</ButtonIcon>
+                            <ButtonIcon icon={showDetails ? "hide" : "show"} onClick={this.handleShow}>Details</ButtonIcon>
                             {canActions ? (parseInt(rights) === 1 ? <>
                                 <ButtonIcon icon="compose" onClick={() => onChangeContext('update', elem)}>Modifier</ButtonIcon>
                                 <ButtonIcon icon="delete" onClick={() => onDelete(elem)}>Supprimer</ButtonIcon>

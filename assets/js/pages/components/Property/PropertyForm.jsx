@@ -137,17 +137,37 @@ export class PropertyForm extends Component {
                 .then(function (response) {
                     let data = response.data;
                     if(context !== "check"){
-                        location.reload();
-                        toastr.info(messageSuccess);
+                        self.props.onUpdateList(data);
+                        self.setState({ success: messageSuccess, errors: [] });
+
+                        if(context === "create"){
+                            self.setState({
+                                reference: "",
+                                addr1: "",
+                                addr2: "",
+                                addr3: "",
+                                zipcode: "",
+                                city: "",
+                                typeBien: "",
+                                owner: "",
+                                building: "",
+                                surface: 0,
+                                rooms: 0,
+                                floor: 0,
+                                door: "",
+                                isFurnished: 0,
+                            });
+                        }
                     }else{
-                        Formulaire.loader(false);
                         self.props.onSetProperty(data);
                         self.props.refAside.current.handleClose();
                     }
                 })
                 .catch(function (error) {
-                    Formulaire.loader(false);
                     Formulaire.displayErrors(self, error);
+                })
+                .then(() => {
+                    Formulaire.loader(false);
                 })
             ;
         }

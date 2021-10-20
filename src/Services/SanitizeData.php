@@ -27,4 +27,11 @@ class SanitizeData
         $value = str_replace('#', '-', $value);
         return htmlspecialchars($value);
     }
+
+    public function toFormatPhone($value): string
+    {
+        $value = trim($value);
+        $value = str_replace(' ', '.', $value);
+        return htmlspecialchars($value);
+    }
 }

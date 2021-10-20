@@ -26,11 +26,11 @@ export class Counters extends Component {
     }
 
     handleContentCreate = (changeContext) => {
-        return <CounterFormulaire type="create" oriUrl={this.props.oriUrl} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <CounterFormulaire type="create" oriUrl={this.props.oriUrl} onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <CounterFormulaire type="update" oriUrl={this.props.oriUrl} element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        return <CounterFormulaire type="update" oriUrl={this.props.oriUrl} element={element} onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentList = (currentData, changeContext, getFilters, filters) => {

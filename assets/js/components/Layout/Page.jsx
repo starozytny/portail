@@ -89,6 +89,7 @@ export class Layout extends Component {
             loadPageError: false,
             loadData: true,
             data: null,
+            dataImmuable: null,
             currentData: null,
             element: null,
             filters: [],
@@ -129,7 +130,8 @@ export class Layout extends Component {
     }
 
     handleUpdateList = (element, newContext = null, sorter = null) => {
-        const { dataImmuable, data, currentData, context, perPage } = this.state
+        const { dataImmuable, data, currentData, context, perPage } = this.state;
+
         Formulaire.updateDataPagination(this, sorter, newContext, context, data, element, perPage, dataImmuable, currentData);
     }
 

@@ -71,41 +71,52 @@ class ModelController
             return ['code' => 0, 'data' => json_encode([['name' => 'name', 'message' => "Ce modèle existe déjà."]])];
         }
 
-        return $res;
+        $objs = $this->apiService->callApiWithErrors('models');
+
+        $data = null;
+        foreach($objs['data'] as $obj){
+            if($obj->name == $name){
+                $data = $obj;
+            }
+        }
+
+        if($data == null){
+            return ['code' => 0, 'data' => "[MFORM001] Veuillez rafraichir la page manuellement."];
+        }
+
+        return ['code' => 1, 'data' => json_encode($data)];
     }
 
     /**
-     * Route pour créer un modele
+     * POST - route pour créer un modele
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
      */
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $res = $this->submitForm($request, "create", null);
-        if($res['code'] == 0){
-            return $this->dataService->returnError($response, $res['data']);
-        }
-
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
     /**
-     * Route pour modifier un modele
+     * PUT - route pour modifier un modele
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $res = $this->submitForm($request, "update", $args["id"]);
-        if($res['code'] == 0){
-            return $this->dataService->returnError($response, $res['data']);
-        }
-
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
     /**
-     * Route pour supprimer un edl
+     * DELETE - route pour supprimer un modele
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response

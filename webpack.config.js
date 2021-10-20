@@ -18,6 +18,7 @@ module.exports = {
         'tenant': ['./assets/js/pages/tenant.js', './assets/css/pages/tenant.scss'],
         'bibli': ['./assets/js/pages/bibli.js', './assets/css/pages/bibli.scss'],
         'modele': ['./assets/js/pages/modele.js', './assets/css/pages/modele.scss'],
+        'fontSize': ['./assets/js/font-size.js', './assets/css/font-size.scss'],
     },
     output: {
         path: path.resolve(__dirname, 'public/assets'),

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ApiService;
+use App\Services\Data\DataService;
 use App\Services\SanitizeData;
 use App\Services\Validateur;
 use Doctrine\DBAL\Connection;
@@ -19,19 +20,21 @@ class UserController
     private $validateur;
     private $sanitizeData;
     private $connection;
+    private $dataService;
 
     public function __construct(SessionInterface $session, ApiService $apiService, Validateur $validateur,
-                                SanitizeData $sanitizeData, Connection $connection)
+                                SanitizeData $sanitizeData, Connection $connection, DataService $dataService)
     {
         $this->apiService = $apiService;
         $this->session = $session;
         $this->validateur = $validateur;
         $this->sanitizeData = $sanitizeData;
         $this->connection = $connection;
+        $this->dataService = $dataService;
     }
 
     /**
-     * Route pour ajouter un utilisateur
+     * POST - Route pour ajouter un utilisateur
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -40,22 +43,16 @@ class UserController
      */
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $data = json_decode($request->getBody());
         $res = $this->submitForm($data, 'add_user/');
 
-        if($res['code'] != 1){
-            $response->getBody()->write($res['errors']);
-            return $response->withStatus(400);
-        }
-
-        $response->getBody()->write("Utilisateur ajouté.");
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] != 1 ? 400 : 200, $response,
+            $res['code'] != 1 ? $res['data'] : "Utilisateur ajouté."
+        );
     }
 
     /**
-     * Route pour modifier un utilisateur
+     * PUT - Route pour modifier un utilisateur
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -64,22 +61,16 @@ class UserController
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $data = json_decode($request->getBody());
         $res = $this->submitForm($data, 'edit_user/' . $args['id'], $args['id']);
 
-        if($res['code'] != 1){
-            $response->getBody()->write($res['errors']);
-            return $response->withStatus(400);
-        }
-
-        $response->getBody()->write(json_encode($res['data']));
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] != 1 ? 400 : 200, $response,
+            $res['code'] != 1 ? $res['data'] : json_encode($res['data'])
+        );
     }
 
     /**
-     * Method pour envoyer le formulaire de création et édition d'un utilisateur
+     * Method pour le formulaire de création et édition d'un utilisateur
      *
      * @param $data
      * @param $url
@@ -107,7 +98,7 @@ class UserController
         }
         $errors = $this->validateur->validate($paramsToValidate);
         if(count($errors) > 0){
-            return ['code' => 0, 'errors' => json_encode($errors)];
+            return ['code' => 0, 'data' => json_encode($errors)];
         }
 
         if($formFrom == "create"){
@@ -144,7 +135,7 @@ class UserController
         ];
         $res = $this->apiService->callApi($url, 'POST', false, $dataToSend);
         if($res == false){
-            return ['code' => 0, 'errors' => "[UU001] Une erreur est survenu. Veuillez contacter le support."];
+            return ['code' => 0, 'data' => "[UU001] Une erreur est survenu. Veuillez contacter le support."];
         }
 
         //regeneration des variables en sessions
@@ -176,7 +167,7 @@ class UserController
                 'password' => $password
             ]);
             if($res == false){
-                return ['code' => 0, 'errors' => "[UU002] Une erreur est survenu. Veuillez contacter le support."];
+                return ['code' => 0, 'data' => "[UU002] Une erreur est survenu. Veuillez contacter le support."];
             }
         }
 
@@ -184,7 +175,7 @@ class UserController
     }
 
     /**
-     * Route pour supprimer un utilisateur
+     * DELETE - Route pour supprimer un utilisateur
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -193,8 +184,6 @@ class UserController
      */
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $msg = "Vous n'avez pas le droit de supprimer cet utilisateur.";
         if($this->session->get('user')[9] == "1"){
 
@@ -208,23 +197,25 @@ class UserController
 
             if($canDelete){
                 $res = $this->apiService->callApi('delete_user/' . $args['id'], 'GET', false);
-                if($res == false){
-                    $response->getBody()->write("[UD001] Une erreur est survenu. Veuillez contacter le support.");
-                    return $response->withStatus(400);
-                }
 
-                $response->getBody()->write("Utilisateur supprimé.");
-                return $response->withStatus(200);
+                return $this->dataService->returnResponse( $res == false ? 400 : 200, $response,
+                    $res == false ? "[UD001] Une erreur est survenu. Veuillez contacter le support." : "Utilisateur supprimé."
+                );
             }else{
                 $msg = "Des états des lieux sont associés à cet utilisateur. Vous ne pouvez pas le supprimer.";
             }
         }
 
-        $response->getBody()->write($msg);
-        return $response->withStatus(400);
+        return $this->dataService->returnResponse( 400, $response, $msg);
     }
 
     /**
+     * POST - modifie le mot de passe d'un utilisateur
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
      * @throws Exception
      */
     public function updatePassword(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -236,16 +227,14 @@ class UserController
 
         // validation des données
         if($password == "" && $password != $passwordConfirm){
-            $response->getBody()->write(json_encode([['name' => 'password', 'message' => "Veuillez vérifier votre saisie."]]));
-            return $response->withStatus(400);
+            return $this->dataService->returnResponse( 400, $response, [['name' => 'password', 'message' => "Veuillez vérifier votre saisie."]], true);
         }
 
         $res = $this->apiService->callApiWithoutAuth("edit_user_password/" . $args['username'] . "-" . $args['id'], 'PUT', false, [
             'password' => $password
         ]);
         if($res == false){
-            $response->getBody()->write(json_encode(['message' => "[UUPASS001] Une erreur est survenu. Veuillez contacter le support."]));
-            return $response->withStatus(400);
+            return $this->dataService->returnResponse( 400, $response, ['message' => "[UUPASS001] Une erreur est survenu. Veuillez contacter le support."], true);
         }
 
         $values = [
@@ -257,7 +246,6 @@ class UserController
             'datetime',
         ]);
 
-        $response->getBody()->write(json_encode(['message' => "Mot de passe mis à jour."]));
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse( 200, $response, ['message' => "Mot de passe mis à jour."], true);
     }
 }

@@ -1,24 +1,12 @@
 import React, { Component } from "react";
 
-import Sort from "@dashboardComponents/functions/sort";
+import Sort             from "@dashboardComponents/functions/sort";
+import SearchFunction   from "@pages/functions/search";
 
-import { Search } from "@dashboardComponents/Layout/Search";
+import { Search }       from "@dashboardComponents/Layout/Search";
+import { Alert }        from "@dashboardComponents/Tools/Alert";
 
-function searchFunction(dataImmuable, search){
-    let newData = [];
-    search = search.toLowerCase();
-    newData = dataImmuable.filter(function(v) {
-        if(v.reference.toLowerCase().startsWith(search)
-            || v.addr1.toLowerCase().startsWith(search)
-            || v.last_name.toLowerCase().startsWith(search)
-            || v.first_name.toLowerCase().startsWith(search)
-        ){
-            return v;
-        }
-    })
-
-    return newData;
-}
+import { TenantInfos1, TenantInfos2 } from "@pages/components/Tenant/TenantsItem";
 
 export class TenantsSelect extends Component {
     constructor(props) {
@@ -50,7 +38,7 @@ export class TenantsSelect extends Component {
         if(search === "") {
             this.setState({ data: dataImmuable });
         }else{
-            let newData = searchFunction(dataImmuable, search);
+            let newData = SearchFunction.searchTenant(dataImmuable, search);
             this.setState({ data: newData });
         }
     }
@@ -62,7 +50,13 @@ export class TenantsSelect extends Component {
         if(data){
             data.sort(Sort.compareReference)
             data.forEach(elem => {
-                let active = elements.includes(elem) ? " active" : ""
+
+                let active = "";
+                elements.forEach(el => {
+                    if(el.uid === elem.uid){
+                        active = " active";
+                    }
+                })
 
                 items.push(<div className={"card" + active} key={elem.id} onClick={() => this.handleClick(elem)}>
                     <TenantItem elem={elem} />
@@ -77,7 +71,7 @@ export class TenantsSelect extends Component {
                 </div>
             </div>
             <div className="cards">
-                {items.length > 0 ? items : <div>Il n'y a aucun locataire enregistré.</div>}
+                {items.length > 0 ? items : <Alert type="reverse">Il n'y a aucun locataire enregistré.</Alert>}
             </div>
         </div>
     }
@@ -95,18 +89,10 @@ export function TenantItem ({ elem }) {
         </div>
         <div className="card-body">
             <div>
-                {(elem.addr1 || elem.addr2 || elem.addr3) && <div className="fullAdresse">
-                    {elem.addr1 && <div className="sub">{elem.addr1}</div>}
-                    {elem.addr2 && <div className="sub">{elem.addr2}</div>}
-                    {elem.addr3 && <div className="sub">{elem.addr3}</div>}
-                </div>}
-                {elem.zipcode || elem.city && <div className="sub">
-                    {elem.zipcode}{elem.zipcode && elem.city ? ", " : ""}{elem.city}
-                </div>}
+                <TenantInfos1 elem={elem} />
             </div>
             <div>
-                {elem.phone && <div className="sub">{elem.phone}</div>}
-                {elem.email && <div className="sub">{elem.email}</div>}
+                <TenantInfos2 elem={elem} />
             </div>
         </div>
     </>
