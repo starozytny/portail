@@ -23,23 +23,20 @@ export class TenantsItem extends Component {
         return <div className="item">
             <div className="item-content">
                 <div className="item-body">
-                    <div className="infos infos-col-3">
+                    <div className="infos infos-col-4">
                         <div className="col-1">
                             <div className="name">{elem.last_name.toUpperCase()} {elem.first_name}</div>
-                            <div className="sub"><span>{elem.reference}</span></div>
+                            <TenantInfos2 elem={elem} />
                         </div>
 
                         <div className="col-2">
-                            <div className="fullAddress">
-                                <div>{elem.addr1}</div>
-                                <div>{elem.addr2}</div>
-                                <div>{elem.addr3}</div>
-                            </div>
-                            <div className="fullAddress">{elem.zipcode}{elem.zipcode && elem.city && ","} {elem.city}</div>
-                            <div>{elem.phone}</div>
-                            <div>{elem.email}</div>
+                            <div className="name">{elem.reference}</div>
                         </div>
-                        <div className="col-3 actions">
+
+                        <div className="col-3">
+                            <TenantInfos1 elem={elem} />
+                        </div>
+                        <div className="col-4 actions">
                             {canActions ? (parseInt(rights) === 1 ? <>
                                 <ButtonIcon icon="compose" onClick={() => onChangeContext('update', elem)}>Modifier</ButtonIcon>
                                 <ButtonIcon icon="delete" onClick={() => onDelete(elem)}>Supprimer</ButtonIcon>
@@ -50,4 +47,24 @@ export class TenantsItem extends Component {
             </div>
         </div>
     }
+}
+
+export function TenantInfos1({ elem }) {
+    return <>
+        {(elem.addr1 || elem.addr2 || elem.addr3) && <div className="fullAddress">
+            {elem.addr1 && <div className="sub">{elem.addr1}</div>}
+            {elem.addr2 && <div className="sub">{elem.addr2}</div>}
+            {elem.addr3 && <div className="sub">{elem.addr3}</div>}
+        </div>}
+        {(elem.zipcode || elem.city) && <div className="sub">
+            {elem.zipcode}{elem.zipcode && elem.city ? "," : ""} {elem.city}
+        </div>}
+    </>
+}
+
+export function TenantInfos2({ elem }) {
+    return <>
+        <div className="sub">{elem.phone}</div>
+        <div className="sub">{elem.email}</div>
+    </>
 }
