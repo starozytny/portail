@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Sort from "@dashboardComponents/functions/sort";
 
 import { Search } from "@dashboardComponents/Layout/Search";
+import {Alert} from "@dashboardComponents/Tools/Alert";
 
 function searchFunction(dataImmuable, search){
     let newData = [];
@@ -77,7 +78,7 @@ export class TenantsSelect extends Component {
                 </div>
             </div>
             <div className="cards">
-                {items.length > 0 ? items : <div>Il n'y a aucun locataire enregistré.</div>}
+                {items.length > 0 ? items : <Alert type="reverse">Il n'y a aucun locataire enregistré.</Alert>}
             </div>
         </div>
     }

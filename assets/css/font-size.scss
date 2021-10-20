@@ -14,7 +14,9 @@
   .line label,
   .role-type,
   .password-rules,
-  .alert p{
+  .alert p,
+  .alert [class^=icon-] + p,
+  .alert [class^=icon-] + div{
     font-size: 15px;
   }
 
