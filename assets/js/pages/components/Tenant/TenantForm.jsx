@@ -126,7 +126,6 @@ export class TenantForm extends Component {
                 .then(function (response) {
                     let data = response.data;
                     if(context !== "check"){
-                        console.log(data)
                         self.props.onUpdateList(data);
                         self.setState({ success: messageSuccess, errors: [] });
 
@@ -145,14 +144,11 @@ export class TenantForm extends Component {
                             });
                         }
                     }else{
-                        Formulaire.loader(false);
                         self.props.onSetTenant(data);
                         self.props.refAside.current.handleClose();
                     }
                 })
                 .catch(function (error) {
-                    console.log(error)
-                    console.log(error.response)
                     Formulaire.displayErrors(self, error);
                 })
                 .then(() => {

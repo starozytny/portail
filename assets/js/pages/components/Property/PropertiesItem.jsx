@@ -8,7 +8,7 @@ export class PropertiesItem extends Component {
 
         let canActions = true;
         inventories.forEach(inventory => {
-            if(inventory.property_uid === elem.uid || elem.is_imported !== "0" || elem.last_inventory_uid !== "0" || elem.last_inventory_uid !== "" ){
+            if(inventory.property_uid === elem.uid || elem.is_imported !== "0" || elem.last_inventory_uid !== "0" || elem.last_inventory_uid === "" ){
                 canActions = false;
             }
         })

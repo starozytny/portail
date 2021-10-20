@@ -34,7 +34,7 @@ class PropertyController
 
         if($type == "create"){
             $obj = json_decode($obj);
-            $res = $this->propertyService->createProperty($obj);
+            $res = $this->propertyService->createProperty($obj, true);
         }else{
             $res = $this->propertyService->updateProperty($obj, $id);
         }
@@ -61,16 +61,13 @@ class PropertyController
 
     public function check(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $data = json_decode($request->getBody());
 
         $res = $this->propertyService->validateData($data, null);
         if($res['code'] == 0){
-            return $this->dataService->returnError($response, $res['data']);
+            return $this->dataService->returnResponse(400, $response, $res['data']);
         }
 
-        $response->getBody()->write(json_encode($res['data']));
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse(200, $response, $res['data'], true);
     }
 }

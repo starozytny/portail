@@ -123,7 +123,7 @@ class PropertyService
         ];
     }
 
-    public function createProperty($bien): array
+    public function createProperty($bien, $returnEntity = false): array
     {
         $bienId = null; $lastInventoryUid = null;
         $res = $this->apiService->callApiWithErrors('add_property', 'POST', false, $this->getDataToSend($bien));
@@ -147,17 +147,41 @@ class PropertyService
             ];
         }
 
-        return [
-            'code' => 1,
-            'data' => $bienId,
-            'lastInventoryUid' => $lastInventoryUid
-        ];
+        if(!$returnEntity){
+            return [
+                'code' => 1,
+                'data' => $bienId,
+                'lastInventoryUid' => $lastInventoryUid
+            ];
+        }else{
+            return $this->returnElement($bien->reference);
+        }
     }
 
     public function updateProperty($data, $id): array
     {
         $bien = json_decode($data);
-        return $this->apiService->callApiWithErrors('edit_property/' . $id, 'PUT', false, $this->getDataToSend($bien));
+        $this->apiService->callApiWithErrors('edit_property/' . $id, 'PUT', false, $this->getDataToSend($bien));
+
+        return $this->returnElement($bien->reference);
+    }
+
+    private function returnElement($reference): array
+    {
+        $objs = $this->apiService->callApiWithErrors('properties');
+
+        $data = null;
+        foreach($objs['data'] as $obj){
+            if($obj->reference == $reference){
+                $data = $obj;
+            }
+        }
+
+        if($data == null){
+            return ['code' => 0, 'data' => "[PFORM001] Veuillez rafraichir la page manuellement."];
+        }
+
+        return ['code' => 1, 'data' => json_encode($data)];
     }
 
     private function getDataToSend($data): array
