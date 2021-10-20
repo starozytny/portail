@@ -93,13 +93,11 @@ function deleteElement(self, element, url, showLoader = true, showFire = true)
     axios.delete(url, {})
         .then(function (response) {
             if(showFire){
-                Swal.fire(response.data.message, '', 'success');
+                toastr.info(response.data.message);
             }
             self.handleUpdateList(element, "delete");
         })
         .catch(function (error) {
-            console.log(error)
-            console.log(error.response)
             displayErrors(self, error, "Une erreur est survenue, veuillez contacter le support.")
         })
         .then(() => {

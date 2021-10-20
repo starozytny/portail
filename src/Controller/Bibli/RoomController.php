@@ -72,6 +72,6 @@ class RoomController
 
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return $this->dataService->delete($response, 'library/delete_room/' . $args['id'], "GET");
+        return $this->dataService->delete($response, 'library/delete_room/' . $args['id'], "GET", "Pièce supprimée avec succès !");
     }
 }

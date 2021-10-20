@@ -20,7 +20,7 @@ class DataService
         return $response->withStatus($code);
     }
 
-    public function delete(ResponseInterface $response, $path, $method="DELETE"): ResponseInterface
+    public function delete(ResponseInterface $response, $path, $method="DELETE", $msg = "Donnée supprimée avec succès !"): ResponseInterface
     {
         $response->withHeader('Content-Type', 'application/json');
 
@@ -29,6 +29,7 @@ class DataService
             return $this->returnError($response, $res['data']);
         }
 
+        $response->getBody()->write(json_encode(['message' => $msg]));
         return $response->withStatus(200);
     }
 }
