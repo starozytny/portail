@@ -39,7 +39,7 @@ class EdlController
     }
 
     /**
-     * Methode pour envoyer les data pour créer ou modifier un edl
+     * Methode pour le formulaire de création ou edition d'edl
      *
      * @param $existe
      * @param $request
@@ -72,7 +72,7 @@ class EdlController
         }
         $errors = $this->validateur->validate($paramsToValidate);
         if(count($errors) > 0){
-            return ['code' => 0,'data' => json_encode($errors)];
+            return ['code' => 0, 'data' => json_encode($errors)];
         }
 
         // extract tenants before property
@@ -141,7 +141,7 @@ class EdlController
     }
 
     /**
-     * Route pour créer un edl
+     * POST - Route pour créer un edl
      *
      * @throws RuntimeError
      * @throws SyntaxError
@@ -152,17 +152,10 @@ class EdlController
         $method = $request->getMethod();
 
         if($method == "POST"){
-            $response->withHeader('Content-Type', 'application/json');
-
             $data = json_decode($request->getBody());
             $res = $this->submitForm(null, $request, $data, 'add_inventory/');
 
-            if($res['code'] != 1){
-                return $this->dataService->returnError($response, $res['data']);
-            }
-
-            $response->getBody()->write($res['data']);
-            return $response->withStatus(200);
+            return $this->dataService->returnResponse($res['code'] != 1 ? 400 : 200, $response, $res['data']);
         }
 
         $properties = $this->apiService->callApi('properties');
@@ -177,7 +170,7 @@ class EdlController
     }
 
     /**
-     * Route pour modifier un edl
+     * PUT - Route pour modifier un edl
      *
      * @throws RuntimeError
      * @throws SyntaxError
@@ -192,18 +185,14 @@ class EdlController
 
             $existe = $this->apiService->callApi('inventories/' . $args['id']);
             if($existe == false){
-                return $this->dataService->returnError($response, "[EU001] Une erreur est survenu. Veuillez contacter le support.");
+                return $this->dataService->returnResponse(400, $response, "[EU001] Une erreur est survenu. Veuillez contacter le support.");
             }
 
             $data = json_decode($request->getBody());
 
             $res = $this->submitForm($existe, $request, $data, 'edit_inventory/' . $args['id']);
-            if($res['code'] != 1){
-                return $this->dataService->returnError($response, $res['data']);
-            }
 
-            $response->getBody()->write($res['data']);
-            return $response->withStatus(200);
+            return $this->dataService->returnResponse($res['code'] != 1 ? 400 : 200, $response, $res['data']);
         }
 
         $edl = $this->apiService->callApi('inventories/full/' . $args['id']);
@@ -220,7 +209,7 @@ class EdlController
     }
 
     /**
-     * Route pour supprimer un edl
+     * DELETE - Route pour supprimer un edl
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -229,20 +218,14 @@ class EdlController
      */
     public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $res = $this->apiService->callApi('delete_inventory/' . $args['id'], 'DELETE', false);
-        if($res == false){
-            $response->getBody()->write("[ED001] Une erreur est survenu. Veuillez contacter le support.");
-            return $response->withStatus(400);
-        }
-
-        $response->getBody()->write("Etat des lieux supprimé.");
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res == false ? 400 : 200, $response,
+            $res == false ? "[EU001] Une erreur est survenu. Veuillez contacter le support." : "Etat des lieux supprimé."
+        );
     }
 
     /**
-     * Route pour récupérer le pdf d'un edl via son uid
+     * GET - Route pour récupérer le pdf d'un edl via son uid
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -253,8 +236,7 @@ class EdlController
     {
         $res = $this->apiService->callApi('inventories/pdf/' . $args['uid'], "GET", false);
         if($res == false){
-            $response->getBody()->write("[ED001] Une erreur est survenu. Veuillez contacter le support.");
-            return $response->withStatus(400);
+            return $this->dataService->returnResponse(400, $response, "[ED001] Une erreur est survenu. Veuillez contacter le support.");
         }
 
         $response = $response->withHeader('Content-Type', 'application/pdf');
