@@ -122,8 +122,8 @@
                             <span>Logiciel d'état des lieux</span>
                         </div>
                         <div class="profil">
-                            <span>{{ session.user[4] }} {{ session.user[4] > 1 ? 'crédits restants' : 'crédit restant' }}</span>
-                            <div>
+                            <span class="credits">{{ session.user[4] }} {{ session.user[4] > 1 ? 'crédits restants' : 'crédit restant' }}</span>
+                            <div class="header-menu">
                                 <a class="btn-icon" href="{{ url_for('documentationPortail') }}" target="_blank">
                                     <span class="icon-help"></span>
                                     <span class="tooltip">Besoin d'aide portail ?</span>
