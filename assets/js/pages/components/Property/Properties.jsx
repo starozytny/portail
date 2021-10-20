@@ -2,28 +2,12 @@ import React, { Component } from 'react';
 
 import { Layout }         from "@dashboardComponents/Layout/Page";
 import Sort               from "@dashboardComponents/functions/sort";
+import SearchFunction     from "@pages/functions/search";
 
 import { PropertiesList }     from "./PropertiesList";
 import { PropertyFormulaire } from "./PropertyForm";
 
 const SORTER = Sort.compareAddr1;
-
-function searchFunction(dataImmuable, search){
-    let newData = [];
-    search = search.toLowerCase();
-    newData = dataImmuable.filter(function(v) {
-        if(v.reference.toLowerCase().startsWith(search)
-            || v.owner.toLowerCase().startsWith(search)
-            || v.addr1.toLowerCase().startsWith(search)
-            || v.city.toLowerCase().startsWith(search)
-            || v.zipcode.toLowerCase().startsWith(search)
-        ){
-            return v;
-        }
-    })
-
-    return newData;
-}
 
 export class Properties extends Component {
     constructor(props) {
@@ -50,7 +34,7 @@ export class Properties extends Component {
 
     handleUpdateList = (element, newContext=null) => { this.layout.current.handleUpdateList(element, newContext, SORTER); }
 
-    handleSearch = (search) => { this.layout.current.handleSearch(search, searchFunction); }
+    handleSearch = (search) => { this.layout.current.handleSearch(search, SearchFunction.searchProperty); }
 
     handleDelete = (element) => {
         this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce bien ?", "", true, false);

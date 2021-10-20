@@ -4,23 +4,9 @@ import Sort from "@dashboardComponents/functions/sort";
 
 import { Search } from "@dashboardComponents/Layout/Search";
 import { Alert }  from "@dashboardComponents/Tools/Alert";
+import SearchFunction  from "@pages/functions/search";
 
-function searchFunction(dataImmuable, search){
-    let newData = [];
-    search = search.toLowerCase();
-    newData = dataImmuable.filter(function(v) {
-        if(v.reference.toLowerCase().startsWith(search)
-            || v.addr1.toLowerCase().startsWith(search)
-            || v.zipcode.toLowerCase().startsWith(search)
-            || v.city.toLowerCase().startsWith(search)
-            || v.owner.toLowerCase().startsWith(search)
-        ){
-            return v;
-        }
-    })
-
-    return newData;
-}
+import { PropertyInfos1, PropertyInfos2 } from "@pages/components/Property/PropertiesItem";
 
 export class PropertySelect extends Component {
     constructor(props) {
@@ -53,7 +39,7 @@ export class PropertySelect extends Component {
         if(search === "") {
             this.setState({ data: dataImmuable });
         }else{
-            let newData = searchFunction(dataImmuable, search);
+            let newData = SearchFunction.searchProperty(dataImmuable, search);
             this.setState({ data: newData });
         }
     }
@@ -101,17 +87,10 @@ export function BienItem ({ elem }) {
         </div>
         <div className="card-body">
             <div>
-                {elem.type && <div className="sub">Type : {elem.type}</div>}
-                {elem.building && <div className="sub">Bâtiment : {elem.building}</div>}
-                {elem.door && <div className="sub">Porte : {elem.door}</div>}
-                {(elem.is_furnished && parseInt(elem.is_furnished) !== 0) && <div className="sub">Meublé</div>}
+                <PropertyInfos1 elem={elem}/>
             </div>
             <div>
-                {parseFloat(elem.surface) > 0 && <div className="sub">{elem.surface} m²</div>}
-                {(parseInt(elem.rooms) !== 0 && elem.rooms !== "") && <div className="sub">{elem.rooms} {parseInt(elem.rooms) > 1 ? "pièces" : "pièce"}</div>}
-                {(elem.floor !== "" && parseInt(elem.floor) !== 0) && <div className="sub">
-                    {elem.floor}{parseInt(elem.floor )> 1 ? "ème étage" : "er étage"}
-                </div>}
+                <PropertyInfos2 elem={elem}/>
             </div>
         </div>
     </>
