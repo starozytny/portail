@@ -4,7 +4,7 @@ import Sort         from "@dashboardComponents/functions/sort";
 
 import { PageTemplate }   from "./Template/PageTemplate";
 import { List }           from "./Rooms/List";
-import { RoomFormulaire } from "./Rooms/Form";
+import { FormFormulaire } from "@pages/components/Bibli/Template/FormGenerique";
 
 const MSG_DELETE_ELEMENT = 'Supprimer cette pièce ?';
 const SORTER = Sort.compareName;
@@ -26,11 +26,14 @@ export class Rooms extends Component {
     }
 
     handleContentCreate = (changeContext) => {
-        return <RoomFormulaire type="create" oriUrl={this.props.oriUrl} onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
+        return <FormFormulaire type="create" oriUrl={this.props.oriUrl}
+                               addTxt="une pièce" addMsgTxt="une nouvelle pièce"
+                               onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <RoomFormulaire type="update" oriUrl={this.props.oriUrl} element={element} onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
+        return <FormFormulaire type="update" oriUrl={this.props.oriUrl} element={element}
+                               onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentList = (currentData, changeContext, getFilters, filters) => {

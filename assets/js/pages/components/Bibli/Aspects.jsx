@@ -5,6 +5,7 @@ import Sort         from "@dashboardComponents/functions/sort";
 import { PageTemplate }   from "./Template/PageTemplate";
 import { List }           from "./Aspects/List";
 import { AspectFormulaire } from "./Aspects/Form";
+import {FormFormulaire} from "@pages/components/Bibli/Template/FormGenerique";
 
 const MSG_DELETE_ELEMENT = 'Supprimer ce aspect ?';
 const SORTER = Sort.compareName;
@@ -26,11 +27,14 @@ export class Aspects extends Component {
     }
 
     handleContentCreate = (changeContext) => {
-        return <AspectFormulaire type="create" oriUrl={this.props.oriUrl} onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
+        return <FormFormulaire type="create" oriUrl={this.props.oriUrl}
+                               addTxt="un aspect" addMsgTxt="un nouveau aspect"
+                               onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <AspectFormulaire type="update" oriUrl={this.props.oriUrl} element={element} onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
+        return <FormFormulaire type="update" oriUrl={this.props.oriUrl} element={element}
+                               onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentList = (currentData, changeContext, getFilters, filters) => {

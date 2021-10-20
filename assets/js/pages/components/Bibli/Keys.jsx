@@ -5,6 +5,7 @@ import Sort         from "@dashboardComponents/functions/sort";
 import { PageTemplate }      from "./Template/PageTemplate";
 import { List }              from "./Keys/List";
 import { KeyFormulaire }     from "./Keys/Form";
+import {FormFormulaire} from "@pages/components/Bibli/Template/FormGenerique";
 
 const MSG_DELETE_ELEMENT = 'Supprimer cette clé ?';
 const SORTER = Sort.compareName;
@@ -26,11 +27,14 @@ export class Keys extends Component {
     }
 
     handleContentCreate = (changeContext) => {
-        return <KeyFormulaire type="create" oriUrl={this.props.oriUrl} onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
+        return <FormFormulaire type="create" oriUrl={this.props.oriUrl}
+                               addTxt="une clé" addMsgTxt="une nouvelle clé"
+                               onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <KeyFormulaire type="update" oriUrl={this.props.oriUrl} element={element} onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
+        return <FormFormulaire type="update" oriUrl={this.props.oriUrl} element={element}
+                               onChangeContext={changeContext} onUpdateList={this.pageTemplate.current.handleUpdateList}/>
     }
 
     handleContentList = (currentData, changeContext, getFilters, filters) => {

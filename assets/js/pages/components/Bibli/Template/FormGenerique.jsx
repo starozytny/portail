@@ -1,10 +1,36 @@
 import React, {Component} from "react";
 
-import Common       from "@pages/components/Bibli/functions/common";
+import Common         from "@pages/components/Bibli/functions/common";
 
-import { Alert }    from "@dashboardComponents/Tools/Alert";
-import { Input }    from "@dashboardComponents/Tools/Fields";
-import { Button }   from "@dashboardComponents/Tools/Button";
+import { Alert }      from "@dashboardComponents/Tools/Alert";
+import { Input }      from "@dashboardComponents/Tools/Fields";
+import { Button }     from "@dashboardComponents/Tools/Button";
+import { FormLayout } from "@dashboardComponents/Layout/Elements";
+
+export function FormFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, addTxt="", addMsgTxt="" })
+{
+    let title = "Ajouter " + addTxt;
+    let url = oriUrl;
+    let msg = "Félicitation ! Vous avez ajouté "+ addMsgTxt +" !"
+
+    if(type === "update"){
+        title = "Modifier " + element.name;
+        url = oriUrl + "/" + element.id;
+        msg = "La mise à jour s'est réalisée avec succès !";
+    }
+
+    let form = <FormGenerique
+        context={type}
+        url={url}
+        name={element ? element.name : ""}
+        onUpdateList={onUpdateList}
+        onChangeContext={onChangeContext}
+        messageSuccess={msg}
+        btnText={title}
+    />
+
+    return <FormLayout onChangeContext={onChangeContext} form={form}>{title}</FormLayout>
+}
 
 export class FormGenerique extends Component {
     constructor(props) {
@@ -34,7 +60,7 @@ export class FormGenerique extends Component {
     }
 
     render () {
-        const { context, btnTextAdd, btnTextEdit } = this.props;
+        const { btnText } = this.props;
         const { errors, success, name } = this.state;
 
         return <>
@@ -48,7 +74,7 @@ export class FormGenerique extends Component {
 
                 <div className="line">
                     <div className="form-button">
-                        <Button isSubmit={true}>{context === "create" ? btnTextAdd : btnTextEdit}</Button>
+                        <Button isSubmit={true}>{btnText}</Button>
                     </div>
                 </div>
             </form>
