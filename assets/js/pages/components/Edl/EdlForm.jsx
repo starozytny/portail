@@ -113,7 +113,15 @@ export class EdlForm extends Component {
         const { tenants } = this.state;
 
         let newElements = [];
-        if(tenants.includes(elem)){
+
+        let find =false;
+        tenants.forEach(el => {
+            if(el.uid === elem.uid){
+                find = true;
+            }
+        })
+
+        if(find){
             toastr.warning('Locataire enlevé.')
             newElements = tenants.filter(el => {
                 return el.reference !== elem.reference
