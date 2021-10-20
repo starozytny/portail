@@ -4,8 +4,7 @@ import Sort         from "@dashboardComponents/functions/sort";
 
 import { PageTemplate }      from "./Template/PageTemplate";
 import { List }              from "./Keys/List";
-import { KeyFormulaire }     from "./Keys/Form";
-import {FormFormulaire} from "@pages/components/Bibli/Template/FormGenerique";
+import { FormFormulaire }    from "@pages/components/Bibli/Template/FormGenerique";
 
 const MSG_DELETE_ELEMENT = 'Supprimer cette clé ?';
 const SORTER = Sort.compareName;

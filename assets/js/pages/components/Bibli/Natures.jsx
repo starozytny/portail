@@ -4,8 +4,7 @@ import Sort         from "@dashboardComponents/functions/sort";
 
 import { PageTemplate }   from "./Template/PageTemplate";
 import { List }           from "./Natures/List";
-import { NatureFormulaire } from "./Natures/Form";
-import {FormFormulaire} from "@pages/components/Bibli/Template/FormGenerique";
+import { FormFormulaire } from "@pages/components/Bibli/Template/FormGenerique";
 
 const MSG_DELETE_ELEMENT = 'Supprimer ce aspect ?';
 const SORTER = Sort.compareName;
