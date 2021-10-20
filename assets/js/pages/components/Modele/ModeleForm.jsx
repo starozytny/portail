@@ -7,8 +7,8 @@ import { uid }           from "uid";
 import { Input }         from "@dashboardComponents/Tools/Fields";
 import { Alert }         from "@dashboardComponents/Tools/Alert";
 import { Button }        from "@dashboardComponents/Tools/Button";
-import { FormLayout }    from "@dashboardComponents/Layout/Elements";
 import { Aside }         from "@dashboardComponents/Tools/Aside";
+import { FormLayout }    from "@dashboardComponents/Layout/Elements";
 
 import Validateur        from "@dashboardComponents/functions/validateur";
 import Formulaire        from "@dashboardComponents/functions/Formulaire";
@@ -187,15 +187,25 @@ export class ModeleForm extends Component {
             axios({ method: method, url: url, data: this.state})
                 .then(function (response) {
                     let data = response.data;
-                    location.reload();
-                    toastr.info(messageSuccess);
+                    self.props.onUpdateList(data);
+                    self.setState({ success: messageSuccess, errors: [] });
+                    if(context === "create"){
+                        self.setState({
+                            name: "",
+                            content: [],
+                        });
+                    }
                 })
                 .catch(function (error) {
-                    Formulaire.loader(false);
+                    console.log(error)
+                    console.log(error.response)
                     Formulaire.displayErrors(self, error);
                     if(error.response.data && Array.isArray(error.response.data)){
                         self.setState({ errorContent: getErrorContent(error.response.data) })
                     }
+                })
+                .then(() => {
+                    Formulaire.loader(false);
                 })
             ;
         }

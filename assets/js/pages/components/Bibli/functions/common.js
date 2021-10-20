@@ -31,8 +31,6 @@ function submitForm(self, context, url, messageSuccess, name) {
                 }
             })
             .catch(function (error) {
-                console.log(error)
-                console.log(error.response)
                 Formulaire.displayErrors(self, error);
             })
             .then(() => {

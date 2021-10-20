@@ -71,7 +71,20 @@ class ModelController
             return ['code' => 0, 'data' => json_encode([['name' => 'name', 'message' => "Ce modèle existe déjà."]])];
         }
 
-        return $res;
+        $objs = $this->apiService->callApiWithErrors('models');
+
+        $data = null;
+        foreach($objs['data'] as $obj){
+            if($obj->name == $name){
+                $data = $obj;
+            }
+        }
+
+        if($data == null){
+            return ['code' => 0, 'data' => "[MFORM001] Veuillez rafraichir la page manuellement."];
+        }
+
+        return ['code' => 1, 'data' => json_encode($data)];
     }
 
     /**
