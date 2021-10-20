@@ -30,10 +30,18 @@
 }
 
 .add-variant{
+  label{
+    display: none;
+  }
+
   .btn{
     padding: 7px 14px;
     width: 100%;
   }
+}
+
+label[for="listVariants"]{
+  margin-top: 8px;
 }
 
 .list-variants{
@@ -108,6 +116,16 @@
 
   .title-col{
     display: none;
+  }
+
+  .add-variant{
+    label {
+      display: inline-block;
+    }
+  }
+
+  label[for="listVariants"]{
+    margin-top: 20px;
   }
 }
 
