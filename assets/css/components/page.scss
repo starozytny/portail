@@ -12,7 +12,7 @@
 }
 
 .page-title, .page-error{
-  padding: 12px 12px 24px 12px;
+  padding: 24px 12px 12px 12px;
 }
 
 .page-title{
@@ -108,12 +108,9 @@
 //                     | |  |_|\___/_____|  |_|    | |
 //                     |__|                       |__|
 @media (min-width: 1024px) {
-  .item-data-read {
-    padding: 24px;
-  }
-
+  .item-data-read,
   .page-title, .page-error{
-    padding: 12px 24px 24px 24px;
+    padding: 24px;
   }
 }
 //                      __   _ ____  ___   ___    __

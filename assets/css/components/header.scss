@@ -7,7 +7,6 @@ header{
   .header-container{
     position: relative;
     @include flex(row, center, flex-end);
-    margin: 12px 0;
 
     .header-name{
       @include flex(row, flex-start, space-between);
@@ -96,7 +95,7 @@ header{
 //                     |__|                       |__|
 @media (min-width: 1024px) {
   header{
-    padding: 12px 24px;
+    padding: 24px;
   }
 }
 

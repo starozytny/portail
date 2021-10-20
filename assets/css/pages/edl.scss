@@ -12,13 +12,15 @@
 }
 
 .edl-list{
+
   .toolbar-filter{
     @include flex(row, flex-start, space-between);
+    padding-bottom: 12px;
   }
 
   .toolbar-filter + .toolbar{
     .item{
-      margin-bottom: 12px;
+      margin-bottom: 24px;
 
       .btn{
         width: calc(100% - 48px);
@@ -204,6 +206,7 @@
   .edl-list{
     .toolbar-filter{
       justify-content: flex-start;
+      margin-bottom: 16px;
 
       & > a + a{
         display: inline-block;
