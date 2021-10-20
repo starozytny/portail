@@ -21,6 +21,7 @@ module.exports = {
         'fontSize': ['./assets/js/font-size.js', './assets/css/font-size.scss'],
     },
     output: {
+        filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'public/assets'),
         publicPath: '',
     },
@@ -74,7 +75,7 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             ignoreOrder: false,
-            filename: '[name].css'
+            filename: '[name].[contenthash].css',
         }),
     ]
 };
