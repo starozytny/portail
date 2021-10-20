@@ -101,7 +101,7 @@ export function TenantItem ({ elem }) {
                     {elem.addr2 && <div className="sub">{elem.addr2}</div>}
                     {elem.addr3 && <div className="sub">{elem.addr3}</div>}
                 </div>}
-                {elem.zipcode || elem.city && <div className="sub">
+                {(elem.zipcode || elem.city) && <div className="sub">
                     {elem.zipcode}{elem.zipcode && elem.city ? ", " : ""}{elem.city}
                 </div>}
             </div>

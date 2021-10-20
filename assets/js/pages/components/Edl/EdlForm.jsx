@@ -211,7 +211,9 @@ export class EdlForm extends Component {
             structures = [...structures, {value: 1, label: 'Etablir structure', identifiant: 'etablir-structure'}]
         }
 
-        if(property && property.last_inventory_uid !== ""){
+        console.log(property)
+
+        if(property && property.last_inventory_uid !== "" && property.last_inventory_uid !== "0"){
             structures = [...structures, {value: 2, label: 'EDL Précédent', identifiant: 'edl-precedent'}]
         }
 
