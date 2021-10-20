@@ -96,9 +96,10 @@ if(forms){
 
             Validateur.hideErrors();
 
-            let method = formId === "create" ? "POST" : "PUT";
             let formId = form.dataset.id;
             let formClass = "." + form.dataset.id;
+
+            let method = formId === "create" ? "POST" : "PUT";
 
             // get data input
             let username = document.querySelector(formClass + '-username').value;
