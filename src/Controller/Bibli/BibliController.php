@@ -26,7 +26,6 @@ class BibliController
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->dataService->submitFormWithName($request, "create", null, $args['entity']);
-
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
@@ -41,7 +40,6 @@ class BibliController
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->dataService->submitFormWithName($request, "update", $args["id"], $args['entity']);
-
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 

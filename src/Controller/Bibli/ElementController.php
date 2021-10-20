@@ -51,7 +51,6 @@ class ElementController
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->submitForm($request, "create", null);
-
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
@@ -66,7 +65,6 @@ class ElementController
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $res = $this->submitForm($request, "update", $args["id"]);
-
         return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
