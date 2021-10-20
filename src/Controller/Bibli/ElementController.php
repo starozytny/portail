@@ -2,10 +2,8 @@
 
 namespace App\Controller\Bibli;
 
-use App\Services\ApiService;
 use App\Services\Data\DataService;
 use App\Services\Edl\ElementService;
-use App\Services\SanitizeData;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

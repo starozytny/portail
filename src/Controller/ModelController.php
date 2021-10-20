@@ -75,37 +75,35 @@ class ModelController
     }
 
     /**
-     * Route pour créer un modele
+     * POST - route pour créer un modele
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
      */
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $res = $this->submitForm($request, "create", null);
-        if($res['code'] == 0){
-            return $this->dataService->returnError($response, $res['data']);
-        }
-
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
     /**
-     * Route pour modifier un modele
+     * PUT - route pour modifier un modele
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->withHeader('Content-Type', 'application/json');
-
         $res = $this->submitForm($request, "update", $args["id"]);
-        if($res['code'] == 0){
-            return $this->dataService->returnError($response, $res['data']);
-        }
-
-        return $response->withStatus(200);
+        return $this->dataService->returnResponse($res['code'] == 0 ? 400 : 200, $response, $res['data']);
     }
 
     /**
-     * Route pour supprimer un edl
+     * DELETE - route pour supprimer un modele
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
