@@ -7,8 +7,7 @@ import { Alert }        from "@dashboardComponents/Tools/Alert";
 import { ListTemplate }    from "../Template/ListTemplate";
 import { ActionsTemplate } from "../Template/ActionsTemplate";
 
-export class List extends Component {
-
+export class ListGenerique extends Component {
     render () {
         const { data, onChangeContext, onDelete } = this.props;
 
@@ -48,6 +47,6 @@ export class List extends Component {
             </div>
         </div>
 
-        return <ListTemplate {...this.props} content={content} classToolbar="natures" addName="une nature"/>
+        return <ListTemplate {...this.props} content={content} />
     }
 }

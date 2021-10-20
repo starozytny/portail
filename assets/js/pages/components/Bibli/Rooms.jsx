@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Sort         from "@dashboardComponents/functions/sort";
 
 import { PageTemplate }   from "./Template/PageTemplate";
-import { List }           from "./Rooms/List";
+import { ListGenerique }  from "@pages/components/Bibli/Template/ListGenerique";
 import { FormFormulaire } from "@pages/components/Bibli/Template/FormGenerique";
 
 const MSG_DELETE_ELEMENT = 'Supprimer cette pièce ?';
@@ -37,11 +37,12 @@ export class Rooms extends Component {
     }
 
     handleContentList = (currentData, changeContext, getFilters, filters) => {
-        return <List data={currentData}
+        return <ListGenerique data={currentData}
                      onChangeContext={changeContext}
                      onGetFilters={this.pageTemplate.current.handleGetFilters}
                      onSearch={this.pageTemplate.current.handleSearch}
                      onDelete={this.pageTemplate.current.handleDelete}
+                     classToolbar="rooms" addName="une pièce"
                      filters={filters} />
     }
 
