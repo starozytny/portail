@@ -190,7 +190,7 @@ function updateEditUser(data) {
     let item = document.querySelector(itemClass);
     if(item){
         document.querySelector(itemClass + " .col-1").innerHTML = data.username;
-        document.querySelector(itemClass + " .col-2 > div:first-child").innerHTML = data.first_name + " " + data.last_name.toUpperCase();
+        document.querySelector(itemClass + " .col-2 > div:first-child").innerHTML = data.first_name.replaceAll('\\', '') + " " + data.last_name.replaceAll('\\', '').toUpperCase();
         document.querySelector(itemClass + " .col-2 > div:last-child").innerHTML = data.user_tag;
 
         // reset data of btn

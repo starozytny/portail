@@ -81,8 +81,8 @@ class UserController
     {
         $formFrom = $data->formFrom;
         $username = $data->username ?? "";
-        $firstname = $this->sanitizeData->clean($data->firstname);
-        $lastname = $this->sanitizeData->clean($data->lastname);
+        $firstname = $this->sanitizeData->cleanForPost($data->firstname);
+        $lastname = $this->sanitizeData->cleanForPost($data->lastname);
         $password = $data->password ?? "";
         $email = $this->sanitizeData->clean($data->email);
         $userTag = $data->userTag;
