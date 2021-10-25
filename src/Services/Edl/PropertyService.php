@@ -126,7 +126,7 @@ class PropertyService
     public function createProperty($bien, $returnEntity = false): array
     {
         $bienId = null; $lastInventoryUid = null;
-        $res = $this->apiService->callApiWithErrors('add_property', 'POST', false, $this->getDataToSend($bien));
+        $res = $this->apiService->callApiWithErrors('add_property', 'POST', false, $this->getDataToSend($bien, true));
         if($res['code'] == 0){
             return $res;
         }
@@ -161,7 +161,7 @@ class PropertyService
     public function updateProperty($data, $id): array
     {
         $bien = json_decode($data);
-        $this->apiService->callApiWithErrors('edit_property/' . $id, 'PUT', false, $this->getDataToSend($bien));
+        $this->apiService->callApiWithErrors('edit_property/' . $id, 'PUT', false, $this->getDataToSend($bien, false));
 
         return $this->returnElement($bien->reference);
     }
@@ -184,23 +184,23 @@ class PropertyService
         return ['code' => 1, 'data' => json_encode($data)];
     }
 
-    private function getDataToSend($data): array
+    private function getDataToSend($data, $toClean): array
     {
         return [
-            'reference'     => $data->reference,
-            'addr1'         => $data->addr1,
-            'addr2'         => $data->addr2,
-            'addr3'         => $data->addr3,
-            'zipcode'       => $data->zipcode,
-            'city'          => $data->city,
-            'rooms'         => (int) $data->rooms,
-            'type'          => $data->typeBien,
-            'floor'         => $data->floor,
-            'surface'       => (float) $data->surface,
-            'door'          => $data->door,
-            'building'      => $data->building,
-            'owner'         => $data->owner,
-            'is_furnished'  => (int) $data->isFurnished,
+            'reference'     => $toClean ? $this->sanitizeData->cleanForPost($data->reference) : $data->reference,
+            'addr1'         => $toClean ? $this->sanitizeData->cleanForPost($data->addr1) : $data->addr1,
+            'addr2'         => $toClean ? $this->sanitizeData->cleanForPost($data->addr2) : $data->addr2,
+            'addr3'         => $toClean ? $this->sanitizeData->cleanForPost($data->addr3) : $data->addr3,
+            'zipcode'       => $toClean ? $this->sanitizeData->cleanForPost($data->zipcode) : $data->zipcode,
+            'city'          => $toClean ? $this->sanitizeData->cleanForPost($data->city) : $data->city,
+            'rooms'         => $toClean ? (int) $this->sanitizeData->cleanForPost($data->rooms) : (int) $data->rooms,
+            'type'          => $toClean ? $this->sanitizeData->cleanForPost($data->typeBien) : $data->typeBien,
+            'floor'         => $toClean ? $this->sanitizeData->cleanForPost($data->floor) : $data->floor,
+            'surface'       => $toClean ? (float) $this->sanitizeData->cleanForPost($data->surface) : (float) $data->surface,
+            'door'          => $toClean ? $this->sanitizeData->cleanForPost($data->door) : $data->door,
+            'building'      => $toClean ? $this->sanitizeData->cleanForPost($data->building) : $data->building,
+            'owner'         => $toClean ? $this->sanitizeData->cleanForPost($data->owner) : $data->owner,
+            'is_furnished'  => $toClean ? (int) $this->sanitizeData->cleanForPost($data->isFurnished) : (int) $data->isFurnished,
         ];
     }
 }

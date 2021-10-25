@@ -119,8 +119,10 @@ export class TenantForm extends Component {
             toastr.warning("Veuillez vérifier les informations transmises.");
             this.setState({ errors: validate.errors });
         }else{
-            Formulaire.loader(true);
+            // Formulaire.loader(true);
             let self = this;
+
+            console.log(this.state)
 
             axios({ method: method, url: url, data: this.state})
                 .then(function (response) {
@@ -149,6 +151,8 @@ export class TenantForm extends Component {
                     }
                 })
                 .catch(function (error) {
+                    console.log(error)
+                    console.log(error.response)
                     Formulaire.displayErrors(self, error);
                 })
                 .then(() => {

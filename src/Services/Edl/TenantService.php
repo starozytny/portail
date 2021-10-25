@@ -100,7 +100,7 @@ class TenantService
 
     public function createTenant($json): array
     {
-        $this->apiService->callApiWithErrors('add_tenant', 'POST', false, $this->getDataToSend($json));
+        $this->apiService->callApiWithErrors('add_tenant', 'POST', false, $this->getDataToSend($json, true));
 
         return $this->returnElement($json->reference);
     }
@@ -108,7 +108,7 @@ class TenantService
     public function updateTenant($data, $id): array
     {
         $obj = json_decode($data);
-        $this->apiService->callApiWithErrors('edit_tenant/' . $id, 'PUT', false, $this->getDataToSend($obj));
+        $this->apiService->callApiWithErrors('edit_tenant/' . $id, 'PUT', false, $this->getDataToSend($obj, false));
 
         return $this->returnElement($obj->reference);
     }
@@ -125,25 +125,33 @@ class TenantService
         }
 
         if($data == null){
-            return ['code' => 0, 'data' => "[TFORM001] Veuillez rafraichir la page manuellement."];
+            return ['code' => 0, 'data' => ['message' => "[TFORM001] Veuillez rafraichir la page manuellement."]];
         }
 
         return ['code' => 1, 'data' => json_encode($data)];
     }
 
-    public function getDataToSend($data): array
+    /**
+     * for create if no use cleanForPost = fail create
+     * for update if we use cleanForPost and have ' => add \' and not in create function
+     *
+     * @param $data
+     * @param $toClean
+     * @return array
+     */
+    public function getDataToSend($data, $toClean): array
     {
         return [
-            'reference'     => $data->reference,
-            'last_name'     => $data->last_name,
-            'first_name'    => $data->first_name,
-            'phone'         => $data->phone,
-            'email'         => $data->email,
-            'addr1'         => $data->addr1,
-            'addr2'         => $data->addr2,
-            'addr3'         => $data->addr3,
-            'zipcode'       => $data->zipcode,
-            'city'          => $data->city,
+            'reference'     => $toClean ? $this->sanitizeData->cleanForPost($data->reference) : $data->reference,
+            'last_name'     => $toClean ? $this->sanitizeData->cleanForPost($data->last_name) : $data->last_name,
+            'first_name'    => $toClean ? $this->sanitizeData->cleanForPost($data->first_name) : $data->first_name,
+            'phone'         => $toClean ? $this->sanitizeData->cleanForPost($data->phone) : $data->phone,
+            'email'         => $toClean ? $this->sanitizeData->cleanForPost($data->email) : $data->email,
+            'addr1'         => $toClean ? $this->sanitizeData->cleanForPost($data->addr1) : $data->addr1,
+            'addr2'         => $toClean ? $this->sanitizeData->cleanForPost($data->addr2) : $data->addr2,
+            'addr3'         => $toClean ? $this->sanitizeData->cleanForPost($data->addr3) : $data->addr3,
+            'zipcode'       => $toClean ? $this->sanitizeData->cleanForPost($data->zipcode) : $data->zipcode,
+            'city'          => $toClean ? $this->sanitizeData->cleanForPost($data->city) : $data->city,
         ];
     }
 }
