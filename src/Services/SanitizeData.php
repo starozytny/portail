@@ -24,8 +24,7 @@ class SanitizeData
     {
         $value = trim($value);
         $value = addslashes($value);
-        $value = str_replace('#', '-', $value);
-        return htmlspecialchars($value);
+        return str_replace('#', '-', $value);
     }
 
     public function toFormatPhone($value): string

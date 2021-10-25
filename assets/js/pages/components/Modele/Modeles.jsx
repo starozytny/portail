@@ -48,7 +48,7 @@ export class Modeles extends Component {
     handleSearch = (search) => { this.layout.current.handleSearch(search, searchFunction); }
 
     handleDelete = (element) => {
-        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce modèle ?", "", true, false);
+        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce modèle ?", "");
     }
 
     handleContentList = (currentData, changeContext) => {

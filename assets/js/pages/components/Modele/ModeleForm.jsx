@@ -19,6 +19,10 @@ import { SelectRoom }    from "./SelectRoom";
 import { RoomItem }      from "./RoomItem";
 import { SelectElement } from "./SelectElement";
 
+function replaceApostrophe(value) {
+    return value.replaceAll("'", "\'");
+}
+
 export function ModeleFormulaire ({ type, onChangeContext, onUpdateList, element, oriUrl, library })
 {
     let full = true;
@@ -120,7 +124,7 @@ export class ModeleForm extends Component {
             content.forEach(elem => {
                 if(elem.id === identifiant){
                     if(!first){
-                        newContent.push(elem)
+                        newContent.push(elem);
                     }
                     first = false;
                 }else{
@@ -181,10 +185,23 @@ export class ModeleForm extends Component {
             toastr.warning("Veuillez vérifier les informations transmises.");
             this.setState({ errors: validate.errors, errorContent: getErrorContent(validate.errors) });
         }else{
-            Formulaire.loader(true);
+            // Formulaire.loader(true);
             let self = this;
 
-            axios({ method: method, url: url, data: this.state})
+            let tmp = [];
+            content.forEach(item => {
+                tmp.push({
+                    id: item.id,
+                    elements: item.elements
+                })
+            })
+
+            let data = {
+                'name': name,
+                'content': tmp
+            };
+
+            axios({ method: method, url: url, data: data})
                 .then(function (response) {
                     let data = response.data;
                     self.props.onUpdateList(data);
@@ -197,8 +214,6 @@ export class ModeleForm extends Component {
                     }
                 })
                 .catch(function (error) {
-                    console.log(error)
-                    console.log(error.response)
                     Formulaire.displayErrors(self, error);
                     if(error.response.data && Array.isArray(error.response.data)){
                         self.setState({ errorContent: getErrorContent(error.response.data) })

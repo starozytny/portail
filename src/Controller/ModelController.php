@@ -36,7 +36,8 @@ class ModelController
     {
         $data = json_decode($request->getBody());
 
-        $name      = $this->sanitizeData->clean($data->name);
+        $dataName  = $data->name;
+        $name      = $this->sanitizeData->cleanForPost($data->name);
         $content   = $data->content;
 
         // validation des données
@@ -71,17 +72,21 @@ class ModelController
             return ['code' => 0, 'data' => json_encode([['name' => 'name', 'message' => "Ce modèle existe déjà."]])];
         }
 
+        if($res['code'] == 0){
+            return ['code' => 0, 'data' => json_encode(['message' => $res['data']])];
+        }
+
         $objs = $this->apiService->callApiWithErrors('models');
 
         $data = null;
         foreach($objs['data'] as $obj){
-            if($obj->name == $name){
+            if(mb_strtolower($obj->name) == mb_strtolower($dataName)){
                 $data = $obj;
             }
         }
 
         if($data == null){
-            return ['code' => 0, 'data' => "[MFORM001] Veuillez rafraichir la page manuellement."];
+            return ['code' => 0, 'data' => json_encode(['message' => "[MFORM001] Veuillez rafraichir la page manuellement."])];
         }
 
         return ['code' => 1, 'data' => json_encode($data)];
