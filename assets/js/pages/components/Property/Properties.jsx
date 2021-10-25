@@ -37,7 +37,7 @@ export class Properties extends Component {
     handleSearch = (search) => { this.layout.current.handleSearch(search, SearchFunction.searchProperty); }
 
     handleDelete = (element) => {
-        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce bien ?", "", true, false);
+        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce bien ?", "");
     }
 
     handleContentList = (currentData, changeContext) => {

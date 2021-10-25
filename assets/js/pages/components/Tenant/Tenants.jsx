@@ -37,7 +37,7 @@ export class Tenants extends Component {
     handleSearch = (search) => { this.layout.current.handleSearch(search, SearchFunction.searchTenant); }
 
     handleDelete = (element) => {
-        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce locataire ?", "", true, false);
+        this.layout.current.handleDelete(this, element, this.props.oriUrl + "/" + element.id, "Supprimer ce locataire ?", "");
     }
 
     handleContentList = (currentData, changeContext) => {
