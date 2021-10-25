@@ -44,7 +44,7 @@ export function PropertyFormulaire ({ type, onChangeContext, onUpdateList, eleme
         building={element ? element.building : ""}
         surface={element ? element.surface : 0}
         rooms={element ? element.rooms : 0}
-        floor={element ? element.floor : 0}
+        floor={element ? element.floor : ""}
         door={element ? element.door : ""}
         isFurnished={element ? parseInt(element.is_furnished) : 0}
         onUpdateList={onUpdateList}
@@ -153,7 +153,7 @@ export class PropertyForm extends Component {
                                 building: "",
                                 surface: 0,
                                 rooms: 0,
-                                floor: 0,
+                                floor: "",
                                 door: "",
                                 isFurnished: 0,
                             });
