@@ -114,8 +114,16 @@ class AppController
             }
         }
 
+        ksort($data);
+        $tmp = [];
+        foreach($data as $key => $value) {
+            ksort($value);
+
+            $tmp[$key] = $value;
+        }
+
         return $this->twig->render($response, 'app/pages/edl/index.twig', [
-            'data' => $data
+            'data' => $tmp
         ]);
     }
 

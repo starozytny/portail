@@ -10,7 +10,7 @@
     </div>
 
     <div class="main-content">
-{#        <div id="view" data-donnees="{{ data | json_encode }}"></div>#}
+        <div id="view" data-donnees="{{ data | json_encode }}"></div>
         <div class="edl-list">
             <div class="toolbar toolbar-filter">
                 <a href="{{ url_for('edl', {'status': 'en-cours'}) }}" class="btn {{ is_current_url('edl', {'status': 'en-cours'}) ? "btn-color0" : "btn-outline-default" }}">
@@ -37,15 +37,15 @@
             </div>
             <div class="list">
                 {% if data | length > 0 %}
-                    {% for year, months in data | sort %}
-                        {% for month, item in months | sort %}
+                    {% for year, months in data %}
+                        {% for month, item in months %}
                             <div class="list-month list-month-{{ year ~ month }}" data-id="{{ year ~ month }}">
                                 <div class="title">
                                     <div>{{ year == "unknown" ? "Date indéfinie" : (month | monthLongStringFr) ~ " - " ~ year }}</div>
                                     <div><span class="icon-{{ year == "unknown" or year == ("now" | date('Y')) ? "minus" : "plus" }}"></span></div>
                                 </div>
 
-                                <div class="items {{ year == "unknown" or year == ("now" | date('Y')) ? "active" : "" }}">
+                                <div class="items {{ year == "unknown" or (year == ("now" | date('Y')) and month == ("now" | date('m'))) ? "active" : "" }}">
                                     {% include "app/pages/edl/components/pagination.twig" %}
 
                                     <div class="list-month-header">
