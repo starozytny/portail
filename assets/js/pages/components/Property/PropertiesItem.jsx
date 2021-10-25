@@ -51,21 +51,19 @@ export class PropertiesItem extends Component {
     }
 }
 
-export function PropertyInfos1({ elem }) {
+export function PropertyInfos1({ elem: {building, door, is_furnished, type} }) {
     return <>
-        {elem.building && <div className="sub">Bâtiment : {elem.building}</div>}
-        {elem.type && <div className="sub">Type : {elem.type}</div>}
-        {elem.door && <div className="sub">Porte : {elem.door}</div>}
-        {(elem.is_furnished && parseInt(elem.is_furnished) !== 0) && <div className="sub">Meublé</div>}
+        {building && <div className="sub">Bâtiment : {building}</div>}
+        {type && <div className="sub">Type : {type}</div>}
+        {door && <div className="sub">Porte : {door}</div>}
+        {(is_furnished && parseInt(is_furnished) !== 0) && <div className="sub">Meublé</div>}
     </>
 }
 
-export function PropertyInfos2({ elem }) {
+export function PropertyInfos2({ elem: {floor, rooms, surface} }) {
     return <>
-        {parseFloat(elem.surface) > 0 && <div className="sub">{elem.surface} m²</div>}
-        {(parseInt(elem.rooms) !== 0 && elem.rooms !== "") && <div className="sub">{elem.rooms} {parseInt(elem.rooms) > 1 ? "pièces" : "pièce"}</div>}
-        {(elem.floor !== "" && parseInt(elem.floor)) !== 0 && <div className="sub">
-            {elem.floor}{parseInt(elem.floor )> 1 ? "ème étage" : "er étage"}
-        </div>}
+        {parseFloat(surface) > 0 && <div className="sub">{surface} m²</div>}
+        {(parseInt(rooms) !== 0 && rooms !== "") && <div className="sub">{rooms} {parseInt(rooms) > 1 ? "pièces" : "pièce"}</div>}
+        {floor !== "" && <div className="sub"> {floor}</div>}
     </>
 }

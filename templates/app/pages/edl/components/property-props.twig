@@ -22,6 +22,6 @@
     <div class="room sub details">{{ property.rooms }} {{ property.rooms > 1 ? "pièces" : "piece" }}</div>
 {% endif %}
 
-{% if property.floor != "0" %}
-    <div class="floor sub details">{{ property.floor }}{{ property.floor > 1 ? "ème étage" : "er étage" }}</div>
+{% if property.floor != "" %}
+    <div class="floor sub details">{{ property.floor }}</div>
 {% endif %}
