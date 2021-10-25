@@ -39,7 +39,8 @@ class DataService
             return ['code' => 0, 'data' => json_encode([['name' => 'name', 'message' => "Ce champs est obligatoire."]])];
         }
 
-        $name = $this->sanitizeData->clean($data->name);
+        $dataName = $data->name;
+        $name     = $this->sanitizeData->cleanForPost($data->name);
 
         $dataToSend = [
             'name' => $name
@@ -59,7 +60,7 @@ class DataService
 
         $data = null;
         foreach($objs['data'] as $obj){
-            if($obj->name == $name){
+            if($obj->name == $dataName){
                 $data = $obj;
             }
         }

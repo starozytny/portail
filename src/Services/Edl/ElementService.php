@@ -83,15 +83,15 @@ class ElementService
     {
         $obj = json_decode($json);
         $id = null;
-        $res = $this->apiService->callApiWithErrors('library/add_element', 'POST', false, $this->getDataToSend($obj));
+        $res = $this->apiService->callApiWithErrors('library/add_element', 'POST', false, $this->getDataToSend($obj, true));
         if($res['code'] == 0){
-            return $res;
+            return ['code' => 0, 'data' => json_encode($res['data'])];
         }
 
         //get id created
         $objs = $this->apiService->callApi('library');
         foreach($objs->elements as $elem){
-            if($elem->name == $obj->name){
+            if($elem->name == $this->sanitizeData->cleanForPost($obj->name)){
                 $id = $elem->id;
             }
         }
@@ -103,7 +103,8 @@ class ElementService
             ];
         }
 
-        $this->addNatures($obj, $id);
+        // for remove slash ?? wtf
+        $res = $this->updateElement($json, $id);
 
         return $this->returnElement($obj->name);
     }
@@ -111,7 +112,7 @@ class ElementService
     public function updateElement($data, $id): array
     {
         $obj = json_decode($data);
-        $this->apiService->callApiWithErrors('library/edit_element/' . $id, 'POST', false, $this->getDataToSend($obj));
+        $this->apiService->callApiWithErrors('library/edit_element/' . $id, 'POST', false, $this->getDataToSend($obj, false));
 
         $this->addNatures($obj, $id);
 
@@ -143,14 +144,14 @@ class ElementService
         }
     }
 
-    private function getDataToSend($data): array
+    private function getDataToSend($data, $toClean): array
     {
         return [
-            'name'          => $data->name,
-            'category'      => (int) $data->category,
-            'family'        => (int) $data->family,
-            'gender'        => $data->gender,
-            'variants'      => $data->variants,
+            'name'          => $toClean ? $this->sanitizeData->cleanForPost($data->name) : $data->name,
+            'category'      => $toClean ? (int) $this->sanitizeData->cleanForPost($data->category) : (int) $data->category,
+            'family'        => $toClean ? (int) $this->sanitizeData->cleanForPost($data->family) : (int) $data->family,
+            'gender'        => $toClean ? $this->sanitizeData->cleanForPost($data->gender) : $data->gender,
+            'variants'      => $toClean ? $this->sanitizeData->cleanForPost($data->variants) : $data->variants,
         ];
     }
 }
